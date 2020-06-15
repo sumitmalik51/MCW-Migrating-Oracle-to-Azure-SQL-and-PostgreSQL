@@ -1,4 +1,3 @@
-
 ![Microsoft Cloud Workshops](https://github.com/Microsoft/MCW-Template-Cloud-Workshop/raw/master/Media/ms-cloud-workshop.png "Microsoft Cloud Workshops")
 
 <div class="MCWHeader1">
@@ -10,7 +9,7 @@ Whiteboard design session student guide
 </div>
 
 <div class="MCWHeader3">
-November 2019
+June 2020
 </div>
 
 Information in this document, including URL and other Internet Web site references, is subject to change without notice. Unless otherwise noted, the example companies, organizations, products, domain names, e-mail addresses, logos, people, places, and events depicted herein are fictitious, and no association with any real company, organization, product, domain name, e-mail address, logo, person, place or event is intended or should be inferred. Complying with all applicable copyright laws is the responsibility of the user. Without limiting the rights under copyright, no part of this document may be reproduced, stored in or introduced into a retrieval system, or transmitted in any form or by any means (electronic, mechanical, photocopying, recording, or otherwise), or for any purpose, without the express written permission of Microsoft Corporation.
@@ -19,7 +18,7 @@ Microsoft may have patents, patent applications, trademarks, copyrights, or othe
 
 The names of manufacturers, products, or URLs are provided for informational purposes only and Microsoft makes no representations and warranties, either expressed, implied, or statutory, regarding these manufacturers or the use of the products with any Microsoft technologies. The inclusion of a manufacturer or product does not imply endorsement of Microsoft of the manufacturer or product. Links may be provided to third party sites. Such sites are not under the control of Microsoft and Microsoft is not responsible for the contents of any linked site or any link contained in a linked site, or any changes or updates to such sites. Microsoft is not responsible for webcasting or any other form of transmission received from any linked site. Microsoft is providing these links to you only as a convenience, and the inclusion of any link does not imply endorsement of Microsoft of the site or the products contained therein.
 
-© 2019 Microsoft Corporation. All rights reserved.
+© 2020 Microsoft Corporation. All rights reserved.
 
 Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/intellectualproperty/Trademarks/Usage/General.aspx> are trademarks of the Microsoft group of companies. All other trademarks are property of their respective owners.
 
@@ -151,7 +150,7 @@ Timeframe: 60 minutes
 
 **Business needs**
 
-Directions:  With all participants at your table, answer the following questions and list the answers on a flip chart:
+Directions: With all participants at your table, answer the following questions and list the answers on a flip chart:
 
 1. Who should you present this solution to? Who is your target customer audience? Who are the decision makers?
 
@@ -161,7 +160,7 @@ Directions:  With all participants at your table, answer the following questions
 
 Directions: With all participants at your table, respond to the following questions on a flip chart:
 
-*High-level architecture*
+_High-level architecture_
 
 1. Without getting into the details (they are addressed in the following sections), diagram your initial vision for handling the top-level requirements for data loading, data preparation, storage, high availability, application migration, and reporting. You will refine this diagram as you proceed.
 
@@ -169,13 +168,13 @@ Directions: With all participants at your table, respond to the following questi
 
 3. How will SQL Server save them on licensing costs?
 
-*Schema and data movement*
+_Schema and data movement_
 
 1. How would you recommend that WWI move their data and schema into SQL Server? What services would you suggest and what are the specific steps they would need to take to prepare the data, to transfer the data, and where would the loaded data land?
 
 2. Update your diagram for the data loading process with the steps you identified.
 
-*Application changes*
+_Application changes_
 
 1. What product would you recommend to WWI to migrate their storefront MVC application to the new SQL Server database?
 
@@ -183,7 +182,7 @@ Directions: With all participants at your table, respond to the following questi
 
 3. What will you do about the vendor touchpoints? How will you recommend they store the JSON data?
 
-*Data warehouse and reporting*
+_Data warehouse and reporting_
 
 1. How can they discover which reports and Excel spreadsheets hitting the Oracle database need to be upgraded? What's a proper upgrade path?
 
@@ -199,13 +198,13 @@ Directions: With all participants at your table, respond to the following questi
 
 7. What are the post-upgrade steps we should consider in the POC? How would this address their concerns?
 
-*High Availability and Audit Table*
+_High Availability and Audit Table_
 
 1. If our solution were SQL Server, what could WWI have done with the audit table when it filled up?
 
 2. What are the SQL Server options for high availability?
 
-*Azure SQL Database POC*
+_Azure SQL Database POC_
 
 1. Should they move to on-premises first?
 
@@ -259,18 +258,18 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 
 ## Additional references
 
-|   |   |
-|----------|-------------|
-| **Description** | **Links** |
-| Oracle Database to SQL Server Migration Assistant | <https://msdn.microsoft.com/library/hh313159(v=sql.110).aspx/> |
-| Azure SQL Database features | <https://docs.microsoft.com/azure/sql-database/sql-database-features/> <https://blogs.msdn.microsoft.com/datamigration/dma/> |
-| SQL Server Stretch Database | <https://azure.microsoft.com/services/sql-server-stretch-database> |
-| SQL Server JSON data | <https://msdn.microsoft.com/library/dn921897.aspx> |
-| Older Oracle Forms Migration guide | <https://technet.microsoft.com/library/bb463141.aspx/> <https://www.microsoft.com/sql-server/sql-license-migration/> |
-| Oracle License Assistance Program & Deployment Subsidies | <https://www.microsoft.com/sql-server/sql-license-migration/> |
-| Data Migration Assistant blog | <https://blogs.msdn.microsoft.com/datamigration/dma/> <https://technet.microsoft.com/library/bb463141.aspx/> |
-| Database Experimentation Assistant (DEA) | <https://blogs.msdn.microsoft.com/datamigration/2016/10/24/database-experimentation-%20assistant-v1-0-preview> |
-| SQL Server CLR strict security | <https://docs.microsoft.com/sql/database-engine/configure-windows/clr-strict-security> |
-| Azure Database Migration Service Overview | <https://docs.microsoft.com/azure/dms/dms-overview> |
-| SQL Server database migration to Azure SQL Database | <https://docs.microsoft.com/en-us/azure/sql-database/sql-database-cloud-migrate> |
-| Differentiating Microsoft's database migration tools | <https://blogs.msdn.microsoft.com/datamigration/2017/10/13/differentiating-microsofts-database-migration-tools-and-services/> |
+|                                                          |                                                                                                                               |
+| -------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| **Description**                                          | **Links**                                                                                                                     |
+| Oracle Database to SQL Server Migration Assistant        | <https://msdn.microsoft.com/library/hh313159(v=sql.110).aspx/>                                                                |
+| Azure SQL Database features                              | <https://docs.microsoft.com/azure/sql-database/sql-database-features/> <https://blogs.msdn.microsoft.com/datamigration/dma/>  |
+| SQL Server Stretch Database                              | <https://azure.microsoft.com/services/sql-server-stretch-database>                                                            |
+| SQL Server JSON data                                     | <https://msdn.microsoft.com/library/dn921897.aspx>                                                                            |
+| Older Oracle Forms Migration guide                       | <https://technet.microsoft.com/library/bb463141.aspx/> <https://www.microsoft.com/sql-server/sql-license-migration/>          |
+| Oracle License Assistance Program & Deployment Subsidies | <https://www.microsoft.com/sql-server/sql-license-migration/>                                                                 |
+| Data Migration Assistant blog                            | <https://blogs.msdn.microsoft.com/datamigration/dma/> <https://technet.microsoft.com/library/bb463141.aspx/>                  |
+| Database Experimentation Assistant (DEA)                 | <https://blogs.msdn.microsoft.com/datamigration/2016/10/24/database-experimentation-%20assistant-v1-0-preview>                |
+| SQL Server CLR strict security                           | <https://docs.microsoft.com/sql/database-engine/configure-windows/clr-strict-security>                                        |
+| Azure Database Migration Service Overview                | <https://docs.microsoft.com/azure/dms/dms-overview>                                                                           |
+| SQL Server database migration to Azure SQL Database      | <https://docs.microsoft.com/en-us/azure/sql-database/sql-database-cloud-migrate>                                              |
+| Differentiating Microsoft's database migration tools     | <https://blogs.msdn.microsoft.com/datamigration/2017/10/13/differentiating-microsofts-database-migration-tools-and-services/> |

@@ -62,11 +62,11 @@ Directions: With all participants in the session, the facilitator/SME presents a
 
 ### Customer situation
 
-World Wide Importers (WWI) has experienced massive growth over the last few years. That growth has resulted in a tremendous influx of new data they need to maintain their business. This data has become increasingly expensive to store in an Oracle relational database management system (RDBMS). Oracle upgrades are tedious and expensive projects. Business stakeholders have tired of the process and have requested a proof of concept (POC) for replacing Oracle with Microsoft SQL Server.
+World Wide Importers (WWI) has experienced massive growth over the last few years. That growth has resulted in a tremendous influx of new data they need to maintain their business. This data has become increasingly expensive to store in an Oracle relational database management system (RDBMS). Oracle upgrades are tedious and costly projects. Business stakeholders have tired of the process and have requested a proof of concept (POC) for replacing Oracle with Microsoft SQL Server.
 
 WWI is investigating ways to improve the performance of their transactional databases without incurring expensive new license fees. They're also concerned with keeping their transactional system available and online for their store. They've noticed that Oracle has been slowing down as their growth has doubled. They realize that they would need to invest in new hardware to achieve this on-premises and, as a result, are looking at this as more of a migration to a new system.
 
-WWI has several external and internal applications that need to migrate with the database. The database is used by an online store application, written in ASP.NET MVC. They also have internal applications that manage their product catalog, written in Oracle Forms. In addition, they have many reports to aid in forecasting, sales reporting, and inventory maintenance. Those reports are a mixture of SQL Server Reporting Services (SSRS), Excel, and Oracle Forms and hit the Oracle OLTP database directly.
+WWI has several external and internal applications that need to migrate with the database. The database is used by an online store application, written in ASP.NET MVC. They also have internal applications that manage their product catalog, written in Oracle Forms. Also, they have many reports to aid in forecasting, sales reporting, and inventory maintenance. Those reports are a mixture of SQL Server Reporting Services (SSRS), Excel, and Oracle Forms and hit the Oracle OLTP database directly.
 
 WWI also uses this database to interact with vendors. Several of their vendors require real-time access to their sales data through an API so they can draw warranty information on the date of sale. They do this through a Representational State Transfer (REST) service that is maintained by WWI.
 
@@ -110,7 +110,7 @@ Kathleen Sloan, the CIO of WWI, is looking to decrease their software license fe
 
 1. Do we need to upgrade to on-premises SQL Server first or go can we go straight to Azure?
 
-2. Can we have two proofs-of-concept that demonstrate both migrations?
+2. Can we have two proof of concepts that demonstrate both migrations?
 
 3. Do we need to rewrite all our applications for SQL Server?
 
@@ -138,7 +138,7 @@ Kathleen Sloan, the CIO of WWI, is looking to decrease their software license fe
 
 ### Infographic for common scenarios
 
-![This common scenario diagram includes the following elements: API App for vendor connections; Web App for Internet Sales Transactions; Oracle Forms App for inventory management;Oracle DB OLTP RAC Server; SSRS 2008 for Reporting of OLTP, Data Warehouse, and Cubes; SSIS 2008 for a Data Warehouse Load; Excel for reporting; SQL Server 2008 R2 Standard for a Data Warehouse; and SSAS2008 for a Data Warehouse. ](media/common-scenarios.png "Common Scenario diagram")
+![This common scenario diagram includes the following elements: API App for vendor connections; Web App for Internet Sales Transactions; Oracle Forms App for inventory management; Oracle DB OLTP RAC Server; SSRS 2008 for Reporting of OLTP, Data Warehouse, and Cubes; SSIS 2008 for a Data Warehouse Load; Excel for reporting; SQL Server 2008 R2 Standard for a Data Warehouse; and SSAS2008 for a Data Warehouse. ](media/common-scenarios.png "Common Scenario diagram")
 
 ## Step 2: Design a proof of concept solution
 
@@ -150,9 +150,9 @@ Timeframe: 60 minutes
 
 **Business needs**
 
-Directions: With all participants at your table, answer the following questions and list the answers on a flip chart:
+Directions: With all participants at your table, answer the following questions, and list the answers on a flip chart:
 
-1. Who should you present this solution to? Who is your target customer audience? Who are the decision makers?
+1. Who should you present this solution to? Who is your target customer audience? Who are the decision-makers?
 
 2. What customer business needs do you need to address with your solution?
 
@@ -172,7 +172,7 @@ _Schema and data movement_
 
 1. How would you recommend that WWI move their data and schema into SQL Server? What services would you suggest and what are the specific steps they would need to take to prepare the data, to transfer the data, and where would the loaded data land?
 
-2. Update your diagram for the data loading process with the steps you identified.
+2. Update your diagram with the data loading process with the steps you identified.
 
 _Application changes_
 
@@ -238,9 +238,9 @@ Directions:
 
 1. Pair with another table.
 
-2. One table is the Microsoft team and the other table is the customer.
+2. One table is the Microsoft team ,and the other table is the customer.
 
-3. The Microsoft team presents their proposed solution to the customer.
+3. The Microsoft team presents its proposed solution to the customer.
 
 4. The customer makes one of the objections from the list of objections.
 

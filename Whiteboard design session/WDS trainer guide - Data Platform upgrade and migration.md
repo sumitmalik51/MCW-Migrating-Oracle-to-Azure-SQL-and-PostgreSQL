@@ -191,11 +191,11 @@ Directions: With all participants in the session, the facilitator/SME presents a
 
 ### Customer situation
 
-World Wide Importers (WWI) has experienced massive growth over the last few years. That growth has resulted in a tremendous influx of new data they need to maintain their business. This data has become increasingly expensive to store in an Oracle relational database management system (RDBMS). Oracle upgrades are tedious and expensive projects. Business stakeholders have tired of the process and have requested a proof of concept (POC) for replacing Oracle with Microsoft SQL Server.
+World Wide Importers (WWI) has experienced massive growth over the last few years. That growth has resulted in a tremendous influx of new data they need to maintain their business. This data has become increasingly expensive to store in an Oracle relational database management system (RDBMS). Oracle upgrades are tedious and costly projects. Business stakeholders have tired of the process and have requested a proof of concept (POC) for replacing Oracle with Microsoft SQL Server.
 
 WWI is investigating ways to improve the performance of their transactional databases without incurring expensive new license fees. They're also concerned with keeping their transactional system available and online for their store. They've noticed that Oracle has been slowing down as their growth has doubled. They realize that they would need to invest in new hardware to achieve this on-premises and, as a result, are looking at this as more of a migration to a new system.
 
-WWI has several external and internal applications that need to migrate with the database. The database is used by an online store application, written in ASP.NET MVC. They also have internal applications that manage their product catalog, written in Oracle Forms. In addition, they have many reports to aid in forecasting, sales reporting, and inventory maintenance. Those reports are a mixture of SQL Server Reporting Services (SSRS), Excel, and Oracle Forms and hit the Oracle OLTP database directly.
+WWI has several external and internal applications that need to migrate with the database. The database is used by an online store application, written in ASP.NET MVC. They also have internal applications that manage their product catalog, written in Oracle Forms. Also, they have many reports to aid in forecasting, sales reporting, and inventory maintenance. Those reports are a mixture of SQL Server Reporting Services (SSRS), Excel, and Oracle Forms and hit the Oracle OLTP database directly.
 
 WWI also uses this database to interact with vendors. Several of their vendors require real-time access to their sales data through an API so they can draw warranty information on the date of sale. They do this through a Representational State Transfer (REST) service that is maintained by WWI.
 
@@ -211,7 +211,7 @@ Kathleen Sloan, the CIO of WWI, is looking to decrease their software license fe
 
 ### Customer needs
 
-1. Wants to migrate an existing Oracle database to SQL Server 2017 on-premises, SQL Server 2017 in an Azure VM, or Azure SQL Database.
+1. Wants to migrate an existing Oracle database to SQL Server 2017 on-premises, SQL Server 2017 on an Azure VM, or Azure SQL Database.
 
 2. Needs to know what's involved in migrating the external sales application to SQL Server.
 
@@ -267,7 +267,7 @@ Kathleen Sloan, the CIO of WWI, is looking to decrease their software license fe
 
 ### Infographic for common scenarios
 
-![This common scenario diagram includes the following elements: API App for vendor connections; Web App for Internet Sales Transactions; Oracle Forms App for inventory management;Oracle DB OLTP RAC Server; SSRS 2008 for Reporting of OLTP, Data Warehouse, and Cubes; SSIS 2008 for a Data Warehouse Load; Excel for reporting; SQL Server 2008 R2 Standard for a Data Warehouse; and SSAS2008 for a Data Warehouse. ](media/common-scenarios.png "Common Scenario diagram")
+![This common scenario diagram includes the following elements: API App for vendor connections; Web App for Internet Sales Transactions; Oracle Forms App for inventory management; Oracle DB OLTP RAC Server; SSRS 2008 for Reporting of OLTP, Data Warehouse, and Cubes; SSIS 2008 for a Data Warehouse Load; Excel for reporting; SQL Server 2008 R2 Standard for a Data Warehouse; and SSAS2008 for a Data Warehouse. ](media/common-scenarios.png "Common Scenario diagram")
 
 ## Step 2: Design a proof of concept solution
 
@@ -279,9 +279,9 @@ Timeframe: 60 minutes
 
 **Business needs**
 
-Directions: With all participants at your table, answer the following questions and list the answers on a flip chart:
+Directions: With all participants at your table, answer the following questions, and list the answers on a flip chart:
 
-1. Who should you present this solution to? Who is your target customer audience? Who are the decision makers?
+1. Who should you present this solution to? Who is your target customer audience? Who are the decision-makers?
 
 2. What customer business needs do you need to address with your solution?
 
@@ -367,9 +367,9 @@ Directions:
 
 1. Pair with another table.
 
-2. One table is the Microsoft team and the other table is the customer.
+2. One table is the Microsoft team ,and the other table is the customer.
 
-3. The Microsoft team presents their proposed solution to the customer.
+3. The Microsoft team presents its proposed solution to the customer.
 
 4. The customer makes one of the objections from the list of objections.
 
@@ -449,7 +449,7 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 
 - Kathleen Sloan, CIO of World Wide Importers (WWI)
 
-- The primary audience is business and technology decision-makers. From the case study scenario, it would include the Director of Analytics. Usually we talk to the infrastructure managers who report to the chief information officers (CIOs), or to application sponsors, such as a line of business (LOB) vice president (VP), chief marketing officer (CMO), or to those who represent the business unit IT or developers who report to application sponsors.
+- The primary audience is business and technology decision-makers. From the case study scenario, it would include the Director of Analytics. Usually, we talk to the infrastructure managers who report to the chief information officers (CIOs), or to application sponsors, such as a line of business (LOB) vice president (VP), chief marketing officer (CMO), or to those who represent the business unit IT or developers who report to application sponsors.
 
 ## Preferred solution
 
@@ -483,7 +483,7 @@ _High-level architecture_
 
    **Diagram of an example Oracle Forms migration to VB.NET windows application (not WPF):**
 
-   This diagram shows some of the components that might be in an Oracle Forms project, including menus, control blocks, and a PL/SQL module and the corresponding projects that can be chosen for those components. It's not necessary to understand all components of Oracle Forms, only to know that it's possible to rewrite the application while maintaining a similar structure, if desired.
+   This diagram shows some of the components that might be in an Oracle Forms project, including menus, control blocks, and a PL/SQL module and the corresponding projects that can be chosen for those components. It's not necessary to understand all components of Oracle Forms, only to know that it's possible to rewrite the application while maintaining a similar structure if desired.
 
    ![This is a diagram of an Example Oracle Forms migration to VB.NET windows application. On the left, the Oracle Forms Application includes an Oracle server, an Oracle module (Data block and control block), and Oracle Forms (menu module, PL/SQL library module, and object library module). On the right, a VB.NET Windows Application includes a VB.NET Windows Application project, which encompasses a menu, and WinForm (Databound Controls, and non-databound controls). In addition, below the project are two separate VB.NET Class Library Projects. The Oracle Forms PL/SQL Library module points to one, and the Object library module points to the other. The Oracle Menu Module points to VB.NET Menu, the Oracle Control block points to Non-databound controls, and the Oracle Data block passes through a DataSet/ DataReader / Command to the Databound controls. Between the two columns a SQL Server with ADO.NET connects through DataSet / DataReader / Command to VB.NET Class Library Project.](media/oracle-forms-migration.png "Example Oracle Forms migration to VB.NET windows application")
 
@@ -598,7 +598,7 @@ _Data warehouse and reporting_
 
    The Azure Database Migration Service is the preferred method for database migration to Microsoft Azure at scale.
 
-   - Supports migration of SQL Server or Oracle on-premises databases to Azure SQL Database and Azure SQL Database Managed Instance.
+   - Supports migration of SQL Server or Oracle on-premises databases to Azure SQL Database and Azure SQL Managed Instance.
    - Represents a fully managed database migration service for both operational databases and data warehouses.
    - It provides a resilient and reliable migration pipeline that requires minimal user involvement during the overall migration process.
    - It is recommended for large (in terms of number and size of databases) migrations – DMS can migrate databases at scale.
@@ -686,7 +686,7 @@ _Azure SQL Database POC_
 
 1. Do we need to upgrade to on-premises SQL Server first or go can we go straight to Azure?
 
-   This is a joint business and technical decision. Azure SQL Database or Azure SQL in a VM will offer all the features they've stated that they need. There is a migration path to both.
+   This is a joint business and technical decision. Azure SQL Database or SQL Server on Azure VMs will offer all the features they've stated that they need. There is a migration path to both.
 
    If they have a long-term strategy to move to the cloud, have already moved some resources there, have a plan to co-locate with a partner data center, or have identified cloud services they'd like to take advantage of, then moving straight to the cloud might be preferred.
 
@@ -744,7 +744,7 @@ _Azure SQL Database POC_
 
 13. What will happen with SSIS, SSRS, and SQL Server Analysis Services (SSAS)?
 
-    Once the server is upgraded, we should redeploy the SSIS, SSAS, and SSRS projects after changing the connectionStrings. If we used project connectionStrings, this will be much easier. All external connections should be tested thoroughly.
+    Once the server is upgraded, we should redeploy the SSIS, SSAS, and SSRS projects after changing the connectionStrings. If we use project connectionStrings, this will be much easier. All external connections should be tested thoroughly.
 
     If we use Database Migration Assistant, SSIS packages will upgrade during the process and will migrate over to the new server.
 

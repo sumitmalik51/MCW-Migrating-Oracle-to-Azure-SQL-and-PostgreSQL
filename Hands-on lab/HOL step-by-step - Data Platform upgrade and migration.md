@@ -1124,6 +1124,8 @@ In this exercise, you will migrate the Oracle database into the "on-premises" SQ
     - **Server port**: Leave set to [default].
     - **Database**: Enter Northwind.
     - **Authentication**: Set to Windows Authentication.
+    - **Encrypt Connection**: Check this box.
+    - **Trust Server Certificate**: Check this box.
 
     ![The information above is entered in the Connect to SQL Server dialog box, and Connect is selected at the bottom.](./media/ssma-connect-to-sql-server.png "Specify the settings")
 
@@ -1155,7 +1157,7 @@ In this exercise, you will migrate the Oracle database into the "on-premises" SQ
 
     ![NW is selected in the SQL Server Metadata Explorer, and tables from the Oracle database are visible below that.](./media/ssma-sql-server-metadata-explorer-nw-tables.png "Observe new schema objects")
 
-20. In the output pane, you will notice a message that the conversion finished with 1 error, and 21 warnings.
+20. In the output pane, you will notice a message that the conversion finished with 1 error, and 13 warnings.
 
     ![The conversion message is highlighted in the Output window.](./media/ssma-convert-schema-output.png "View the conversion message")
 
@@ -1245,7 +1247,7 @@ In this exercise, you will migrate the Oracle database into the "on-premises" SQ
     - Now, you will need to use SSMS on your SqlServer2017 VM.
 
       - Open an RDP connection to your SqlServer2017 VM, if one is not already open.
-      - Open SSMS 17.
+      - Open SSMS 18.
       - Connect to SqlServer2017, by entering **SqlServer2017** into the Server name field, using Windows Authentication, and selecting **Connect**.
       - Expand **Databases**, right-click on **Northwind**, and select **New Query**.
       - Paste the following query into the new query window, but don't execute it until you complete the steps below:

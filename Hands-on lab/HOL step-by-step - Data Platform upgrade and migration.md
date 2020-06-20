@@ -355,15 +355,15 @@ Wide World Importers would like an assessment to see what potential issues they 
 
    ![In the Connect to a server dialog box, SQLSERVER2008 is highlighted in the Server name box, and Encrypt connection is unchecked and highlighted below that in the Connect to a server dialog box.](./media/data-migration-assistant-select-sources-sqlserver2008.png "Enter information in the Connect to a server dialog box")
 
-9. In the **Add sources** dialog that appears, check the box next to **WorldWideImporters**, and select **Add**.
+9. In the **Add sources** dialog that appears, check the box next to **WideWorldImporters**, and select **Add**.
 
-   ![WorldWideImporters is selected and highlighted under SQLSERVER2008 in the Add sources dialog box.](./media/data-migration-assistant-select-sources-sqlserver2008-worldwideimporters.png "Select WorldWideImporters")
+   ![WideWorldImporters is selected and highlighted under SQLSERVER2008 in the Add sources dialog box.](./media/data-migration-assistant-select-sources-sqlserver2008-wideworldimporters.png "Select WideWorldImporters")
 
 10. Select **Start Assessment**.
 
 11. Review the Assessment results, selecting both **SQL Server feature parity** and **Compatibility issues** options and viewing the reports.
 
-    ![Various information is selected on the Review results screen.](./media/data-migration-assistant-review-results-sqlserver2008-worldwideimporters.png "Review the Assessment results")
+    ![Various information is selected on the Review results screen.](./media/data-migration-assistant-review-results-sqlserver2008-wideworldimporters.png "Review the Assessment results")
 
 12. You now have a list of the issues WWI will need to consider in upgrading their database to Azure SQL Database. Notice the assessment includes recommendations on the potential resolutions to issues. You can select **Export Assessment** on the top toolbar to save the report as a JSON file, if desired.
 
@@ -391,7 +391,7 @@ After you have reviewed the assessment results and you have ensured the database
    - **Authentication type**: Leave Windows Authentication selected.
    - **Connection properties**: Check both Encrypt connection and Trust server certificate.
    - Select **Connect**.
-   - Select **WorldWideImporters** from the list of databases.
+   - Select **WideWorldImporters** from the list of databases.
 
    ![The Select source tab of the Data Migration Assistant is displayed, with the values specified above entered into the appropriate fields.](media/data-migration-assistant-migration-select-source.png "Data Migration Assistant Select source")
 
@@ -400,7 +400,7 @@ After you have reviewed the assessment results and you have ensured the database
 6. On the **Select target** tab, enter the following:
 
    - **Server name**: Enter the server name of the Azure SQL Database you created during the before the hands-on lab exercise.
-     - To find the name of your SQL Database, select the WorldWideImporters SQL Database from your hands-on-lab-SUFFIX resource group in the Azure portal, and then select the **Server name** in the Essentials area of the Overview blade.
+     - To find the name of your SQL Database, select the WideWorldImporters SQL Database from your hands-on-lab-SUFFIX resource group in the Azure portal, and then select the **Server name** in the Essentials area of the Overview blade.
 
    ![On the SQL database Overview blade, the Server name is highlighted.](media/azure-sql-database-servername.png "SQL Database Overview")
 
@@ -409,7 +409,7 @@ After you have reviewed the assessment results and you have ensured the database
    - **Password**: Enter Password.1!!
    - **Connection properties**: Check both Encrypt connection and Trust server certificate.
    - Select **Connect**.
-   - Select **WorldWideImporters** from the list of databases.
+   - Select **WideWorldImporters** from the list of databases.
 
    ![The Select target tab of the Data Migration Assistant is displayed, with the values specified above entered into the appropriate fields.](media/data-migration-assistant-migration-select-target.png "Data Migration Assistant Select target")
 
@@ -433,13 +433,13 @@ After you have reviewed the assessment results and you have ensured the database
 
     ![The SSMS Connect to Server dialog is displayed, with the Azure SQL Database name specified, SQL Server Authentication selected, and the demouser credentials entered.](media/ssms-connect-azure-sql-database.png "Connect to Server")
 
-13. Once connected, expand **Databases**, and expand **WorldWideImporters**, then expand **Tables**, and observe the schema has been created.
+13. Once connected, expand **Databases**, and expand **WideWorldImporters**, then expand **Tables**, and observe the schema has been created.
 
-    ![In the SSMS Object Explorer, Databases, WorldWideImporters, and Tables are expanded, showing the tables created by the deploy schema script.](media/ssms-databases-worldwideimporters-tables.png "SSMS Object Explorer")
+    ![In the SSMS Object Explorer, Databases, WideWorldImporters, and Tables are expanded, showing the tables created by the deploy schema script.](media/ssms-databases-wideworldimporters-tables.png "SSMS Object Explorer")
 
 ### Task 3: Create a migration project
 
-In this task, you will create a new migration project for the WorldWideImporters database.
+In this task, you create a new migration project for the WideWorldImporters database.
 
 1. Navigate to the Azure Database Migration Service in the [Azure portal](https://portal.azure.com).
 
@@ -478,9 +478,9 @@ In this task, you will create a new migration project for the WorldWideImporters
 
 6. Select **Save**.
 
-7. On the Migration Wizard **Select source databases** blade, select WorldWideImporters.
+7. On the Migration Wizard **Select source databases** blade, select WideWorldImporters.
 
-   ![The Migration Wizard Select databases blade is displayed, with the WorldWideImporters database selected.](media/dms-migration-wizard-select-databases.png "Migration Wizard Select databases")
+   ![The Migration Wizard Select databases blade is displayed, with the WideWorldImporters database selected.](media/dms-migration-wizard-select-databases.png "Migration Wizard Select databases")
 
 8. Select **Save**.
 
@@ -489,7 +489,7 @@ In this task, you will create a new migration project for the WorldWideImporters
    - Select **I know my target details**.
    - **Target server name**: Enter the server name for your Azure SQL Database.
 
-     - To find the name of your SQL Database, select the WorldWideImporters SQL Database from your hands-on-lab-SUFFIX resource group in the Azure portal, and then select the **Server name** in the Essentials area of the Overview blade.
+     - To find the name of your SQL Database, select the WideWorldImporters SQL Database from your hands-on-lab-SUFFIX resource group in the Azure portal, and then select the **Server name** in the Essentials area of the Overview blade.
 
        ![On the SQL database Overview blade, the Server name is highlighted.](media/azure-sql-database-servername.png "SQL Database Overview")
 
@@ -526,21 +526,19 @@ In this task, you will create a new activity in the Azure Database Migration Ser
 
    ![The Migration Wizard Select target blade is displayed, with the password value highlighted.](media/dms-migration-wizard-migration-target-detail.png "Migration Wizard Select target")
 
-4. On the Migration Wizard **Map to target databases** blade, confirm that **WorldWideImporters** is checked as the source database, and that it is also the target database on the same line, then select **Save**.
+4. On the Migration Wizard **Map to target databases** blade, confirm that **WideWorldImporters** is checked as the source database, and that it is also the target database on the same line, then select **Save**.
 
-   ![The Migration Wizard Map to target database blade is displayed, with the WorldWideImporters line highlighted.](media/dms-migration-wizard-map-to-target-databases.png "Migration Wizard Map to target databases")
+   ![The Migration Wizard Map to target database blade is displayed, with the WideWorldImporters line highlighted.](media/dms-migration-wizard-map-to-target-databases.png "Migration Wizard Map to target databases")
 
-5. On the Migration Wizard **Configure migration settings** blade, expand the WorldWideImporters database, verify all the tables are selected, and select **Save**.
+5. On the Migration Wizard **Configure migration settings** blade, expand the WideWorldImporters database, verify all the tables are selected, and select **Save**.
 
-   ![The Migration Wizard Configure migration settings blade is displayed, with the expand arrow for WorldWideImporters highlighted, and all the tables checked.](media/dms-migration-wizard-configure-migration-settings.png "Migration Wizard Configure migration settings")
+   ![The Migration Wizard Configure migration settings blade is displayed, with the expand arrow for WideWorldImporters highlighted, and all the tables checked.](media/dms-migration-wizard-configure-migration-settings.png "Migration Wizard Configure migration settings")
 
 6. On the Migration Wizard **Summary** blade, enter the following:
 
-   - **Activity name**: Enter a name, such as Sql2008ToSqlDatabase.
+   - **Activity name**: Enter a name, such as DwMigration.
 
-   - **Validation option**: Select Validate my database(s), check all three Validation options, and then select **Save**.
-
-     ![The Migration Wizard summary blade is displayed, Sql2008ToSqlDatabase is entered into the name field, and Validate my database(s) is selected in the Choose validation option blade, with all three validation options selected.](media/dms-migration-wizard-migration-summary.png "Migration Wizard Summary")
+   ![The Migration Wizard summary blade is displayed, DwMigration is entered into the name field, and Validate my database(s) is selected in the Choose validation option blade, with all three validation options selected.](media/dms-migration-wizard-migration-summary.png "Migration Wizard Summary")
 
 7. Select **Run migration**.
 
@@ -567,9 +565,9 @@ In this task, you will use SSMS to verify the database was successfully migrated
 
 2. Select **Connect**.
 
-3. In the Object Explorer, expand Databases, WorldWideImporters, and Tables, then right-click `dbo.DimCustomer`, and choose **Select Top 1000 Rows**.
+3. In the Object Explorer, expand Databases, WideWorldImporters, and Tables, then right-click `dbo.DimCustomer`, and choose **Select Top 1000 Rows**.
 
-   ![In SSMS, Databases, WorldWideImporters, and Tables are expanded, and the context menu for dbo.DimCustomer is displayed, with Select Top 1000 Rows highlighted in the menu.](media/ssms-select-top.png "Select Top 100 Rows")
+   ![In SSMS, Databases, WideWorldImporters, and Tables are expanded, and the context menu for dbo.DimCustomer is displayed, with Select Top 1000 Rows highlighted in the menu.](media/ssms-select-top.png "Select Top 100 Rows")
 
 4. Observe that the query returns results, showing the data has been migrated from the on-premises SQL Server 2008 R2 database into Azure SQL Database.
 

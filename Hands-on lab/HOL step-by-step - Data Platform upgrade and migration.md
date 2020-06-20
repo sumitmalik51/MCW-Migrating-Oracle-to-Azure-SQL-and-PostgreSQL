@@ -774,7 +774,7 @@ In this exercise, you will install Oracle XE on your Lab VM, load a sample datab
 
    ![Accept the license agreement and Oracle Database 11g Express Edition Release 2 for Windows x64 are highlighted under Oracle Database Express Edition 11g Release 2.](./media/oracle-11g-download.png "Oracle 11g download")
 
-4. Accept the license agreement, when prompted, and then select **Download OracleXE112_Win64.zip**.
+4. Accept the license agreement, when prompted, and then select **Download OracleXE112_Win64.zip**. You might need to select the **Oracle License Agreement** link and scroll to the bottom of the agreement to enable the checkbox.
 
    ![The license agreement checkbox is checked on the license agreement dialog.](media/download-oracle-xe.png "Download Oracle XE")
 
@@ -843,7 +843,7 @@ In this exercise, you will install Oracle XE on your Lab VM, load a sample datab
 
     - Select **Next**.
 
-12. If the Next button is disabled on the Perform Prerequisite Checks screen, check the **Ignore All** box, and then select **Next**. This screen will be skipped by the installer if no missing requisites are found.
+12. If the Next button is disabled on the Perform Prerequisite Checks screen, check the **Ignore All** box, and then select **Next**. This screen will be skipped by the installer if no missing prerequisites are found.
 
     ![The Ignore All box is cleared on highlighted on the Perform Prerequisite Checks screen, and Next is selected at the bottom.](./media/oracle-odac-install-prerequisite-checks.png "Perform Prerequisite Checks")
 
@@ -911,9 +911,7 @@ In this task, you will install a third-party extension to Visual Studio to enabl
 
 WWI has provided you with a copy of their application, including a database script to create their Oracle database. They have asked that you use this as a starting point for migrating their database and application to SQL Server 2017. In this task, you will create a connection to the Oracle database on your Lab VM, and create a database called Northwind.
 
-1. On your SqlServer2017 VM, open SQL Server Management Studio 17 (SSMS), select **Connect** in the Object Explorer, and select **Database Engine**.
-
-   ![Database Engine is selected and highlighted under Connect, which is highlighted in Object Explorer.](./media/ssms-connect-database-engine.png "Select Database Engine")
+1. On your SqlServer2017 VM, open Microsoft SQL Server Management Studio 18 (SSMS).
 
 2. In the Connect to Server dialog, enter or select **SqlServer2017** in the Server name drop down, leave Authentication set to **Windows Authentication**, and select **Connect**.
 
@@ -929,29 +927,25 @@ WWI has provided you with a copy of their application, including a database scri
 
 5. Now, switch back to your LabVM, and download the starter project by downloading a .zip copy of the Data Platform upgrade and migration project from the GitHub repo.
 
-6. In a web browser, navigate to the [Data Platform upgrade and migration MCW repo](https://github.com/Microsoft/MCW-Data-Platform-upgrade-and-migration)
+6. In a web browser, download a copy of the Data Platform upgrade and migration MCW repo from <https://github.com/microsoft/MCW-Data-Platform-upgrade-and-migration/archive/master.zip>.
 
-7. On the repo page, select **Clone or download**, then select **Download ZIP**.
+7. Unzip the contents to **C:\handsonlab**.
 
-   ![Download .zip containing the Data Platform upgrade and migration repository](media/git-hub-download-repo.png "Download ZIP")
+8. Within the **handsonlab** folder, navigate to the folder `MCW-Data-Platform-upgrade-and-migration-master\Hands-on lab\lab-files\starter-project`, and double-click `NorthwindMVC.sln` to open the project in Visual Studio 2019.
 
-8. Unzip the contents to **C:\handsonlab**.
+9. If prompted for how you want to open the file, select **Visual Studio 2019**, and select **OK**.
 
-9. Within the **handsonlab** folder, navigate to the folder `MCW-Data-Platform-upgrade-and-migration-master\Hands-on lab\lab-files\starter-project`, and double-click `NorthwindMVC.sln` to open the project in Visual Studio 2019.
+10. Sign into Visual Studio (or create an account if you don't have one), when prompted.
 
-10. If prompted for how you want to open the file, select **Visual Studio 2019**, and select **OK**.
-
-11. Sign into Visual Studio (or create an account if you don't have one), when prompted.
-
-12. At the Security Warning screen, uncheck **Ask me for every project in this solution**, and select **OK**.
+11. At the Security Warning screen, uncheck **Ask me for every project in this solution**, and select **OK**.
 
     ![Ask me for every project in this solution is cleared and OK is selected on the Security Warning screen.](./media/visual-studio-security-warning.png "Clear Ask me for every project in this solution")
 
-13. Once then solution is open in Visual Studio, select the **Extensions -> Fusion** menu, and then select **New Connection**.
+12. Once then solution is open in Visual Studio, select the **Extensions -> Fusion** menu, and then select **New Connection**.
 
     ![New Connection is highlighted in the Fusion menu in Visual Studio.](./media/visual-studio-fusion-menu-new-connection.png "Select New Connection")
 
-14. In the Database Connection properties dialog, set the following values:
+13. In the Database Connection properties dialog, set the following values:
 
     - **Host**: localhost
     - **Port**: Leave 1521 selected.
@@ -964,54 +958,54 @@ WWI has provided you with a copy of their application, including a database scri
 
     ![The information above is entered in the Database Connection Properties * Oracle dialog box, and OK is selected at the bottom.](./media/visual-studio-fusion-new-database-connection.png "Specify the settings")
 
-15. Select **Test Connection** to verify the settings are correct, and select **OK** to close the popup.
+14. Select **Test Connection** to verify the settings are correct, and select **OK** to close the popup.
 
-16. Select **OK** to create the Database Connection.
+15. Select **OK** to create the Database Connection.
 
-17. You will now see the Northwind connection in the Database Explorer window.
+16. You will now see the Northwind connection in the Database Explorer window.
 
     ![The Northwind connection is selected in the Database Explorer window.](./media/visual-studio-fusion-database-explorer.png "View the Northwind connection")
 
-18. In Visual Studio, select **File** in the menu, then select **Open File**, and navigate to `C:\handsonlab\MCW-Data-Platform-upgrade-and-migration-master\Hands-on lab\lab-files\starter-project\Oracle Scripts\`, select the file `1.northwind.oracle.schema.sql`, and then select **Open**.
+17. In Visual Studio, select **File** in the menu, then select **Open File**, and navigate to `C:\handsonlab\MCW-Data-Platform-upgrade-and-migration-master\Hands-on lab\lab-files\starter-project\Oracle Scripts\`, select the file `1.northwind.oracle.schema.sql`, and then select **Open**.
 
     ![The file, 1.northwind.oracle.schema.sql, is selected and highlighted in the Open File window.](./media/visual-studio-open-file.png "Open File dialog")
 
     > **Note**: You may receive a notification that your Fusion trial has expired when you do this. This can be ignored for this hands-on lab. Close that dialog, and continue to the query window that opens in Visual Studio.
 
-19. Select the **Execute** Fusion script button on the Visual Studio toolbar to run the SQL script.
+18. Select the **Execute** Fusion script button on the Visual Studio toolbar to run the SQL script.
 
     ![The Execute Fusion script icon is highlighted on the Visual Studio toolbar.](./media/visual-studio-fusion-execute.png "Run the script")
 
-20. The results of execution can be viewed in the Output window, found at the bottom left of the Visual Studio window.
+19. The results of execution can be viewed in the Output window, found at the bottom left of the Visual Studio window.
 
     ![Output is highlighted in the Output window.](./media/visual-studio-fusion-output-query-1.png "View the results")
 
-21. In the Database Explorer window, right-click on the **Northwind** connection, and select **Modify Connection** (If the Database Explorer is not already open, you can open it by selecting Fusion in the menu, then selecting Database Explorer).
+20. In the Database Explorer window, right-click on the **Northwind** connection, and select **Modify Connection** (If the Database Explorer is not already open, you can open it by selecting Fusion in the menu, then selecting Database Explorer).
 
     ![Modify Connection is highlighted in the submenu for the Northwind connection in the Database Explorer window.](./media/visual-studio-database-explorer-modify-connection.png "Modify Connection")
 
-22. In the Modify Connection dialog, change the username and password as follows:
+21. In the Modify Connection dialog, change the username and password as follows:
 
     - **Username**: NW
     - **Password**: oracledemo123
 
-23. Select **Test Connection** to verify the new credentials work.
+22. Select **Test Connection** to verify the new credentials work.
 
     ![The information above is entered and highlighted in the Database Connection Properties * Oracle dialog box, and Test Connection is selected at the bottom.](./media/visual-studio-database-explorer-modify-connection-update.png "Specify the settings")
 
-24. Select **OK** to close the Database Connection properties dialog.
+23. Select **OK** to close the Database Connection properties dialog.
 
-25. Select the **Open File** icon on the Visual Studio toolbar.
+24. Select the **Open File** icon on the Visual Studio toolbar.
 
     ![The Open File icon is highlighted on the Visual Studio toolbar.](./media/visual-studio-toolbar-open-file.png "Select Open File")
 
-26. In the Open File dialog, navigate to `C:\handsonlab\MCW-Data-Platform-upgrade-and-migration-master\Hands-on lab\lab-files\starter-project\Oracle Scripts`, select the file `2.northwind.oracle.tables.views.sql`, and then select **Open**.
+25. In the Open File dialog, navigate to `C:\handsonlab\MCW-Data-Platform-upgrade-and-migration-master\Hands-on lab\lab-files\starter-project\Oracle Scripts`, select the file `2.northwind.oracle.tables.views.sql`, and then select **Open**.
 
-27. As you did previously, select the **Execute** Fusion script button on the toolbar, and view the results of execute in the Output pane.
+26. As you did previously, select the **Execute** Fusion script button on the toolbar, and view the results of execute in the Output pane.
 
     ![The Execute Fusion script icon is highlighted on the Visual Studio toolbar.](./media/visual-studio-fusion-execute.png "Run the script")
 
-28. Repeat steps 26 - 27, replacing the file name in step 26 with each of the following:
+27. Repeat steps 26 - 27, replacing the file name in step 26 with each of the following:
 
     - `3.northwind.oracle.packages.sql`
 

@@ -1407,7 +1407,7 @@ In this exercise, you will modify the `NorthwindMVC` application so it targets S
 
    ![The code under the Oracle comment is highlighted and labeled 1, and the Comment button in the toolbar is highlighted and labeled 2.](./media/visual-studio-home-controller-comment-out-oracle-lines.png "Comment out code")
 
-8. Next, uncomment the code under the SQL Server comment. Select the commented out code, then choose the Uncomment button on the toolbar. You may need to select the Uncomment button twice to uncomment the code.
+8. Next, uncomment the code under the SQL Server comment. Select the commented out code, then choose the Uncomment button on the toolbar.
 
    > **Note**: The lines will change from green to colored text when the comment characters have been removed from the front of each line. This code change is done because of differences in how stored procedures are accessed in Oracle versus Sql Server.
 

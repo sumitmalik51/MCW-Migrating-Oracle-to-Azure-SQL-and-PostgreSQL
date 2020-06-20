@@ -109,7 +109,8 @@ In this task, you will provision a virtual machine (VM) in Azure. The VM image u
      - **Region**: Select the region you are using for resources in this hands-on lab.
      - **Availability options**: Select no infrastructure redundancy required.
      - **Image**: Leave Visual Studio 2019 Community (latest release) on Windows Server 2019 (x64) selected.
-     - **Size**: Accept the default size, Standard D2 v3.
+     - **Azure Spot Instance**: Select No.
+     - **Size**: Accept the default size, Standard_D4s_v3.
 
    - Administrator Account:
 
@@ -162,7 +163,8 @@ In this task, you will provision another virtual machine (VM) in Azure which wil
      - **Region**: Select the region you are using for resources in this hands-on lab.
      - **Availability options**: Select no infrastructure redundancy required.
      - **Image**: Leave Free SQL Server License: SQL Server 2017 Developer Windows Server 2019 selected.
-     - **Size**: Accept the default size, Standard DS12 v2.
+     - **Azure Spot Instance**: Select No.
+     - **Size**: Accept the default size, Standard_D4s_v3.
 
    - Administrator Account:
 
@@ -217,7 +219,7 @@ In this task, you will provision another virtual machine (VM) in Azure which wil
 
    ![The Show portal menu icon is highlighted and the portal menu is displayed. Create a resource is highlighted in the portal menu.](media/create-a-resource.png "Create a resource")
 
-2. Enter "SQL Server 2008R2SP3 on Windows Server 2008R2" into the Search the Marketplace box and press Enter.
+2. Enter "SQL Server 2008 R2 SP3 on Windows Server 2008 R2" into the Search the Marketplace box and press Enter.
 
 3. On the **SQL Server 2008 R2 SP3 Standard on Windows Server 2008 R2** blade, select **SQL Server R2 SP3 Standard on Windows Server 2008 R2** for the software plan and then select **Create**.
 
@@ -236,7 +238,8 @@ In this task, you will provision another virtual machine (VM) in Azure which wil
      - **Region**: Select the region you are using for resources in this hands-on lab.
      - **Availability options**: Select no infrastructure redundancy required.
      - **Image**: Leave SQL Server 2008 R2 SP3 Standard on Windows Server 2008 R2 selected.
-     - **Size**: Accept the default size, Standard DS11 v2.
+     - **Azure Spot Instance**: Select No.
+     - **Size**: Accept the default size, Standard_D4s_v3.
 
    - Administrator Account:
 
@@ -295,11 +298,11 @@ In this task, you will create an RDP connection to your Lab virtual machine (VM)
 
    ![The list of resources in the hands-on-lab-SUFFIX resource group are displayed, and LabVM is highlighted.](./media/resource-group-resources-labvm.png "LabVM in resource group list")
 
-4. On your Lab VM blade, select **Connect** from the top menu.
+4. On your Lab VM blade, select **Connect** and **RDP** from the top menu.
 
-   ![The LabVM blade is displayed, with the Connect button highlighted in the top menu.](./media/connect-labvm.png "Connect to LabVM")
+   ![The LabVM blade is displayed, with the Connect button highlighted in the top menu.](./media/connect-vm.png "Connect to LabVM")
 
-5. Select **Download RDP file**, then open the downloaded RDP file.
+5. Select **Download RDP File**, then open the downloaded RDP file.
 
    ![The Connect to virtual machine blade is displayed, and the Download RDP file button is highlighted.](./media/connect-to-virtual-machine.png "Connect to virtual machine")
 
@@ -346,9 +349,9 @@ In this task, you will create an RDP connection to the SqlServer2008 VM and disa
 
    ![The list of resources in the hands-on-lab-SUFFIX resource group are displayed, and SqlServer2008 is highlighted.](media/resource-group-resources-sqlserver2008r2.png "SqlServer2008 VM in resource group list")
 
-4. On the SqlServer2008 blade in the [Azure portal](https://portal.azure.com), select **Overview** from the left-hand menu, and then select **Connect** from the top menu.
+4. On the SqlServer2008 blade in the [Azure portal](https://portal.azure.com), select **Overview** from the left-hand menu, and then select **Connect** and **RDP** from the top menu.
 
-   ![The SqlServer2008 blade is displayed, with the Connect button highlighted in the top menu.](media/connect-sqlserver2008r2.png "Connect to SqlServer2008")
+   ![The SqlServer2008 blade is displayed, with the Connect button highlighted in the top menu.](media/connect-vm.png "Connect to SqlServer2008")
 
 5. Select **Download RDP file**, then open the downloaded RDP file.
 
@@ -402,7 +405,7 @@ In this task, you will create an Azure SQL Database, which will serve as the tar
 
    - Database Details:
 
-     - **Database name**: Enter WorldWideImporters.
+     - **Database name**: Enter WideWorldImporters.
      - **Server**: Select Create new, and then on the New server blade, enter the following:
        - **Server name**: Enter a unique name, such as wwiSUFFIX.
        - **Server admin login**: demouser
@@ -410,16 +413,9 @@ In this task, you will create an Azure SQL Database, which will serve as the tar
        - **Location**: Select the location you are using for resources in this hands-on lab.
        - Select **OK**.
      - **Want to use SQL elastic pool?**: Select **No**.
+     - **Computer + storage**: Accept the default, General Purpose Gen5, 2 vCores, 32 GB storage.
 
      ![The Basic tab with the values specified above entered into the appropriate fields is displayed.](media/azure-sql-database-create-basic-tab.png "Create SQL Database Basic tab")
-
-     - **Compute + storage**: Select **Configure database**.
-
-     ![Configure database is highlighted under Compute + storage.](media/azure-sql-database-create-compute-storage.png "Compute + storage")
-
-   - On the Compute + storage blade, select the **Looking for basic, standard, premium?** link, and then select the **Premium** tab, with 125 DTUs and 500 GB, and then select **Apply**.
-
-   ![The Configure pricing tier for SQL Server is displayed, with Premium selected and highlighted.](media/azure-sql-database-pricing-tier-premium.png "SQL Pricing tier configuration")
 
 4. Select **Next: Networking**.
 

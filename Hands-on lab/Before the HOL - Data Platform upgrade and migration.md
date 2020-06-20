@@ -386,7 +386,7 @@ In this task, you will create an RDP connection to the SqlServer2008 VM and disa
 
 ### Task 7: Provision Azure SQL Database
 
-In this task, you will create an Azure SQL Database, which will serve as the target database for migration of the on-premises WorldWideImporters database into the cloud. The Premium tier is required to support ColumnStore index creation.
+In this task, you will create an Azure SQL Database, which will serve as the target database for migration of the on-premises WideWorldImporters database into the cloud. The Premium tier is required to support ColumnStore index creation.
 
 1. In the [Azure portal](https://portal.azure.com/), select the **Show portal menu** icon and then select **+Create a resource** from the menu.
 

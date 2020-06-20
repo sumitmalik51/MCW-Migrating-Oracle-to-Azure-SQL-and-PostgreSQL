@@ -402,7 +402,7 @@ After you have reviewed the assessment results and you have ensured the database
    - **Server name**: Enter the server name of the Azure SQL Database you created during the before the hands-on lab exercise.
      - To find the name of your SQL Database, select the WideWorldImporters SQL Database from your hands-on-lab-SUFFIX resource group in the Azure portal, and then select the **Server name** in the Essentials area of the Overview blade.
 
-   ![On the SQL database Overview blade, the Server name is highlighted.](media/azure-sql-database-servername.png "SQL Database Overview")
+   ![On the SQL database Overview blade, the Server name is highlighted.](media/azure-sql-database-server-name.png "SQL Database Overview")
 
    - **Authentication type**: Select SQL Server Authentication.
    - **Username**: Enter demouser.
@@ -491,7 +491,7 @@ In this task, you create a new migration project for the WideWorldImporters data
 
      - To find the name of your SQL Database, select the WideWorldImporters SQL Database from your hands-on-lab-SUFFIX resource group in the Azure portal, and then select the **Server name** in the Essentials area of the Overview blade.
 
-       ![On the SQL database Overview blade, the Server name is highlighted.](media/azure-sql-database-servername.png "SQL Database Overview")
+       ![On the SQL database Overview blade, the Server name is highlighted.](media/azure-sql-database-server-name.png "SQL Database Overview")
 
    - **Authentication type**: Select SQL Authentication.
    - **Username**: Enter **demouser**
@@ -590,7 +590,7 @@ In this exercise, you will demonstrate value from the upgrade by enabling the Ta
 3. Copy the script below, and paste it into the query window:
 
    ```sql
-   USE [WorldWideImporters]
+   USE [WideWorldImporters]
 
    -- Get the Size of the FactInternetSales table
    SELECT
@@ -614,9 +614,9 @@ In this exercise, you will demonstrate value from the upgrade by enabling the Ta
 
    ![In the SSMS results pane, the size of the uncompressed FactInternetSales table is highlighted.](media/ssms-query-results-factinternetsales-uncompressed-size.png "Query results")
 
-6. In the Object Explorer, expand Databases, WorldWideImporters, and Tables.
+6. In the Object Explorer, expand Databases, WideWorldImporters, and Tables.
 
-   ![Databases is highlighted in Object Explorer, WorldWideImporters is highlighted below that, and then Tables is highlighted below that.](./media/ssms-object-explorer-tables.png "Select Tables")
+   ![Databases is highlighted in Object Explorer, WideWorldImporters is highlighted below that, and then Tables is highlighted below that.](./media/ssms-object-explorer-tables.png "Select Tables")
 
 7. Right-click the `FactInternetSales` table, select the **Storage** context menu, and then select **Manage Compression** from the fly-out menu.
 
@@ -632,11 +632,11 @@ In this exercise, you will demonstrate value from the upgrade by enabling the Ta
 
     ![Run immediately is highlighted on the Select an Output Option screen of the Data Compression Wizard.](media/ssms-data-compression-wizard-output-row-compression.png "Data Compression Wizard Select an Output Option")
 
-11. Select **Finish** on the Summary page.
+11. Select **Finish** on the Summary page and **Close** when the compression wizard is finished.
 
     ![The Summary screen of the Data Compression Wizard is displayed.](media/ssms-data-compression-wizard-summary-row-compression.png "Data Compression Wizard Summary")
 
-12. Close the Data Compression Wizard, and rerun the query to get the size of the `FactInternetSales` table, noting the reduced size of the table.
+12. Rerun the query to get the size of the `FactInternetSales` table, noting the reduced size of the table.
 
     ![In the SSMS results pane, the size of the row compressed FactInternetSales table is highlighted.](media/ssms-query-results-factinternetsales-row-compression-size.png "Query results")
 
@@ -663,7 +663,7 @@ In this task, you will create a new table based on the existing `FactResellerSal
 3. Copy the script below, and paste it into the query window:
 
    ```sql
-   USE WorldWideImporters
+   USE WideWorldImporters
 
    SELECT *
    INTO ColumnStore_FactResellerSales
@@ -678,7 +678,7 @@ In this task, you will create a new table based on the existing `FactResellerSal
 5. Select **New Query** in the toolbar again, and paste the following query into the new query window. The query contains multiple parts; one to get the size of the `ColumnStore_FactResellerSales` table, a second to create a clustered ColumnStore index on the ColumnStore_FactResellerSales table, and then the size query is repeated to get the size after adding the clustered ColumnStore index.
 
    ```sql
-   USE [WorldWideImporters]
+   USE [WideWorldImporters]
 
    -- Get the Size of the ColumnStore_FactResellerSales table
    SELECT
@@ -694,7 +694,7 @@ In this task, you will create a new table based on the existing `FactResellerSal
    GO
 
    -- Create a clustered columnstore index on the ColumnStore_FactResellerSales table
-   CREATE CLUSTERED COLUMNSTORE INDEX [cci_FactResllerSales]
+   CREATE CLUSTERED COLUMNSTORE INDEX [cci_FactResellerSales]
    ON [dbo].[ColumnStore_FactResellerSales]
    GO
 
@@ -745,15 +745,15 @@ In this task, you will create a new table based on the existing `FactResellerSal
 
 12. Your query should look like:
 
-    ![The query includes the above information at the top.](./media/ssms-query-statistics-io.png "Set stastics IO")
+    ![The query includes the above information at the top.](./media/ssms-query-statistics-io.png "Set statistics IO")
 
 13. Select **Execute** from the toolbar to run the query.
 
 14. Statistics IO reports on the amount of logical pages that are read in order to return the query results. Select the **Messages** tab of the Results pane, and compare two numbers, logical reads and lob logical reads. You should see a significant drop in total number of logical reads on the columns store table.
 
-    ![Various information is highlighted on the Messages tab of the Results pane.](./media/ssms-query-results-messages-stastics-io.png "Compare the information")
+    ![Various information is highlighted on the Messages tab of the Results pane.](./media/ssms-query-results-messages-statistics-io.png "Compare the information")
 
-15. You are now down with the SqlServer2008 VM.
+15. You are now done with the SqlServer2008 VM. Log off of the VM to close the RDP session.
 
 ## Exercise 4: Setup Oracle 11g Express Edition
 

@@ -405,8 +405,8 @@ After you have reviewed the assessment results and you have ensured the database
    ![On the SQL database Overview blade, the Server name is highlighted.](media/azure-sql-database-server-name.png "SQL Database Overview")
 
    - **Authentication type**: Select SQL Server Authentication.
-   - **Username**: Enter demouser.
-   - **Password**: Enter Password.1!!
+   - **Username**: demouser
+   - **Password**: Password.1!!
    - **Connection properties**: Check both Encrypt connection and Trust server certificate.
    - Select **Connect**.
    - Select **WideWorldImporters** from the list of databases.
@@ -470,8 +470,8 @@ In this task, you create a new migration project for the WideWorldImporters data
        ![On the SqlServer2008 VM Overview blade, the Public IP address is highlighted.](media/sql-virtual-machine-overview-blade-ip-address.png "Virtual machine Overview")
 
    - **Authentication type**: Select SQL Authentication.
-   - **Username**: Enter **demouser**
-   - **Password**: Enter **Password.1!!**
+   - **Username**: demouser
+   - **Password**: Password.1!!
    - **Connection properties**: Check both Encrypt connection and Trust server certificate.
 
    ![The Migration Wizard Select source blade is displayed, with the values specified above entered into the appropriate fields.](media/dms-migration-wizard-select-source.png "Migration Wizard Select source")
@@ -494,8 +494,8 @@ In this task, you create a new migration project for the WideWorldImporters data
        ![On the SQL database Overview blade, the Server name is highlighted.](media/azure-sql-database-server-name.png "SQL Database Overview")
 
    - **Authentication type**: Select SQL Authentication.
-   - **Username**: Enter **demouser**
-   - **Password**: Enter **Password.1!!**
+   - **Username**: demouser
+   - **Password**: Password.1!!
    - **Connection properties**: Check Encrypt connection.
 
    ![The Migration Wizard Select target blade is displayed, with the values specified above entered into the appropriate fields.](media/dms-migration-wizard-select-target.png "Migration Wizard Select target")
@@ -558,8 +558,8 @@ In this task, you will use SSMS to verify the database was successfully migrated
 
    - **Server name**: Enter the server name of your Azure SQL Database.
    - **Authentication**: Select SQL Server Authentication.
-   - **Login**: Enter demouser.
-   - **Password:**: Enter Password.1!!
+   - **Login**: demouser
+   - **Password:**: Password.1!!
 
    ![The SSMS Connect to Server dialog is displayed, with the Azure SQL Database name specified, SQL Server Authentication selected, and the demouser credentials entered.](media/ssms-connect-azure-sql-database.png "Connect to Server")
 
@@ -1089,11 +1089,11 @@ In this exercise, you will migrate the Oracle database into the "on-premises" SQ
 
    - **Provider**: Leave set to the default value, Oracle Client Provider for .NET.
    - **Mode**: Leave set to Standard mode.
-   - **Server name**: Enter localhost.
+   - **Server name**: localhost
    - **Server port**: Set to 1521.
-   - **Oracle SID**: Enter XE.
-   - **Username**: Enter NW.
-   - **Password**: Enter oracledemo123
+   - **Oracle SID**: XE
+   - **Username**: NW
+   - **Password**: oracledemo123
 
    ![The information above is entered in the Connect to Oracle dialog box, and Connect is selected at the bottom.](./media/ssma-connect-to-oracle.png "Specify the settings")
 
@@ -1122,7 +1122,7 @@ In this exercise, you will migrate the Oracle database into the "on-premises" SQ
     ![The IP address of your SqlServer2017 VM is highlighted in the Essentials area of your VM's blade in the Azure portal.](./media/azure-sql-database-public-ip-address.png "Enter the IP address ")
 
     - **Server port**: Leave set to [default].
-    - **Database**: Enter Northwind.
+    - **Database**: Northwind
     - **Authentication**: Set to Windows Authentication.
     - **Encrypt Connection**: Check this box.
     - **Trust Server Certificate**: Check this box.
@@ -1468,8 +1468,8 @@ In this exercise, you will modify the `NorthwindMVC` application so it targets S
     - **Data source**: Leave Microsoft SQL Server (SqlClient).
     - **Server name**: Enter the IP address of your SqlServer2017 VM.
     - **Authentication**: Select SQL Server Authentication.
-    - **Username**: Enter demouser
-    - **Password**: Enter Password.1!!
+    - **Username**: demouser
+    - **Password**: Password.1!!
     - **Connect to a database**: Choose Select or enter database name, and enter Northwind.
     - Select **Test Connection** to verify your settings are correct, and select **OK** to close the successful connection dialog.
 

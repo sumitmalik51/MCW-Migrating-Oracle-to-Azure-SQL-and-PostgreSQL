@@ -559,7 +559,7 @@ In this task, you will use SSMS to verify the database was successfully migrated
    - **Server name**: Enter the server name of your Azure SQL Database.
    - **Authentication**: Select SQL Server Authentication.
    - **Login**: demouser
-   - **Password:**: Password.1!!
+   - **Password**: Password.1!!
 
    ![The SSMS Connect to Server dialog is displayed, with the Azure SQL Database name specified, SQL Server Authentication selected, and the demouser credentials entered.](media/ssms-connect-azure-sql-database.png "Connect to Server")
 

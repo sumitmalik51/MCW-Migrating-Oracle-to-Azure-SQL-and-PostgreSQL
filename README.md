@@ -1,6 +1,6 @@
 # Data Platform upgrade and migration
 
-World Wide Importers (WWI) has experienced significant growth in the last few years. In addition to predictable growth, they’ve had a substantial amount of growth in the data they store in their data warehouse. Their data warehouse is starting to show its age, slowing down during extract, transform, and load (ETL) operations and during critical queries. The data warehouse is running on SQL Server 2008 R2 Standard Edition.
+Wide World Importers (WWI) has experienced significant growth in the last few years. In addition to predictable growth, they’ve had a substantial amount of growth in the data they store in their data warehouse. Their data warehouse is starting to show its age, slowing down during extract, transform, and load (ETL) operations and during critical queries. The data warehouse is running on SQL Server 2008 R2 Standard Edition.
 
 The WWI CIO has recently read about new performance enhancements of Azure SQL Database and SQL Server 2017. She is excited about the potential performance improvements related to clustered ColumnStore indexes. She is also hoping that table compression can improve performance and backup times.
 
@@ -8,7 +8,7 @@ WWI is concerned about upgrading their database to Azure SQL Database or SQL Ser
 
 WWI’s CIO would like a POC of a data warehouse move and proof that the new technology can help ETL and query performance.
 
-November 2019
+June 2020s
 
 ## Target audience
 
@@ -58,13 +58,14 @@ Data Modernization to Azure
 
 ## Help & Support
 
-We welcome feedback and comments from Microsoft SMEs & learning partners who deliver MCWs.  
+We welcome feedback and comments from Microsoft SMEs & learning partners who deliver MCWs.
 
-***Having trouble?***
+**_Having trouble?_**
+
 - First, verify you have followed all written lab instructions (including the Before the Hands-on lab document).
 - Next, submit an issue with a detailed description of the problem.
-- Do not submit pull requests. Our content authors will make all changes and submit pull requests for approval.  
+- Do not submit pull requests. Our content authors will make all changes and submit pull requests for approval.
 
-If you are planning to present a workshop, *review and test the materials early*! We recommend at least two weeks prior.
+If you are planning to present a workshop, _review and test the materials early_! We recommend at least two weeks prior.
 
 ### Please allow 5 - 10 business days for review and resolution of issues.

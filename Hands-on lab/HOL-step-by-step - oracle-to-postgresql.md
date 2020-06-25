@@ -1,3 +1,4 @@
+
 **Contents** 
 
 - [Exercise 1: Setup Oracle 11g Express Edition](#exercise-1-setup-oracle-11g-express-edition)
@@ -495,19 +496,23 @@ ora2pg -t SHOW_VERSION -c config\ora2pg.conf
     ![](./media/set-schema.PNG)
 
 ### Task 7: Create a migration report
+Duration: 15 mins 
+
+In this task, you will create a migration report. This will tell you the "man-hours" required for the migration from the on-premises Oracle database to PosteGre. This can be useful to help you prioritize and verify the effort it will take you to complete the migration. 
 
 1. Navigate to the `C:\ora2pg\nw_migration` directory in command prompt.
 
 2. ora2pg provides a reporting functionality which displays information about the objects in the existing schema and the estimated effort required to ensure compatibility with PostgreSQL. The command below creates a report titled **6-23-report.html** in the reports folder (when executed within the `C:\ora2pg\nw_migration` directory). 
+
 ```
 ora2pg -c config\ora2pg.conf -t SHOW_REPORT --estimate_cost --dump_as_html > reports\6-23-report.html
 ```
 
-Note that the report displays information for the provided schema--in our case, we placed schema information in `config\ora2pg.conf` before executing the command. 
+Note that the report displays information for the provided schema -- in our case, we placed schema information in `config\ora2pg.conf` before executing the command. 
 
     ![Report Schema](./media/report-schema.PNG)
 
-Of particular interest is the migration level. In our case, it is B-5, which implicates code rewriting, since there are multiple stored procedures which must be altered.
+Of particular interest is the migration level. In our case, it is B-5, which implies code rewriting, since there are multiple stored procedures which may have to be rewritten or altered. 
 
     ![Migration level descrption](./media/report-migration-level.png)
 
@@ -554,8 +559,5 @@ psql -U NW@northwind-oracle-to-psql -h northwind-oracle-to-psql.postgres.databas
 ```
 psql -U NW@northwind-oracle-to-psql -h northwind-oracle-to-psql.postgres.database.azure.com -d NW < schema\tables\INDEXES_NW-psql.sql
 ```
-
-In the next task, we will migrate packages, procedures, and views.
-
 
 

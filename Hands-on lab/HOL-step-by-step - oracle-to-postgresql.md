@@ -13,10 +13,10 @@
 - [Exercise 3: Prepare to Migrate the Oracle database to PostgreSQL](#exercise-3-prepare-to-migrate-the-oracle-database-to-postgresql)
     - [Task 1: Create Azure Resources](#task-1-create-azure-resources)
     - [Task 2: Configure the PostgreSQL server instance](#task-2-configure-the-postgresql-server-instance)
-    - [Task 3: Create a VM migration server](#task-3-create-a-vm-migration-server)
-    - [Task 4: Install pgAdmin utilities on the migration server](#task-4-install-pgadmin-utilities-on-the-migration-server)
-    - [Task 5: Install ora2pg](#task-5-install-ora2pg)
-    - [Task 6: Prepare the Postgre instance using pgAdmin and create an ora2pg project structure](#task-6-prepare-the-postgre-instance-using-pgadmin-and-create-an-ora2pg-project-structure)
+    - [Task 3: Install pgAdmin on the LabVM](#task-3-install-pgadmin-on-the-labvm)
+    - [Task 4: Install ora2pg](#task-4-install-ora2pg)
+    - [Task 5: Prepare the Postgre instance using pgAdmin](#task-5-prepare-the-postgre-instance-using-pgadmin)
+    - [Task 6: Create an ora2pg project structure](#task-6-create-an-ora2pg-project-structure)
     - [Task 7: Create a migration report](#task-7-create-a-migration-report)
 
 - [Exercise 4: Migrate the Database and Application](#exercise-4-migrate-the-database-and-application)
@@ -300,6 +300,9 @@ SELECT owner, object_type, object_name
 FROM all_objects
 WHERE status = 'INVALID';
 ```
+6. As you can see, we do not have any invalid objects.
+
+    ![Invalid objects](./media/invalid-objects.PNG)
 
 ### Exercise 3: Prepare to Migrate the Oracle database to PostgreSQL
 Duration: 2 hours
@@ -343,8 +346,9 @@ We need to create a PostgreSQL instance and an App Service to host our applicati
     ![Changing the target framework of the solution](./media/changing-target-framework.PNG)
 
 ### Task 2: Configure the PostgreSQL server instance
+In this task, we will be modifying the PostgreSQL instance to fit our needs. 
 
-1. Storage auto-growth is a feature in which Azure will add more storage automatically when you run out of it. We do not need it for our purposes so we will need to disable it. To do this, locate the PostgreSQL instance you created. Then, under the **Settings** tab, select **Pricing tier**.
+1. Storage Auto-growth is a feature in which Azure will add more storage automatically when you run out of it. We do not need it for our purposes so we will need to disable it. To do this, locate the PostgreSQL instance you created. Then, under the **Settings** tab, select **Pricing tier**.
 
     ![Changing the pricing tier](./media/changing-tier.PNG)
 
@@ -362,7 +366,7 @@ We need to create a PostgreSQL instance and an App Service to host our applicati
 
 ### Task 3: Install pgAdmin on the LabVM
 
-pgAdmin greatly simplifies database administration and configuration tasks by providing an intuitive GUI. 
+pgAdmin greatly simplifies database administration and configuration tasks by providing an intuitive GUI. Because of this, we will be using it to create a new application user and test the migration. 
 
 1. You will need to navigate to <https://www.pgadmin.org/download/pgadmin-4-windows/> to obtain the latest version of pgAdmin 4, which, at the time of writing, is **v4.22**. Select the link to the installer, as shown below.
 
@@ -414,7 +418,8 @@ ora2pg is the tool we will use to migrate database objects and data. Luckily, Mi
 
     ![Path variable configuration](./media/path-variable-configuration.png)
 
-### Task 5: Prepare the Postgre instance using pgAdmin
+### Task 5: Prepare the PostgreSQL instance using pgAdmin
+In this task, we will create the new application user and create the NW database. 
 
 1. Launch pgAdmin and enter your master password.
 
@@ -504,7 +509,7 @@ Migration reports tell us the "man-hours" required to fully migrate our applicat
 ```
 ora2pg -c config\ora2pg.conf -t SHOW_REPORT --estimate_cost --dump_as_html > reports\6-23-report.html
 ```
-Note that the report displays information for the provided schema--in our case, we placed schema information in `config\ora2pg.conf` before executing the command. 
+>Note that the report displays information for the provided schema--in our case, we placed schema information in `config\ora2pg.conf` before executing the command. 
 
 ![Report Schema](./media/report-schema.PNG)
 
@@ -517,11 +522,12 @@ This concludes creating a migration report and preparing the database for migrat
 ### Exercise 4: Migrate the Database and Application 
 Duration: 3.5 hours
 
-We will perform database and application migration.
+In this exercise, we will begin the migration of the database and the application. This includes migrating database objects, the data, application code, and finally, deploying to Azure App Service. 
 
 ### Task 1: Migrate the database table schema using ora2pg and psql and copy data into the database
+In this task, we will migrate the database table schema, using ora2pg and psql, which is a command-line utility that makes it easy to run SQL files against the database. 
 
-1. Now that we know what our migration entails, we must start the process by producing the DDL statements for objects. In almost all migration scenarios, it is advised that table, index, and constraint schemas are kept in separate files, since constraints should be applied to the target database only after tables are created and data copied. To enable this feature, open **config\ora2pg.conf**. Set **FILE_PER_CONSTRAINT**, **FILE_PER_INDEX**, **FILE_PER_FKEYS**, and **FILE_PER_TABLE** to 1.
+1. Now that we know what our migration entails from Excercise 3, we can start the migration by producing the DDL statements for objects. In almost all migration scenarios, it is advised that table, index, and constraint schemas are kept in separate files, since constraints should be applied to the target database only after tables are created and data copied. To enable this feature, open **config\ora2pg.conf**. Set **FILE_PER_CONSTRAINT**, **FILE_PER_INDEX**, **FILE_PER_FKEYS**, and **FILE_PER_TABLE** to 1.
 
     ![Seperating table from index and constraints](./media/separating-table-from-index-and-constraint.PNG)
 
@@ -565,7 +571,7 @@ psql -U NW@northwind-oracle-to-psql -h northwind-oracle-to-psql.postgres.databas
 psql -U NW@northwind-oracle-to-psql -h northwind-oracle-to-psql.postgres.database.azure.com -d NW < schema\tables\INDEXES_NW-psql.sql
 ```
 
-9. Before migrating views in the next task, let us verify that table data has been properly migrated. Enter pgAdmin as the NW user. To use its Query Tool, select **Query Tool** under the **Tools** dropdown.
+9. Before migrating views in the next task, let us verify that table data has been properly migrated. Enter pgAdmin and connect to the database as the NW user. To use its Query Tool, select **Query Tool** under the **Tools** dropdown.
 
     ![Entering query tool](./media/entering-query-tool.png)
 
@@ -582,13 +588,15 @@ FROM employees e
 
     ![Running the query](./media/running-query.png)
 
-12. Observe the following result set, which consists of 49 rows. It is available under the **Data Output** tab.
+12. Observe the following result set, which consists of 49 rows. It is available under the **Data Output** tab.If you were successsful, you should see an output similar to the following. 
 
     ![Result set from the select query](./media/select-query-result-set.PNG)
 
+Let's move on to migrating the views. 
+
 ### Task 2: Migrate Views
 
->Note: Views are not referenced by the sample application, but we are including this task here to show you how to do it manually. When we migrate stored procedures, we will show you how to enable an extension that greatly simplifies the migration of objects which reference Oracle-specific functions.  
+Views are not referenced by the sample application, but we are including this task here to show you how to do it manually. When we migrate stored procedures, we will show you how to enable an extension that greatly simplifies the migration of objects which reference Oracle-specific functions.  
 
 1. Navigate to the  `C:\ora2pg\nw_migration\schema\views` directory, where we will run ora2pg and psql. 
 ```
@@ -635,22 +643,23 @@ ora2pg -c ..\..\config\ora2pg.conf -t VIEW -o NW-views.sql
 psql -U NW@northwind-oracle-to-psql -h northwind-oracle-to-psql.postgres.database.azure.com -d NW < NW-views.sql
 ```
 
-7. With that, we have migrated views. Let us return to pgAdmin's Query Editor and test the migrated views. Utilize the query below. You can envision how this would be useful in an organization to identify successful items in a given year (1997).
+7. With that, we have migrated views. Let's return to pgAdmin's Query Editor and test these migrated views. Utilize the query below, which will show data where **productsales** is greater than 5000. You can envision how this would be useful in an organization to identify successful items in a given year (1997).
+
 ```sql
 SELECT *
 FROM product_sales_for_1997
 WHERE productsales > 5000;
 ```
 
-8. When the query is executed, you should see the following result set, with 42 rows.
+8. When the query is executed, you should see the following result set, with 42 rows. This shows that we have successfully migrated the views. 
 
     ![Result set from query involving the product_sales_for_1997 view](./media/1997-view-result-set.PNG)
 
 ### Task 3: Migrate the Stored Procedure
 
-In this task, we will migrate a single stored procedure. To do this, we will be using the **orafce** utility. We will then call the procedure and view its results using a refcursor. 
+In this task, we will migrate a single stored procedure. To do this, we will be using the **orafce** utility, which provides functions that are compatible with Oracle code. We will then call the procedure and view its results using a refcursor. 
 
-1. Note that simply one stored procedure (NW.SALESBYYEAR) is in use by the application. So, we will export this stored procedure from the Oracle database for analysis. Run the command below in `C:\ora2pg\nw_migration`.
+1. Only one stored procedure **NW.SALESBYYEAR** is in use by the application. So, we will export this stored procedure from the Oracle database for analysis. Run the command below in `C:\ora2pg\nw_migration`.
 ```
 ora2pg -c config\ora2pg.conf -t PROCEDURE -a SALESBYYEAR -o NW-proc.sql -b schema\procedures\
 ```
@@ -806,7 +815,7 @@ This is how the `<entityFramework>` section of the file should appear.
 
 29. Finally, navigate to **DataContext.cs**. Capitalize the property names (e.g. convert categories to CATEGORIES). There are multiple other changes you will need to make, mentioned below in the **Additional Notes** section. 
 
-**Additional Notes**\
+>**Additional Notes**\
     - In EMPLOYEE.cs, capitalize the employee1 property, but do not provide a column attribute\
     - In ORDER.cs, do not capitalize or provide an attribute for any properties following SHIPCOUNTRY\
     - In ORDER_DETAILS.cs, do not capitalize and do not provide column attributes for the order and product properties\
@@ -950,7 +959,7 @@ namespace NorthwindMVC.Controllers
 
     ![Start is highlighted on the toolbar.](./media/start-iisexpress.png "Select Start")
 
-38. The application should launch in Internet Explorer.
+38. If you were successful, the application should launch locally in Internet Explorer.
 
     ![Application final result](./media/northwind-app-postgre.PNG)
 

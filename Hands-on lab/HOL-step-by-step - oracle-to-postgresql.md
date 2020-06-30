@@ -358,7 +358,7 @@ In this task, we will be modifying the PostgreSQL instance to fit our needs.
 
 3. Now, we need to implement firewall rules for the PostgreSQL database so we can access it. Locate the **Connection security** selector under the **Settings** tab.
 
-    ![Connection Security settings](./media/entering-connection-settings.PNG)
+    ![Connection Security settings](./media/entering-connection-settings.png)
 
 4. We will add an access rule. Since we are storing insecure test data, we can open the 0.0.0.0 to 255.255.255.255 range (all IPv4 addresses). Azure makes this option available. Press the **Save** button at the top of the page once you are ready.
 

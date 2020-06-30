@@ -22,7 +22,7 @@ namespace NorthwindMVC.Controllers
                 new OracleParameter("P_END_DATE", OracleDbType.TimeStamp, new OracleTimeStamp(1999, 12, 31), ParameterDirection.Input),
                 new OracleParameter("CUR_OUT", OracleDbType.RefCursor, ParameterDirection.Output)).ToList();
 
-            // SQL Server
+            //// SQL Server
             //var salesByYear = this.db.Database.SqlQuery<SALESBYYEAR>(
             //    "exec [NW].[SALESBYYEAR] @p_begin_date, @p_end_date ",
             //    new SqlParameter("p_begin_date", "1996-1-1"),

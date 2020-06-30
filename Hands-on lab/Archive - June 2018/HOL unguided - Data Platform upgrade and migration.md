@@ -12,7 +12,6 @@ Hands-on lab unguided
 June 2018
 </div>
 
-
 Information in this document, including URL and other Internet Web site references, is subject to change without notice. Unless otherwise noted, the example companies, organizations, products, domain names, e-mail addresses, logos, people, places, and events depicted herein are fictitious, and no association with any real company, organization, product, domain name, e-mail address, logo, person, place or event is intended or should be inferred. Complying with all applicable copyright laws is the responsibility of the user. Without limiting the rights under copyright, no part of this document may be reproduced, stored in or introduced into a retrieval system, or transmitted in any form or by any means (electronic, mechanical, photocopying, recording, or otherwise), or for any purpose, without the express written permission of Microsoft Corporation.
 
 Microsoft may have patents, patent applications, trademarks, copyrights, or other intellectual property rights covering subject matter in this document. Except as expressly provided in any written license agreement from Microsoft, the furnishing of this document does not give you any license to these patents, trademarks, copyrights, or other intellectual property.
@@ -124,7 +123,7 @@ At the end of this hands-on lab, you will be better able to design and build a d
 
 ## Overview
 
-World Wide Importers (WWI) has experienced significant growth in the last few years. In addition to predictable growth, they’ve had a substantial amount of growth in the data they store in their data warehouse. Their data warehouse is starting to show its age; slowing down during extract, transform, and load (ETL) operations and during critical queries. It was built on SQL Server 2008 R2 Standard Edition.
+Wide World Importers (WWI) has experienced significant growth in the last few years. In addition to predictable growth, they’ve had a substantial amount of growth in the data they store in their data warehouse. Their data warehouse is starting to show its age; slowing down during extract, transform, and load (ETL) operations and during critical queries. It was built on SQL Server 2008 R2 Standard Edition.
 
 The WWI CIO has recently read about new performance enhancements of Azure SQL Database and SQL Server 2017. She is excited about the potential performance improvements related to clustered ColumnStore indexes. She is also hoping that table compression will improve performance and backup times.
 
@@ -246,7 +245,7 @@ In this task, you will add an inbound port rule for the SqlServerDw VM, to allow
 
 Duration: 60 minutes
 
-World Wide Importers would like a Proof of Concept (POC) that moves their database warehouse to Azure SQL Database. They would like to know about any incompatible features that will block their eventual production move. In this exercise, you will use the [Azure Database Migration Service](https://azure.microsoft.com/services/database-migration/) (DMS) to migrate the WorldWideImporters database from the "on-premises" SQL Server 2008 R2 instance to [Azure SQL Database](https://docs.microsoft.com/azure/sql-database/).
+Wide World Importers would like a Proof of Concept (POC) that moves their database warehouse to Azure SQL Database. They would like to know about any incompatible features that will block their eventual production move. In this exercise, you will use the [Azure Database Migration Service](https://azure.microsoft.com/services/database-migration/) (DMS) to migrate the WorldWideImporters database from the "on-premises" SQL Server 2008 R2 instance to [Azure SQL Database](https://docs.microsoft.com/azure/sql-database/).
 
 ### Task 1: Register the Microsoft DataMigration resource provider
 
@@ -274,7 +273,7 @@ In this task, you will provision an instance of the Azure Database Migration Ser
 
 ### Task 3: Assess the on-premises database
 
-World Wide Importers would like an assessment to see what potential issues they would have to address in moving their database to Azure SQL Database.
+Wide World Importers would like an assessment to see what potential issues they would have to address in moving their database to Azure SQL Database.
 
 #### Tasks to Complete
 
@@ -309,7 +308,7 @@ In this task, you will create a new migration project for the WorldWideImporters
 
 - On the Azure Database Migration Project blade, you see a success message, similar to the following
 
-    ![On the Azure Database Migration Project blade, a success message is displayed.](media/dms-migration-project-successfully-created.png "DMS project created successfully")
+  ![On the Azure Database Migration Project blade, a success message is displayed.](media/dms-migration-project-successfully-created.png "DMS project created successfully")
 
 ### Task 6: Run the migration
 
@@ -367,7 +366,7 @@ In this task, you will create a new table based on the existing FactResellerSale
 
 - You observe a performance improvement
 
-    ![Various information is highlighted on the Messages tab of the Results pane.](./media/ssms-query-results-messages-stastics-io.png "Compare the information")
+  ![Various information is highlighted on the Messages tab of the Results pane.](./media/ssms-query-results-messages-stastics-io.png "Compare the information")
 
 ## Exercise 4: Setup Oracle 11g Express Edition
 
@@ -446,7 +445,7 @@ In this task, you will add the necessary configuration to the NorthwindMVC solut
 
 - You can run the application and see the Dashboard from Northwind Traders load
 
-    ![This is a screenshot of the Northwind Traders Dashboard.](./media/northwind-traders-dashboard.png "View the dashboard")
+  ![This is a screenshot of the Northwind Traders Dashboard.](./media/northwind-traders-dashboard.png "View the dashboard")
 
 ## Exercise 5: Migrate the Oracle database to SQL Server 2017
 
@@ -459,24 +458,25 @@ In this exercise, you will migrate the Oracle database into SQL Server 2017 usin
 #### Tasks to Complete
 
 - Use SSMA to migrate the schema and data from the NW database on Oracle to the Northwind database in SQL Server 2017
+
   - Fix data type errors reported during schema conversion
   - In SQL Server 2017, Microsoft now by default requires that all type of assemblies (SAFE, EXTERNAL_ACCESS, UNSAFE) are authorized for UNSAFE access. Add the `SSMA4OracleSQLServerCollections.NET` and `SSMA4OracleSQLServerExtensions.NET` assemblies to the SQLCLR whitelist for the SQL Server 2017 instance.
   - Execute the script below in SSMS for each assembly
-  
+
   Note: The binary value for each assembly can be obtained by saving the assemblies as a script in SSMA.
 
-    ```sql
-    USE master;
-    GO
+  ```sql
+  USE master;
+  GO
 
-    DECLARE @clrName nvarchar(4000) = '[INSERT ASSEMBLY NAME]'
-    DECLARE @asmBin varbinary(max) = [INSERT BINARY];
-    DECLARE @hash varbinary(64);
+  DECLARE @clrName nvarchar(4000) = '[INSERT ASSEMBLY NAME]'
+  DECLARE @asmBin varbinary(max) = [INSERT BINARY];
+  DECLARE @hash varbinary(64);
 
-    SELECT @hash = HASHBYTES('SHA2_512', @asmBin);
+  SELECT @hash = HASHBYTES('SHA2_512', @asmBin);
 
-    EXEC sys.sp_add_trusted_assembly @hash = @hash, @description = @clrName;
-    ```
+  EXEC sys.sp_add_trusted_assembly @hash = @hash, @description = @clrName;
+  ```
 
 #### Exit Criteria
 
@@ -515,7 +515,7 @@ In this exercise, you will modify the NorthwindMVC application, so it targets SQ
 
 - You can run the application and see the dashboard showing correctly, this time with data coming from SQL Server
 
-    ![This is a screenshot of the Northwind Traders Dashboard.](./media/northwind-traders-dashboard.png "View the dashboard")
+  ![This is a screenshot of the Northwind Traders Dashboard.](./media/northwind-traders-dashboard.png "View the dashboard")
 
 ## After the hands-on lab
 
@@ -529,4 +529,4 @@ In this exercise, you will delete any Azure resources that were created in suppo
 2. Search for the name of your research group, and select it from the list
 3. Select Delete in the command bar, and confirm the deletion by re-typing the Resource group name, and selecting Delete
 
-You should follow all steps provided *after* attending the Hands-on lab.
+You should follow all steps provided _after_ attending the Hands-on lab.

@@ -374,7 +374,7 @@ pgAdmin greatly simplifies database administration and configuration tasks by pr
 
 2. Download the **pgadmin4-4.22-x86.exe** file--not the one with the **.asc** extension.
 
-    ![Choosing the correct installer](./media/correct-pgadmin-installer.PNG)
+    ![Choosing the correct installer](./media/correct-pgadmin-installer.png)
 
 3. Once the installer launches, accept all defaults. Complete the installation.
 
@@ -492,7 +492,7 @@ ora2pg -t SHOW_VERSION -c config\ora2pg.conf
 
 7. We will also need to populate connection information for our Postgre instance. We will use the role we created in the previous task.
 
-    ![Populating connection information ](./media/ora2pg-conf-pgsql.png)
+    ![Populating connection information ](./media/ora2pg-conf-pgsql.PNG)
 
 8. We need to set the schema that we wish to migrate. In this scenario, we are migrating the NW schema.
 

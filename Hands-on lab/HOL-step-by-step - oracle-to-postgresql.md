@@ -313,7 +313,7 @@ In this exercise, you will configure Azure Database for PostgreSQL and Azure App
 
 We need to create a PostgreSQL instance and an App Service to host our application. Visual Studio integrates well with Microsoft Azure, simplifying application deployment. 
 
-1. As shown in **Before the HOL**, you will need to navigate to the **New** page accessed by selecting **+ Create a resource**. Then, navigate to **Databases** under the **Azure Marketplace** section. Select **Azure Database for PostgreSQL**.
+1. Just as you configured resources in **Before the HOL**, you will need to navigate to the **New** page accessed by selecting **+ Create a resource**. Then, navigate to **Databases** under the **Azure Marketplace** section. Select **Azure Database for PostgreSQL**.
 
     ![Navigating Azure Marketplace](./media/creating-new-postgresql-db.png)
 
@@ -321,7 +321,7 @@ We need to create a PostgreSQL instance and an App Service to host our applicati
 
     ![Choosing the right deployment option](./media/single-server-selection.PNG)
 
-3. Configure your instance to reside in the hands-on-lab-SUFFIX resource group. Enter a unique server name. Make sure to choose PostgreSQL version 11, not 10. As for the administrator credentials, we will be using **solldba** as the admin username, and **Password.1!!** as the admin password. Select **Review + create** once you are ready.
+3. Configure your instance to reside in the hands-on-lab-SUFFIX resource group. Enter a unique server name. Make sure to choose PostgreSQL version 11, not 10. As for the administrator credentials, we will be using **solldba** as the admin username, and we will set a secure password. Select **Review + create** once you are ready.
 
     ![Configuring instance details](./media/postgresql-config.PNG)
 
@@ -441,7 +441,7 @@ In this task, we will create the new application user and create the NW database
 
 7. Now, we will create a new role. The application will reference this role. Under your connection, right-select **Login/Group Roles**. Select **Create > Login/Group Role...**. Name the role **NW**. 
 
-8. Under **Definition**, provide a password. We will use **oracledemo123**. 
+8. Under **Definition**, provide a secure password.  
 
 9. Under **Privileges**, change the **Can login?** slider to the **Yes** position. 
 
@@ -457,20 +457,20 @@ Our configuration in pgAdmin is now complete.
 ora2pg allows database objects to be exported in multiple files, meaning that it is simple to organize and review changes. In this task, we will show you how to create this project structure.  
 
 1. Open a command prompt window and navigate to `C:\ora2pg`.
-```
-cd C:\ora2pg
-```
+    ```
+    cd C:\ora2pg
+    ```
 
 2. To create a project, we will use the ora2pg command with the --init_project flag. In the example below, our migration project is titled nw_migration.
-```
-ora2pg --init_project nw_migration
-```
+    ```
+    ora2pg --init_project nw_migration
+    ```
 
-In some cases, ora2pg may fail to find its configuration file. In scenarios such as these, you may need to provide the -c flag with the name of the actual configuration file in your ora2pg directory. For instance, **ora2pg.conf.dist** did not exist in my directory, but the file ora2pg_dist.conf was available.
+    > NOTE: In some cases, ora2pg may fail to find its configuration file. In scenarios such as these, you may need to provide the -c flag with the name of the actual configuration file in your ora2pg directory. For instance, **ora2pg.conf.dist** did not exist in my directory, but the file ora2pg_dist.conf was available.
 
-```
-ora2pg -c ora2pg_dist.conf --init_project nw_migration
-```
+    ```
+    ora2pg -c ora2pg_dist.conf --init_project nw_migration
+    ```
 
 3. Verify that the command succeded. There should be a folder with the same name as your migration project in the C:\ora2pg directory.
 
@@ -485,10 +485,10 @@ ora2pg -c ora2pg_dist.conf --init_project nw_migration
     ![Replacing values](./media/ora2pg-conf.png)
 
 6. Confirm that all information entered is correct. The command below should display the version of your local Oracle database. 
-```
-cd nw_migration
-ora2pg -t SHOW_VERSION -c config\ora2pg.conf
-```
+    ```
+    cd nw_migration
+    ora2pg -t SHOW_VERSION -c config\ora2pg.conf
+    ```
 
 7. We will also need to populate connection information for our Postgre instance. We will use the role we created in the previous task.
 
@@ -506,16 +506,16 @@ Migration reports tell us the "man-hours" required to fully migrate our applicat
 
 2. ora2pg provides a reporting functionality which displays information about the objects in the existing schema and the estimated effort required to ensure compatibility with PostgreSQL. The command below creates a report titled **6-23-report.html** in the reports folder (when executed within the `C:\ora2pg\nw_migration` directory). 
 
-```
-ora2pg -c config\ora2pg.conf -t SHOW_REPORT --estimate_cost --dump_as_html > reports\6-23-report.html
-```
->Note that the report displays information for the provided schema--in our case, we placed schema information in `config\ora2pg.conf` before executing the command. 
+    ```
+    ora2pg -c config\ora2pg.conf -t SHOW_REPORT --estimate_cost --dump_as_html > reports\6-23-report.html
+    ```
+    > Note that the report displays information for the provided schema--in our case, we placed schema information in `config\ora2pg.conf` before executing the command. 
 
-![Report Schema](./media/report-schema.PNG)
+    ![Report Schema](./media/report-schema.PNG)
 
-Of particular interest is the migration level. In our case, it is B-5, which implicates code rewriting, since there are multiple stored procedures which must be altered.
+    Of particular interest is the migration level. In our case, it is B-5, which implicates code rewriting, since there are multiple stored procedures which must be altered.
 
-![Migration level descrption](./media/report-migration-level.png)
+    ![Migration level descrption](./media/report-migration-level.png)
 
 This concludes creating a migration report and preparing the database for migration. Read on to complete the migration to Azure. 
 
@@ -532,57 +532,57 @@ In this task, we will migrate the database table schema, using ora2pg and psql, 
     ![Seperating table from index and constraints](./media/separating-table-from-index-and-constraint.PNG)
 
 2. Call the following command in the `C:\ora2pg\nw_migration` directory to obtain object schemas (table schemas will be created in a file called **NW-psql.sql**).
-```
-ora2pg -c config\ora2pg.conf -o NW-psql.sql -t TABLE -b schema\tables\
-```
+    ```
+    ora2pg -c config\ora2pg.conf -o NW-psql.sql -t TABLE -b schema\tables\
+    ```
 
-In our scenario, 13 tables are exported. If you see an unreasonably large number, verify that you provided a schema in the configuration file (see step 8 of the previous task). If all was successful, you will see four files in the **schema\tables** directory.
+    In our scenario, 13 tables are exported. If you see an unreasonably large number, verify that you provided a schema in the configuration file (see step 8 of the previous task). If all was successful, you will see four files in the **schema\tables** directory.
 
-![Schema files list](./media/schema-files.PNG)
+    ![Schema files list](./media/schema-files.PNG)
 
-> Note: Open the **schema\tables\NW-psql.sql** file. Notice that all table names are lowercase--using uppercase names for tables and/or columns will require quotations whenever referenced. Furthermore, ora2pg converts datatypes fairly well, but if you have strong knowledge of the stored data, you can modify types to improve performance. You can export individual table schemas in separate files to facilitate review.
+    > Note: Open the **schema\tables\NW-psql.sql** file. Notice that all table names are lowercase--using uppercase names for tables and/or columns will require quotations whenever referenced. Furthermore, ora2pg converts datatypes fairly well, but if you have strong knowledge of the stored data, you can modify types to improve performance. You can export individual table schemas in separate files to facilitate review.
 
 3. One way to execute a SQL file against a PostgreSQL database is through the **psql** utility. Luckily, it is available at the `C:\Program Files (x86)\pgAdmin 4\v4\runtime` directory. Just as we did in task 4, we recommend appending this location to the system PATH variable. Note that you will need to restart your command prompt windows for the change to take effect.
 
     ![Adding psql to PATH variable](./media/adding-psql-loc-to-path.png)
 
 4. Reopen the command prompt in the `C:\ora2pg\nw_migration` directory. Then, enter the following command to run the **NW-psql.sql** file to create tables in the **NW** database. Enter your database's DNS name as the value passed to the -h flag. If the connection is successful, you will be asked to enter your password. Then, the command prompt should show a sequence of **CREATE TABLE** statements. 
-```
-psql -U NW@northwind-oracle-to-psql -h northwind-oracle-to-psql.postgres.database.azure.com -d NW < schema\tables\NW-psql.sql
-```
+    ```
+    psql -U NW@[DB Name] -h [DB Name].postgres.database.azure.com -d NW < schema\tables\NW-psql.sql
+    ```
 
 5. Now, we will copy data into the created tables. We can use ora2pg for this purpose.
-```
-ora2pg -c config\ora2pg.conf -t COPY
-```
+    ```
+    ora2pg -c config\ora2pg.conf -t COPY
+    ```
 
 6. We will layer on constraints (not foreign keys).
-```
-psql -U NW@northwind-oracle-to-psql -h northwind-oracle-to-psql.postgres.database.azure.com -d NW < schema\tables\CONSTRAINTS_NW-psql.sql
-```
+    ```
+    psql -U NW@[DB Name] -h [DB Name].postgres.database.azure.com -d NW < schema\tables\CONSTRAINTS_NW-psql.sql
+    ```
 
 7. Add foreign keys.
-```
-psql -U NW@northwind-oracle-to-psql -h northwind-oracle-to-psql.postgres.database.azure.com -d NW < schema\tables\FKEYS_NW-psql.sql
-```
+    ```
+    psql -U NW@[DB Name] -h [DB Name].postgres.database.azure.com -d NW < schema\tables\FKEYS_NW-psql.sql
+    ```
 
 8. Layer on indexes.
-```
-psql -U NW@northwind-oracle-to-psql -h northwind-oracle-to-psql.postgres.database.azure.com -d NW < schema\tables\INDEXES_NW-psql.sql
-```
+    ```
+    psql -U NW@[DB Name] -h [DB Name].postgres.database.azure.com -d NW < schema\tables\INDEXES_NW-psql.sql
+    ```
 
 9. Before migrating views in the next task, let us verify that table data has been properly migrated. Enter pgAdmin and connect to the database as the NW user. To use its Query Tool, select **Query Tool** under the **Tools** dropdown.
 
     ![Entering query tool](./media/entering-query-tool.png)
 
 10. Enter the following query into the editor. Note that you may need to type it. 
-```sql
-SELECT CONCAT(firstname, ' ', lastname) as name, 
+    ```sql
+    SELECT CONCAT(firstname, ' ', lastname) as name, 
        territorydescription 
-FROM employees e 
+    FROM employees e 
      JOIN employeeterritories et ON e.employeeid = et.employeeid 
      JOIN territories t ON et.territoryid = t.territoryid;
-```
+    ```
 
 11. Execute the query.
 
@@ -599,12 +599,12 @@ Let's move on to migrating the views.
 Views are not referenced by the sample application, but we are including this task here to show you how to do it manually. When we migrate stored procedures, we will show you how to enable an extension that greatly simplifies the migration of objects which reference Oracle-specific functions.  
 
 1. Navigate to the  `C:\ora2pg\nw_migration\schema\views` directory, where we will run ora2pg and psql. 
-```
-cd schema\views
-ora2pg -c ..\..\config\ora2pg.conf -t VIEW -o NW-views.sql
-```
+    ```
+    cd schema\views
+    ora2pg -c ..\..\config\ora2pg.conf -t VIEW -o NW-views.sql
+    ```
 
->Note that views are exported into individual files. The file specified in the command (NW-views.sql) references the individual files. 
+    > Note: Views are exported into individual files. The file specified in the command (NW-views.sql) references the individual files. 
 
 2. Before we invoke NW-views.sql, we will need to make changes to four files. First, in **SALES_TOTALS_BY_AMOUNT_NW-views.sql**, replace the existing last line
 
@@ -639,17 +639,17 @@ ora2pg -c ..\..\config\ora2pg.conf -t VIEW -o NW-views.sql
     ![New view sales by category](./media/sales-by-category-view-new.png)
 
 6. Now that all modifications are complete, run the NW-views.sql file in psql. 
-```
-psql -U NW@northwind-oracle-to-psql -h northwind-oracle-to-psql.postgres.database.azure.com -d NW < NW-views.sql
-```
+    ```
+    psql -U NW@[DB Name] -h [DB Name].postgres.database.azure.com -d NW < NW-views.sql
+    ```
 
 7. With that, we have migrated views. Let's return to pgAdmin's Query Editor and test these migrated views. Utilize the query below, which will show data where **productsales** is greater than 5000. You can envision how this would be useful in an organization to identify successful items in a given year (1997).
 
-```sql
-SELECT *
-FROM product_sales_for_1997
-WHERE productsales > 5000;
-```
+    ```sql
+    SELECT *
+    FROM product_sales_for_1997
+    WHERE productsales > 5000;
+    ```
 
 8. When the query is executed, you should see the following result set, with 42 rows. This shows that we have successfully migrated the views. 
 
@@ -660,9 +660,9 @@ WHERE productsales > 5000;
 In this task, we will migrate a single stored procedure. To do this, we will be using the **orafce** utility, which provides functions that are compatible with Oracle code. We will then call the procedure and view its results using a refcursor. 
 
 1. Only one stored procedure **NW.SALESBYYEAR** is in use by the application. So, we will export this stored procedure from the Oracle database for analysis. Run the command below in `C:\ora2pg\nw_migration`.
-```
-ora2pg -c config\ora2pg.conf -t PROCEDURE -a SALESBYYEAR -o NW-proc.sql -b schema\procedures\
-```
+    ```
+    ora2pg -c config\ora2pg.conf -t PROCEDURE -a SALESBYYEAR -o NW-proc.sql -b schema\procedures\
+    ```
 
 2. Open `schema\procedures\NW-proc.sql`. Notice that ora2pg exported the Oracle procedure as a Postgre procedure. In some cases, ora2pg exports procedures as functions. Whether that is acceptable depends on if the object needs to return a value and if transactions must be defined within the object. Note that the exported stored procedure is defined as **SECURITY DEFINER**, removing support for transaction control.
 
@@ -679,22 +679,22 @@ A second detail to keep in mind is NULLs vs. empty strings. In PostgreSQL, they 
     ![New SP parameter list](./media/proc-param-list-new.png)
 
 4. A useful PostgreSQL extension that facilitates greater compatibility with Oracle database objects is **orafce**, which is provided with Azure Database for PostgreSQL. We need to enable it. So, navigate to pgAdmin, enter your master password, and connect to your PostgreSQL instance. Enter the following command into the query editor and execute it.
-```sql
-CREATE EXTENSION orafce;
-```
+    ```sql
+    CREATE EXTENSION orafce;
+    ```
 
 5. Now, you will need to execute the NW-proc.sql file against the PostgreSQL instance.
-```
-psql -U NW@northwind-oracle-to-psql -h northwind-oracle-to-psql.postgres.database.azure.com -d NW < schema\procedures\NW-proc.sql
-```
+    ```
+    psql -U NW@[DB Name] -h [DB Name].postgres.database.azure.com -d NW < schema\procedures\NW-proc.sql
+    ```
 
 6. Execute the following statements. Note that pgAdmin requires that each statement is executed independently. 
-```sql
-BEGIN;
-CALL salesbyyear('1996-01-01'::timestamp, '1999-01-01'::timestamp, 'cur_out');
-FETCH ALL FROM cur_out;
-COMMIT;
-```
+    ```sql
+    BEGIN;
+    CALL salesbyyear('1996-01-01'::timestamp, '1999-01-01'::timestamp, 'cur_out');
+    FETCH ALL FROM cur_out;
+    COMMIT;
+    ```
 
 7. If all is successful, 809 rows should be returned. You can observe part of the result set below (the result set is available after executing the FETCH statement).
 
@@ -705,13 +705,13 @@ COMMIT;
 In this task, we will be recreating the ADO.NET data models to accurately represent our PostgreSQL database's objects. Entity Framework leverages ADO.NET, allowing us to map database objects to classes.  
 
 1. First, install Entity Framework. To do so, navigate to the package manager console and enter the following command.
-```
-Install-Package EntityFramework
-```
+    ```
+    Install-Package EntityFramework
+    ```
 
-![Accessing the package under manager console](./media/accessing-package-manager-console.png)
+    ![Accessing the package under manager console](./media/accessing-package-manager-console.png)
 
->Note: We will be using Devart's dotConnect for PostgreSQL, which is an ADO.NET-compatible PostgreSQL driver. This will allow our application to connect to our Azure PostgreSQL instance. 
+    > Note: We will be using Devart's dotConnect for PostgreSQL, which is an ADO.NET-compatible PostgreSQL driver. This will allow our application to connect to our Azure PostgreSQL instance. 
 
 2. Navigate to <https://www.devart.com/dotconnect/postgresql/download.html>. Locate **dotConnect for PostgreSQL 7.17 Professional Trial**, and select **Get Trial**.
 
@@ -734,24 +734,24 @@ Install-Package EntityFramework
 7. Continue to the **Ready to Install** screen. Select **Install**. Select **Finish** once setup has completed.
 
 8. Reopen the Visual Studio solution. We will now modify the web.config file to use the Devart PostgreSQL driver. Under the `<providers>` node below the `<entityFramework>` node, add the following statement. Note that you will need to change the assembly version if you use updated DLLs. 
-```xml
-<provider invariantName="Devart.Data.PostgreSql" type="Devart.Data.PostgreSql.Entity.PgSqlEntityProviderServices, Devart.Data.PostgreSql.Entity.EF6, Version=7.17.1666.0, Culture=neutral, PublicKeyToken=09af7300eec23701" />
-``` 
+    ```xml
+    <provider invariantName="Devart.Data.PostgreSql" type="Devart.Data.PostgreSql.Entity.PgSqlEntityProviderServices, Devart.Data.PostgreSql.Entity.EF6, Version=7.17.1666.0, Culture=neutral, PublicKeyToken=09af7300eec23701" />
+    ``` 
 
-This is how the `<entityFramework>` section of the file should appear.
+    This is how the `<entityFramework>` section of the file should appear.
 
-![Adding providers](./media/adding-provider.png)
+    ![Adding providers](./media/adding-provider.png)
 
 9. We will need to make another change to Web.config. Under the `<DbProviderFactories>` node below the `<system.data>` node, add the following statements (the second statement should be added as a single line). Again, enter your version of the DLL.
 
-```xml
-<remove invariant="Devart.Data.PostgreSql" />
-<add name="dotConnect for PostgreSQL" invariant="Devart.Data.PostgreSql" description="Devart dotConnect for PostgreSQL" type="Devart.Data.PostgreSql.PgSqlProviderFactory, Devart.Data.PostgreSql, Version=7.17.1666.0, Culture=neutral, PublicKeyToken=09af7300eec23701" />
-```
+    ```xml
+    <remove invariant="Devart.Data.PostgreSql" />
+    <add name="dotConnect for PostgreSQL" invariant="Devart.Data.PostgreSql" description="Devart dotConnect for PostgreSQL" type="Devart.Data.PostgreSql.PgSqlProviderFactory, Devart.Data.PostgreSql, Version=7.17.1666.0, Culture=neutral, PublicKeyToken=09af7300eec23701" />
+    ```
 
 10. We will now need to add references to multiple assemblies. Under the **Solution Explorer**, right-click **References**. Then select **Add Reference...**.  Locate **Browse** on the left-hand side of the Reference Manager dialog box. Select **Browse** at the bottom right corner of the box. 
 
-![Reference manager](./media/reference-manager.png)
+    ![Reference manager](./media/reference-manager.png)
 
 11. The first assembly we will need is **Devart.Data.dll**. Navigate to `C:\Windows\assembly\GAC_MSIL\Devart.Data\[DATA DLL ASSEMBLY VERSION]` and select the DLL. Select **Add**.
 
@@ -781,7 +781,7 @@ This is how the `<entityFramework>` section of the file should appear.
 
     ![Changing the data source](./media/change-data-source.PNG)
 
-20. The **Connection Properties** box should open. Enter the DNS name of your Azure PostgreSQL database as the **Host**. Enter **NW@[DATABASE NAME]** as the **User Id**. Provide the user's **Password**. Then, select **Advanced...** at the bottom right corner of the box.
+20. The **Connection Properties** box should open. Enter the DNS name of your Azure PostgreSQL database as the **Host**. Enter **NW@[DB NAME]** as the **User Id**. Provide the user's **Password**. Then, select **Advanced...** at the bottom right corner of the box.
 
     ![Entering advanced properties](./media/entering-advanced-properties.png)
 
@@ -815,37 +815,37 @@ This is how the `<entityFramework>` section of the file should appear.
 
 29. Finally, navigate to **DataContext.cs**. Capitalize the property names (e.g. convert categories to CATEGORIES). There are multiple other changes you will need to make, mentioned below in the **Additional Notes** section. 
 
->**Additional Notes**\
-    - In EMPLOYEE.cs, capitalize the employee1 property, but do not provide a column attribute\
-    - In ORDER.cs, do not capitalize or provide an attribute for any properties following SHIPCOUNTRY\
-    - In ORDER_DETAILS.cs, do not capitalize and do not provide column attributes for the order and product properties\
-    - In PRODUCT.cs, capitalize the category and supplier properties, but do not provide attributes. Also, do not use CATEGORY as the property name--instead, write CATEGORy\
-    - In TERRITORY.cs, do not capitalize or provide an attribute for any properties following REGIONID\
-    - When in doubt if a column exists in the database, check the table schema created by ora2pg. Any columns in the database will require an attribute\
-    - **DataContext.cs changes:**\
-        - Modify e.employee1 to e.EMPLOYEE1 (line 36)\
-        - Modify e.reportsto to e.REPORTSTO (line 37)\
-        - Replace e.unitprice with e.UNITPRICE (line 45)\
-        - Replace e.freight with e.FREIGHT (line 49)\
-        - Replace e.shipvia with e.SHIPVIA (line 74)
+    >**Additional Notes**\
+        - In EMPLOYEE.cs, capitalize the employee1 property, but do not provide a column attribute\
+        - In ORDER.cs, do not capitalize or provide an attribute for any properties following SHIPCOUNTRY\
+        - In ORDER_DETAILS.cs, do not capitalize and do not provide column attributes for the order and product properties\
+        - In PRODUCT.cs, capitalize the category and supplier properties, but do not provide attributes. Also, do not use CATEGORY as the property name--instead, write CATEGORy\
+        - In TERRITORY.cs, do not capitalize or provide an attribute for any properties following REGIONID\
+        - When in doubt if a column exists in the database, check the table schema created by ora2pg. Any columns in the database will require an attribute\
+        - **DataContext.cs changes:**\
+            - Modify e.employee1 to e.EMPLOYEE1 (line 36)\
+            - Modify e.reportsto to e.REPORTSTO (line 37)\
+            - Replace e.unitprice with e.UNITPRICE (line 45)\
+            - Replace e.freight with e.FREIGHT (line 49)\
+            - Replace e.shipvia with e.SHIPVIA (line 74)
 
 30. We are nearly at the end - woohoo! Navigate to **HomeController.cs**. Replace the existing contents of the file with the following.
 
-```csharp
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Web.Mvc;
-using NorthwindMVC.Data;
-using NorthwindMVC.Models;
-using Oracle.ManagedDataAccess.Client;
-using Oracle.ManagedDataAccess.Types;
-using Devart.Data.PostgreSql;
-using System;
-using System.Collections.Generic;
+    ```csharp
+    using System.Data;
+    using System.Data.SqlClient;
+    using System.Linq;
+    using System.Web.Mvc;
+    using NorthwindMVC.Data;
+    using NorthwindMVC.Models;
+    using Oracle.ManagedDataAccess.Client;
+    using Oracle.ManagedDataAccess.Types;
+    using Devart.Data.PostgreSql;
+    using System;
+    using System.Collections.Generic;
 
-namespace NorthwindMVC.Controllers
-{
+    namespace NorthwindMVC.Controllers
+    {
     public class HomeController : Controller
     {
         private DataContext db = new DataContext();
@@ -929,7 +929,7 @@ namespace NorthwindMVC.Controllers
         }
     }
 }
-```
+    ```
 
 31. We will unpack the contents of this controller. First, we attach to the existing database connection and prepare to call the stored procedure by defining parameters. Since the stored procedure does not return data directly, we reference a refcursor (cur_OUT in the script), which allows us to extract data row by row (hence the while loop). We then define and execute a LINQ query, which encapsulates its results in objects of type SalesByYearViewModel. After this, we close the datareader (which allows us to pull data from the refcursor), commit the transaction, close the connection, and display the `Home\Index.cshtml` view. 
 

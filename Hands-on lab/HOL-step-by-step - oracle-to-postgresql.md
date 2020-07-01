@@ -1,4 +1,28 @@
-**Contents** 
+![Microsoft Cloud Workshops](https://github.com/Microsoft/MCW-Template-Cloud-Workshop/raw/master/Media/ms-cloud-workshop.png "Microsoft Cloud Workshops")
+
+<div class="MCWHeader1">
+Data Platform upgrade and migration for Oracle to PostgreSQL 
+</div>
+
+<div class="MCWHeader2">
+Hands-on lab step-by-step
+</div>
+
+<div class="MCWHeader3">
+July 2020
+</div>
+
+Information in this document, including URL and other Internet Web site references, is subject to change without notice. Unless otherwise noted, the example companies, organizations, products, domain names, e-mail addresses, logos, people, places, and events depicted herein are fictitious, and no association with any real company, organization, product, domain name, e-mail address, logo, person, place or event is intended or should be inferred. Complying with all applicable copyright laws is the responsibility of the user. Without limiting the rights under copyright, no part of this document may be reproduced, stored in or introduced into a retrieval system, or transmitted in any form or by any means (electronic, mechanical, photocopying, recording, or otherwise), or for any purpose, without the express written permission of Microsoft Corporation.
+
+Microsoft may have patents, patent applications, trademarks, copyrights, or other intellectual property rights covering subject matter in this document. Except as expressly provided in any written license agreement from Microsoft, the furnishing of this document does not give you any license to these patents, trademarks, copyrights, or other intellectual property.
+
+The names of manufacturers, products, or URLs are provided for informational purposes only and Microsoft makes no representations and warranties, either expressed, implied, or statutory, regarding these manufacturers or the use of the products with any Microsoft technologies. The inclusion of a manufacturer or product does not imply endorsement of Microsoft of the manufacturer or product. Links may be provided to third party sites. Such sites are not under the control of Microsoft and Microsoft is not responsible for the contents of any linked site or any link contained in a linked site, or any changes or updates to such sites. Microsoft is not responsible for webcasting or any other form of transmission received from any linked site. Microsoft is providing these links to you only as a convenience, and the inclusion of any link does not imply endorsement of Microsoft of the site or the products contained therein.
+
+© 2020 Microsoft Corporation. All rights reserved.
+
+Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/intellectualproperty/Trademarks/Usage/General.aspx> are trademarks of the Microsoft group of companies. All other trademarks are property of their respective owners.
+
+**Contents**
 
 - [Exercise 1: Setup Oracle 11g Express Edition](#exercise-1-setup-oracle-11g-express-edition)
     - [Task 1: Install Oracle XE](#task-1-install-oracle-xe)
@@ -269,7 +293,7 @@ WWI has provided you with a copy of their application, including a database scri
 
     - `6.northwind.oracle.constraints.sql
     
-### Exercise 2: Assess the Oracle 11g Database before Migrating to PostgreSQL
+## Exercise 2: Assess the Oracle 11g Database before Migrating to PostgreSQL
 Duration: 15 mins
 
 In this exercise, you will prepare the existing Oracle database for its migration to PostgreSQL. This will be done through updating statistics and identifying invalid objects. You will update statistics about the database as they become outdated as data volumes tend to change over time, as well as column charateristics. You will also identify invalid objects in the Oracle database that will not be exported over by ora2pg, the migration utility we will use. 
@@ -283,28 +307,28 @@ In this exercise, you will prepare the existing Oracle database for its migratio
     ![Creating new SQL file](./media/creating-new-sql-file.png)
 
 3. Now, you will populate the new file with the following statements:
-```sql
--- 11g script
-EXECUTE DBMS_STATS.GATHER_SCHEMA_STATS(ownname => 'NW');
-EXECUTE DBMS_STATS.GATHER_DATABASE_STATS;
-EXECUTE DBMS_STATS.GATHER_DICTIONARY_STATS;
-```
+    ```sql
+    -- 11g script
+    EXECUTE DBMS_STATS.GATHER_SCHEMA_STATS(ownname => 'NW');
+    EXECUTE DBMS_STATS.GATHER_DATABASE_STATS;
+    EXECUTE DBMS_STATS.GATHER_DICTIONARY_STATS;
+    ```
 4. Save the file as `update-llg-stats.sql` in the `C:\handsonlab\MCW-Data-Platform-upgrade-and-migration\Hands-on lab\lab-files\starter-project\Postgre Scripts` directory. Run the file as you did when you created database objects.
 
     ![The Execute Fusion script icon is highlighted on the Visual Studio toolbar.](./media/visual-studio-fusion-execute.png "Run the script")
 
 5. Now, we will utilize a query that lists database objects that are invalid, and hence unsupported by ora2pg, meaning that they will not be converted and exported. It is recommended to fix any errors and compile the objects before starting the migration process. Create a new file, titled `show-invalid-objects.sql`, in the same directory as the previous script. This simple query returns all invalid objects in the current schema.
 
-```sql
-SELECT owner, object_type, object_name
-FROM all_objects
-WHERE status = 'INVALID';
-```
+    ```sql
+    SELECT owner, object_type, object_name
+    FROM all_objects
+    WHERE status = 'INVALID';
+    ```
 6. As you can see, we do not have any invalid objects.
 
     ![Invalid objects](./media/invalid-objects.PNG)
 
-### Exercise 3: Prepare to Migrate the Oracle database to PostgreSQL
+## Exercise 3: Prepare to Migrate the Oracle database to PostgreSQL
 Duration: 2 hours
 
 In this exercise, you will configure Azure Database for PostgreSQL and Azure App Service, install and configure ora2pg and pgAdmin, and create an assessment report that outlines the difficulty of the migration process.
@@ -519,7 +543,7 @@ Migration reports tell us the "man-hours" required to fully migrate our applicat
 
 This concludes creating a migration report and preparing the database for migration. Read on to complete the migration to Azure. 
 
-### Exercise 4: Migrate the Database and Application 
+## Exercise 4: Migrate the Database and Application 
 Duration: 3.5 hours
 
 In this exercise, we will begin the migration of the database and the application. This includes migrating database objects, the data, application code, and finally, deploying to Azure App Service. 
@@ -846,89 +870,91 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
 
     namespace NorthwindMVC.Controllers
     {
-    public class HomeController : Controller
-    {
-        private DataContext db = new DataContext();
-
-        public ActionResult Index()
+        public class HomeController : Controller
         {
-            // Oracle
-            //var salesByYear = this.db.Database.SqlQuery<SALESBYYEAR>(
-            //    "BEGIN NW.SALESBYYEAR(:P_BEGIN_DATE, :P_END_DATE, :CUR_OUT); END;",
-            //    new OracleParameter("P_BEGIN_DATE", OracleDbType.TimeStamp, new OracleTimeStamp(1996, 1, 1), ParameterDirection.Input),
-            //    new OracleParameter("P_END_DATE", OracleDbType.TimeStamp, new OracleTimeStamp(1999, 12, 31), ParameterDirection.Input),
-            //    new OracleParameter("CUR_OUT", OracleDbType.RefCursor, ParameterDirection.Output)).ToList();
+            private DataContext db = new DataContext();
 
-            // SQL Server
-            //var salesByYear = this.db.Database.SqlQuery<SALESBYYEAR>(
-            //    "exec [NW].[SALESBYYEAR] @p_begin_date, @p_end_date ",
-            //    new SqlParameter("p_begin_date", "1996-1-1"),
-            //    new SqlParameter("p_end_date", "1999-1-1")).ToList();
-
-            // Create the command on the existing connection
-            PgSqlConnection connection = (PgSqlConnection)this.db.Database.Connection;
-            PgSqlCommand spCommand = connection.CreateCommand();
-            PgSqlParameter p_begin_date, p_end_date, cur_OUT;
-
-            spCommand.CommandText = "salesbyyear";
-            spCommand.CommandType = CommandType.StoredProcedure;
-
-            p_begin_date = spCommand.Parameters.Add("p_begin_date", PgSqlType.TimeStamp);
-            p_end_date = spCommand.Parameters.Add("p_end_date", PgSqlType.TimeStamp);
-            // cur_OUT will be cast to a PgSqlCursor later on 
-            cur_OUT = spCommand.Parameters.Add("cur_OUT", PgSqlType.VarChar);
-
-            p_begin_date.Direction = ParameterDirection.Input;
-            p_end_date.Direction = ParameterDirection.Input;
-            // There are no OUT parameters in PostgreSQL -- just INOUT
-            cur_OUT.Direction = ParameterDirection.InputOutput;
-
-            connection.Open();
-
-            spCommand.Prepare();
-
-            p_begin_date.Value = new PgSqlTimeStamp(DateTime.Parse("Jan 1, 1996"));
-            p_end_date.Value = new PgSqlTimeStamp(DateTime.Parse("Jan 1, 1999"));
-
-            // The cursor is only accessible within the transaction in which its stored procedure is executed
-            PgSqlTransaction t = connection.BeginTransaction();
-
-            spCommand.ExecuteNonQuery();
-
-            PgSqlCursor cursor = cur_OUT.PgSqlValue as PgSqlCursor;
-            PgSqlDataReader dataReader = cursor.GetDataReader();
-
-            List<SALESBYYEAR> salesByYear = new List<SALESBYYEAR>();
-
-            while (dataReader.Read())
+            public ActionResult Index()
             {
-                SALESBYYEAR yearlySales = new SALESBYYEAR();
-                yearlySales.ShippedDate = (DateTime)dataReader.GetValue(0);
-                yearlySales.ORDERID = Convert.ToDecimal(dataReader.GetValue(1));
-                yearlySales.SUBTOTAL = Convert.ToDecimal(dataReader.GetValue(2));
-                yearlySales.YEAR = Convert.ToInt32(dataReader.GetValue(3));
+                // Oracle
+                //var salesByYear = this.db.Database.SqlQuery<SALESBYYEAR>(
+                //    "BEGIN NW.SALESBYYEAR(:P_BEGIN_DATE, :P_END_DATE, :CUR_OUT); END;",
+                //    new OracleParameter("P_BEGIN_DATE", OracleDbType.TimeStamp, new OracleTimeStamp(1996, 1, 1),       
+                //                         ParameterDirection.Input),
+                //    new OracleParameter("P_END_DATE", OracleDbType.TimeStamp, new OracleTimeStamp(1999, 12, 31), 
+                //                         ParameterDirection.Input),
+                //    new OracleParameter("CUR_OUT", OracleDbType.RefCursor, ParameterDirection.Output)).ToList();
 
-                salesByYear.Add(yearlySales);
+                // SQL Server
+                //var salesByYear = this.db.Database.SqlQuery<SALESBYYEAR>(
+                //    "exec [NW].[SALESBYYEAR] @p_begin_date, @p_end_date ",
+                //    new SqlParameter("p_begin_date", "1996-1-1"),
+                //    new SqlParameter("p_end_date", "1999-1-1")).ToList();
+
+                // Create the command on the existing connection
+                PgSqlConnection connection = (PgSqlConnection)this.db.Database.Connection;
+                PgSqlCommand spCommand = connection.CreateCommand();
+                PgSqlParameter p_begin_date, p_end_date, cur_OUT;
+
+                spCommand.CommandText = "salesbyyear";
+                spCommand.CommandType = CommandType.StoredProcedure;
+
+                p_begin_date = spCommand.Parameters.Add("p_begin_date", PgSqlType.TimeStamp);
+                p_end_date = spCommand.Parameters.Add("p_end_date", PgSqlType.TimeStamp);
+                // cur_OUT will be cast to a PgSqlCursor later on 
+                cur_OUT = spCommand.Parameters.Add("cur_OUT", PgSqlType.VarChar);
+
+                p_begin_date.Direction = ParameterDirection.Input;
+                p_end_date.Direction = ParameterDirection.Input;
+                // There are no OUT parameters in PostgreSQL -- just INOUT
+                cur_OUT.Direction = ParameterDirection.InputOutput;
+
+                connection.Open();
+
+                spCommand.Prepare();
+
+                p_begin_date.Value = new PgSqlTimeStamp(DateTime.Parse("Jan 1, 1996"));
+                p_end_date.Value = new PgSqlTimeStamp(DateTime.Parse("Jan 1, 1999"));
+
+                // The cursor is only accessible within the transaction in which its stored procedure is executed
+                PgSqlTransaction t = connection.BeginTransaction();
+
+                spCommand.ExecuteNonQuery();
+
+                PgSqlCursor cursor = cur_OUT.PgSqlValue as PgSqlCursor;
+                PgSqlDataReader dataReader = cursor.GetDataReader();
+
+                List<SALESBYYEAR> salesByYear = new List<SALESBYYEAR>();
+
+                while (dataReader.Read())
+                {
+                    SALESBYYEAR yearlySales = new SALESBYYEAR();
+                    yearlySales.ShippedDate = (DateTime)dataReader.GetValue(0);
+                    yearlySales.ORDERID = Convert.ToDecimal(dataReader.GetValue(1));
+                    yearlySales.SUBTOTAL = Convert.ToDecimal(dataReader.GetValue(2));
+                    yearlySales.YEAR = Convert.ToInt32(dataReader.GetValue(3));
+
+                    salesByYear.Add(yearlySales);
+                }
+
+                var model = from r in salesByYear
+                            orderby r.YEAR
+                            group r by r.YEAR into grp
+                            select new SalesByYearViewModel { Year = grp.Key, Count = grp.Count() };
+
+                // Evaluates the LINQ query -- we want to pass data to our view
+                List<SalesByYearViewModel> data = model.ToList<SalesByYearViewModel>();
+
+                dataReader.Close();
+
+                t.Commit();
+
+                connection.Close();
+
+                return this.View(data);
             }
-
-            var model = from r in salesByYear
-                        orderby r.YEAR
-                        group r by r.YEAR into grp
-                        select new SalesByYearViewModel { Year = grp.Key, Count = grp.Count() };
-
-            // Evaluates the LINQ query -- we want to pass data to our view
-            List<SalesByYearViewModel> data = model.ToList<SalesByYearViewModel>();
-
-            dataReader.Close();
-
-            t.Commit();
-
-            connection.Close();
-
-            return this.View(data);
         }
     }
-}
     ```
 
 31. We will unpack the contents of this controller. First, we attach to the existing database connection and prepare to call the stored procedure by defining parameters. Since the stored procedure does not return data directly, we reference a refcursor (cur_OUT in the script), which allows us to extract data row by row (hence the while loop). We then define and execute a LINQ query, which encapsulates its results in objects of type SalesByYearViewModel. After this, we close the datareader (which allows us to pull data from the refcursor), commit the transaction, close the connection, and display the `Home\Index.cshtml` view. 

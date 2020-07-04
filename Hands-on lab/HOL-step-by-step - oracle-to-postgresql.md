@@ -9,7 +9,7 @@ Hands-on lab step-by-step
 </div>
 
 <div class="MCWHeader3">
-July 2020
+June 2020
 </div>
 
 Information in this document, including URL and other Internet Web site references, is subject to change without notice. Unless otherwise noted, the example companies, organizations, products, domain names, e-mail addresses, logos, people, places, and events depicted herein are fictitious, and no association with any real company, organization, product, domain name, e-mail address, logo, person, place or event is intended or should be inferred. Complying with all applicable copyright laws is the responsibility of the user. Without limiting the rights under copyright, no part of this document may be reproduced, stored in or introduced into a retrieval system, or transmitted in any form or by any means (electronic, mechanical, photocopying, recording, or otherwise), or for any purpose, without the express written permission of Microsoft Corporation.
@@ -32,23 +32,61 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
     - [Task 5: Configure the Starter Application to use Oracle](#task-5-configure-the-starter-application-to-use-oracle)
 
 - [Exercise 2: Assess the Oracle 11g Database before Migrating to PostgreSQL](#exercise-2-assess-the-oracle-11g-database-before-migrating-to-postgresql)
-    - [Task 1: Update Statistics and Identify Invalid Objects](#task-1-update-statistics-and-identify-invalid-objects)
-
+  - [Task 1: Update Statistics and Identify Invalid Objects](#task-1-update-statistics-and-identify-invalid-objects)
 - [Exercise 3: Prepare to Migrate the Oracle database to PostgreSQL](#exercise-3-prepare-to-migrate-the-oracle-database-to-postgresql)
-    - [Task 1: Create Azure Resources](#task-1-create-azure-resources)
-    - [Task 2: Configure the PostgreSQL server instance](#task-2-configure-the-postgresql-server-instance)
-    - [Task 3: Install pgAdmin on the LabVM](#task-3-install-pgadmin-on-the-labvm)
-    - [Task 4: Install ora2pg](#task-4-install-ora2pg)
-    - [Task 5: Prepare the Postgre instance using pgAdmin](#task-5-prepare-the-postgre-instance-using-pgadmin)
-    - [Task 6: Create an ora2pg project structure](#task-6-create-an-ora2pg-project-structure)
-    - [Task 7: Create a migration report](#task-7-create-a-migration-report)
-
+  - [Task 1: Create Azure Resources](#task-1-create-azure-resources)
+  - [Task 2: Configure the PostgreSQL server instance](#task-2-configure-the-postgresql-server-instance)
+  - [Task 3: Install pgAdmin on the LabVM](#task-3-install-pgadmin-on-the-labvm)
+  - [Task 4: Install ora2pg](#task-4-install-ora2pg)
+  - [Task 5: Prepare the PostgreSQL instance using pgAdmin](#task-5-prepare-the-postgresql-instance-using-pgadmin)
+  - [Task 6: Create an ora2pg project structure](#task-6-create-an-ora2pg-project-structure)
+  - [Task 7: Create a migration report](#task-7-create-a-migration-report)
 - [Exercise 4: Migrate the Database and Application](#exercise-4-migrate-the-database-and-application)
-    - [Task 1: Migrate the database table schema using ora2pg and psql and copy data into the database](#task-1-migrate-the-database-table-schema-using-ora2pg-and-psql-and-copy-data-into-the-database)
-    - [Task 2: Migrate views](#task-2-migrate-views)
-    - [Task 3: Migrate the Stored Procedure](#task-3-migrate-the-stored-procedure)
-    - [Task 4: Create new Entity Data Models and update the application on the Lab VM](#task-4-create-new-entity-data-models-and-update-the-application-on-the-lab-vm)
-    - [Task 5: Deploy the application to Azure](#task-5-deploy-the-application-to-azure)
+  - [Task 1: Migrate the database table schema using ora2pg and psql and copy data into the database](#task-1-migrate-the-database-table-schema-using-ora2pg-and-psql-and-copy-data-into-the-database)
+  - [Task 2: Migrate Views](#task-2-migrate-views)
+  - [Task 3: Migrate the Stored Procedure](#task-3-migrate-the-stored-procedure)
+  - [Task 4: Create new Entity Data Models and update the application on the Lab VM](#task-4-create-new-entity-data-models-and-update-the-application-on-the-lab-vm)
+  - [Task 5: Deploy the application to Azure](#task-5-deploy-the-application-to-azure)
+- [After the hands-on lab](#after-the-hands-on-lab)
+  - [Task 1: Delete the resource group](#task-1-delete-the-resource-group)
+
+- [Exercise 2: Assess the Oracle 11g Database before Migrating to PostgreSQL](#exercise-2-assess-the-oracle-11g-database-before-migrating-to-postgresql)
+  - [Task 1: Update Statistics and Identify Invalid Objects](#task-1-update-statistics-and-identify-invalid-objects)
+- [Exercise 3: Prepare to Migrate the Oracle database to PostgreSQL](#exercise-3-prepare-to-migrate-the-oracle-database-to-postgresql)
+  - [Task 1: Create Azure Resources](#task-1-create-azure-resources)
+  - [Task 2: Configure the PostgreSQL server instance](#task-2-configure-the-postgresql-server-instance)
+  - [Task 3: Install pgAdmin on the LabVM](#task-3-install-pgadmin-on-the-labvm)
+  - [Task 4: Install ora2pg](#task-4-install-ora2pg)
+  - [Task 5: Prepare the PostgreSQL instance using pgAdmin](#task-5-prepare-the-postgresql-instance-using-pgadmin)
+  - [Task 6: Create an ora2pg project structure](#task-6-create-an-ora2pg-project-structure)
+  - [Task 7: Create a migration report](#task-7-create-a-migration-report)
+- [Exercise 4: Migrate the Database and Application](#exercise-4-migrate-the-database-and-application)
+  - [Task 1: Migrate the database table schema using ora2pg and psql and copy data into the database](#task-1-migrate-the-database-table-schema-using-ora2pg-and-psql-and-copy-data-into-the-database)
+  - [Task 2: Migrate Views](#task-2-migrate-views)
+  - [Task 3: Migrate the Stored Procedure](#task-3-migrate-the-stored-procedure)
+  - [Task 4: Create new Entity Data Models and update the application on the Lab VM](#task-4-create-new-entity-data-models-and-update-the-application-on-the-lab-vm)
+  - [Task 5: Deploy the application to Azure](#task-5-deploy-the-application-to-azure)
+- [After the hands-on lab](#after-the-hands-on-lab)
+  - [Task 1: Delete the resource group](#task-1-delete-the-resource-group)
+
+- [Exercise 2: Assess the Oracle 11g Database before Migrating to PostgreSQL](#exercise-2-assess-the-oracle-11g-database-before-migrating-to-postgresql)
+  - [Task 1: Update Statistics and Identify Invalid Objects](#task-1-update-statistics-and-identify-invalid-objects)
+- [Exercise 3: Prepare to Migrate the Oracle database to PostgreSQL](#exercise-3-prepare-to-migrate-the-oracle-database-to-postgresql)
+  - [Task 1: Create Azure Resources](#task-1-create-azure-resources)
+  - [Task 2: Configure the PostgreSQL server instance](#task-2-configure-the-postgresql-server-instance)
+  - [Task 3: Install pgAdmin on the LabVM](#task-3-install-pgadmin-on-the-labvm)
+  - [Task 4: Install ora2pg](#task-4-install-ora2pg)
+  - [Task 5: Prepare the PostgreSQL instance using pgAdmin](#task-5-prepare-the-postgresql-instance-using-pgadmin)
+  - [Task 6: Create an ora2pg project structure](#task-6-create-an-ora2pg-project-structure)
+  - [Task 7: Create a migration report](#task-7-create-a-migration-report)
+- [Exercise 4: Migrate the Database and Application](#exercise-4-migrate-the-database-and-application)
+  - [Task 1: Migrate the database table schema using ora2pg and psql and copy data into the database](#task-1-migrate-the-database-table-schema-using-ora2pg-and-psql-and-copy-data-into-the-database)
+  - [Task 2: Migrate Views](#task-2-migrate-views)
+  - [Task 3: Migrate the Stored Procedure](#task-3-migrate-the-stored-procedure)
+  - [Task 4: Create new Entity Data Models and update the application on the Lab VM](#task-4-create-new-entity-data-models-and-update-the-application-on-the-lab-vm)
+  - [Task 5: Deploy the application to Azure](#task-5-deploy-the-application-to-azure)
+- [After the hands-on lab](#after-the-hands-on-lab)
+  - [Task 1: Delete the resource group](#task-1-delete-the-resource-group)
 
 - [After the hands-on lab](#after-the-hands-on-lab)
     - [Task 1: Delete the resource group](#task-1-delete-the-resource-group)
@@ -296,7 +334,7 @@ WWI has provided you with a copy of their application, including a database scri
 ## Exercise 2: Assess the Oracle 11g Database before Migrating to PostgreSQL
 Duration: 15 mins
 
-In this exercise, you will prepare the existing Oracle database for its migration to PostgreSQL. This will be done through updating statistics and identifying invalid objects. You will update statistics about the database as they become outdated as data volumes tend to change over time, as well as column charateristics. You will also identify invalid objects in the Oracle database that will not be exported over by ora2pg, the migration utility we will use. 
+In this exercise, you will prepare the existing Oracle database for its migration to PostgreSQL. Preparation involves two main steps. The first step is to update the database statistics. Statistics about the database become outdated as data volumes and activity change over time. Second, you will need to identify invalid objects in the Oracle database. The migration utility will not migrate invalid objects.
 
 ### Task 1: Update Statistics and Identify Invalid Objects
 
@@ -317,19 +355,20 @@ In this exercise, you will prepare the existing Oracle database for its migratio
 
     ![The Execute Fusion script icon is highlighted on the Visual Studio toolbar.](./media/visual-studio-fusion-execute.png "Run the script")
 
-5. Now, we will utilize a query that lists database objects that are invalid, and hence unsupported by ora2pg, meaning that they will not be converted and exported. It is recommended to fix any errors and compile the objects before starting the migration process. Create a new file, titled `show-invalid-objects.sql`, in the same directory as the previous script. This simple query returns all invalid objects in the current schema.
+5. Now, we will utilize a query that lists database objects that are invalid and unsupported by the ora2pg utility. It is recommended to fix any errors and compile the objects before starting the migration process. Create a new file named `show-invalid-objects.sql` and save it in the same directory. Run this query to find all of the invalid objects.
 
     ```sql
     SELECT owner, object_type, object_name
     FROM all_objects
     WHERE status = 'INVALID';
     ```
+
 6. As you can see, we do not have any invalid objects.
 
     ![Invalid objects](./media/invalid-objects.PNG)
 
 ## Exercise 3: Prepare to Migrate the Oracle database to PostgreSQL
-Duration: 2 hours
+Duration: 60 minutes
 
 In this exercise, you will configure Azure Database for PostgreSQL and Azure App Service, install and configure ora2pg and pgAdmin, and create an assessment report that outlines the difficulty of the migration process.
 
@@ -345,7 +384,14 @@ We need to create a PostgreSQL instance and an App Service to host our applicati
 
     ![Choosing the right deployment option](./media/single-server-selection.PNG)
 
-3. Configure your instance to reside in the hands-on-lab-SUFFIX resource group. Enter a unique server name. Make sure to choose PostgreSQL version 11, not 10. As for the administrator credentials, we will be using **solldba** as the admin username, and we will set a secure password. Select **Review + create** once you are ready.
+3. Create a new Azure Database for PostgreSQL resource. Use the following configuration values:
+   - **Resource group**: (same as Lab VM)
+   - **Server name**: Enter a unique server name.
+   - **Version**: 11
+   - **Administrator username**: solldba
+   - **Password**: (secure password)
+
+    Select **Review + create** button once you are ready.
 
     ![Configuring instance details](./media/postgresql-config.PNG)
 
@@ -388,39 +434,48 @@ In this task, we will be modifying the PostgreSQL instance to fit our needs.
 
     ![Adding IP addresses as an Access Rule](./media/adding-open-ip-address-range.png)
 
+    >**Note**: Do not use this type of rule for databases with sensitive data. You are allowing access from any IP address.
+
 ### Task 3: Install pgAdmin on the LabVM
 
-pgAdmin greatly simplifies database administration and configuration tasks by providing an intuitive GUI. Because of this, we will be using it to create a new application user and test the migration. 
+pgAdmin greatly simplifies database administration and configuration tasks by providing an intuitive GUI. Because of this, we will be using it to create a new application user and test the migration.
 
 1. You will need to navigate to <https://www.pgadmin.org/download/pgadmin-4-windows/> to obtain the latest version of pgAdmin 4, which, at the time of writing, is **v4.22**. Select the link to the installer, as shown below.
 
-    ![Install pgAdmin](./media/installing-pgadmin.PNG)
+    ![The screenshot shows the correct version of the pgAdmin utility to be installed.](./media/installing-pgadmin.PNG "pgAdmin version to be installed")
 
 2. Download the **pgadmin4-4.22-x86.exe** file--not the one with the **.asc** extension.
 
     ![Choosing the correct installer](./media/correct-pgadmin-installer.png)
 
-3. Once the installer launches, accept all defaults. Complete the installation.
+3. Once the installer launches, accept all defaults. Complete the installation steps.
 
-4. By default, pgAdmin opens automatically. If it does not, however, you can search for it using the Windows key. When launched, pgAdmin should open in Internet Explorer.
+4. The pgAdmin utility will open automatically in the browser.  To open manually, use the Windows Search utility.  Type `pgAdmin`.
 
-5. pgAdmin will prompt you to set a password to govern access to database credentials. I will use **Password.1!!** as my entry. Confirm your choice. For now, our configuration of pgAdmin is complete.
+   ![The screenshot shows pgAdmin in the Windows Search text box.](media/2020-07-04-12-45-20.png "Find pgAdmin manually")
+
+5. pgAdmin will prompt you to set a password to govern access to database credentials. Enter a password. Confirm your choice. For now, our configuration of pgAdmin is complete.
 
 ### Task 4: Install ora2pg
 
-ora2pg is the tool we will use to migrate database objects and data. Luckily, Microsoft's Data Migration Team has greatly simplified the process of obtaining this tool by providing the **installora2pg.ps1** script, available here <https://github.com/microsoft/DataMigrationTeam/blob/master/IP%20and%20Scripts/PostgreSQL%20Migration%20and%20Assessment%20Tools/installora2pg.ps1>. 
+The **ora2pg** is the tool we will use to migrate database objects and data. Microsoft's Data Migration Team has greatly simplified the process of obtaining this tool by providing the **installora2pg.ps1** script.
+ 
+ **Download**: <https://github.com/microsoft/DataMigrationTeam/blob/master/IP%20and%20Scripts/PostgreSQL%20Migration%20and%20Assessment%20Tools/installora2pg.ps1>.
 
 1. Copy Microsoft's script to the `C:\handsonlab\MCW-Data-Platform-upgrade-and-migration\Hands-on lab\lab-files\starter-project\Postgre Scripts` location.
 
-2. Navigate to the location mentioned above and right-select `installora2pg.ps1`. Then, select **Run with PowerShell**. 
+2. Navigate to the location mentioned above and right-select `installora2pg.ps1`. Then, select **Run with PowerShell**.
 
     ![Installing ora2pg](./media/running-ora2pg-install-script.png)
 
-3. After Perl is installed (about 5 minutes after starting the script), you will need to install the Oracle client library and SDK. To do this, you will first need to navigate to https://www.oracle.com/database/technologies/instant-client/winx64-64-downloads.html. Then, scroll to **Version 12.2.0.1.0**. Select the installer for the **Basic Package**. Feel free to download the zipped folder to your Downloads directory, since we will need to unzip it to a certain location. 
+3. Install the ora2pg utility dependencies.
+   - Install Perl. It will take five minutes.
+   - Install the Oracle client library and SDK. To do this, you will first need to navigate to https://www.oracle.com/database/technologies/instant-client/winx64-64-downloads.html. Then, scroll to **Version 12.2.X**. Select the installer for the **Basic Package**.
+   - Download the zip file.
 
     ![Downloading basic package](./media/basic-package.PNG)
 
-4. On the same Oracle page as above, again under the Version 12.2.0.1.0 section, locate the **SDK Package** installer under the **Development and Runtime - optional packages** section. Once more, feel free to keep the zipped file in the Downloads directory.
+4. On the same Oracle page as above, again under the version section, locate the **SDK Package** installer under the **Development and Runtime - optional packages** section. Once more, feel free to keep the zipped file in the Downloads directory.
 
     ![SDK Package download](./media/sdk-package.PNG)
 
@@ -430,15 +485,15 @@ ora2pg is the tool we will use to migrate database objects and data. Luckily, Mi
 
 6. Return to the PowerShell script. Press any key to terminate the script's execution. Launch the script once more. If the previous steps were successful, the script should be able to locate **oci.dll** under `C:\instantclient_12_2\oci.dll`.
 
-7. Once ora2pg installs, you will need to configure PATH variables. Search for **View advanced system settings** in Windows. Select the result, and the **System Properties** dialog box should open. By default, the **Advanced** tab should be showing, but if not, navigate to it. Then, select **Environment Variables...**. 
-    
+7. Once ora2pg installs, you will need to configure PATH variables. Search for **View advanced system settings** in Windows. Select the result, and the **System Properties** dialog box should open. By default, the **Advanced** tab should be showing, but if not, navigate to it. Then, select **Environment Variables...**.
+
     ![Entering environment labels](./media/enter-environment-variables.png)
 
 8. Under **System variables**, select **Path**. Select **Edit...**.
 
     ![Selecting correct path](./media/selecting-path.png)
 
-9. The **Edit environment variable** box should be displaying. Select **New**. Enter **C:\instantclient_12_2**. Repeat this process, but enter **%%PATH%%** instead.
+9.  The **Edit environment variable** box should be displaying. Select **New**. Enter **C:\instantclient_12_2**. Repeat this process, but enter **%%PATH%%** instead.
 
     ![Path variable configuration](./media/path-variable-configuration.png)
 
@@ -461,9 +516,9 @@ In this task, we will create the new application user and create the NW database
 
     ![Successful connection created](./media/successful-connection.PNG)
 
-6. To create a new database, right-select **Databases** under the connection you just created, and select **Create > Database...**. Name your database **NW** and save. 
+6. Create a new database. Right-click **Databases** under the connection you just created, and select **Create > Database...**. Name your database **NW** and save. 
 
-7. Now, we will create a new role. The application will reference this role. Under your connection, right-select **Login/Group Roles**. Select **Create > Login/Group Role...**. Name the role **NW**. 
+7. Create a new role. The application will reference this role. Under your connection, right-select **Login/Group Roles**. Select **Create > Login/Group Role...**. Name the role **NW**. 
 
 8. Under **Definition**, provide a secure password.  
 
@@ -473,15 +528,15 @@ In this task, we will create the new application user and create the NW database
 
 10. Finally, under **Membership**, select the **Roles** box and add the **azure_pg_admin** role. Do not select the checkbox next to the role name (this user will not be granting the azure_pg_admin role to others). Select **Save**.
 
-Our configuration in pgAdmin is now complete. 
-
+Our configuration in pgAdmin is now complete.
 
 ### Task 6: Create an ora2pg project structure
 
 ora2pg allows database objects to be exported in multiple files, meaning that it is simple to organize and review changes. In this task, we will show you how to create this project structure.  
 
 1. Open a command prompt window and navigate to `C:\ora2pg`.
-    ```
+
+    ```text
     cd C:\ora2pg
     ```
 
@@ -490,7 +545,7 @@ ora2pg allows database objects to be exported in multiple files, meaning that it
     ora2pg --init_project nw_migration
     ```
 
-    > NOTE: In some cases, ora2pg may fail to find its configuration file. In scenarios such as these, you may need to provide the -c flag with the name of the actual configuration file in your ora2pg directory. For instance, **ora2pg.conf.dist** did not exist in my directory, but the file ora2pg_dist.conf was available.
+    >**Note**: In some cases, ora2pg may fail to find its configuration file. In scenarios such as these, you may need to provide the -c flag with the name of the actual configuration file in your ora2pg directory. For instance, **ora2pg.conf.dist** did not exist in my directory, but the file ora2pg_dist.conf was available.
 
     ```
     ora2pg -c ora2pg_dist.conf --init_project nw_migration
@@ -500,7 +555,7 @@ ora2pg allows database objects to be exported in multiple files, meaning that it
 
     ![New project in directory](./media/ora2pg-new-project.png)
 
-4. Enter the project directory. Then, locate **config\ora2pg.conf**. Select the file to open it. If you are asked to select an application to open the file, select Notepad. We will need to collect multiple parameters of the local Oracle database to enter into the configuration file. These parameters are available by entering **lsnrctl status** into the command prompt, as seen in the following.
+4. Enter the project directory. Then, locate **config\ora2pg.conf**. Select the file to open it. If you are asked to select an application to open the file, select Notepad. We will need to collect multiple parameters of the local Oracle database to enter into the configuration file. These parameters are available by entering **lsnrctl status** into the command prompt.
 
     ![Database parameters](./media/database-parameter.png)
 
@@ -524,7 +579,7 @@ ora2pg allows database objects to be exported in multiple files, meaning that it
 
 ### Task 7: Create a migration report
 
-Migration reports tell us the "man-hours" required to fully migrate our application and components. This can be used as a planning tool to tell us how much effort we will need to migrate. Let's take a closer look. 
+The migration report tells us the "man-hours" required to fully migrate our application and components. The report will provide the user a relative complexity value.
 
 1. Navigate to the `C:\ora2pg\nw_migration` directory in command prompt.
 
@@ -533,7 +588,7 @@ Migration reports tell us the "man-hours" required to fully migrate our applicat
     ```
     ora2pg -c config\ora2pg.conf -t SHOW_REPORT --estimate_cost --dump_as_html > reports\6-23-report.html
     ```
-    > Note that the report displays information for the provided schema--in our case, we placed schema information in `config\ora2pg.conf` before executing the command. 
+    >**Note**: The report displays information for the provided schema--in our case, we placed schema information in `config\ora2pg.conf` before executing the command.
 
     ![Report Schema](./media/report-schema.PNG)
 
@@ -541,19 +596,19 @@ Migration reports tell us the "man-hours" required to fully migrate our applicat
 
     ![Migration level descrption](./media/report-migration-level.png)
 
-This concludes creating a migration report and preparing the database for migration. Read on to complete the migration to Azure. 
-
 ## Exercise 4: Migrate the Database and Application 
-Duration: 3.5 hours
+Duration: 90 minutes
 
 In this exercise, we will begin the migration of the database and the application. This includes migrating database objects, the data, application code, and finally, deploying to Azure App Service. 
 
 ### Task 1: Migrate the database table schema using ora2pg and psql and copy data into the database
 In this task, we will migrate the database table schema, using ora2pg and psql, which is a command-line utility that makes it easy to run SQL files against the database. 
 
-1. Now that we know what our migration entails from Excercise 3, we can start the migration by producing the DDL statements for objects. In almost all migration scenarios, it is advised that table, index, and constraint schemas are kept in separate files, since constraints should be applied to the target database only after tables are created and data copied. To enable this feature, open **config\ora2pg.conf**. Set **FILE_PER_CONSTRAINT**, **FILE_PER_INDEX**, **FILE_PER_FKEYS**, and **FILE_PER_TABLE** to 1.
+1. Exercise 3 covered planning and assessment steps.  To start the database migration, DDL statements must be created for all valid Oracle objects. 
 
-    ![Seperating table from index and constraints](./media/separating-table-from-index-and-constraint.PNG)
+   >**Note**: In almost all migration scenarios, it is advised that table, index, and constraint schemas are kept in separate files. For data migration performance reasons, constraints should be applied to the target database only after tables are created and data copied. To enable this feature, open **config\ora2pg.conf** file. Set **FILE_PER_CONSTRAINT**, **FILE_PER_INDEX**, **FILE_PER_FKEYS**, and **FILE_PER_TABLE** to 1.
+
+    ![Separating table from index and constraints](./media/separating-table-from-index-and-constraint.PNG)
 
 2. Call the following command in the `C:\ora2pg\nw_migration` directory to obtain object schemas (table schemas will be created in a file called **NW-psql.sql**).
     ```
@@ -564,9 +619,9 @@ In this task, we will migrate the database table schema, using ora2pg and psql, 
 
     ![Schema files list](./media/schema-files.PNG)
 
-    > Note: Open the **schema\tables\NW-psql.sql** file. Notice that all table names are lowercase--using uppercase names for tables and/or columns will require quotations whenever referenced. Furthermore, ora2pg converts datatypes fairly well, but if you have strong knowledge of the stored data, you can modify types to improve performance. You can export individual table schemas in separate files to facilitate review.
+    >**Note**: Open the **schema\tables\NW-psql.sql** file. Notice that all table names are lowercase--using uppercase names for tables and/or columns will require quotations whenever referenced. Furthermore, ora2pg converts data types fairly well. If you have strong knowledge of the stored data, you can modify types to improve performance. You can export individual table schemas in separate files to facilitate review.
 
-3. One way to execute a SQL file against a PostgreSQL database is through the **psql** utility. Luckily, it is available at the `C:\Program Files (x86)\pgAdmin 4\v4\runtime` directory. Just as we did in task 4, we recommend appending this location to the system PATH variable. Note that you will need to restart your command prompt windows for the change to take effect.
+3. Execute the PostgreSQL commands against the PostgreSQL database. You can use any PostgreSQL database client. One way to execute a SQL file against a PostgreSQL database is through the **psql** utility. Luckily, it is available at the `C:\Program Files (x86)\pgAdmin 4\v4\runtime` directory. Just as we did in task 4, we recommend appending this location to the system PATH variable. Note that you will need to restart your command prompt windows for the change to take effect.
 
     ![Adding psql to PATH variable](./media/adding-psql-loc-to-path.png)
 
@@ -595,7 +650,7 @@ In this task, we will migrate the database table schema, using ora2pg and psql, 
     psql -U NW@[DB Name] -h [DB Name].postgres.database.azure.com -d NW < schema\tables\INDEXES_NW-psql.sql
     ```
 
-9. Before migrating views in the next task, let us verify that table data has been properly migrated. Enter pgAdmin and connect to the database as the NW user. To use its Query Tool, select **Query Tool** under the **Tools** dropdown.
+9.  Before migrating views in the next task, let us verify that table data has been properly migrated. Enter pgAdmin and connect to the database as the NW user. To use its Query Tool, select **Query Tool** under the **Tools** dropdown.
 
     ![Entering query tool](./media/entering-query-tool.png)
 
@@ -615,8 +670,6 @@ In this task, we will migrate the database table schema, using ora2pg and psql, 
 12. Observe the following result set, which consists of 49 rows. It is available under the **Data Output** tab.If you were successsful, you should see an output similar to the following. 
 
     ![Result set from the select query](./media/select-query-result-set.PNG)
-
-Let's move on to migrating the views. 
 
 ### Task 2: Migrate Views
 
@@ -681,7 +734,7 @@ Views are not referenced by the sample application, but we are including this ta
 
 ### Task 3: Migrate the Stored Procedure
 
-In this task, we will migrate a single stored procedure. To do this, we will be using the **orafce** utility, which provides functions that are compatible with Oracle code. We will then call the procedure and view its results using a refcursor. 
+In this task, we will migrate a single stored procedure. To do this, we will be using the **orafce** extension utility, which provides functions that are compatible with Oracle code. We will then call the procedure and view its results using a refcursor. 
 
 1. Only one stored procedure **NW.SALESBYYEAR** is in use by the application. So, we will export this stored procedure from the Oracle database for analysis. Run the command below in `C:\ora2pg\nw_migration`.
     ```
@@ -708,11 +761,13 @@ A second detail to keep in mind is NULLs vs. empty strings. In PostgreSQL, they 
     ```
 
 5. Now, you will need to execute the NW-proc.sql file against the PostgreSQL instance.
-    ```
+
+    ```cmd
     psql -U NW@[DB Name] -h [DB Name].postgres.database.azure.com -d NW < schema\procedures\NW-proc.sql
     ```
 
-6. Execute the following statements. Note that pgAdmin requires that each statement is executed independently. 
+6. Execute the following statements. Note that pgAdmin requires that each statement is executed independently.
+
     ```sql
     BEGIN;
     CALL salesbyyear('1996-01-01'::timestamp, '1999-01-01'::timestamp, 'cur_out');
@@ -735,7 +790,7 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
 
     ![Accessing the package under manager console](./media/accessing-package-manager-console.png)
 
-    > Note: We will be using Devart's dotConnect for PostgreSQL, which is an ADO.NET-compatible PostgreSQL driver. This will allow our application to connect to our Azure PostgreSQL instance. 
+    >**Note**: We will be using Devart's dotConnect for PostgreSQL, which is an ADO.NET-compatible PostgreSQL driver. This will allow our application to connect to our Azure PostgreSQL instance. 
 
 2. Navigate to <https://www.devart.com/dotconnect/postgresql/download.html>. Locate **dotConnect for PostgreSQL 7.17 Professional Trial**, and select **Get Trial**.
 
@@ -835,7 +890,7 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
 
     ![Category properties](./media/categoryid-property.PNG)
 
->Note that ICollections do not need to be modified in any way. 
+    >**Note** that ICollections do not need to be modified in any way. 
 
 29. Finally, navigate to **DataContext.cs**. Capitalize the property names (e.g. convert categories to CATEGORIES). There are multiple other changes you will need to make, mentioned below in the **Additional Notes** section. 
 
@@ -853,7 +908,7 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
             - Replace e.freight with e.FREIGHT (line 49)\
             - Replace e.shipvia with e.SHIPVIA (line 74)
 
-30. We are nearly at the end - woohoo! Navigate to **HomeController.cs**. Replace the existing contents of the file with the following.
+30. Navigate to **HomeController.cs**. Replace the existing contents of the file with the following.
 
     ```csharp
     using System.Data;
@@ -957,7 +1012,7 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
     }
     ```
 
-31. We will unpack the contents of this controller. First, we attach to the existing database connection and prepare to call the stored procedure by defining parameters. Since the stored procedure does not return data directly, we reference a refcursor (cur_OUT in the script), which allows us to extract data row by row (hence the while loop). We then define and execute a LINQ query, which encapsulates its results in objects of type SalesByYearViewModel. After this, we close the datareader (which allows us to pull data from the refcursor), commit the transaction, close the connection, and display the `Home\Index.cshtml` view. 
+31. We will unpack the contents of this controller. First, we attach to the existing database connection and prepare to call the stored procedure by defining parameters. Since the stored procedure does not return data directly, we reference a refcursor (cur_OUT in the script), which allows us to extract data row by row (hence the while loop). We then define and execute a LINQ query, which encapsulates its results in objects of type SalesByYearViewModel. After this, we close the datareader (which allows us to pull data from the refcursor), commit the transaction, close the connection, and display the `Home\Index.cshtml` view.
 
 32. Open the file, `SALESBYYEAR.cs`, in the Models folder in the Solution Explorer.
 

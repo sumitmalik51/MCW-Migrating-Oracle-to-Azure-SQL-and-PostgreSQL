@@ -122,7 +122,7 @@ In this exercise, you will install Oracle XE on your Lab VM, load a sample datab
 
 7. Unzip the file, and navigate to the `DISK1` folder.
 
-8. Right-select `setup.exe`, and select **Run as administrator**.
+8. Right-click `setup.exe`, and select **Run as administrator**.
 
     ![In File Explorer, setup.exe is selected, and Run as administrator is highlighted in the shortcut menu.](./media/windows-file-menu-run-as-administrator.png "Run setup.exe as an administrator")
 
@@ -154,7 +154,7 @@ In this task, you will download and configure Oracle Data Access components so t
 
 4. When the download completes, extract the contents of the ZIP file to a local drive.
 
-5. Navigate to the folder containing the extracted ZIP file, and right-select `setup.exe`, then select **Run as administrator** to begin the installation.
+5. Navigate to the folder containing the extracted ZIP file, and right-click `setup.exe`, then select **Run as administrator** to begin the installation.
 
 6. Select **Next** to accept the default language, English, on the first screen.
 
@@ -280,7 +280,7 @@ WWI has provided you with a copy of their application, including a database scri
 
     ![Output is highlighted in the Output window.](./media/visual-studio-fusion-output-query-1.png "View the results")
 
-21. In the Database Explorer window, right-select on the **Northwind** connection, and select **Modify Connection** (If the Database Explorer is not already open, you can open it by selecting Fusion in the menu, then selecting Database Explorer).
+21. In the Database Explorer window, right-click on the **Northwind** connection, and select **Modify Connection** (If the Database Explorer is not already open, you can open it by selecting Fusion in the menu, then selecting Database Explorer).
 
     ![Modify Connection is highlighted in the submenu for the Northwind connection in the Database Explorer window.](./media/visual-studio-database-explorer-modify-connection.png "Modify Connection")
 
@@ -411,7 +411,7 @@ We need to create a PostgreSQL instance and an App Service to host our applicati
 
 8. Save the file and move it to `C:\handsonlab\MCW-Data-Platform-upgrade-and-migration\Hands-on lab\lab-files\starter-project`. Later, we will need this file to import into Visual Studio for deployment. 
 
-9. We need to ensure that Azure supports the version of .NET used in the solution. We will do this by changing the target framework on the solution to **.NET Framework 4.7.2**. Open the NorthwindMVC solution in Visual Studio. Right-select the NorthwindMVC project (not the solution) and select **Properties**. Find the **Target framework:** dropdown menu and select **.NET Framework 4.7.2**.
+9. We need to ensure that Azure supports the version of .NET used in the solution. We will do this by changing the target framework on the solution to **.NET Framework 4.7.2**. Open the NorthwindMVC solution in Visual Studio. Right-click the NorthwindMVC project (not the solution) and select **Properties**. Find the **Target framework:** dropdown menu and select **.NET Framework 4.7.2**.
 
     ![Window to change the target framework of the solution to .NET Framework 4.7.2](./media/changing-target-framework.PNG "Changing the target framework dropdown")
 
@@ -479,7 +479,7 @@ The **ora2pg** is the tool we will use to migrate database objects and data. Mic
 
     ![Screenshot to show the SDK Package download.](./media/sdk-package.PNG "SDK package download")
 
-5. Navigate to the directory where the zipped instant client packages reside. First, for the basic package, right-select it, and select **Extract All...**. When prompted to choose the destination directory, navigate to the `C:\` location. Finally, select **Extract**. Repeat this process for the zipped SDK.
+5. Navigate to the directory where the zipped instant client packages reside. First, for the basic package, right-click it, and select **Extract All...**. When prompted to choose the destination directory, navigate to the `C:\` location. Finally, select **Extract**. Repeat this process for the zipped SDK.
 
     ![Screenshot to show process of installing client and SDK Packages.](./media/installing-basic-instantclient-package.PNG "Client and SDK package downloads")
 
@@ -518,7 +518,7 @@ In this task, we will create the new application user and create the NW database
 
 6. Create a new database. Right-click **Databases** under the connection you just created, and select **Create > Database...**. Name your database **NW** and save. 
 
-7. Create a new role. The application will reference this role. Under your connection, right-select **Login/Group Roles**. Select **Create > Login/Group Role...**. Name the role **NW**. 
+7. Create a new role. The application will reference this role. Under your connection, right-click **Login/Group Roles**. Select **Create > Login/Group Role...**. Name the role **NW**. 
 
 8. Under **Definition**, provide a secure password.  
 

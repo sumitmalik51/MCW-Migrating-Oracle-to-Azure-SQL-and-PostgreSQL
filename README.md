@@ -43,6 +43,7 @@ At the end of this hands-on lab, you will be better able to design and build a d
 - Azure SQL Database
 - Azure SQL Data Warehouse
 - SQL Server on Azure Virtual Machines (SQL Server 2008 R2 and SQL Server 2017)
+- Azure Database for PostgreSQL
 - Data Migration Assistant (DMA)
 - SQL Server Management Studio (SSMS)
 - SQL Server Migration Assistant (SSMA)

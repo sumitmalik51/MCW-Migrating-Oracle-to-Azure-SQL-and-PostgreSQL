@@ -438,7 +438,7 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 
     **Products that can be used to migrate specific products:**
 
-    ![Products that can be used with Azure Database Migration Service are: SQL Server, Oracle, MySQL, PostgreSQL, mongoDB, and AWS and GCP products.](media/azure-dms-compatibility.PNG "Azure Database Migration Service (DMS)")
+    ![Products that can be used with Azure Database Migration Service are: SQL Server, Oracle, MySQL, PostgreSQL, mongoDB, and AWS and GCP products.](media/azure-dms-compatibility.png "Azure Database Migration Service (DMS)")
 
     **Diagram of possible disaster recovery solution feature Hyperscale (Citus) High Availability:**
 

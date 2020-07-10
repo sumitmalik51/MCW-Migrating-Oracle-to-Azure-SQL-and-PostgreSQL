@@ -623,6 +623,6 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 
 ## Customer quote (to be read back to the attendees at the end)
 
-"We are excited that a SQL Server environment will help our organization grow and prosper for many years into the future."
+"We are excited that a PostgreSQL environment will help our organization grow and prosper for many years into the future."
 
 Kathleen Sloan, CIO of World Wide Importers

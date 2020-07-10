@@ -182,7 +182,7 @@ Directions: With all participants at your table, respond to the following questi
 
 2. What are the PostgreSQL options for high availability?
 
-*Azure SQL Database POC*
+*Azure Database for PostgreSQL POC*
 
 1. Should they move to on-premises first?
 

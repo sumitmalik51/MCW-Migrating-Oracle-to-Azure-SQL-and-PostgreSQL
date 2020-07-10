@@ -252,7 +252,7 @@ Kathleen Sloan, the CIO of WWI, is looking to decrease their software license fe
 
 ### Infographic for common scenarios
 
-![This common scenario diagram includes the following elements: API App for vendor connections; Web App for Internet Sales Transactions; Oracle Forms App for inventory management; Oracle DB OLTP RAC Server; and Power BI and Excel for reporting of OLTP.](media/common-scenarios-oracle-to-postgresql.png "Common Scenario diagram")
+![This common scenario diagram includes the following elements: API App for vendor connections; Web App for Internet Sales Transactions; Oracle Forms App for inventory management; Oracle DB OLTP RAC Server; and Power BI and Excel for reporting of OLTP.](media/common-scenarios-oracle-to-postgresql.PNG "Common Scenario diagram")
 
 ## Step 2: Design a proof of concept solution
 
@@ -366,12 +366,8 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 | Migrate Oracle to Azure Database for PostgreSQL          | <https://datamigration.microsoft.com/scenario/oracle-to-azurepostgresql?step=1>                                                                |
 | Azure Database for PostgreSQL features                              | <https://azure.microsoft.com/en-us/services/postgresql/>  |
 | Older Oracle Forms Migration guide                       | <https://technet.microsoft.com/library/bb463141.aspx/> <https://www.microsoft.com/sql-server/sql-license-migration/>          |
-| Oracle License Assistance Program & Deployment Subsidies | <https://www.microsoft.com/sql-server/sql-license-migration/>                                                                 |
-| Data Migration Assistant blog                            | <https://blogs.msdn.microsoft.com/datamigration/dma/> <https://technet.microsoft.com/library/bb463141.aspx/>                  |
-| Database Experimentation Assistant (DEA)                 | <https://blogs.msdn.microsoft.com/datamigration/2016/10/24/database-experimentation-%20assistant-v1-0-preview>                |
 | Azure Database Migration Service Overview                | <https://docs.microsoft.com/azure/dms/dms-overview>                                                                           |
 | Differentiating Microsoft's database migration tools     | <https://blogs.msdn.microsoft.com/datamigration/2017/10/13/differentiating-microsofts-database-migration-tools-and-services/> |
-
 # Data Platform upgrade and migration whiteboard design session trainer guide
 
 ## Step 1: Review the customer case study

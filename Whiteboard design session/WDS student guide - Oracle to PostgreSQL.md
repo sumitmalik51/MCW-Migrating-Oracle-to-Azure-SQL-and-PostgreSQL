@@ -100,29 +100,31 @@ Kathleen Sloan, the CIO of WWI, is looking to decrease their software license fe
 
 1. Do we need to upgrade to on-premises PostgreSQL first or go can we go straight to Azure?
 
-2. Do we need to rewrite all our applications for Azure Database for PostgreSQL?
+2. Can we have two proofs-of-concept that demonstrate both migrations?
 
-3. Do we need to rewrite all our reports for Azure Database for PostgreSQL?
+3. Do we need to rewrite all our applications for Azure Database for PostgreSQL?
 
-4. Will our security migrate over from Oracle to Azure Database for PostgreSQL? How do we handle security in the new database?
+4. Do we need to rewrite all our reports for Azure Database for PostgreSQL?
 
-5. Do we need to invest in a JSON storage system for the JSON data we're storing from our vendor's web service?
+5. Will our security migrate over from Oracle to Azure Database for PostgreSQL? How do we handle security in the new database?
 
-6. What will we do if our audit logs fill up again? Will Azure Database for PostgreSQL crash the same way Oracle did?
+6. Do we need to invest in a JSON storage system for the JSON data we're storing from our vendor's web service?
 
-7. If we take advantage of new features, will our license costs keep ratcheting up and up? Will we have a dependable way of budgeting for this project?
+7. What will we do if our audit logs fill up again? Will Azure Database for PostgreSQL crash the same way Oracle did?
 
-8. Are there any Oracle features required by WWI for which Azure Database for PostgreSQL has no equivalent?
+8. If we take advantage of new features, will our license costs keep ratcheting up and up? Will we have a dependable way of budgeting for this project?
 
-9. Do we need to tell all our vendors that we're changing databases, so their integrations work?
+9. Are there any Oracle features required by WWI for which Azure Database for PostgreSQL has no equivalent?
 
-10. What will happen with Power BI?
+10. Do we need to tell all our vendors that we're changing databases, so their integrations work?
+
+11. What will happen with Power BI?
   
 
 
 ### Infographic for common scenarios
 
-![This common scenario diagram includes the following elements: API App for vendor connections; Web App for Internet Sales Transactions; Oracle Forms App for inventory management; Oracle DB OLTP RAC Server; SSRS 2008 for Reporting of OLTP, Data Warehouse, and Cubes; SSIS 2008 for a Data Warehouse Load; Excel for reporting; SQL Server 2008 R2 Standard for a Data Warehouse; and SSAS2008 for a Data Warehouse. ](media/common-scenarios-oracle-to-postgresql.png "Common Scenario diagram")
+![This common scenario diagram includes the following elements: API App for vendor connections; Web App for Internet Sales Transactions; Oracle Forms App for inventory management; Oracle DB OLTP RAC Server; SSRS 2008 for Reporting of OLTP, Data Warehouse, and Cubes; SSIS 2008 for a Data Warehouse Load; Excel for reporting; SQL Server 2008 R2 Standard for a Data Warehouse; and SSAS2008 for a Data Warehouse. ](media/common-scenarios-oracle-to-postgresql.PNG "Common Scenario diagram")
 
 ## Step 2: Design a proof of concept solution
 
@@ -169,12 +171,6 @@ Directions: With all participants at your table, respond to the following questi
 *Reporting*
 
 1. How can they discover which reports and Excel spreadsheets hitting the Oracle database need to be upgraded? What's a proper upgrade path?
-
-2. Are there any tools or processes that would make this easier? How does Azure Database Migration Service (DMS) compare to other database migration tools, such as Database Migration Assistant or the open-source ora2pg?
-
-3. What are the steps required to use the Azure Database Migration Service to perform a database migration?
-
-4. What are the post-upgrade steps we should consider in the POC? How would this address their concerns?
 
 *High Availability and Audit Table*
 
@@ -242,8 +238,5 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 | Migrate Oracle to Azure Database for PostgreSQL          | <https://datamigration.microsoft.com/scenario/oracle-to-azurepostgresql?step=1>                                                                |
 | Azure Database for PostgreSQL features                              | <https://azure.microsoft.com/en-us/services/postgresql/>  |
 | Older Oracle Forms Migration guide                       | <https://technet.microsoft.com/library/bb463141.aspx/> <https://www.microsoft.com/sql-server/sql-license-migration/>          |
-| Oracle License Assistance Program & Deployment Subsidies | <https://www.microsoft.com/sql-server/sql-license-migration/>                                                                 |
-| Data Migration Assistant blog                            | <https://blogs.msdn.microsoft.com/datamigration/dma/> <https://technet.microsoft.com/library/bb463141.aspx/>                  |
-| Database Experimentation Assistant (DEA)                 | <https://blogs.msdn.microsoft.com/datamigration/2016/10/24/database-experimentation-%20assistant-v1-0-preview>                |
 | Azure Database Migration Service Overview                | <https://docs.microsoft.com/azure/dms/dms-overview>                                                                           |
 | Differentiating Microsoft's database migration tools     | <https://blogs.msdn.microsoft.com/datamigration/2017/10/13/differentiating-microsofts-database-migration-tools-and-services/> |

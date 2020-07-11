@@ -206,7 +206,7 @@ WWI also has a new requirement. They have an existing web service that interacts
 
 Also, they had a significant outage last year because one of their audit tables ran out of space. They had to wait many hours to resolve the issue while their IT department scrambled to make space on an already overloaded Storage Area Network (SAN). They would like a full briefing on how to monitor that situation, so it doesn't happen again, and possible remedies if it does happen again. They would also like high availability to be built into the project plan and are wondering what additional fees that would incur.
 
-Kathleen Sloan, the CIO of WWI, is looking to decrease their software license fees, take advantage of a modern data warehouse, and provide a strong vision of availability for the future that can handle their momentous growth. She is sold on PostgreSQL, but her Oracle DBAs keep telling her that migration to PostgreSQL is simply impossible. They cite that they have never done it before. They say it's hard to find tools that make it possible. The Oracle DBAs say that PostgreSQL is not as high performing as Oracle, does not have great high availability like Oracle Real Application Clusters (RAC), and doesn't have a replacement for Oracle Forms. She's tired of hearing "no" whenever the topic is brought up and would love to prove them wrong. She is also exploring the cloud and is wondering if she can make a direct migration to a cloud database or if she must stay on-premises because of her requirements. She has seen PostgreSQL make tremendous gains in features over the last several versions, particularly in business intelligence.
+Kathleen Sloan, the CIO of WWI, is looking to decrease their software license fees, take advantage of a modern data warehouse, and provide a strong vision of availability for the future that can handle their momentous growth. She is sold on PostgreSQL, but her Oracle DBAs keep telling her that migration to PostgreSQL is simply impossible. They cite that they have never done it before. They say it's hard to find tools that make it possible. The Oracle DBAs say that PostgreSQL is not as high performing as Oracle, does not have great high availability like Oracle Real Application Clusters (RAC), and doesn't have a replacement for Oracle Forms. She's tired of hearing "no" whenever the topic is brought up and would love to prove them wrong. She is also exploring the cloud and is wondering if she can make a direct migration to a cloud database or if she must stay on-premises because of her requirements. She has seen PostgreSQL make tremendous gains in features over the last several versions, particularly in performance and high availability.
 
 ### Customer needs
 
@@ -234,7 +234,7 @@ Kathleen Sloan, the CIO of WWI, is looking to decrease their software license fe
 
 3. Do we need to rewrite all our applications for Azure Database for PostgreSQL?
 
-4. Do we need to rewrite all our reports for Azure Database for PostgreSQL?
+4. Do we need to rewrite all our reports in Power BI?
 
 5. Will our security migrate over from Oracle to Azure Database for PostgreSQL? How do we handle security in the new database?
 
@@ -519,7 +519,7 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 
    There is an Oracle Profiler API that can be used to store trace information into tables. These tables can be queried to see if we've identified all reports and artifacts that we need to upgrade.
 
-    We can put individual queries into stored procedures and upgrade them using ora2pg. We can also use ora2pg to upgrade individual queries to PL/pgSQL.
+    We can put individual queries into stored procedures and upgrade them using ora2pg. We can also use ora2pg to upgrade individual queries to PL/pgSQL. While ora2pg provides an excellent upgrade jump start, some additional code changes may be required.
 
 *High Availability and Audit Table*
 
@@ -603,7 +603,7 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 
     As mentioned previously, Microsoft has a transparent budgeting system with various options to optimize costs. First, support for a wide range of extensions allows you to easily implement features to meet the organization's data needs. You also have access to reserved pricing, which reduces the amount you spend hourly for compute resources.  
 
-9. Are there any Oracle features required by WWI for which SQL Server has no equivalent?
+9. Are there any Oracle features required by WWI for which PostgreSQL Server has no equivalent?
 
     Nothing in the customer requirements is exclusive to an Oracle ecosystem. Oracle Forms is unique to Oracle, but Microsoft offers several replacement technologies, including LightSwitch, SharePoint Forms, Power Apps, ASP.NET MVC, WPF Forms, and ASP.NET Core applications.
 
@@ -615,7 +615,8 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 
 11. What will happen with Power BI?
 
-    Developers can connect to Azure Database for PostgreSQL from Power BI desktop, but an on-premises data gateway must be deployed to create DirectQuery-based datasets accessible in Power BI service. Note that this dataset can then be shared by multiple BI developers through Live Connection.
+    Developers can connect to Azure Database for PostgreSQL from Power BI desktop. It is now possible to leverage DirectQuery to connect to Azure Database for PostgreSQL from Power BI Service.
+
 
 ## Customer quote (to be read back to the attendees at the end)
 

@@ -32,25 +32,67 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
     - [Task 5: Configure the Starter Application to use Oracle](#task-5-configure-the-starter-application-to-use-oracle)
 
 - [Exercise 2: Assess the Oracle 11g Database before Migrating to PostgreSQL](#exercise-2-assess-the-oracle-11g-database-before-migrating-to-postgresql)
-    - [Task 1: Update Statistics and Identify Invalid Objects](#task-1-update-statistics-and-identify-invalid-objects)
-
+  - [Task 1: Update Statistics and Identify Invalid Objects](#task-1-update-statistics-and-identify-invalid-objects)
 - [Exercise 3: Prepare to Migrate the Oracle database to PostgreSQL](#exercise-3-prepare-to-migrate-the-oracle-database-to-postgresql)
-    - [Task 1: Create Azure Resources](#task-1-create-azure-resources)
-    - [Task 2: Configure the PostgreSQL server instance](#task-2-configure-the-postgresql-server-instance)
-    - [Task 3: Install pgAdmin on the LabVM](#task-3-install-pgadmin-on-the-labvm)
-    - [Task 4: Install ora2pg](#task-4-install-ora2pg)
-    - [Task 5: Prepare the PostgreSQL instance using pgAdmin](#task-5-prepare-the-postgresql-instance-using-pgadmin)
-    - [Task 6: Create an ora2pg project structure](#task-6-create-an-ora2pg-project-structure)
-    - [Task 7: Create a migration report](#task-7-create-a-migration-report)
-
+  - [Task 1: Create Azure Resources](#task-1-create-azure-resources)
+  - [Task 2: Configure the PostgreSQL server instance](#task-2-configure-the-postgresql-server-instance)
+  - [Task 3: Install pgAdmin on the LabVM](#task-3-install-pgadmin-on-the-labvm)
+  - [Task 4: Install ora2pg](#task-4-install-ora2pg)
+  - [Task 5: Prepare the PostgreSQL instance using pgAdmin](#task-5-prepare-the-postgresql-instance-using-pgadmin)
+  - [Task 6: Create an ora2pg project structure](#task-6-create-an-ora2pg-project-structure)
+  - [Task 7: Create a migration report](#task-7-create-a-migration-report)
 - [Exercise 4: Migrate the Database and Application](#exercise-4-migrate-the-database-and-application)
-    - [Task 1: Migrate the basic database table schema using ora2pg](#task-1-migrate-the-basic-database-table-schema-using-ora2pg)
-    - [Task 2: Use Azure Database Migration Service to migrate table data](#task-2-use-azure-database-migration-service-to-migrate-table-data)
-    - [Task 3: Finishing the table schema migration](#task-3-finishing-the-table-schema-migration)
-    - [Task 4: Migrate Views](#task-4-migrate-views)
-    - [Task 5: Migrate the Stored Procedure](#task-5-migrate-the-stored-procedure)
-    - [Task 6: Create new Entity Data Models and update the application on the Lab VM](#task-6-create-new-entity-data-models-and-update-the-application-on-the-lab-vm)
-    - [Task 7: Deploy the application to Azure](#task-7-deploy-the-application-to-azure)
+  - [Task 1: Migrate the basic database table schema using ora2pg](#task-1-migrate-the-basic-database-table-schema-using-ora2pg)
+  - [Task 2: Use Azure Database Migration Service to migrate table data](#task-2-use-azure-database-migration-service-to-migrate-table-data)
+- [Task 3: Finishing the table schema migration](#task-3-finishing-the-table-schema-migration)
+  - [Task 4: Migrate Views](#task-4-migrate-views)
+  - [Task 5: Migrate the Stored Procedure](#task-5-migrate-the-stored-procedure)
+  - [Task 6: Create new Entity Data Models and update the application on the Lab VM](#task-6-create-new-entity-data-models-and-update-the-application-on-the-lab-vm)
+  - [Task 7: Deploy the application to Azure](#task-7-deploy-the-application-to-azure)
+- [After the hands-on lab](#after-the-hands-on-lab)
+  - [Task 1: Delete the resource group](#task-1-delete-the-resource-group)
+
+- [Exercise 2: Assess the Oracle 11g Database before Migrating to PostgreSQL](#exercise-2-assess-the-oracle-11g-database-before-migrating-to-postgresql)
+  - [Task 1: Update Statistics and Identify Invalid Objects](#task-1-update-statistics-and-identify-invalid-objects)
+- [Exercise 3: Prepare to Migrate the Oracle database to PostgreSQL](#exercise-3-prepare-to-migrate-the-oracle-database-to-postgresql)
+  - [Task 1: Create Azure Resources](#task-1-create-azure-resources)
+  - [Task 2: Configure the PostgreSQL server instance](#task-2-configure-the-postgresql-server-instance)
+  - [Task 3: Install pgAdmin on the LabVM](#task-3-install-pgadmin-on-the-labvm)
+  - [Task 4: Install ora2pg](#task-4-install-ora2pg)
+  - [Task 5: Prepare the PostgreSQL instance using pgAdmin](#task-5-prepare-the-postgresql-instance-using-pgadmin)
+  - [Task 6: Create an ora2pg project structure](#task-6-create-an-ora2pg-project-structure)
+  - [Task 7: Create a migration report](#task-7-create-a-migration-report)
+- [Exercise 4: Migrate the Database and Application](#exercise-4-migrate-the-database-and-application)
+  - [Task 1: Migrate the basic database table schema using ora2pg](#task-1-migrate-the-basic-database-table-schema-using-ora2pg)
+  - [Task 2: Use Azure Database Migration Service to migrate table data](#task-2-use-azure-database-migration-service-to-migrate-table-data)
+- [Task 3: Finishing the table schema migration](#task-3-finishing-the-table-schema-migration)
+  - [Task 4: Migrate Views](#task-4-migrate-views)
+  - [Task 5: Migrate the Stored Procedure](#task-5-migrate-the-stored-procedure)
+  - [Task 6: Create new Entity Data Models and update the application on the Lab VM](#task-6-create-new-entity-data-models-and-update-the-application-on-the-lab-vm)
+  - [Task 7: Deploy the application to Azure](#task-7-deploy-the-application-to-azure)
+- [After the hands-on lab](#after-the-hands-on-lab)
+  - [Task 1: Delete the resource group](#task-1-delete-the-resource-group)
+
+- [Exercise 2: Assess the Oracle 11g Database before Migrating to PostgreSQL](#exercise-2-assess-the-oracle-11g-database-before-migrating-to-postgresql)
+  - [Task 1: Update Statistics and Identify Invalid Objects](#task-1-update-statistics-and-identify-invalid-objects)
+- [Exercise 3: Prepare to Migrate the Oracle database to PostgreSQL](#exercise-3-prepare-to-migrate-the-oracle-database-to-postgresql)
+  - [Task 1: Create Azure Resources](#task-1-create-azure-resources)
+  - [Task 2: Configure the PostgreSQL server instance](#task-2-configure-the-postgresql-server-instance)
+  - [Task 3: Install pgAdmin on the LabVM](#task-3-install-pgadmin-on-the-labvm)
+  - [Task 4: Install ora2pg](#task-4-install-ora2pg)
+  - [Task 5: Prepare the PostgreSQL instance using pgAdmin](#task-5-prepare-the-postgresql-instance-using-pgadmin)
+  - [Task 6: Create an ora2pg project structure](#task-6-create-an-ora2pg-project-structure)
+  - [Task 7: Create a migration report](#task-7-create-a-migration-report)
+- [Exercise 4: Migrate the Database and Application](#exercise-4-migrate-the-database-and-application)
+  - [Task 1: Migrate the basic database table schema using ora2pg](#task-1-migrate-the-basic-database-table-schema-using-ora2pg)
+  - [Task 2: Use Azure Database Migration Service to migrate table data](#task-2-use-azure-database-migration-service-to-migrate-table-data)
+- [Task 3: Finishing the table schema migration](#task-3-finishing-the-table-schema-migration)
+  - [Task 4: Migrate Views](#task-4-migrate-views)
+  - [Task 5: Migrate the Stored Procedure](#task-5-migrate-the-stored-procedure)
+  - [Task 6: Create new Entity Data Models and update the application on the Lab VM](#task-6-create-new-entity-data-models-and-update-the-application-on-the-lab-vm)
+  - [Task 7: Deploy the application to Azure](#task-7-deploy-the-application-to-azure)
+- [After the hands-on lab](#after-the-hands-on-lab)
+  - [Task 1: Delete the resource group](#task-1-delete-the-resource-group)
 
 - [After the hands-on lab](#after-the-hands-on-lab)
     - [Task 1: Delete the resource group](#task-1-delete-the-resource-group)
@@ -182,33 +224,33 @@ In this task, you will install a third-party extension to Visual Studio to enabl
 
 ### Task 4: Create the Northwind database in Oracle 11g XE
 
-WWI has provided you with a copy of their application, including a database script to create their Oracle database. They have asked that you use this as a starting point for migrating their database and application to PostGre SQL. In this task, you will create a connection to the Oracle database on your Lab VM, and create a database called Northwind.
+WWI has provided you with a copy of their application, including a database script to create their Oracle database. They have asked that you use this as a starting point for migrating their database and application to Azure Database for PostgreSQL. In this task, you will create a connection to the Oracle database on your Lab VM, and create a database called Northwind.
 
 1. Navigate to the Lab VM and download the starter project by downloading a .zip copy of the Data Platform upgrade and migration project from the GitHub repo.
 
-6. In a web browser, navigate to the [Data Platform upgrade and migration MCW repo](https://github.com/Microsoft/MCW-Data-Platform-upgrade-and-migration)
+2. . In a web browser, navigate to the [Data Platform upgrade and migration MCW repo](https://github.com/Microsoft/MCW-Data-Platform-upgrade-and-migration)
 
-7. On the repo page, select **Clone or download**, then select **Download ZIP**.
+3. On the repo page, select **Clone or download**, then select **Download ZIP**.
 
     ![Download .zip containing the Data Platform upgrade and migration repository.](media/git-hub-download-repo.png "Download ZIP")
 
-8. Unzip the contents to **C:\handsonlab**.
+4. Unzip the contents to **C:\handsonlab**.
 
-9. Within the **handsonlab** folder, navigate to the folder `MCW-Data-Platform-upgrade-and-migration-master\Hands-on lab\lab-files\starter-project`, and double-select `NorthwindMVC.sln` to open the project in Visual Studio 2019.
+5. Within the **handsonlab** folder, navigate to the folder `MCW-Data-Platform-upgrade-and-migration-master\Hands-on lab\lab-files\starter-project`, and double-select `NorthwindMVC.sln` to open the project in Visual Studio 2019.
 
-10. If prompted for how you want to open the file, select **Visual Studio 2019**, and select **OK**.
+6. If prompted for how you want to open the file, select **Visual Studio 2019**, and select **OK**.
 
-11. Sign in to Visual Studio (or create an account if you don't have one), when prompted.
+7. Sign in to Visual Studio (or create an account if you don't have one), when prompted.
 
-12. At the Security Warning screen, uncheck **Ask me for every project in this solution**, and select **OK**.
+8. At the Security Warning screen, uncheck **Ask me for every project in this solution**, and select **OK**.
 
     ![Ask me for every project in this solution is cleared and OK is selected on the Security Warning screen.](./media/visual-studio-security-warning.png "Clear Ask me for every project in this solution")
 
-13. Once then the solution is open in Visual Studio, select the **Extensions -> Fusion** menu, and then select **New Connection**.
+9. Once then the solution is open in Visual Studio, select the **Extensions -> Fusion** menu, and then select **New Connection**.
 
     ![New Connection is highlighted in the Fusion menu in Visual Studio.](./media/visual-studio-fusion-menu-new-connection.png "Select New Connection")
 
-14. In the Database Connection properties dialog, set the following values:
+10. In the Database Connection properties dialog, set the following values:
 
     - **Host**: localhost
     - **Port**: Leave 1521 selected.
@@ -221,54 +263,54 @@ WWI has provided you with a copy of their application, including a database scri
 
     ![The information above is entered in the Database Connection Properties * Oracle dialog box, and OK is selected at the bottom.](./media/visual-studio-fusion-new-database-connection.png "Specify the settings")
 
-15. Select **Test Connection** to verify the settings are correct, and select **OK** to close the popup.
+11. Select **Test Connection** to verify the settings are correct, and select **OK** to close the popup.
 
-16. Select **OK** to create the Database Connection.
+12. Select **OK** to create the Database Connection.
 
-17. You will now see the Northwind connection in the Database Explorer window.
+13. You will now see the Northwind connection in the Database Explorer window.
 
     ![The Northwind connection is selected in the Database Explorer window.](./media/visual-studio-fusion-database-explorer.png "View the Northwind connection")
 
-18. In Visual Studio, select **File** in the menu, then select **Open File**, and navigate to `C:\handsonlab\MCW-Data-Platform-upgrade-and-migration-master\Hands-on lab\lab-files\starter-project\Oracle Scripts\`, select the file `1.northwind.oracle.schema.sql`, and then select **Open**.
+14. In Visual Studio, select **File** in the menu, then select **Open File**, and navigate to `C:\handsonlab\MCW-Data-Platform-upgrade-and-migration-master\Hands-on lab\lab-files\starter-project\Oracle Scripts\`, select the file `1.northwind.oracle.schema.sql`, and then select **Open**.
 
     ![The file, 1.northwind.oracle.schema.sql, is selected and highlighted in the Open File window.](./media/visual-studio-open-file.png "Open File dialog")
 
     > **NOTE**: You may receive a notification that your Fusion trial has expired when you do this. This can be ignored for this hands-on lab. Close that dialog, and continue to the query window that opens in Visual Studio.
 
-19. Select the **Execute** Fusion script button on the Visual Studio toolbar to run the SQL script.
+15. Select the **Execute** Fusion script button on the Visual Studio toolbar to run the SQL script.
 
     ![The Execute Fusion script icon is highlighted on the Visual Studio toolbar.](./media/visual-studio-fusion-execute.png "Run the script")
 
-20. The results of execution can be viewed in the Output window, found at the bottom left of the Visual Studio window.
+16. The results of execution can be viewed in the Output window, found at the bottom left of the Visual Studio window.
 
     ![Output is highlighted in the Output window.](./media/visual-studio-fusion-output-query-1.png "View the results")
 
-21. In the Database Explorer window, right-click on the **Northwind** connection, and select **Modify Connection** (If the Database Explorer is not already open, you can open it by selecting Fusion in the menu, then selecting Database Explorer).
+17. In the Database Explorer window, right-click on the **Northwind** connection, and select **Modify Connection** (If the Database Explorer is not already open, you can open it by selecting Fusion in the menu, then selecting Database Explorer).
 
     ![Modify Connection is highlighted in the submenu for the Northwind connection in the Database Explorer window.](./media/visual-studio-database-explorer-modify-connection.png "Modify Connection")
 
-22. In the **Modify Connection dialog**, change the username and password as follows:
+18. In the **Modify Connection dialog**, change the username and password as follows:
 
     - **Username**: NW
     - **Password**: oracledemo123
 
-23. Select **Test Connection** to verify the new credentials work.
+19. Select **Test Connection** to verify the new credentials work.
 
     ![The information above is entered and highlighted in the Database Connection Properties * Oracle dialog box, and Test Connection is selected at the bottom.](./media/visual-studio-database-explorer-modify-connection-update.png "Specify the settings")
 
-24. Select **OK** to close the Database Connection Properties dialog.
+20. Select **OK** to close the Database Connection Properties dialog.
 
-25. Select the **Open File** icon on the Visual Studio toolbar.
+21. Select the **Open File** icon on the Visual Studio toolbar.
 
     ![The Open File icon is highlighted on the Visual Studio toolbar.](./media/visual-studio-toolbar-open-file.png "Select Open File")
 
-26. In the Open File dialog, navigate to `C:\handsonlab\MCW-Data-Platform-upgrade-and-migration-master\Hands-on lab\lab-files\starter-project\Oracle Scripts`, select the file `2.northwind.oracle.tables.views.sql`, and then select **Open**.
+22. In the Open File dialog, navigate to `C:\handsonlab\MCW-Data-Platform-upgrade-and-migration-master\Hands-on lab\lab-files\starter-project\Oracle Scripts`, select the file `2.northwind.oracle.tables.views.sql`, and then select **Open**.
 
-27. As you did previously, select the **Execute** Fusion script button on the toolbar, and view the results of the execution in the Output pane.
+23. As you did previously, select the **Execute** Fusion script button on the toolbar, and view the results of the execution in the Output pane.
 
     ![The Execute Fusion script icon is highlighted on the Visual Studio toolbar.](./media/visual-studio-fusion-execute.png "Run the script")
 
-28. Repeat steps 26 - 27, replacing the file name in step 26 with each of the following:
+24. Repeat steps 26 - 27, replacing the file name in step 26 with each of the following:
 
     - `3.northwind.oracle.packages.sql`
 
@@ -293,8 +335,9 @@ WWI has provided you with a copy of their application, including a database scri
         ![This is a screenshot of the Execute succeeded message in the output window.](./media/visual-studio-fusion-query-completed.png "Execute succeeded message")
 
     - `6.northwind.oracle.constraints.sql
-    
+
 ## Exercise 2: Assess the Oracle 11g Database before Migrating to PostgreSQL
+
 Duration: 15 mins
 
 In this exercise, you will prepare the existing Oracle database for its migration to PostgreSQL. Preparation involves two main steps. The first step is to update the database statistics. Statistics about the database become outdated as data volumes and activity change over time. Second, you will need to identify invalid objects in the Oracle database. The migration utility will not migrate invalid objects.
@@ -308,13 +351,14 @@ In this exercise, you will prepare the existing Oracle database for its migratio
     ![This is a screenshot of the window to create new SQL file.](./media/creating-new-sql-file.png "Creating new SQL file in Visual Studio")
 
 3. Now, you will populate the new file with the following statements:
-    
+
     ```sql
     -- 11g script
     EXECUTE DBMS_STATS.GATHER_SCHEMA_STATS(ownname => 'NW');
     EXECUTE DBMS_STATS.GATHER_DATABASE_STATS;
     EXECUTE DBMS_STATS.GATHER_DICTIONARY_STATS;
     ```
+
 4. Save the file as `update-llg-stats.sql` in the `C:\handsonlab\MCW-Data-Platform-upgrade-and-migration\Hands-on lab\lab-files\starter-project\Postgre Scripts` directory. Run the file as you did when you created database objects.
 
     ![The Execute Fusion script icon is highlighted on the Visual Studio toolbar.](./media/visual-studio-fusion-execute.png "Run the script")
@@ -332,19 +376,20 @@ In this exercise, you will prepare the existing Oracle database for its migratio
     ![Screenshot showing the result of zero invalid objects.](./media/invalid-objects.PNG "No invalid objects")
 
 ## Exercise 3: Prepare to Migrate the Oracle database to PostgreSQL
+
 Duration: 60 minutes
 
 In this exercise, you will configure Azure Database for PostgreSQL and Azure App Service, install and configure ora2pg and pgAdmin, and create an assessment report that outlines the difficulty of the migration process.
 
 ### Task 1: Create Azure Resources
 
-We need to create a PostgreSQL instance and an App Service to host our application. Visual Studio integrates well with Microsoft Azure, simplifying application deployment. 
+We need to create a PostgreSQL instance and an App Service to host our application. Visual Studio integrates well with Microsoft Azure, simplifying application deployment.
 
 1. Just as you configured resources in **Before the HOL**, you will need to navigate to the **New** page accessed by selecting **+ Create a resource**. Then, navigate to **Databases** under the **Azure Marketplace** section. Select **Azure Database for PostgreSQL**.
 
     ![Navigating Azure Marketplace to Azure Database for Postgre SQL, which has been highlighted.](./media/creating-new-postgresql-db.png "Azure Database for Postgre SQL")
 
-2. There are two deployment options: **Single Server** and **Hyperscale (Citus)**. Single Server is best suited for traditional transactional workloads whereas Hyperscale is best suited for ultra-high-performance, multi-tenant applications. For our simple application, we will be utilizing a single server for our database. 
+2. There are two deployment options: **Single Server** and **Hyperscale (Citus)**. Single Server is best suited for traditional transactional workloads whereas Hyperscale is best suited for ultra-high-performance, multi-tenant applications. For our simple application, we will be utilizing a single server for our database.
 
     ![Screenshot of choosing the correct single server option.](./media/single-server-selection.PNG "Single server")
 
@@ -368,7 +413,7 @@ We need to create a PostgreSQL instance and an App Service to host our applicati
 
 6. Create a new app in your hands-on-lab-SUFFIX resource group. Configure it with the following parameters. Keep all other settings at their default values. Select **Review + create** when you are ready.
 
-    - **Name**: Configure a unique app name (the name you choose will form part of your app's URL). 
+    - **Name**: Configure a unique app name (the name you choose will form part of your app's URL).
     - **Runtime stack**: ASP.NET V4.7.
     - **Region**: Must support all necessary resources.
 
@@ -378,14 +423,15 @@ We need to create a PostgreSQL instance and an App Service to host our applicati
 
     ![Downloading the publish profile.](./media/get-app-publish-file.png "Get publish profile")
 
-8. Save the file and move it to `C:\handsonlab\MCW-Data-Platform-upgrade-and-migration\Hands-on lab\lab-files\starter-project`. Later, we will need this file to import into Visual Studio for deployment. 
+8. Save the file and move it to `C:\handsonlab\MCW-Data-Platform-upgrade-and-migration\Hands-on lab\lab-files\starter-project`. Later, we will need this file to import into Visual Studio for deployment.
 
 9. We need to ensure that Azure supports the version of .NET used in the solution. We will do this by changing the target framework on the solution to **.NET Framework 4.7.2**. Open the NorthwindMVC solution in Visual Studio. Right-click the NorthwindMVC project (not the solution) and select **Properties**. Find the **Target framework:** dropdown menu and select **.NET Framework 4.7.2**.
 
     ![Window to change the target framework of the solution to .NET Framework 4.7.2.](./media/changing-target-framework.PNG "Target frametwork: .NET Framework 4.7.2")
 
 ### Task 2: Configure the PostgreSQL server instance
-In this task, we will be modifying the PostgreSQL instance to fit our needs. 
+
+In this task, we will be modifying the PostgreSQL instance to fit our needs.
 
 1. Storage Auto-growth is a feature in which Azure will add more storage automatically when you run out of it. We do not need it for our purposes so we will need to disable it. To do this, locate the PostgreSQL instance you created. Then, under the **Settings** tab, select **Pricing tier**.
 
@@ -427,8 +473,8 @@ pgAdmin greatly simplifies database administration and configuration tasks by pr
 
 ### Task 4: Install ora2pg
 
-**Ora2pg** is the tool we will use to migrate database objects and data. Microsoft's Data Migration Team has greatly simplified the process of obtaining this tool by providing the **installora2pg.ps1** script. You can download using the link below: 
- 
+**Ora2pg** is the tool we will use to migrate database objects and data. Microsoft's Data Migration Team has greatly simplified the process of obtaining this tool by providing the **installora2pg.ps1** script. You can download using the link below:
+
  **Download**: <https://github.com/microsoft/DataMigrationTeam/blob/master/IP%20and%20Scripts/PostgreSQL%20Migration%20and%20Assessment%20Tools/installora2pg.ps1>.
 
 1. Copy Microsoft's script to the `C:\handsonlab\MCW-Data-Platform-upgrade-and-migration\Hands-on lab\lab-files\starter-project\Postgre Scripts` location.
@@ -439,7 +485,7 @@ pgAdmin greatly simplifies database administration and configuration tasks by pr
 
 3. Install the ora2pg utility dependencies.
    - Install Perl. It will take five minutes.
-   - Install the Oracle client library and SDK. To do this, you will first need to navigate to https://www.oracle.com/database/technologies/instant-client/winx64-64-downloads.html. Then, scroll to **Version 12.2.X**. Select the installer for the **Basic Package**.
+   - Install the Oracle client library and SDK. To do this, you will first need to navigate to [Oracle Downloads](https://www.oracle.com/database/technologies/instant-client/winx64-64-downloads.html). Then, scroll to **Version 12.2.X**. Select the installer for the **Basic Package**.
    - Download the zip file.
 
     ![Screenshot to show downloading the basic package.](./media/basic-package.PNG "Basic package download")
@@ -448,23 +494,23 @@ pgAdmin greatly simplifies database administration and configuration tasks by pr
 
     ![Screenshot to show the SDK Package download.](./media/sdk-package.PNG "SDK package download")
 
-5. Navigate to the directory where the zipped instant client packages reside. 
-    - For the basic package, right-click it, and select **Extract All...**. 
-    - When prompted to choose the destination directory, navigate to the `C:\` location. 
-    - Select **Extract**. 
+5. Navigate to the directory where the zipped instant client packages reside.
+    - For the basic package, right-click it, and select **Extract All...**.
+    - When prompted to choose the destination directory, navigate to the `C:\` location.
+    - Select **Extract**.
     - Repeat this process for the zipped SDK.
 
     ![Screenshot to show the process of installing client and SDK Packages.](./media/installing-basic-instantclient-package.PNG "Client and SDK package downloads")
 
-6. Return to the PowerShell script. 
-    - Press any key to terminate the script's execution. 
-    - Launch the script once more. 
+6. Return to the PowerShell script.
+    - Press any key to terminate the script's execution.
+    - Launch the script once more.
     - If the previous steps were successful, the script should be able to locate **oci.dll** under `C:\instantclient_12_2\oci.dll`.
 
-7. Once ora2pg installs, you will need to configure PATH variables. 
-    - Search for **View advanced system settings** in Windows. 
-    - Select the result, and the **System Properties** dialog box should open. 
-    - By default, the **Advanced** tab should be showing, but if not, navigate to it. 
+7. Once ora2pg installs, you will need to configure PATH variables.
+    - Search for **View advanced system settings** in Windows.
+    - Select the result, and the **System Properties** dialog box should open.
+    - By default, the **Advanced** tab should be showing, but if not, navigate to it.
     - Then, select **Environment Variables...**.
 
     ![Screenshot showing process to enter environment labels.](./media/enter-environment-variables.png "Environment Variables selected")
@@ -473,15 +519,16 @@ pgAdmin greatly simplifies database administration and configuration tasks by pr
 
     ![Screenshot to show editing the path variables.](./media/selecting-path.png "Selecting the PATH variables")
 
-9.  The **Edit environment variable** box should be displaying. 
-    - Select **New**. 
-    - Enter **C:\instantclient_12_2**. 
+9. The **Edit environment variable** box should be displaying. 
+    - Select **New**.
+    - Enter **C:\instantclient_12_2**.
     - Repeat this process, but enter **%%PATH%%** instead.
 
     ![Screenshot showing path variable configuration.](./media/path-variable-configuration.png "Path variable configuration")
 
 ### Task 5: Prepare the PostgreSQL instance using pgAdmin
-In this task, we will create the new application user and create the NW database. 
+
+In this task, we will create the new application user and create the NW database.
 
 1. Launch **pgAdmin** and enter your master password.
 
@@ -491,11 +538,11 @@ In this task, we will create the new application user and create the NW database
 
     ![Screenshot showing how to enter the connection name.](./media/entering-connection-name.PNG "Entering the connection name as NorthwindDBConnection")
 
-4. Navigate to the **Connection** tab. 
-    - You can pull your instance's hostname from the Azure portal (it is available in the resource's overview). 
-    - For **Username**, enter the admin username available on the instance's overview. 
-    - For **Password**, enter the admin user password you provided during deployment. 
-    - Select **Save** when you are ready to connect. 
+4. Navigate to the **Connection** tab.
+    - You can pull your instance's hostname from the Azure portal (it is available in the resource's overview).
+    - For **Username**, enter the admin username available on the instance's overview.
+    - For **Password**, enter the admin user password you provided during deployment.
+    - Select **Save** when you are ready to connect.
 
     ![Specifying the database connection.](./media/specifying-db-connection.PNG "DB connection specifications")
 
@@ -503,26 +550,26 @@ In this task, we will create the new application user and create the NW database
 
     ![Window to show a successful connection.](./media/successful-connection.PNG "Successful connection")
 
-6. Create a new database. 
-    - Right-click **Databases** under the connection you just created. 
+6. Create a new database.
+    - Right-click **Databases** under the connection you just created.
     - Select **Create > Database...**.
-    - Name your database **NW** and select **Save**. 
+    - Name your database **NW** and select **Save**.
 
 7. Create a new role, which the application will reference.
-    - Under your connection, right-click **Login/Group Roles**. 
-    - Select **Create > Login/Group Role...**. 
-    - Name the role **NW**. 
+    - Under your connection, right-click **Login/Group Roles**.
+    - Select **Create > Login/Group Role...**.
+    - Name the role **NW**.
 
 8. Under **Definition**, provide a secure password.  
 
-9. Under **Privileges**, change the **Can log in?** slider to the **Yes** position. 
+9. Under **Privileges**, change the **Can log in?** slider to the **Yes** position.
 
     ![Screenshot showing how to define privileges.](./media/nw-defined-privileges.PNG "Defining Privileges window")
 
-10. Finally, navigate to **Membership**. 
-    - Select the **Roles** box. 
-    - Add the **azure_pg_admin** role. 
-    - Do not select the checkbox next to the role name (this user will not be granting the azure_pg_admin role to others). 
+10. Finally, navigate to **Membership**.
+    - Select the **Roles** box.
+    - Add the **azure_pg_admin** role.
+    - Do not select the checkbox next to the role name (this user will not be granting the azure_pg_admin role to others).
     - Select **Save**.
 
 Our configuration in pgAdmin is now complete.
@@ -531,20 +578,21 @@ Our configuration in pgAdmin is now complete.
 
 **ora2pg** allows database objects to be exported in multiple files so that is simple to organize and review changes. In this task, you will create the project structure that will make it easy to do this.  
 
-1. Open a command prompt window and navigate to the directory `C:\ora2pg`, where we will create the project structure. 
+1. Open a command prompt window and navigate to the directory `C:\ora2pg`, where we will create the project structure.
 
     ```text
     cd C:\ora2pg
     ```
 
 2. To create a project, we will use the ora2pg command with the --init_project flag. In the example below, our migration project is titled nw_migration.
-    ```
+
+    ```cmd
     ora2pg --init_project nw_migration
     ```
 
     >**NOTE**: In some cases, ora2pg may fail to find its configuration file. In scenarios such as these, you may need to provide the -c flag with the name of the actual configuration file in your ora2pg directory. For instance, **ora2pg.conf.dist** did not exist in my directory, but the file ora2pg_dist.conf was available.
 
-    ```
+    ```cmd
     ora2pg -c ora2pg_dist.conf --init_project nw_migration
     ```
 
@@ -552,18 +600,19 @@ Our configuration in pgAdmin is now complete.
 
     ![Screenshot showing the new project in the directory.](./media/ora2pg-new-project.png "New Project in the directory")
 
-4. Navigate to the project directory. 
-    - Locate **config\ora2pg.conf**. 
+4. Navigate to the project directory.
+    - Locate **config\ora2pg.conf**.
     - Select the file to open it. If you are asked to select an application to open the file, select **Notepad**. We will need to collect multiple parameters of the local Oracle database to enter into the configuration file. These parameters are available by entering **lsnrctl status** into the command prompt.
 
     ![Screenshot showing database parameters.](./media/database-parameter.png "Database parameters")
 
-5. In the **config\ora2pg.conf** file, replace the old values in the file with the correct information. 
+5. In the **config\ora2pg.conf** file, replace the old values in the file with the correct information.
 
     ![Screenshot showing how to replace values with correct information.](./media/ora2pg-conf.png "ora2pg configuration parameters")
 
-6. Confirm that all information entered is correct. The command below should display the version of your local Oracle database. 
-    ```
+6. Confirm that all information entered is correct. The command below should display the version of your local Oracle database.
+
+    ```cmd
     cd nw_migration
     ora2pg -t SHOW_VERSION -c config\ora2pg.conf
     ```
@@ -578,15 +627,16 @@ Our configuration in pgAdmin is now complete.
 
 ### Task 7: Create a migration report
 
-The migration report tells us the "man-hours" required to fully migrate to our application and components. The report will provide the user with a relative complexity value. In this task, we will retrieve the migration report for our migration. 
+The migration report tells us the "man-hours" required to fully migrate to our application and components. The report will provide the user with a relative complexity value. In this task, we will retrieve the migration report for our migration.
 
 1. Navigate to the `C:\ora2pg\nw_migration` directory in command prompt.
 
-2. ora2pg provides a reporting functionality that displays information about the objects in the existing schema and the estimated effort required to ensure compatibility with PostgreSQL. The command below creates a report titled **6-23-report.html** in the reports folder (when executed within the `C:\ora2pg\nw_migration` directory). 
+2. ora2pg provides a reporting functionality that displays information about the objects in the existing schema and the estimated effort required to ensure compatibility with PostgreSQL. The command below creates a report titled **6-23-report.html** in the reports folder (when executed within the `C:\ora2pg\nw_migration` directory).
 
-    ```
+    ```cmd
     ora2pg -c config\ora2pg.conf -t SHOW_REPORT --estimate_cost --dump_as_html > reports\6-23-report.html
     ```
+
     >**NOTE**: The report displays information for the provided schema--in our case, we placed schema information in `config\ora2pg.conf` before executing the command.
 
     ![Screenshot showing the Report Schema.](./media/report-schema.PNG "Report schema")
@@ -595,22 +645,25 @@ The migration report tells us the "man-hours" required to fully migrate to our a
 
     ![Screenshot showing the Migration level description.](./media/report-migration-level.png "Migration level")
 
-## Exercise 4: Migrate the Database and Application 
+## Exercise 4: Migrate the Database and Application
+
 Duration: 90 minutes
 
-In this exercise, we will begin the migration of the database and the application. This includes migrating database objects, the data, application code, and finally, deploying to Azure App Service. 
+In this exercise, we will begin the migration of the database and the application. This includes migrating database objects, the data, application code, and finally, deploying to Azure App Service.
 
 ### Task 1: Migrate the basic database table schema using ora2pg
-In this task, we will migrate the database table schema, using ora2pg and psql, which is a command-line utility that makes it easy to run SQL files against the database. 
 
-1. Exercise 3 covered planning and assessment steps.  To start the database migration, DDL statements must be created for all valid Oracle objects. 
+In this task, we will migrate the database table schema, using ora2pg and psql, which is a command-line utility that makes it easy to run SQL files against the database.
+
+1. Exercise 3 covered planning and assessment steps.  To start the database migration, DDL statements must be created for all valid Oracle objects.
 
     >**NOTE**: In almost all migration scenarios, it is advised that table, index, and constraint schemas are kept in separate files. For data migration performance reasons, constraints should be applied to the target database only after tables are created and data copied. To enable this feature, open **config\ora2pg.conf** file. Set **FILE_PER_CONSTRAINT**, **FILE_PER_INDEX**, **FILE_PER_FKEYS**, and **FILE_PER_TABLE** to 1.
 
     ![Screenshot showing how to separate table from index and constraints.](./media/separating-table-from-index-and-constraint.PNG "Separating table from index constraints")
 
 2. Call the following command in the `C:\ora2pg\nw_migration` directory to obtain object schemas (table schemas will be created in a file called **NW-psql.sql**).
-    ```
+
+    ```cmd
     ora2pg -c config\ora2pg.conf -o NW-psql.sql -t TABLE -b schema\tables\
     ```
 
@@ -624,46 +677,46 @@ In this task, we will migrate the database table schema, using ora2pg and psql, 
 
     ![Screenshot showing the process to add psql to the PATH variable.](./media/adding-psql-loc-to-path.png "Adding psql to PATH variable")
 
-4. Reopen the command prompt in the `C:\ora2pg\nw_migration` directory. 
-    - Enter the following command to run the **NW-psql.sql** file to create tables in the **NW** database. 
-    - Enter your database's DNS name as the value passed to the -h flag. 
-    - If the connection is successful, you will be asked to enter your password. 
-    - Then, the command prompt should show a sequence of **CREATE TABLE** statements. 
+4. Reopen the command prompt in the `C:\ora2pg\nw_migration` directory.
+    - Enter the following command to run the **NW-psql.sql** file to create tables in the **NW** database.
+    - Enter your database's DNS name as the value passed to the -h flag.
+    - If the connection is successful, you will be asked to enter your password.
+    - Then, the command prompt should show a sequence of **CREATE TABLE** statements.
 
-    ```
+    ```cmd
     psql -U NW@[DB Name] -h [DB Name].postgres.database.azure.com -d NW < schema\tables\NW-psql.sql
     ```
 
 ### Task 2: Use Azure Database Migration Service to migrate table data
 
-We will be using Azure Database Migration Service to populate our tables with data. In the Before-the-HOL-document, you created the service itself. However, to perform the actual migration, you will need to create a Migration Project, which we will do here. Then, we will then execute the project. 
+We will be using Azure Database Migration Service to populate our tables with data. In the Before-the-HOL-document, you created the service itself. However, to perform the actual migration, you will need to create a Migration Project, which we will do here. Then, we will then execute the project.
 
 We will first need to give DMS access to our local Oracle database. This will require us to create an inbound port rule for the VM's Network Security Group, and an inbound port rule for the local Windows Defender Firewall.
 
 1. Navigate to the **hands-on-lab-SUFFIX** resource group and select **LabVM-nsg**.
 
-2. Under **Settings**, select **Inbound security rules**. 
+2. Under **Settings**, select **Inbound security rules**.
 
     ![Screenshot showing the first step to add an inbound security rule.](./media/create-inbound-rule.png "First step to allow public access to the Oracle instance")
 
-3. Select **+ Add**. Enter the parameters below, and select **Add** at the bottom of the card once you are ready. 
+3. Select **+ Add**. Enter the parameters below, and select **Add** at the bottom of the card once you are ready.
 
     - **Source:** Any.
     - **Source port ranges:** *.
     - **Destination:** Any.
-    - **Destination port ranges:** 1521. 
-    - **Protocol:** TCP. 
-    - **Action:** Allow. 
-    - **Priority:** Accept the default value. 
-    - **Name:** OracleDB. 
+    - **Destination port ranges:** 1521.
+    - **Protocol:** TCP.
+    - **Action:** Allow.
+    - **Priority:** Accept the default value.
+    - **Name:** OracleDB.
 
     ![Screenshot showing the configuration of an inbound traffic NSG rule.](./media/inbound-rule.PNG "NSG rule parameters for Oracle")
 
-4. Navigate to your Lab VM. Enter **Windows Key + R** (or search for **Run**) and type **WF.msc**. Select **OK** once you are ready. 
+4. Navigate to your Lab VM. Enter **Windows Key + R** (or search for **Run**) and type **WF.msc**. Select **OK** once you are ready.
 
     ![Screenshot showing the process of launching Windows Firewall.](./media/open-windows-firewall.PNG "Launching Windows Firewall as an Administrator")
 
-5. Under **Inbound Rules**, select **New Rule...**. 
+5. Under **Inbound Rules**, select **New Rule...**.
 
     ![Screenshot showing the first step to add an inbound security rule to the local Windows Firewall.](./media/new-wf-rule.png "Local Firewall traffic rule")
 
@@ -687,61 +740,62 @@ We will first need to give DMS access to our local Oracle database. This will re
 
     ![Screenshot indicating that TLS 1.0 and 1.1 are in use.](./media/enable-tls-1.0.PNG "Verifying that the correct encryption protocol is being used")
 
-11. Navigate back to your Lab VM. Just as we set environment variables when installing ora2pg in Exercise 3, Task 4, set the following values as **System variables**: 
+11. Navigate back to your Lab VM. Just as we set environment variables when installing ora2pg in Exercise 3, Task 4, set the following values as **System variables**:
 
     - **ORACLE_HOME**: C:\oraclexe\app\oracle\product\11.2.0\server. 
     - **ORACLE_SID**: XE.
 
     ![Screenshot demonstrating the ORACLE_HOME and ORACLE_SID environment variables.](./media/home-and-sid.png "Configuration of ORACLE_HOME and ORACLE_SID")
 
-12. Open a new command prompt window. We will access our database with the *sysdba* role. 
-    
-    ```
+12. Open a new command prompt window. We will access our database with the *sysdba* role.
+
+    ```cmd
     sqlplus / as sysdba
     ```
 
 13. The first feature we will enable is support for Archive Redo Logs. To do this, first shut down the instance.
-    
+
     ```sql
     SHUTDOWN IMMEDIATE;
     ```
 
 14. When the command returns *ORACLE instance shut down*, enter the following.
-    
+
     ```sql
     STARTUP MOUNT;
     ```
 
 15. Enable log archiving mode.
-    
+
     ```sql
     ALTER DATABASE ARCHIVELOG;
     ```
 
 16. Open the database--the shutdown command of step 13 limits additional connections from forming.
-    
+
     ```sql
     ALTER DATABASE OPEN;
     ```
 
-    >**NOTE**: Run *SELECT log_mode FROM v$database;* If the previous steps were successful, you should see **ARCHIVELOG** as the result. 
+    >**NOTE**: Run *SELECT log_mode FROM v$database;* If the previous steps were successful, you should see **ARCHIVELOG** as the result.
 
 17. Now, we must enable supplemental logging at the database level. Enter the following command to do so. Since we are doing an online migration, supplemental logging captures changes that have occurred in the source database after migration began.
-    
+
     ```sql
     ALTER DATABASE ADD SUPPLEMENTAL LOG DATA;
     ```
 
 18. We will also need to enable supplemental logging for row identification information, like a table's primary key (a ROWID cannot be used to perform DML operations on the target). To perform this, enter the following.
-    
+
     ```sql
     ALTER DATABASE ADD SUPPLEMENTAL LOG DATA (PRIMARY KEY, UNIQUE) COLUMNS;
     ```
+
     >**NOTE**: There are no tables in our database without a primary key. However, if one of your tables does not have a primary key, run *ALTER TABLE [TABLE NAME] ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;*
 
 19. Open `C:\oraclexe\app\oracle\product\11.2.0\server\network\ADMIN\listener.ora` in Notepad. Add the following to the **SID_LIST_LISTENER** list.
-    
-    ```
+
+    ```text
     (SID_DESC =
       (SID_NAME = XE)
       (ORACLE_HOME = C:\oraclexe\app\oracle\product\11.2.0\server)
@@ -752,9 +806,9 @@ We will first need to give DMS access to our local Oracle database. This will re
 
     ![Screenshot showing the correct SID_LIST_LISTENER list, with XE SID added.](./media/sid-list.png "Adding the XE SID to listener.ora")
 
-20. After making this change, open a command prompt window and enter the following command to restart the listener service. 
+20. After making this change, open a command prompt window and enter the following command to restart the listener service.
 
-    ```
+    ```cmd
     lsnrctl reload
     ```
 
@@ -771,80 +825,81 @@ We will first need to give DMS access to our local Oracle database. This will re
 
 22. We will also need to make datatype changes on tables in the PostgreSQL database. To do so, first connect to the instance.
 
-    ```
+    ```cmd
     psql -U NW@[DB Name] -h [DB Name].postgres.database.azure.com -d NW
     ```
 
-    Then, enter each of the commands below. They will change the type of region.regionid and territories.regionid to *double precision*. Changing types is significantly easier because the region and territories tables do not contain data yet. 
+    Then, enter each of the commands below. They will change the type of region.regionid and territories.regionid to *double precision*. Changing types is significantly easier because the region and territories tables do not contain data yet.
 
     ```sql
     ALTER TABLE region ALTER COLUMN regionid TYPE double precision;
     ALTER TABLE territories ALTER COLUMN regionid TYPE double precision;
     ```
 
-23. Navigate to your wwi-dms-SUFFIX Database Migration Service. Then, in the toolbar, select **+ New Migration Project**. 
+23. Navigate to your wwi-dms-SUFFIX Database Migration Service. Then, in the toolbar, select **+ New Migration Project**.
 
     ![Screenshot showing the creation of a new Migration Service project.](./media/create-new-migration-project.png "Using toolbar to create a new Migration Service project")
 
 24. Enter the following information about the project. Once you have entered everything, select **Create**.
-    
-    - **Project name:** OnPremToAzurePostgreSql. 
+
+    - **Project name:** OnPremToAzurePostgreSql.
     - **Source server type:** Oracle.
     - **Target server type:** Azure Database for PostgreSQL.
-    - **Choose type of activity:** Select Create project only and select **Save**. 
-    
+    - **Choose type of activity:** Select Create project only and select **Save**.
+
     ![Screenshot showing the process of configuring a new project.](./media/migration-project.PNG "Initializing project parameters")
 
-25. Navigate to your resource group and select the migration project (OnPremToAzurePostgreSql). Select **+ New Activity** and **Online data migration [preview]**. 
+25. Navigate to your resource group and select the migration project (OnPremToAzurePostgreSql). Select **+ New Activity** and **Online data migration [preview]**.
 
-26. On the **Add Source Details** page, enter the following parameters. Then, select **Save** 
+26. On the **Add Source Details** page, enter the following parameters. Then, select **Save**
 
-    - **Mode:** Verify that it is **Standard mode**. 
-    - **Source server name:** Enter the IP address of your Lab VM. 
-    - **Server port:** Enter **1521**. 
-    - **Oracle SID:** Enter **XE**. 
-    - **User Name:** Enter **NW**. 
+    - **Mode:** Verify that it is **Standard mode**.
+    - **Source server name:** Enter the IP address of your Lab VM.
+    - **Server port:** Enter **1521**.
+    - **Oracle SID:** Enter **XE**.
+    - **User Name:** Enter **NW**.
     - **Password:** Type **oracledemo123**.
 
     >**NOTE**: If Azure fails to connect to your Oracle database, run *lsnrctl status* in command prompt. There should be a listener identified by your VM's hostname (LabVM).
 
-    ![Screenshot showing listener endpoints and the host of each endpoint.](./media/listening-endpoint-debug.png "Verifying endpoint hosts") 
+    ![Screenshot showing listener endpoints and the host of each endpoint.](./media/listening-endpoint-debug.png "Verifying endpoint hosts")
 
 27. The Data Migration Service will need the OCI driver to proceed. To do this, navigate to <https://www.oracle.com/database/technologies/instant-client/winx64-64-downloads.html>, and download the `instantclient-basiclite-windows.x64-12.2.0.1.0.zip` package. Verify that it is in your `Downloads` directory.
 
-    >**NOTE**: During the ora2pg installation, you downloaded the Basic version of this package. However, we are downloading the Basic Light Package because it is what Microsoft recommends we use. 
+    >**NOTE**: During the ora2pg installation, you downloaded the Basic version of this package. However, we are downloading the Basic Light Package because it is what Microsoft recommends we use.
 
 28. Right-click your Downloads directory, and select **Properties**. Under **Sharing**, select **Share...** When the **Network acccess** menu opens, simply select **Share** again.
 
     ![Screenshot showing the process of enabling network sharing for the Downloads directory.](./media/network-sharing-downloads.png "Enable network sharing of the Downloads directory")
 
-29. We will need to add an inbound port rule for TCP port 445, which is what SMB uses. Navigate to your Lab VM's NSG. **+ Add** an inbound port rule with the following parameters. 
-    
-    - **Source:** Any. 
-    - **Source port ranges:** *. 
-    - **Destination:** Any. 
-    - **Destination port ranges:** 445. 
-    - **Protocol:** TCP. 
-    - **Action:** Allow. 
-    - **Priority:** Accept the default value. 
-    - **Name:** SMB. 
+29. We will need to add an inbound port rule for TCP port 445, which is what SMB uses. Navigate to your Lab VM's NSG. **+ Add** an inbound port rule with the following parameters.
+
+    - **Source:** Any
+    - **Source port ranges:** *.
+    - **Destination:** Any
+    - **Destination port ranges:** 445
+    - **Protocol:** TCP
+    - **Action:** Allow
+    - **Priority:** Accept the default value.
+    - **Name:** SMB
 
     ![Screenshot showing the process of configuring an NSG rule to allow public access to an SMB share.](./media/inbound-rule-smb.PNG "Opening port 445 for SMB access in the Lab VM NSG")
 
-30. On the **Driver install detail** page of the migration project, enter the following parameters. Then, select **Save**. 
-    
-    - **OCI driver path:** Enter `\\[LAB VM IP ADDRESS]\Users\demouser\Downloads\instantclient-basiclite-windows.x64-12.2.0.1.0.zip`. 
-    - **User Name:** Type **LabVM\demouser**. 
+30. On the **Driver install detail** page of the migration project, enter the following parameters. Then, select **Save**.
+
+    - **OCI driver path:** Enter `\\[LAB VM IP ADDRESS]\Users\demouser\Downloads\instantclient-basiclite-windows.x64-12.2.0.1.0.zip`.
+  
+    - **User Name:** Type **LabVM\demouser**.
     - **Password:** Type **Password.1!!**.
 
-31. You will arrive at the **Migration target details** page. Enter the following parameters. Select **Save** once you are ready to continue. 
+31. You will arrive at the **Migration target details** page. Enter the following parameters. Select **Save** once you are ready to continue.
 
-    - **Target server name:** [DB Name].postgres.database.azure.com. 
-    - **Default Database:** postgres. 
-    - **User Name:** NW@[DB Name]. 
+    - **Target server name:** [DB Name].postgres.database.azure.com.
+    - **Default Database:** postgres
+    - **User Name:** NW@[DB Name]
     - **Password:** The password of your NW user.
 
-32. At the **Map to target databases** page, verify that the source **NW** schema is being migrated to the **public** schema of the **NW** target database. 
+32. At the **Map to target databases** page, verify that the source **NW** schema is being migrated to the **public** schema of the **NW** target database.
 
     ![Screenshot showing the selection of the correct target database and schema.](./media/dms-db-and-schema.PNG "Choosing NW as the target database and public as the target schema")
 
@@ -875,54 +930,59 @@ We will first need to give DMS access to our local Oracle database. This will re
 We migrated the data before the constraints to reduce the time required to copy data into the tables. In addition, if foreign keys were present on the target tables, data migration would fail. So, in this task, we will add constraints, foreign keys, and indexes to the target tables.
 
 1. Then, layer on constraints (not foreign keys).
-    ```
+
+    ```cmd
     psql -U NW@[DB Name] -h [DB Name].postgres.database.azure.com -d NW < schema\tables\CONSTRAINTS_NW-psql.sql
     ```
 
 2. Now, Add foreign keys.
-    ```
+
+    ```cmd
     psql -U NW@[DB Name] -h [DB Name].postgres.database.azure.com -d NW < schema\tables\FKEYS_NW-psql.sql
     ```
 
 3. Next, layer on the indexes.
-    ```
+
+    ```cmd
     psql -U NW@[DB Name] -h [DB Name].postgres.database.azure.com -d NW < schema\tables\INDEXES_NW-psql.sql
     ```
 
-4.  Before migrating views in the next task, let us verify that table data has been properly migrated. Open **pgAdmin** and connect to the database as the NW user. To use **Query Tool**, select **Query Tool** under the **Tools** dropdown.
+4. Before migrating views in the next task, let us verify that table data has been properly migrated. Open **pgAdmin** and connect to the database as the NW user. To use **Query Tool**, select **Query Tool** under the **Tools** dropdown.
 
     ![Screenshot showing entering the query tool.](./media/entering-query-tool.png "Query Tool highlighted")
 
-5. Enter the following query into the editor. 
+5. Enter the following query into the editor.
+
     ```sql
-    SELECT CONCAT(firstname, ' ', lastname) as name, 
-       territorydescription 
-    FROM employees e 
-     JOIN employeeterritories et ON e.employeeid = et.employeeid 
+    SELECT CONCAT(firstname, ' ', lastname) as name,
+       territorydescription
+    FROM employees e
+     JOIN employeeterritories et ON e.employeeid = et.employeeid
      JOIN territories t ON et.territoryid = t.territoryid;
     ```
 
-6. Now, execute the query by selecting the **execution** button on the toolbar. 
+6. Now, execute the query by selecting the **execution** button on the toolbar.
 
     ![Screenshot showing running of the query.](./media/running-query.png "Execution button")
 
-7. If you were successful, you should see an output similar to the following. Notice the following result set, which consists of 49 rows. It is available under the **Data Output** tab. 
+7. If you were successful, you should see an output similar to the following. Notice the following result set, which consists of 49 rows. It is available under the **Data Output** tab.
 
     ![Screenshot showing Result set from the select query.](./media/select-query-result-set.PNG "Query result")
 
-Next, let's take a look at migrating views. 
+Next, let's take a look at migrating views.
 
 ### Task 4: Migrate Views
 
 Views are not referenced by the sample application, but we are including this task here to show you how to do it manually. When we migrate stored procedures, we will show you how to enable an extension that greatly simplifies the migration of objects which reference Oracle-specific functions.  
 
-1. Navigate to the  `C:\ora2pg\nw_migration\schema\views` directory, where we will run ora2pg and psql. 
-    ```
+1. Navigate to the  `C:\ora2pg\nw_migration\schema\views` directory, where we will run ora2pg and psql.
+
+    ```cmd
     cd schema\views
     ora2pg -c ..\..\config\ora2pg.conf -t VIEW -o NW-views.sql
     ```
 
-    > **NOTE**: Views are exported into individual files. The file specified in the command (NW-views.sql) references the individual files. 
+    >**NOTE**: Views are exported into individual files. The file specified in the command (NW-views.sql) references the individual files.
 
 2. Before we invoke NW-views.sql, we will need to make changes to four files. This is because our application uses a to_date() function that is not supported in PostgreSQL. We will need to replace the command in the code with the equivalent DATE() function in Postgre. First, in **SALES_TOTALS_BY_AMOUNT_NW-views.sql**, replace the existing last line
 
@@ -956,13 +1016,14 @@ Views are not referenced by the sample application, but we are including this ta
 
     ![Screenshot showing the new view for sales by category.](./media/sales-by-category-view-new.png "New view sales by category")
 
-6. Now that all modifications are complete, run the NW-views.sql file in psql. 
-    ```
+6. Now that all modifications are complete, run the NW-views.sql file in psql.
+
+    ```cmd
     psql -U NW@[DB Name] -h [DB Name].postgres.database.azure.com -d NW < NW-views.sql
     ```
 
-7. With that, we have migrated views. 
-    - Navigate to the **Query Editor** and test these migrated views. 
+7. With that, we have migrated views.
+    - Navigate to the **Query Editor** and test these migrated views.
     - Utilize the query below, which will show data where **productsales** is greater than 5000. You can envision how this would be useful in an organization to identify successful items in a given year (1997).
 
     ```sql
@@ -971,18 +1032,19 @@ Views are not referenced by the sample application, but we are including this ta
     WHERE productsales > 5000;
     ```
 
-8. When the query is executed, you should see the following result set, with 42 rows. This shows that we have successfully migrated the views. 
+8. When the query is executed, you should see the following result set, with 42 rows. This shows that we have successfully migrated the views.
 
     ![Result set from query involving the product_sales_for_1997 view.](./media/1997-view-result-set.PNG "Result set")
 
-Let's migrate stored procedures next. 
+Let's migrate stored procedures next.
 
 ### Task 5: Migrate the Stored Procedure
 
-Our application utilizes a single stored procedure, so we must be able to migrate it. To do this, we will be using the **orafce** extension utility, which provides functions that are compatible with Oracle code. We will then call the procedure and view its results using a refcursor. 
+Our application utilizes a single stored procedure, so we must be able to migrate it. To do this, we will be using the **orafce** extension utility, which provides functions that are compatible with Oracle code. We will then call the procedure and view its results using a refcursor.
 
 1. Only one stored procedure **NW.SALESBYYEAR** is in use by the application. So, we will export this stored procedure from the Oracle database for analysis. Run the command below in `C:\ora2pg\nw_migration`.
-    ```
+
+    ```cmd
     ora2pg -c config\ora2pg.conf -t PROCEDURE -a SALESBYYEAR -o NW-proc.sql -b schema\procedures\
     ```
 
@@ -990,7 +1052,7 @@ Our application utilizes a single stored procedure, so we must be able to migrat
 
     ![Screenshot showing how to migrate stored procedure using ora2pg.](./media/ora2pg-sp.png "Exporting with ora2pg")
 
-A second detail to keep in mind is NULLs vs. empty strings. In PostgreSQL, they are handled differently. This is a small distinction in Oracle that can be overlooked leading to incomplete query results. 
+    A second detail to keep in mind is NULLs vs. empty strings. In PostgreSQL, they are handled differently. This is a small distinction in Oracle that can be overlooked leading to incomplete query results.
 
 3. We will need to edit the procedure's parameter list, and we can do this by using a refcursor. Replace the existing last parameter of the procedure
 
@@ -1001,6 +1063,7 @@ A second detail to keep in mind is NULLs vs. empty strings. In PostgreSQL, they 
     ![Screenshot showing new SP parameter list.](./media/proc-param-list-new.png "New parameter list")
 
 4. A useful PostgreSQL extension that facilitates greater compatibility with Oracle database objects is **orafce**, which is provided with Azure Database for PostgreSQL. To enable it: navigate to pgAdmin, enter your master password, and connect to your PostgreSQL instance. Then, enter the following command into the query editor and execute it.
+
     ```sql
     CREATE EXTENSION orafce;
     ```
@@ -1028,25 +1091,25 @@ A second detail to keep in mind is NULLs vs. empty strings. In PostgreSQL, they 
 
 In this task, we will be recreating the ADO.NET data models to accurately represent our PostgreSQL database objects. Entity Framework leverages ADO.NET, allowing us to map database objects to classes.  
 
-1. First, install the Entity Framework. 
+1. First, install the Entity Framework.
 
-    - Navigate to the Package Manager console and enter the following command: 
+    - Navigate to the Package Manager console and enter the following command:
 
-    ```
+    ```cmd
     Install-Package EntityFramework
     ```
 
     ![Accessing the package under manager console.](./media/accessing-package-manager-console.png" Accessing package manager console")
 
-    >**NOTE**: We will be using Devart's dotConnect for PostgreSQL, which is an ADO.NET-compatible PostgreSQL driver. This will allow our application to connect to our Azure PostgreSQL instance. 
+    >**NOTE**: We will be using Devart's dotConnect for PostgreSQL, which is an ADO.NET-compatible PostgreSQL driver. This will allow our application to connect to our Azure PostgreSQL instance.
 
-2. Navigate to <https://www.devart.com/dotconnect/postgresql/download.html>. 
-    - Locate **dotConnect for PostgreSQL 7.17 Professional Trial**. 
+2. Navigate to <https://www.devart.com/dotconnect/postgresql/download.html>.
+    - Locate **dotConnect for PostgreSQL 7.17 Professional Trial**.
     - Select **Get Trial**.
 
     ![Screenshot showing how to download Dotconnect.](./media/dotconnect-download.PNG "Dotconnect Download")
 
-3. Unless you have a Devart account, select **Sign-Up**. 
+3. Unless you have a Devart account, select **Sign-Up**.
 
     ![Signing up for Devart download screenshot.](./media/sign-up-devart.PNG "Devart sign-up link")
 
@@ -1054,23 +1117,23 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
 
     ![Screenshot showing Devart sign-up.](./media/devart-sign-up-details.png "Devart sign up")
 
-5. Now, you will be redirected to the downloads page. 
-    - Select **Download**. 
+5. Now, you will be redirected to the downloads page.
+    - Select **Download**.
     - Run the executable (no need to save).
 
-6. Accept all defaults until **Select Components**. Unselect **SQL Server Business Intelligence Solutions** and **Samples**. 
+6. Accept all defaults until **Select Components**. Unselect **SQL Server Business Intelligence Solutions** and **Samples**.
 
     ![Screenshot showing which components to install.](./media/dc-install-select-components.PNG "Selecting components for installation")
 
 7. Continue to the **Ready to Install** screen. Select **Install**. Select **Finish** once setup has completed.
 
-8. Reopen the Visual Studio solution. We will now modify the web.config file to use the Devart PostgreSQL driver. 
+8. Reopen the Visual Studio solution. We will now modify the web.config file to use the Devart PostgreSQL driver.
 
-    - Under the `<providers>` node below the `<entityFramework>` node, add the following statement. Note that you will need to change the assembly version if you use updated DLLs. 
+    - Under the `<providers>` node below the `<entityFramework>` node, add the following statement. Note that you will need to change the assembly version if you use updated DLLs.
 
     ```xml
     <provider invariantName="Devart.Data.PostgreSql" type="Devart.Data.PostgreSql.Entity.PgSqlEntityProviderServices, Devart.Data.PostgreSql.Entity.EF6, Version=7.17.1666.0, Culture=neutral, PublicKeyToken=09af7300eec23701" />
-    ``` 
+    ```
 
     This is how the `<entityFramework>` section of the file should appear.
 
@@ -1083,54 +1146,55 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
     <add name="dotConnect for PostgreSQL" invariant="Devart.Data.PostgreSql" description="Devart dotConnect for PostgreSQL" type="Devart.Data.PostgreSql.PgSqlProviderFactory, Devart.Data.PostgreSql, Version=7.17.1666.0, Culture=neutral, PublicKeyToken=09af7300eec23701" />
     ```
 
-10. Now, add references to multiple assemblies. 
-    - Under the **Solution Explorer**, right-click **References**. 
+10. Now, add references to multiple assemblies.
+    - Under the **Solution Explorer**, right-click **References**.
     - Select **Add Reference...**.  
-    - Locate **Browse** on the left-hand side of the **Reference Manager** dialog box. 
-    - Select **Browse** at the bottom right corner of the box. 
+    - Locate **Browse** on the left-hand side of the **Reference Manager** dialog box.
+    - Select **Browse** at the bottom right corner of the box.
 
     ![Screenshot to navigate to Reference manager.](./media/reference-manager.png "Reference manager navigation")
 
-11. The first assembly we will need is **Devart.Data.dll**. 
-    - Navigate to `C:\Windows\assembly\GAC_MSIL\Devart.Data\[DATA DLL ASSEMBLY VERSION]`. 
-    - Select the DLL. 
+11. The first assembly we will need is **Devart.Data.dll**.
+    - Navigate to `C:\Windows\assembly\GAC_MSIL\Devart.Data\[DATA DLL ASSEMBLY VERSION]`.
+    - Select the DLL.
     - Select **Add**.
 
     ![Screenshot showing Devart assembly process.](./media/devart-data-dll.png "Devart assembly process")
 
-12. Now, we need **Devart.Data.PostgreSql.dll**. 
-    - Navigate to `C:\Windows\assembly\GAC_MSIL\Devart.Data.PostgreSql\[PostgreSQL DLL ASSEMBLY VERSION]`. 
-    - Select the object. 
+12. Now, we need **Devart.Data.PostgreSql.dll**.
+    - Navigate to `C:\Windows\assembly\GAC_MSIL\Devart.Data.PostgreSql\[PostgreSQL DLL ASSEMBLY VERSION]`.
+    - Select the object.
     - Select **Add**.
 
-13. Finally, we need **Devart.Data.PostgreSql.Entity.EF6.dll**. 
-    - Navigate to `C:\Program Files (x86)\Devart\dotConnect\PostgreSQL\Entity\EF6`. 
+13. Finally, we need **Devart.Data.PostgreSql.Entity.EF6.dll**.
+    - Navigate to `C:\Program Files (x86)\Devart\dotConnect\PostgreSQL\Entity\EF6`.
     - Select the correct DLL.
 
-14. Now, you will need to rebuild the solution. Under **Build**, select **Rebuild Solution**. 
+14. Now, you will need to rebuild the solution. Under **Build**, select **Rebuild Solution**.
 
     ![Screenshot showing how to rebuild the solution.](./media/rebuild-solution.png "Rebuilding the solution")
 
-15. After the solution rebuilds, delete the existing contents of the **Data** folder. Select all items, right-click, and select **Delete**. 
+15. After the solution rebuilds, delete the existing contents of the **Data** folder. Select all items, right-click, and select **Delete**.
 
-16. Then, right-click the **Data** directory in the **Solution Explorer**. 
-    - Select **Add** and **New Item...**. 
-    - Then, select **ADO.NET Entity Data Model**. 
-    - Name it **DataContext**. 
-    - Finally, select **Add**. 
+16. Then, right-click the **Data** directory in the **Solution Explorer**.
+
+    - Select **Add** and **New Item...**.
+    - Then, select **ADO.NET Entity Data Model**.
+    - Name it **DataContext**.
+    - Finally, select **Add**.
 
     ![Screenshot showing how to ADO.NET Entity data model.](./media/adonet-entity-model.png "ADO.NET entity data model")
 
-17. On the **Choose Model Contents** page, select **Code First from database**. 
+17. On the **Choose Model Contents** page, select **Code First from database**.
 
     ![Screenshot to choose model type.](./media/visual-studio-entity-data-model-wizard-choose-model.png "Choosing model type")
 
-18. On the **Choose Your Data Connection** page, select **New Connection...**. 
+18. On the **Choose Your Data Connection** page, select **New Connection...**.
 
-19. Under the **Connection Properties** window, you will need to change your Data Source to **PostgreSQL Server (dotConnect for PostgreSQL)**. 
-    - Select **Change**. 
-    - Choose **PostgreSQL Server** as the **Data source**, and **dotConnect for PostgreSQL** as the **Data provider**. 
-    - Select **OK**. 
+19. Under the **Connection Properties** window, you will need to change your Data Source to **PostgreSQL Server (dotConnect for PostgreSQL)**.
+    - Select **Change**.
+    - Choose **PostgreSQL Server** as the **Data source**, and **dotConnect for PostgreSQL** as the **Data provider**.
+    - Select **OK**.
 
     ![Screenshot showing how to change the data source.](./media/change-data-source.PNG "Changing the data source")
 
@@ -1142,13 +1206,13 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
 
     ![Configuring advanced config parameters window.](./media/advanced-config-parameters.png "Advanced config parameters")
 
-22. Select **Test Connection**, and if the connection fails, verify that you entered all parameters correctly. If the connection succeeds, select **OK**. 
+22. Select **Test Connection**, and if the connection fails, verify that you entered all parameters correctly. If the connection succeeds, select **OK**.
 
-23. Back at the **Choose Your Data Connection** page, select **Yes, include the sensitive data in the connection string**. Select **Next >**. 
+23. Back at the **Choose Your Data Connection** page, select **Yes, include the sensitive data in the connection string**. Select **Next >**.
 
     ![Choosing data connection](./media/edm-data-connection.PNG)
 
-24. You will now be presented with the option to choose your desired database objects. Select **Tables**. This should select all tables in the public schema. Select **Finish**. 
+24. You will now be presented with the option to choose your desired database objects. Select **Tables**. This should select all tables in the public schema. Select **Finish**.
 
     ![Screenshot to choose database objects.](./media/choosing-db-objects.PNG "Choosing database objects")
 
@@ -1156,21 +1220,21 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
 
     ![Screenshot to show the final models view.](./media/table-models.PNG "Final models view")
 
-26. Since we recommend using lowercase table names in **PostgreSQL**, the resulting model classes are also in lowercase. This poses an issue because of the views and the controllers in our app reference uppercase class names and properties. We will demonstrate how to accommodate for this in the **category** model, the process of which can be repeated for other models. 
+26. Since we recommend using lowercase table names in **PostgreSQL**, the resulting model classes are also in lowercase. This poses an issue because of the views and the controllers in our app reference uppercase class names and properties. We will demonstrate how to accommodate for this in the **category** model, the process of which can be repeated for other models.
 
     >**NOTE:** This action can be avoided if you use Devart's Entity Developer.
 
-27. First, right-click the model file, and select **Properties**. 
-    - Change **File Name** from **category.cs** to **CATEGORY.cs**. 
-    - When asked to rename all references, select **Yes**. This action will rename the class and its constructor. 
+27. First, right-click the model file, and select **Properties**.
+    - Change **File Name** from **category.cs** to **CATEGORY.cs**.
+    - When asked to rename all references, select **Yes**. This action will rename the class and its constructor.
 
 28. Now, we must capitalize property names while respecting the underlying database column names. Observe the inclusion of the data annotation and the uppercase property name. To capitalize a name, highlight it, and locate **Edit [in the top ribbon] > Advanced > Make Uppercase**. If a data annotation is already present, provide the name of the underlying column as the first argument.
 
     ![Screenshot to show category properties.](./media/categoryid-property.PNG "Category properties")
 
-    >**NOTE:** ICollections do not need to be modified in any way. 
+    >**NOTE:** ICollections do not need to be modified in any way.
 
-29. Finally, navigate to **DataContext.cs**. Capitalize the property names (e.g. convert categories to CATEGORIES). There are multiple other changes you will need to make, mentioned below in the **Additional Notes** section. 
+29. Finally, navigate to **DataContext.cs**. Capitalize the property names (e.g. convert categories to CATEGORIES). There are multiple other changes you will need to make, mentioned below in the **Additional Notes** section.
 
     >**Additional Notes**\
         - In EMPLOYEE.cs, capitalize the employee1 property, but do not provide a column attribute\
@@ -1212,13 +1276,12 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
                 // Oracle
                 //var salesByYear = this.db.Database.SqlQuery<SALESBYYEAR>(
                 //    "BEGIN NW.SALESBYYEAR(:P_BEGIN_DATE, :P_END_DATE, :CUR_OUT); END;",
-                //    new OracleParameter("P_BEGIN_DATE", OracleDbType.TimeStamp, new OracleTimeStamp(1996, 1, 1),       
+                //    new OracleParameter("P_BEGIN_DATE", OracleDbType.TimeStamp, new OracleTimeStamp(1996, 1, 1),
                 //                         ParameterDirection.Input),
-                //    new OracleParameter("P_END_DATE", OracleDbType.TimeStamp, new OracleTimeStamp(1999, 12, 31), 
+                //    new OracleParameter("P_END_DATE", OracleDbType.TimeStamp, new OracleTimeStamp(1999, 12, 31),
                 //                         ParameterDirection.Input),
                 //    new OracleParameter("CUR_OUT", OracleDbType.RefCursor, ParameterDirection.Output)).ToList();
 
-                // SQL Server
                 //var salesByYear = this.db.Database.SqlQuery<SALESBYYEAR>(
                 //    "exec [NW].[SALESBYYEAR] @p_begin_date, @p_end_date ",
                 //    new SqlParameter("p_begin_date", "1996-1-1"),
@@ -1234,7 +1297,7 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
 
                 p_begin_date = spCommand.Parameters.Add("p_begin_date", PgSqlType.TimeStamp);
                 p_end_date = spCommand.Parameters.Add("p_end_date", PgSqlType.TimeStamp);
-                // cur_OUT will be cast to a PgSqlCursor later on 
+                // cur_OUT will be cast to a PgSqlCursor later on
                 cur_OUT = spCommand.Parameters.Add("cur_OUT", PgSqlType.VarChar);
 
                 p_begin_date.Direction = ParameterDirection.Input;
@@ -1290,9 +1353,9 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
     }
     ```
 
-31. We will unpack the contents of this controller. 
-    - First, we attach to the existing database connection and prepare to call the stored procedure by defining parameters. Since the stored procedure does not return data directly, we reference a refcursor (cur_OUT in the script), which allows us to extract data row by row (hence the while loop). 
-    - We then define and execute a LINQ query, which encapsulates its results in objects of type SalesByYearViewModel. 
+31. We will unpack the contents of this controller.
+    - First, we attach to the existing database connection and prepare to call the stored procedure by defining parameters. Since the stored procedure does not return data directly, we reference a refcursor (cur_OUT in the script), which allows us to extract data row by row (hence the while loop).
+    - We then define and execute a LINQ query, which encapsulates its results in objects of type SalesByYearViewModel.
     - After this, we close the DataReader (which allows us to pull data from the refcursor), commit the transaction, close the connection, and display the `Home\Index.cshtml` view.
 
 32. Open the file, `SALESBYYEAR.cs`, in the **Models** folder in **Solution ExplorerI**.
@@ -1305,7 +1368,7 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
 
     ![The decimal and int property values are highlighted.](./media/visual-studio-models-salesbyyear-updated.png "Change the SUBTOTAL and YEAR properties")
 
-34. Save the file. 
+34. Save the file.
 
 35. Open the `SalesByYearViewModel.cs` file from the Models folder in the Solution Explorer.
 
@@ -1325,10 +1388,10 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
 
 ### Task 7: Deploy the application to Azure
 
-We will deploy our built application to be served by IIS running in our Azure App Service instance. We will make use of the publish profile that we downloaded previously. 
+We will deploy our built application to be served by IIS running in our Azure App Service instance. We will make use of the publish profile that we downloaded previously.
 
-1. Devart's dotConnect has licensing agreements that must be met before deployment. 
-    - Select **License Information...** under **Tools > PostgreSQL**. The following wizard will open. 
+1. Devart's dotConnect has licensing agreements that must be met before deployment.
+    - Select **License Information...** under **Tools > PostgreSQL**. The following wizard will open.
     - Select **Fix**.
 
     ![Screenshot showing the licensing wizard.](./media/licensing-wizard.PNG "Licensing wizard")
@@ -1351,10 +1414,10 @@ We will deploy our built application to be served by IIS running in our Azure Ap
 
 6. Again, select **Execute** and rebuild the service.
 
-7. In Visual Studio's Solution Explorer, right-click the **NorthwindMVC** project (not the solution) and select **Publish...**. 
+7. In Visual Studio's Solution Explorer, right-click the **NorthwindMVC** project (not the solution) and select **Publish...**.
 
-8. The **Publish** window should open. Select **Import Profile**. Select **Next**. 
- 
+8. The **Publish** window should open. Select **Import Profile**. Select **Next**.
+
     ![Screenshot showing the publishing window.](./media/publish-window.png "selecting import profile in publishing window")
 
 9. Select **Browse** to locate the **Publish settings file**. Earlier, we saved our publish profile in `C:\handsonlab\MCW-Data-Platform-upgrade-and-migration\Hands-on lab\lab-files\starter-project` as `northwindapporacletopsql.PublishSettings`. Select **Finish**.
@@ -1367,7 +1430,7 @@ We will deploy our built application to be served by IIS running in our Azure Ap
 
 11. First, your application will build. Then, all relevant files will be copied and organized on the host such that all relevant assets are served to the client.
 
-12. Once the build completes, navigate to your app's link. All operations will work as expected. 
+12. Once the build completes, navigate to your app's link. All operations will work as expected.
 
     ![Screenshot showing The Northwind app deployed to Azure App Service.](./media/final-northwindapp.png "App deployed to Azure")
 

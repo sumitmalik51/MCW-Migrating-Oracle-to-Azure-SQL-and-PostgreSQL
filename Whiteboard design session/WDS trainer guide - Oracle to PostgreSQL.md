@@ -615,7 +615,7 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 
 11. What will happen with Power BI?
 
-    Developers can connect to Azure Database for PostgreSQL from Power BI desktop, though it is impossible to leverage DirectQuery to connect to Azure Database for PostgreSQL from Power BI Service. When deploying to the Service, developers must import the actual data into the model, which has some limitations.  
+    Developers can connect to Azure Database for PostgreSQL from Power BI desktop, but an on-premises data gateway must be deployed to create DirectQuery-based datasets accessible in Power BI service. Note that this dataset can then be shared by multiple BI developers through Live Connection.
 
 ## Customer quote (to be read back to the attendees at the end)
 

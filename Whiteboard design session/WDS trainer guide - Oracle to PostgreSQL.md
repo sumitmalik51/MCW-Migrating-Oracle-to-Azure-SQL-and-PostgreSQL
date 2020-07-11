@@ -617,6 +617,7 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 
     Developers can connect to Azure Database for PostgreSQL from Power BI desktop. It is now possible to leverage DirectQuery to connect to Azure Database for PostgreSQL from Power BI Service.
 
+
 ## Customer quote (to be read back to the attendees at the end)
 
 "We are excited that a PostgreSQL environment will help our organization grow and prosper for many years into the future."

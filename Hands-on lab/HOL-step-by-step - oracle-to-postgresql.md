@@ -391,7 +391,7 @@ We need to create a PostgreSQL instance and an App Service to host our applicati
 
     Select **Review + create** button once you are ready.
 
-    ![Configuring the instance details.](./media/postgresql-config.PNG "Project Details" window with pertinent details")
+    ![Configuring the instance details.](./media/postgresql-config.PNG "Project Details window with pertinent details")
 
 4. Select **Create** to start the deployment. Once the deployment completes, we will move on to creating an Azure Web App.
 
@@ -1087,7 +1087,7 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
     Install-Package EntityFramework
     ```
 
-    ![Accessing the package under manager console.](./media/accessing-package-manager-console.png" Accessing package manager console")
+    ![Accessing the package under manager console.](./media/accessing-package-manager-console.png "Accessing package manager console")
 
     >**NOTE**: We will be using Devart's dotConnect for PostgreSQL, which is an ADO.NET-compatible PostgreSQL driver. This will allow our application to connect to our Azure PostgreSQL instance.
 

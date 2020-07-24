@@ -1,7 +1,7 @@
 ![Microsoft Cloud Workshops](https://github.com/Microsoft/MCW-Template-Cloud-Workshop/raw/master/Media/ms-cloud-workshop.png "Microsoft Cloud Workshops")
 
 <div class="MCWHeader1">
-Migrating Oracle to Azure SQL and PostgreSQL
+Migrating Oracle to Azure SQL and PostgreSQL
 </div>
 
 <div class="MCWHeader2">
@@ -24,7 +24,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 
 **Contents**
 
-- [Data Platform upgrade and migration hands-on lab step-by-step](#data-platform-upgrade-and-migration-hands-on-lab-step-by-step)
+- [Migrating Oracle to Azure SQL and PostgreSQL hands-on lab step-by-step](#migrating-oracle-to-azure-sql-and-postgresql-hands-on-lab-step-by-step)
   - [Abstract and learning objectives](#abstract-and-learning-objectives)
   - [Overview](#overview)
   - [Solution architecture](#solution-architecture)
@@ -59,7 +59,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
   - [After the hands-on lab](#after-the-hands-on-lab)
     - [Task 1: Delete the resource group](#task-1-delete-the-resource-group)
 
-# Data Platform upgrade and migration hands-on lab step-by-step
+# Migrating Oracle to Azure SQL and PostgreSQL hands-on lab step-by-step
 
 ## Abstract and learning objectives
 

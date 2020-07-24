@@ -24,7 +24,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 
 **Contents**
 
-- [Data Platform upgrade and migration whiteboard design session trainer guide](#data-platform-upgrade-and-migration-whiteboard-design-session-trainer-guide)
+- [Migrating Oracle to Azure SQL and PostgreSQL whiteboard design session trainer guide](#migrating-oracle-to-azure-sql-and-postgresql-whiteboard-design-session-trainer-guide)
 - [Trainer information](#trainer-information)
   - [Role of the trainer](#role-of-the-trainer)
   - [Whiteboard design session flow](#whiteboard-design-session-flow)
@@ -51,7 +51,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
   - [Checklist of preferred objection handling](#checklist-of-preferred-objection-handling)
   - [Customer quote (to be read back to the attendees at the end)](#customer-quote-to-be-read-back-to-the-attendees-at-the-end)
 
-# Data Platform upgrade and migration whiteboard design session trainer guide
+# Migrating Oracle to Azure SQL and PostgreSQL whiteboard design session trainer guide
 
 # Trainer information
 

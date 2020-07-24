@@ -24,7 +24,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 
 **Contents**
 
-- [Data Platform upgrade and migration whiteboard design session student guide](#data-platform-upgrade-and-migration-whiteboard-design-session-student-guide)
+- [Migrating Oracle to Azure SQL and PostgreSQL whiteboard design session student guide](#migrating-oracle-to-azure-sql-and-postgresql-whiteboard-design-session-student-guide)
   - [Abstract](#abstract)
   - [Step 1: Review the customer case study](#step-1-review-the-customer-case-study)
     - [Customer situation](#customer-situation)
@@ -36,7 +36,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
   - [Wrap-up](#wrap-up)
   - [Additional references](#additional-references)
 
-# Data Platform upgrade and migration whiteboard design session student guide
+# Migrating Oracle to Azure SQL and PostgreSQL whiteboard design session student guide
 
 ## Abstract
 

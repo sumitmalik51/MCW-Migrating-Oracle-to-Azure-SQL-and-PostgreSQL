@@ -55,7 +55,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 - [After the hands-on lab](#after-the-hands-on-lab)
   - [Task 1: Delete the resource group](#task-1-delete-the-resource-group)
 
-# Data Platform upgrade and migration hands-on lab step-by-step
+# Migrating Oracle to Azure SQL and PostgreSQL hands-on lab step-by-step
 
 ## Abstract and learning objectives
 

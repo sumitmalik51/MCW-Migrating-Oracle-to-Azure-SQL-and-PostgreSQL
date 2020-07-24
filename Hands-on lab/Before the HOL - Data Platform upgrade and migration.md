@@ -24,7 +24,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 
 **Contents**
 
-- [Data Platform upgrade and migration before the hands-on lab setup guide](#data-platform-upgrade-and-migration-before-the-hands-on-lab-setup-guide)
+- [Migrating Oracle to Azure SQL and PostgreSQL before the hands-on lab setup guide](#migrating-oracle-to-azure-sql-and-postgresql-before-the-hands-on-lab-setup-guide)
   - [Requirements](#requirements)
   - [Before the hands-on lab](#before-the-hands-on-lab)
     - [Task 1: Provision a resource group](#task-1-provision-a-resource-group)
@@ -38,7 +38,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
     - [Task 9: Create Azure Database Migration Service](#task-9-create-azure-database-migration-service)
     - [Task 10: Create Azure Database Migration Service for an Oracle to PostgreSQL Migration](#task-10-create-azure-database-migration-service-for-an-oracle-to-postgresql-migration)
 
-# Data Platform upgrade and migration before the hands-on lab setup guide
+# Migrating Oracle to Azure SQL and PostgreSQL before the hands-on lab setup guide
 
 ## Requirements
 

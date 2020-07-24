@@ -2,7 +2,7 @@
 ![Microsoft Cloud Workshops](https://github.com/Microsoft/MCW-Template-Cloud-Workshop/raw/master/Media/ms-cloud-workshop.png "Microsoft Cloud Workshops")
 
 <div class="MCWHeader1">
-Data Platform upgrade and migration
+Migrating Oracle to Azure SQL and PostgreSQL
 </div>
 
 <div class="MCWHeader2">

@@ -45,7 +45,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 - Microsoft Azure subscription must be pay-as-you-go or MSDN.
   - Trial subscriptions will not work.
 - A virtual machine configured with:
-  - Visual Studio 2019 Community
+  - Visual Studio 2019 Community (latest release)
 
 ## Before the hands-on lab
 
@@ -87,7 +87,7 @@ In this task, you will provision a virtual machine (VM) in Azure. The VM image u
 
     ![The Show portal menu icon is highlighted and the portal menu is displayed. Create a resource is highlighted in the portal menu.](media/create-a-resource.png "Create a resource")
 
-2. Enter "visual studio 2019" into the Search the Marketplace box and select Visual Studio.
+2. Enter "visual studio 2019" into the Search the Marketplace box and select Visual Studio Latest.
 
     !["Visual studio 2019" is entered into the Search the Marketplace box. Visual Studio 2019 Latest is highlighted in the results.](./media/create-resource-visual-studio-2019-latest.png "Visual Studio 2019 Latest")
 
@@ -261,13 +261,13 @@ In this task, you will provision another virtual machine (VM) in Azure which wil
 
      - **SQL connectivity**: Select Public (Internet).
      - **Port**: Leave set to 1433.
-
+ 
      > **Note**: SQL Connectivity is being set to public for this hands-on lab to simplify access during the lab. In a production environment, you would want to limit connectivity to only those IP addresses that require access.
 
    - SQL Authentication:
 
      - **SQL Authentication**: Select Enable.
-     - **Login name**: Enter demouser.
+     - **Login name**: Enter demouser
      - **Password**: Enter **Password.1!!**
 
      ![The previously specified values are entered into the SQL Server Settings blade.](media/sql-server-2017-create-vm-sql-settings.png "SQL Server Settings")
@@ -426,7 +426,7 @@ In this task, you will create an Azure SQL Database, which will serve as the tar
 
 5. On the Networking tab, set the following configuration:
 
-    - **Connectivity method**: Select Public endpoint.
+    - **Connectivity method**: Select **Public endpoint**.
     - **Allow Azure services and resources to access this server**: Select **Yes**.
     - **Add current client IP address**: Select **No**. If you would like to be able to access the database from your local machine (not required for this lab), you can set this to Yes.
 
@@ -452,7 +452,7 @@ In this task, you will register the `Microsoft.DataMigration` resource provider 
 
 ### Task 9: Create Azure Database Migration Service
 
->Note: If you plan to complete an Oracle to PostgreSQL migration, skip this task, and complete Task 10 instead.
+>**Note**: If you plan to complete an Oracle to PostgreSQL migration, skip this task, and complete Task 10 instead.
 
 In this task, you will provision an instance of the Azure Database Migration Service (DMS).
 
@@ -468,7 +468,7 @@ In this task, you will provision an instance of the Azure Database Migration Ser
 
     - **Subscription**: Select the subscription you are using for this hands-on lab.
     - **Resource Group**: Select the hands-on-lab-SUFFIX resource group from the list of existing resource groups.
-    - **Migration service name**: Enter wwi-dms-SUFFIX.
+    - **Migration service name**: Enter **wwi-dms-SUFFIX**.
     - **Location**: Select the location you are using for resources in this hands-on lab.
     - **Pricing tier**: Select Standard: 1 vCores.
 
@@ -486,7 +486,7 @@ In this task, you will provision an instance of the Azure Database Migration Ser
   
 7. Select **Create**.
 
-8. It can take 15 minutes to deploy the Azure Data Migration Service.
+>**Note**: It can take 15 minutes to deploy the Azure Data Migration Service.
 
 ### Task 10: Create Azure Database Migration Service for an Oracle to PostgreSQL Migration
 
@@ -504,7 +504,7 @@ In this task, you will provision an instance of the Azure Database Migration Ser
 
     - **Subscription**: Select the subscription you are using for this hands-on lab.
     - **Resource Group**: Select the hands-on-lab-SUFFIX resource group from the list of existing resource groups.
-    - **Migration service name**: Enter wwi-dms-SUFFIX.
+    - **Migration service name**: Enter **wwi-dms-SUFFIX**.
     - **Location**: Select the location you are using for resources in this hands-on lab.
     - **Pricing tier**: Select Premium: 4 vCores (you will need to select *Configure tier* to view this option).
 
@@ -522,6 +522,6 @@ In this task, you will provision an instance of the Azure Database Migration Ser
   
 7. Select **Create**.
 
-8. It can take 15 minutes to deploy the Azure Data Migration Service.
+>**Note**: It can take 15 minutes to deploy the Azure Data Migration Service.
 
 You should follow all steps provided *before* performing the Hands-on lab.

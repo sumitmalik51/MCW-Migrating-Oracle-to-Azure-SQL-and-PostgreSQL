@@ -1,4 +1,4 @@
-# Data Platform upgrade and migration
+# Migrating Oracle to Azure SQL and PostgreSQL
 
 Wide World Importers (WWI) has experienced significant growth in the last few years. In addition to predictable growth, they’ve had a substantial amount of growth in the data they store in their data warehouse. Their data warehouse is starting to show its age, slowing down during extract, transform, and load (ETL) operations and during critical queries. The data warehouse is running on SQL Server 2008 R2 Standard Edition.
 

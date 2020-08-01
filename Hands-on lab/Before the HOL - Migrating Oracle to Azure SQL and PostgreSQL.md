@@ -24,19 +24,19 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 
 **Contents**
 
-- [Migrating Oracle to Azure SQL and PostgreSQL before the hands-on lab setup guide](#migrating-oracle-to-azure-sql-and-postgresql-before-the-hands-on-lab-setup-guide)
+- [Migrating Oracle to Azure SQL and PostgreSQL before the hands-on lab setup guide](#migratingoracletoazuresql-andpostgresql-before-the-hands-on-lab-setup-guide)
   - [Requirements](#requirements)
   - [Before the hands-on lab](#before-the-hands-on-lab)
     - [Task 1: Provision a resource group](#task-1-provision-a-resource-group)
     - [Task 2: Create lab virtual machine](#task-2-create-lab-virtual-machine)
-    - [Task 3: Create SQL Server 2017 virtual machine](#task-3-create-sql-server-2017-virtual-machine)
-    - [Task 4: Create SQL Server 2008 R2 virtual machine](#task-4-create-sql-server-2008-r2-virtual-machine)
-    - [Task 5: Connect to the Lab VM](#task-5-connect-to-the-lab-vm)
-    - [Task 6: Connect to the SqlServer2008 VM](#task-6-connect-to-the-sqlserver2008-vm)
-    - [Task 7: Provision Azure SQL Database](#task-7-provision-azure-sql-database)
+    - [Task 3: Connect to the Lab VM](#task-3-connect-to-the-lab-vm)
+    - [Task 4 (Migrate to Azure SQL): Create SQL Server 2017 virtual machine](#task-4-migrate-to-azure-sql-create-sql-server-2017-virtual-machine)
+    - [Task 5 (Migrate to Azure SQL): Create SQL Server 2008 R2 virtual machine](#task-5-migrate-to-azure-sql-create-sql-server-2008-r2-virtual-machine)
+    - [Task 6 (Migrate to Azure SQL): Connect to the SqlServer2008 VM](#task-6-migrate-to-azure-sql-connect-to-the-sqlserver2008-vm)
+    - [Task 7 (Migrate to Azure SQL): Provision Azure SQL Database](#task-7-migrate-to-azure-sql-provision-azure-sql-database)
     - [Task 8: Register the Microsoft DataMigration resource provider](#task-8-register-the-microsoft-datamigration-resource-provider)
-    - [Task 9: Create Azure Database Migration Service](#task-9-create-azure-database-migration-service)
-    - [Task 10: Create Azure Database Migration Service for an Oracle to PostgreSQL Migration](#task-10-create-azure-database-migration-service-for-an-oracle-to-postgresql-migration)
+    - [Task 9 (Migrate to Azure SQL): Create Azure Database Migration Service for SQL Server](#task-9-migrate-to-azure-sql-create-azure-database-migration-service-for-sql-server)
+    - [Task 10  (Migrate to PostgreSQL): Create Azure Database Migration Service for an Oracle to PostgreSQL Migration](#task-10-migrate-to-postgresql-create-azure-database-migration-service-for-an-oracle-to-postgresql-migration)
 
 # Migrating Oracle to Azure SQL and PostgreSQL before the hands-on lab setup guide
 
@@ -132,7 +132,60 @@ In this task, you will provision a virtual machine (VM) in Azure. The VM image u
 
 8. It may take 10+ minutes for the virtual machine to complete provisioning. You can move on to the next task while waiting for the lab VM to provision.
 
-### Task 3: Create SQL Server 2017 virtual machine
+### Task 3: Connect to the Lab VM
+
+In this task, you will create an RDP connection to your Lab virtual machine (VM) and disable Internet Explorer Enhanced Security Configuration.
+
+1. In the [Azure portal](https://portal.azure.com), select **Resource groups** from the Azure services list.
+
+    ![Resource groups is highlighted in the Azure services list.](media/azure-services-resource-groups.png "Azure services")
+
+2. On the Resource groups blade, enter your resource group name (hands-on-lab-SUFFIX) into the filter box, and select it from the list.
+
+    ![Resource groups is selected in the Azure navigation pane, "hands" is entered into the filter box, and the "hands-on-lab-SUFFIX" resource group is highlighted.](./media/resource-groups.png "Resource groups list")
+
+3. In the list of resources for your resource group, select the LabVM Virtual Machine.
+
+    ![The list of resources in the hands-on-lab-SUFFIX resource group are displayed, and LabVM is highlighted.](./media/resource-group-resources-labvm.png "LabVM in resource group list")
+
+4. On your Lab VM blade, select **Connect** from the top menu.
+
+    ![The LabVM blade is displayed, with the Connect button highlighted in the top menu.](./media/connect-vm.png "Connect to LabVM")
+
+5. Select **Download RDP file**, then open the downloaded RDP file.
+
+    ![The Connect to virtual machine blade is displayed, and the Download RDP file button is highlighted.](./media/connect-to-virtual-machine.png "Connect to virtual machine")
+
+6. Select **Connect** on the Remote Desktop Connection dialog.
+
+    ![In the Remote Desktop Connection Dialog Box, the Connect button is highlighted.](./media/remote-desktop-connection.png "Remote Desktop Connection dialog")
+
+7. Enter the following credentials when prompted:
+
+    - **Username**: demouser
+    - **Password**: Password.1!!
+
+8. Select **Yes** to connect, if prompted that the identity of the remote computer cannot be verified.
+
+    ![In the Remote Desktop Connection dialog box, a warning states that the identity of the remote computer cannot be verified, and asks if you want to continue anyway. At the bottom, the Yes button is circled.](./media/remote-desktop-connection-identity-verification-labvm.png "Remote Desktop Connection dialog")
+
+9. Once logged in, launch the **Server Manager**. This should start automatically, but you can access it via the Start menu if it does not.
+
+    ![The Server Manager tile is circled in the Start Menu.](./media/start-menu-server-manager.png "Server Manager tile in the Start menu")
+
+10. Select **Local Server**, then select **On** next to **IE Enhanced Security Configuration**.
+
+    ![Screenshot of the Server Manager. In the left pane, Local Server is selected. In the right, Properties (For LabVM) pane, the IE Enhanced Security Configuration, which is set to On, is highlighted.](./media/windows-server-manager-ie-enhanced-security-configuration.png "Server Manager")
+
+11. In the Internet Explorer Enhanced Security Configuration dialog, select **Off** under both Administrators and Users, and then select **OK**.
+
+    ![Screenshot of the Internet Explorer Enhanced Security Configuration dialog box, with Administrators set to Off.](./media/internet-explorer-enhanced-security-configuration-dialog.png "Internet Explorer Enhanced Security Configuration dialog box")
+
+12. Close the Server Manager.
+
+>**Note**: Tasks 4 through 7 apply to students running the Oracle to Azure SQL lab. Students running the **Migrate to PostgreSQL** option should skip to Task 8.
+
+### Task 4 (Migrate to Azure SQL): Create SQL Server 2017 virtual machine
 
 In this task, you will provision another virtual machine (VM) in Azure which will host your "on-premises" instance of SQL Server 2017 Enterprise.
 
@@ -208,11 +261,11 @@ In this task, you will provision another virtual machine (VM) in Azure which wil
 
 10. It may take 10+ minutes for the virtual machine to complete provisioning. You can move on to the next task while waiting for the SqlServer2017 VM to provision.
 
-### Task 4: Create SQL Server 2008 R2 virtual machine
+### Task 5 (Migrate to Azure SQL): Create SQL Server 2008 R2 virtual machine
 
 In this task, you will provision another virtual machine (VM) in Azure which will host your "on-premises" instance of SQL Server 2008 R2. The VM will use the SQL Server 2008 R2 SP3 Standard on Windows Server 2008 R2 image.
 
-> **Note**:  An older version of Windows Server is being used because SQL Server 2008 R2 is not supported on Windows Server 2016.
+>**Note**:  An older version of Windows Server is being used because SQL Server 2008 R2 is not supported on Windows Server 2016.
 
 1. In the [Azure portal](https://portal.azure.com/), select the **Show portal menu** icon and then select **+Create a resource** from the menu.
 
@@ -261,7 +314,7 @@ In this task, you will provision another virtual machine (VM) in Azure which wil
 
      - **SQL connectivity**: Select Public (Internet).
      - **Port**: Leave set to 1433.
- 
+
      > **Note**: SQL Connectivity is being set to public for this hands-on lab to simplify access during the lab. In a production environment, you would want to limit connectivity to only those IP addresses that require access.
 
    - SQL Authentication:
@@ -280,58 +333,7 @@ In this task, you will provision another virtual machine (VM) in Azure which wil
 
 9. It may take 10+ minutes for the virtual machine to complete provisioning. You can move on to the next task while waiting for the SqlServer2008 VM to provision.
 
-### Task 5: Connect to the Lab VM
-
-In this task, you will create an RDP connection to your Lab virtual machine (VM) and disable Internet Explorer Enhanced Security Configuration.
-
-1. In the [Azure portal](https://portal.azure.com), select **Resource groups** from the Azure services list.
-
-    ![Resource groups is highlighted in the Azure services list.](media/azure-services-resource-groups.png "Azure services")
-
-2. On the Resource groups blade, enter your resource group name (hands-on-lab-SUFFIX) into the filter box, and select it from the list.
-
-    ![Resource groups is selected in the Azure navigation pane, "hands" is entered into the filter box, and the "hands-on-lab-SUFFIX" resource group is highlighted.](./media/resource-groups.png "Resource groups list")
-
-3. In the list of resources for your resource group, select the LabVM Virtual Machine.
-
-    ![The list of resources in the hands-on-lab-SUFFIX resource group are displayed, and LabVM is highlighted.](./media/resource-group-resources-labvm.png "LabVM in resource group list")
-
-4. On your Lab VM blade, select **Connect** from the top menu.
-
-    ![The LabVM blade is displayed, with the Connect button highlighted in the top menu.](./media/connect-labvm.png "Connect to LabVM")
-
-5. Select **Download RDP file**, then open the downloaded RDP file.
-
-    ![The Connect to virtual machine blade is displayed, and the Download RDP file button is highlighted.](./media/connect-to-virtual-machine.png "Connect to virtual machine")
-
-6. Select **Connect** on the Remote Desktop Connection dialog.
-
-    ![In the Remote Desktop Connection Dialog Box, the Connect button is highlighted.](./media/remote-desktop-connection.png "Remote Desktop Connection dialog")
-
-7. Enter the following credentials when prompted:
-
-    - **Username**: demouser
-    - **Password**: Password.1!!
-
-8. Select **Yes** to connect, if prompted that the identity of the remote computer cannot be verified.
-
-    ![In the Remote Desktop Connection dialog box, a warning states that the identity of the remote computer cannot be verified, and asks if you want to continue anyway. At the bottom, the Yes button is circled.](./media/remote-desktop-connection-identity-verification-labvm.png "Remote Desktop Connection dialog")
-
-9. Once logged in, launch the **Server Manager**. This should start automatically, but you can access it via the Start menu if it does not.
-
-    ![The Server Manager tile is circled in the Start Menu.](./media/start-menu-server-manager.png "Server Manager tile in the Start menu")
-
-10. Select **Local Server**, then select **On** next to **IE Enhanced Security Configuration**.
-
-    ![Screenshot of the Server Manager. In the left pane, Local Server is selected. In the right, Properties (For LabVM) pane, the IE Enhanced Security Configuration, which is set to On, is highlighted.](./media/windows-server-manager-ie-enhanced-security-configuration.png "Server Manager")
-
-11. In the Internet Explorer Enhanced Security Configuration dialog, select **Off** under both Administrators and Users, and then select **OK**.
-
-    ![Screenshot of the Internet Explorer Enhanced Security Configuration dialog box, with Administrators set to Off.](./media/internet-explorer-enhanced-security-configuration-dialog.png "Internet Explorer Enhanced Security Configuration dialog box")
-
-12. Close the Server Manager.
-
-### Task 6: Connect to the SqlServer2008 VM
+### Task 6 (Migrate to Azure SQL): Connect to the SqlServer2008 VM
 
 In this task, you will create an RDP connection to the SqlServer2008 VM and disable Internet Explorer Enhanced Security Configuration.
 
@@ -382,7 +384,7 @@ In this task, you will create an RDP connection to the SqlServer2008 VM and disa
 
 12. Close the Server Manager.
 
-### Task 7: Provision Azure SQL Database
+### Task 7 (Migrate to Azure SQL): Provision Azure SQL Database
 
 In this task, you will create an Azure SQL Database, which will serve as the target database for migration of the on-premises WorldWideImporters database into the cloud. The Premium tier is required to support ColumnStore index creation.
 
@@ -450,7 +452,7 @@ In this task, you will register the `Microsoft.DataMigration` resource provider 
 
     ![The Subscription blade is displayed, with Resource providers selected and highlighted under Settings. On the Resource providers blade, migration is entered into the filter box, and Register is highlighted next to Microsoft.DataMigration.](media/azure-portal-subscriptions-resource-providers-register-microsoft-datamigration.png "Resource provider registration")
 
-### Task 9: Create Azure Database Migration Service
+### Task 9 (Migrate to Azure SQL): Create Azure Database Migration Service for SQL Server
 
 >**Note**: If you plan to complete an Oracle to PostgreSQL migration, skip this task, and complete Task 10 instead.
 
@@ -488,9 +490,9 @@ In this task, you will provision an instance of the Azure Database Migration Ser
 
 >**Note**: It can take 15 minutes to deploy the Azure Data Migration Service.
 
-### Task 10: Create Azure Database Migration Service for an Oracle to PostgreSQL Migration
+### Task 10  (Migrate to PostgreSQL): Create Azure Database Migration Service for an Oracle to PostgreSQL Migration
 
-In this task, you will provision an instance of the Azure Database Migration Service (DMS) for use with an *online* Oracle to PostgreSQL migration. This requires that we implement the Premium tier. 
+In this task, you will provision an instance of the Azure Database Migration Service (DMS) for use with an *online* Oracle to PostgreSQL migration. This requires that we implement the **Premium** tier.
 
 1. In the [Azure portal](https://portal.azure.com/), select the **Show portal menu** icon and then select **+Create a resource** from the menu.
 

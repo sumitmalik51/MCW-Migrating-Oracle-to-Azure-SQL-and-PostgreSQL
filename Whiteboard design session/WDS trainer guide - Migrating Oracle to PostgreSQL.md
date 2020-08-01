@@ -2,7 +2,7 @@
 ![Microsoft Cloud Workshops](https://github.com/Microsoft/MCW-Template-Cloud-Workshop/raw/master/Media/ms-cloud-workshop.png "Microsoft Cloud Workshops")
 
 <div class="MCWHeader1">
-Migrating Oracle to Azure SQL and PostgreSQL
+Migrating Oracle to PostgreSQL
 </div>
 
 <div class="MCWHeader2">
@@ -25,7 +25,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 
 **Contents**
 
-- [Migrating Oracle to Azure SQL and PostgreSQL whiteboard design session trainer guide](#migrating-oracle-to-azure-sql-and-postgresql-whiteboard-design-session-trainer-guide)
+- [Migrating Oracle to PostgreSQL whiteboard design session trainer guide](#migratingoracletopostgresql-whiteboard-design-session-trainer-guide)
 - [Trainer information](#trainer-information)
   - [Role of the trainer](#role-of-the-trainer)
   - [Whiteboard design session flow](#whiteboard-design-session-flow)
@@ -42,7 +42,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
   - [Step 3: Present the solution](#step-3-present-the-solution)
   - [Wrap-up](#wrap-up)
   - [Additional references](#additional-references)
-- [Data Platform upgrade and migration whiteboard design session trainer guide](#data-platform-upgrade-and-migration-whiteboard-design-session-trainer-guide-1)
+- [Data Platform upgrade and migration whiteboard design session trainer guide](#data-platform-upgrade-and-migration-whiteboard-design-session-trainer-guide)
   - [Step 1: Review the customer case study](#step-1-review-the-customer-case-study-1)
   - [Step 2: Design a proof of concept solution](#step-2-design-a-proof-of-concept-solution-1)
   - [Step 3: Present the solution](#step-3-present-the-solution-1)
@@ -52,7 +52,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
   - [Checklist of preferred objection handling](#checklist-of-preferred-objection-handling)
   - [Customer quote (to be read back to the attendees at the end)](#customer-quote-to-be-read-back-to-the-attendees-at-the-end)
 
-# Migrating Oracle to Azure SQL and PostgreSQL whiteboard design session trainer guide
+# Migrating Oracle to PostgreSQL whiteboard design session trainer guide
 
 # Trainer information
 
@@ -486,9 +486,9 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
     ora2pg is a powerful open-source tool that converts an Oracle database schema into a PostgreSQL-compatible one. It provides assessment tools, allowing developers to get a sense of the amount of time that the migration will take. It also can directly copy data into the target database. While these features are excellent, performing an online migration requires that developers run a query against each table in the source individually to identify changes made following the initial migration, and then migrate the changes. So, Microsoft developed the Azure Database Migration Service (DMS) to address the issues present with online database migration.
 
     >**NOTE**: Using DMS requires that you enable the Microsoft.DataMigration resource provider for your subscription.
-    
+
     DMS, when created with the Premium tier, simplifies Oracle to PostgreSQL online migrations. You have the option to create a PostgreSQL-compatible table schema using ora2pg, or allow DMS to copy the Oracle schema, modify it for PostgreSQL, and construct objects in the target itself. Note that the latter only migrates table schemas - you are still responsible for migrating other objects. With either of these workflows, you first create a new project, connect to the source Oracle database, and connect to the target PostgreSQL database. If you choose to create the target tables before using DMS, you will map source tables to target tables. Otherwise, you will simply map the source and target databases. Then, you will run the migration. The migration will automatically apply changes made to the source database during the migration (this is called incremental data sync). 
-    
+
 2. Update your diagram for the data loading process with the steps you identified.
 
     See the diagram provided under High-level architecture.
@@ -511,7 +511,7 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 
     The REST services need to be approached the same way the MVC storefront application is approached. If they've used an ORM, then we can repoint the connectionStrings and redeploy.
 
-    JSON data should be stored in the `JSONB` field of PostgreSQL. While PostgreSQL also offers the `JSON` type, the `JSONB` field allows columns storing JSON data to be indexed. In addition, powerful JSON operators simplify complex tasks such as retrieving all JSON data that contains a particular key-value pair. 
+    JSON data should be stored in the `JSONB` field of PostgreSQL. While PostgreSQL also offers the `JSON` type, the `JSONB` field allows columns storing JSON data to be indexed. In addition, powerful JSON operators simplify complex tasks such as retrieving all JSON data that contains a particular key-value pair.
 
 *Reporting*
 
@@ -525,7 +525,7 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 
 1. If our solution were PostgreSQL, what could WWI have done with the audit table when it filled up?
 
-    PostgreSQL's logging tools and pgAudit export events in .log files. Azure Database for PostgreSQL has the ability to export these files as JSON for storage in Azure Monitor. Log files are created hourly or once their contents reach 100 MB in size. In Azure Monitor, logs can be analyzed, visualized, and used in more ways. 
+    PostgreSQL's logging tools and pgAudit export events in .log files. Azure Database for PostgreSQL has the ability to export these files as JSON for storage in Azure Monitor. Log files are created hourly or once their contents reach 100 MB in size. In Azure Monitor, logs can be analyzed, visualized, and used in more ways.
 
     Alternatively, if this feature is not enabled, Azure Database for PostgreSQL stores logs in a 1 GB area. If this area becomes fully populated, the oldest files in the region will be deleted. Otherwise, logs will be deleted once their retention period ends, which by default is 3 days.
 
@@ -537,7 +537,7 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
     - Hyperscale (Citus) shards databases, and each shard is stored in multiple locations throughout the cluster
     - Replication options
     - Log shipping
-    
+
 *Azure Database for PostgreSQL POC*
 
 1. Should they move to on-premises first?
@@ -616,7 +616,6 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 11. What will happen with Power BI?
 
     Developers can connect to Azure Database for PostgreSQL from Power BI desktop. It is now possible to leverage DirectQuery to connect to Azure Database for PostgreSQL from Power BI Service.
-
 
 ## Customer quote (to be read back to the attendees at the end)
 

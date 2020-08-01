@@ -1,7 +1,7 @@
 ![Microsoft Cloud Workshops](https://github.com/Microsoft/MCW-Template-Cloud-Workshop/raw/master/Media/ms-cloud-workshop.png "Microsoft Cloud Workshops")
 
 <div class="MCWHeader1">
-Migrating Oracle to Azure SQL and PostgreSQL
+Migrating Oracle to PostgreSQL
 </div>
 
 <div class="MCWHeader2">
@@ -24,37 +24,36 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 
 **Contents**
 
-- [Migrating Oracle to Azure SQL and PostgreSQL hands-on lab step-by-step](#migrating-oracle-to-azure-sql-and-postgresql-hands-on-lab-step-by-step)
-    - [Abstract and learning objectives](#abstract-and-learning-objectives)
-    - [Overview](#overview)
-    - [Solution architecture](#solution-architecture)
-    - [Requirements](#requirements)
-    - [Exercise 1: Setup Oracle 11g Express Edition](#exercise-1-setup-oracle-11g-express-edition)
-        - [Task 1: Install Oracle XE](#task-1-install-oracle-xe)
-        - [Task 2: Install Oracle Data Access components](#task-2-install-oracle-data-access-components)
-        - [Task 3: Install dbForge Fusion tool](#task-3-install-dbforge-fusion-tool)
-        - [Task 4: Create the Northwind database in Oracle 11g XE](#task-4-create-the-northwind-database-in-oracle-11g-xe)
-        - [Task 5: Configure the Starter Application to use Oracle](#task-5-configure-the-starter-application-to-use-oracle)
-    - [Exercise 2: Assess the Oracle 11g Database before Migrating to PostgreSQL](#exercise-2-assess-the-oracle-11g-database-before-migrating-to-postgresql)
-        - [Task 1: Update Statistics and Identify Invalid Objects](#task-1-update-statistics-and-identify-invalid-objects)
-    - [Exercise 3: Prepare to Migrate the Oracle database to PostgreSQL](#exercise-3-prepare-to-migrate-the-oracle-database-to-postgresql)
-        - [Task 1: Create Azure Resources](#task-1-create-azure-resources)
-        - [Task 2: Configure the PostgreSQL server instance](#task-2-configure-the-postgresql-server-instance)
-        - [Task 3: Install pgAdmin on the LabVM](#task-3-install-pgadmin-on-the-labvm)
-        - [Task 4: Install ora2pg](#task-4-install-ora2pg)
-        - [Task 5: Prepare the PostgreSQL instance using pgAdmin](#task-5-prepare-the-postgresql-instance-using-pgadmin)
-        - [Task 6: Create an ora2pg project structure](#task-6-create-an-ora2pg-project-structure)
-        - [Task 7: Create a migration report](#task-7-create-a-migration-report)
-    - [Exercise 4: Migrate the Database and Application](#exercise-4-migrate-the-database-and-application)
-        - [Task 1: Migrate the basic database table schema using ora2pg](#task-1-migrate-the-basic-database-table-schema-using-ora2pg)
-        - [Task 2: Use Azure Database Migration Service to migrate table data](#task-2-use-azure-database-migration-service-to-migrate-table-data)
-        - [Task 3: Finishing the table schema migration](#task-3-finishing-the-table-schema-migration)
-        - [Task 4: Migrate Views](#task-4-migrate-views)
-        - [Task 5: Migrate the Stored Procedure](#task-5-migrate-the-stored-procedure)
-        - [Task 6: Create new Entity Data Models and update the application on the Lab VM](#task-6-create-new-entity-data-models-and-update-the-application-on-the-lab-vm)
-        - [Task 7: Deploy the application to Azure](#task-7-deploy-the-application-to-azure)    
-    - [After the hands-on lab](#after-the-hands-on-lab)
-        - [Task 1: Delete the resource group](#task-1-delete-the-resource-group)
+- [Migrating Oracle to Azure SQL and PostgreSQL hands-on lab step-by-step](#migratingoracletoazuresql-andpostgresql-hands-on-lab-step-by-step)
+  - [Abstract and learning objectives](#abstract-and-learning-objectives)
+  - [Overview](#overview)
+  - [Solution architecture](#solution-architecture)
+  - [Requirements](#requirements)
+  - [Exercise 1: Setup Oracle 11g Express Edition](#exercise-1-setup-oracle-11g-express-edition)
+    - [Task 1: Install Oracle XE](#task-1-install-oracle-xe)
+    - [Task 2: Install Oracle Data Access components](#task-2-install-oracle-data-access-components)
+    - [Task 3: Install dbForge Fusion tool](#task-3-install-dbforge-fusion-tool)
+    - [Task 4: Create the Northwind database in Oracle 11g XE](#task-4-create-the-northwind-database-in-oracle-11g-xe)
+  - [Exercise 2: Assess the Oracle 11g Database before Migrating to PostgreSQL](#exercise-2-assess-the-oracle-11g-database-before-migrating-to-postgresql)
+    - [Task 1: Update Statistics and Identify Invalid Objects](#task-1-update-statistics-and-identify-invalid-objects)
+  - [Exercise 3: Prepare to Migrate the Oracle database to PostgreSQL](#exercise-3-prepare-to-migrate-the-oracle-database-to-postgresql)
+    - [Task 1: Create Azure Resources](#task-1-create-azure-resources)
+    - [Task 2: Configure the PostgreSQL server instance](#task-2-configure-the-postgresql-server-instance)
+    - [Task 3: Install pgAdmin on the LabVM](#task-3-install-pgadmin-on-the-labvm)
+    - [Task 4: Install ora2pg](#task-4-install-ora2pg)
+    - [Task 5: Prepare the PostgreSQL instance using pgAdmin](#task-5-prepare-the-postgresql-instance-using-pgadmin)
+    - [Task 6: Create an ora2pg project structure](#task-6-create-an-ora2pg-project-structure)
+    - [Task 7: Create a migration report](#task-7-create-a-migration-report)
+  - [Exercise 4: Migrate the Database and Application](#exercise-4-migrate-the-database-and-application)
+    - [Task 1: Migrate the basic database table schema using ora2pg](#task-1-migrate-the-basic-database-table-schema-using-ora2pg)
+    - [Task 2: Use Azure Database Migration Service to migrate table data](#task-2-use-azure-database-migration-service-to-migrate-table-data)
+  - [Task 3: Finishing the table schema migration](#task-3-finishing-the-table-schema-migration)
+    - [Task 4: Migrate Views](#task-4-migrate-views)
+    - [Task 5: Migrate the Stored Procedure](#task-5-migrate-the-stored-procedure)
+    - [Task 6: Create new Entity Data Models and update the application on the Lab VM](#task-6-create-new-entity-data-models-and-update-the-application-on-the-lab-vm)
+    - [Task 7: Deploy the application to Azure](#task-7-deploy-the-application-to-azure)
+  - [After the hands-on lab](#after-the-hands-on-lab)
+    - [Task 1: Delete the resource group](#task-1-delete-the-resource-group)
 
 # Migrating Oracle to Azure SQL and PostgreSQL hands-on lab step-by-step
 
@@ -152,7 +151,7 @@ In this task, you will download and configure Oracle Data Access components so t
 
 6. Select **Next** to accept the default language, English, on the first screen.
 
-7. On the Specify Oracle Home User screen, accept the default, Use Windows Built-in Account, and select **Next**.
+7. On the Specify Oracle Home User screen, accept the defaults. Use the Windows Built-in Account, and select **Next**.
 
 8. Accept the default installation locations, and select **Next**.
 
@@ -422,11 +421,11 @@ We need to create a PostgreSQL instance and an App Service to host our applicati
 
 In this task, we will be modifying the PostgreSQL instance to fit our needs.
 
-1. Storage Auto-growth is a feature in which Azure will add more storage automatically when you run out of it. We do not need it for our purposes so we will need to disable it. To do this, locate the PostgreSQL instance you created. Then, under the **Settings** tab, select **Pricing tier**.
+1. Storage Auto-growth is a feature in which Azure will add more storage automatically when required. We do not need it for our purposes so we will need to disable it. To do this, locate the PostgreSQL instance you created. Under the **Settings** tab, select **Pricing tier**.
 
     ![Changing the pricing tier in PostGre SQL instance.](./media/changing-tier.PNG "Pricing tier")
 
-2. Find the **Storage Auto-growth** switch, and disable the feature. Select **OK** at the bottom of the page to save your change. 
+2. Find the **Storage Auto-growth** switch, and disable the feature. Select **OK** at the bottom of the page to save your change.
 
     ![Disabling storage auto-growth feature.](./media/disabling-auto-grow.PNG  "Storage auto-growth toggled to no")
 
@@ -438,7 +437,7 @@ In this task, we will be modifying the PostgreSQL instance to fit our needs.
 
     ![Adding IP addresses as an Access Rule](./media/adding-open-ip-address-range.png "IP Addresses highlighted")
 
-    >**NOTE**: Do not use this type of rule for databases with sensitive data. You are allowing access from any IP address.
+    >**NOTE**: Do not use this type of rule for databases with sensitive data or in a production environment. You are allowing access from any IP address.
 
 ### Task 3: Install pgAdmin on the LabVM
 
@@ -1137,7 +1136,7 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
 
 10. Now, add references to multiple assemblies.
     - Under the **Solution Explorer**, right-click **References**.
-    - Select **Add Reference...**.  
+    - Select **Add Reference**.  
     - Locate **Browse** on the left-hand side of the **Reference Manager** dialog box.
     - Select **Browse** at the bottom right corner of the box.
 
@@ -1167,7 +1166,7 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
 
 16. Then, right-click the **Data** directory in the **Solution Explorer**.
 
-    - Select **Add** and **New Item...**.
+    - Select **Add** and then **New Item**.
     - Then, select **ADO.NET Entity Data Model**.
     - Name it **DataContext**.
     - Finally, select **Add**.
@@ -1178,7 +1177,7 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
 
     ![Screenshot to choose model type.](./media/visual-studio-entity-data-model-wizard-choose-model.png "Choosing model type")
 
-18. On the **Choose Your Data Connection** page, select **New Connection...**.
+18. On the **Choose Your Data Connection** page, select **New Connection**.
 
 19. Under the **Connection Properties** window, you will need to change your Data Source to **PostgreSQL Server (dotConnect for PostgreSQL)**.
     - Select **Change**.
@@ -1231,7 +1230,7 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
         - In ORDER_DETAILS.cs, do not capitalize and do not provide column attributes for the order and product properties\
         - In PRODUCT.cs, capitalize the category and supplier properties but do not provide attributes. Also, do not use CATEGORY as the property name--instead, write CATEGORy\
         - In TERRITORY.cs, do not capitalize or provide an attribute for any properties following REGIONID\
-        - When in doubt if a column exists in the database, check the table schema created by ora2pg. Any columns in the database will require an attribute\
+        - Check the table schema created by ora2pg. Any columns in the database will require an attribute\
         **DataContext.cs changes:**\
             - Modify e.employee1 to e.EMPLOYEE1 (line 36)\
             - Modify e.reportsto to e.REPORTSTO (line 37)\
@@ -1371,13 +1370,13 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
 
     ![Start is highlighted on the toolbar.](./media/start-iisexpress.png "Select Start")
 
-38. If you were successful, the application should launch locally in Internet Explorer.
+38. The application should launch locally in Internet Explorer.
 
     ![Screenshot showing the application final result.](./media/northwind-app-postgre.PNG "Application final result")
 
 ### Task 7: Deploy the application to Azure
 
-We will deploy our built application to be served by IIS running in our Azure App Service instance. We will make use of the publish profile that we downloaded previously.
+The built application will be deployed to IIS. The existing publishing profile should be used.
 
 1. Devart's dotConnect has licensing agreements that must be met before deployment.
     - Select **License Information...** under **Tools > PostgreSQL**. The following wizard will open.
@@ -1393,11 +1392,11 @@ We will deploy our built application to be served by IIS running in our Azure Ap
 
     ![Screenshot showing recompiling the build.](./media/recompile-build.PNG "Recompiling the build")
 
-4. If you relaunch the wizard, another fix will have to be done, since **dotConnect** must know which applications and libraries reference its DLLs. Again, select **Fix**.
+4. If you relaunch the wizard, another fix will have to be done. **dotConnect** must know the applications and libraries reference its DLLs. Again, select **Fix**.
 
     ![Screenshot showing how to fix licensing.](./media/fix-2-licensing.PNG "Fix licensing")
 
-5. At the **Specify which executables are allowed to use the class library** page, **Add** *NorthwindMVC.dll* and *w3wp.exe*, the IIS worker process which serves requests. A new file titled licenses.config will be created with these details. Select **Next >**.
+5. At the **Specify which executables are allowed to use the class library** dialog, select the **Add** button and then select *NorthwindMVC.dll* and *w3wp.exe* executible options. The IIS worker process will allow requests to be served. A new file titled licenses.config will be created with these details. Select **Next >**.
 
     ![Screenshot showing choosing the right executables.](./media/dll-and-exe.PNG "Specify which executables")
 
@@ -1413,13 +1412,13 @@ We will deploy our built application to be served by IIS running in our Azure Ap
 
     ![Screenshot showing publish settings window.](./media/publish-settings-file-dialog.PNG "publish settings window")
 
-10. Verify that your app is published using the **Web Deploy** method. If so, accept the remaining settings and select **Publish**.
+10. Verify that your app is published using the **Web Deploy** method. Accept the remaining settings and select **Publish**.
 
     ![Screenshot showing Azure deployment.](./media/azure-deploy.png "Azure deploy")
 
 11. First, your application will build. Then, all relevant files will be copied and organized on the host such that all relevant assets are served to the client.
 
-12. Once the build completes, navigate to your app's link. All operations will work as expected.
+12. Once the build completes, navigate to your app's link. Test the web application.
 
     ![Screenshot showing The Northwind app deployed to Azure App Service.](./media/final-northwindapp.png "App deployed to Azure")
 

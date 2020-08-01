@@ -1,7 +1,7 @@
 ![Microsoft Cloud Workshops](https://github.com/Microsoft/MCW-Template-Cloud-Workshop/raw/master/Media/ms-cloud-workshop.png "Microsoft Cloud Workshops")
 
 <div class="MCWHeader1">
-Migrating Oracle to Azure SQL and PostgreSQL
+Migrating Oracle to Azure SQL
 </div>
 
 <div class="MCWHeader2">
@@ -24,7 +24,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 
 **Contents**
 
-- [Migrating Oracle to Azure SQL and PostgreSQL whiteboard design session student guide](#migrating-oracle-to-azure-sql-and-postgresql-whiteboard-design-session-student-guide)
+- [Migrating Oracle to Azure SQL whiteboard design session student guide](#migratingoracletoazuresql-whiteboard-design-session-student-guide)
   - [Abstract](#abstract)
   - [Step 1: Review the customer case study](#step-1-review-the-customer-case-study)
     - [Customer situation](#customer-situation)
@@ -36,7 +36,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
   - [Wrap-up](#wrap-up)
   - [Additional references](#additional-references)
 
-# Migrating Oracle to Azure SQL and PostgreSQL whiteboard design session student guide
+# Migrating Oracle to Azure SQL whiteboard design session student guide
 
 ## Abstract
 

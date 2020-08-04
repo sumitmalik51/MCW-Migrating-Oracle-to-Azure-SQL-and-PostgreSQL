@@ -116,8 +116,8 @@ In this task, you will provision a virtual machine (VM) in Azure. The VM image u
 
     - Administrator Account:
 
-        - **Username**: Enter **demouser**
-        - **Password**: Enter **Password.1!!**
+        - **Username**: demouser
+        - **Password**: Password.1!!
 
     - Inbound Port Rules:
 
@@ -222,8 +222,8 @@ In this task, you will provision another virtual machine (VM) in Azure which wil
 
     - Administrator Account:
 
-        - **Username**: Enter **demouser**
-        - **Password**: Enter **Password.1!!**
+        - **Username**: demouser
+        - **Password**: Password.1!!
 
     - Inbound Port Rules:
 
@@ -248,8 +248,8 @@ In this task, you will provision another virtual machine (VM) in Azure which wil
     - SQL Authentication:
 
       - **SQL Authentication**: Select Enable.
-      - **Login name**: Enter demouser
-      - **Password**: Enter **Password.1!!**
+      - **Login name**: demouser
+      - **Password**: Password.1!!
 
     ![The previously specified values are entered into the SQL Server Settings blade.](media/sql-server-2017-create-vm-sql-settings.png "SQL Server Settings")
 
@@ -296,8 +296,8 @@ In this task, you will provision another virtual machine (VM) in Azure which wil
 
    - Administrator Account:
 
-     - **Username**: Enter **demouser**
-     - **Password**: Enter **Password.1!!**
+     - **Username**: demouser
+     - **Password**: Password.1!!
 
    - Inbound Port Rules:
 
@@ -322,8 +322,8 @@ In this task, you will provision another virtual machine (VM) in Azure which wil
    - SQL Authentication:
 
      - **SQL Authentication**: Select Enable.
-     - **Login name**: Enter demouser
-     - **Password**: Enter **Password.1!!**
+     - **Login name**: demouser
+     - **Password**: Password.1!!
 
      ![The previously specified values are entered into the SQL Server Settings blade.](media/sql-server-2017-create-vm-sql-settings.png "SQL Server Settings")
 

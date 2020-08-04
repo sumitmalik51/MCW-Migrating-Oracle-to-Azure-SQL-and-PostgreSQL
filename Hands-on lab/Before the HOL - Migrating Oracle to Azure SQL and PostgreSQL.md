@@ -47,6 +47,8 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 - A virtual machine configured with:
   - Visual Studio 2019 Community (latest release)
 
+>**Important**: Complete the task for the workshop path you have chosen. The specific workshop is included in the task name.  Tasks with no workshop name should be completed for either workshop. For example, "Task 4 (Migrate to Azure SQL)" should only be completed for the SQL Server path. "Task 1" should be completed regardless of path.
+
 ## Before the hands-on lab
 
 Duration: 45 minutes
@@ -453,8 +455,6 @@ In this task, you will register the `Microsoft.DataMigration` resource provider 
     ![The Subscription blade is displayed, with Resource providers selected and highlighted under Settings. On the Resource providers blade, migration is entered into the filter box, and Register is highlighted next to Microsoft.DataMigration.](media/azure-portal-subscriptions-resource-providers-register-microsoft-datamigration.png "Resource provider registration")
 
 ### Task 9 (Migrate to Azure SQL): Create Azure Database Migration Service for SQL Server
-
->**Note**: If you plan to complete an Oracle to PostgreSQL migration, skip this task, and complete Task 10 instead.
 
 In this task, you will provision an instance of the Azure Database Migration Service (DMS).
 

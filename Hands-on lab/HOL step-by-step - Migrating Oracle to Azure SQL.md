@@ -315,7 +315,7 @@ In this task, you will update the SQL Server 2017 service accounts and other set
 
 Duration: 60 minutes
 
-Wide World Importers would like a Proof of Concept (POC) that moves their data warehouse to Azure SQL Database. They would like to know about any incompatible features that might block their eventual production move. In this exercise, you will use the [Azure Database Migration Service](https://azure.microsoft.com/services/database-migration/) (DMS) to perform an assessment on their SQL Server 2008 R2 data warehouse database, and then migrate the WideWorldImporters database from the "on-premises" SQL Server 2008 R2 instance to [Azure SQL Database](https://docs.microsoft.com/azure/sql-database/).
+Wide World Importers would like a Proof of Concept (POC) that moves their data warehouse to Azure SQL Database. They would like to know about any incompatible features that might block their eventual production move. In this exercise, you will use the [Azure Database Migration Service](https://azure.microsoft.com/services/database-migration/) (DMS) to perform an assessment on their SQL Server 2008 R2 data warehouse database, and then migrate the WideWorldImporters database from the on-premises SQL Server 2008 R2 instance to [Azure SQL Database](https://docs.microsoft.com/azure/sql-database/).
 
 ### Task 1: Assess the on-premises database
 
@@ -759,7 +759,7 @@ In this task, you will create a new table based on the existing `FactResellerSal
 
 Duration: 45 minutes
 
-In this exercise, you will install Oracle XE on your Lab VM, load a sample database supporting an application, and then migrate the database to the "on-premises" SQL Server 2017 instance.
+In this exercise, you will install Oracle XE on your Lab VM, load a sample database supporting an application, and then migrate the database to the on-premises SQL Server 2017 instance.
 
 ### Task 1: Install Oracle XE
 

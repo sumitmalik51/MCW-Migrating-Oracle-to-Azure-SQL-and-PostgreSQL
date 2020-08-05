@@ -24,7 +24,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 
 **Contents**
 
-- [Migrating Oracle to Azure SQL and PostgreSQL hands-on lab step-by-step](#migrating-oracle-to-azure-sql-and-postgresql-hands-on-lab-step-by-step)
+- [Migrating Oracle to Azure SQL hands-on lab step-by-step](#migrating-oracle-to-azure-sql-hands-on-lab-step-by-step)
   - [Abstract and learning objectives](#abstract-and-learning-objectives)
   - [Overview](#overview)
   - [Solution architecture](#solution-architecture)
@@ -59,7 +59,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
   - [After the hands-on lab](#after-the-hands-on-lab)
     - [Task 1: Delete the resource group](#task-1-delete-the-resource-group)
 
-# Migrating Oracle to Azure SQL and PostgreSQL hands-on lab step-by-step
+# Migrating Oracle to Azure SQL hands-on lab step-by-step
 
 ## Abstract and learning objectives
 
@@ -89,13 +89,13 @@ The solution begins with using the Microsoft Data Migration Assistant to assess 
 
 - Microsoft Azure subscription must be pay-as-you-go or MSDN.
   - Trial subscriptions will not work.
-- A virtual machine configured with Visual Studio 2019 Community edition
+- A virtual machine configured with Visual Studio 2019 Community edition.
 
 ## Exercise 1: Configure SQL Server instances
 
 Duration: 45 minutes
 
-In this exercise, you will configure SQL Server 2008 R2 on the SqlServer2008 VM. The database on this VM will act as the customer's existing "on-premises" database for this hands-on lab.
+In this exercise, you will configure SQL Server 2008 R2 on the SqlServer2008 VM. The database on this VM will act as the customer's existing on-premises database for this hands-on lab.
 
 ### Task 1: Connect to the SqlServer2008 VM
 
@@ -103,7 +103,7 @@ In this task, you will create an RDP connection to the SqlServer2008 VM.
 
 1. In the [Azure portal](https://portal.azure.com), select **Resource groups** in the Azure services list, enter your resource group name (hands-on-lab-SUFFIX) into the filter box, and select it from the list.
 
-   ![Resource groups is selected in the Azure navigation pane, "hands" is entered into the filter box, and the "hands-on-lab-SUFFIX" resource group is highlighted.](./media/resource-groups.png "Resource groups list")
+   ![Resource groups is selected in the Azure navigation pane, hands is entered into the filter box, and the hands-on-lab-SUFFIX resource group is highlighted.](./media/resource-groups.png "Resource groups list")
 
 2. In the list of resources for your resource group, select the SqlServer2008 VM.
 
@@ -132,7 +132,7 @@ In this task, you will create an RDP connection to the SqlServer2008 VM.
 
 ### Task 2: Install AdventureWorks sample database
 
-In this task, you will install the AdventureWorks database in SQL Server 2008 R2. It will act as the "on-premises" data warehouse database that you will migrate to Azure SQL Database.
+In this task, you will install the AdventureWorks database in SQL Server 2008 R2. It will act as the on-premises data warehouse database that you will migrate to Azure SQL Database.
 
 1. On the SqlServer2008 VM, open a web browser, and navigate to the GitHub site containing the sample AdventureWorks 2008 R2 database at <https://github.com/Microsoft/sql-server-samples/releases/tag/adventureworks2008r2>.
 
@@ -162,7 +162,7 @@ In this task, you will install the AdventureWorks database in SQL Server 2008 R2
 
 9. In the Options dialog, expand **Text Editor** in the tree view on the left, then expand **Transact-SQL**, select **General**, then check the box next to **Line numbers**. This will display line numbers in the query editor window, to make finding the lines specified below easier.
 
-   ![On the left side of the Options dialog box, Text Editor is highlighted, Transact-SQL is highlighted below that, and General is selected and highlighted below that. At right, Line numbers is selected and highlighted.](./media/ssms-tools-options-text-editor-tsql-general.png "Display line numbers in the query editor")
+   ![On the left side of the Options dialog box, Text Editor is highlighted, Transact-SQL is highlighted below that, and General is selected and highlighted below that. On the right, Line numbers is selected and highlighted.](./media/ssms-tools-options-text-editor-tsql-general.png "Display line numbers in the query editor")
 
 10. Select **OK** to close the Options dialog.
 
@@ -190,7 +190,7 @@ In this task, you will install the AdventureWorks database in SQL Server 2008 R2
 
 16. Expand **Databases** in Object Explorer, right-click the `AdventureWorksDW2008R2` database, and select **Rename**.
 
-    ![On the left side of Object Explorer, Databases is highlighted, AdventureWorksDW2008R2 is highlighted below that, and Rename is selected and highlighted in the submenu.](./media/ssms-databases-rename.png "Select Rename")
+    ![On the left side of Object Explorer, Databases is highlighted, AdventureWorksDW2008R2 is highlighted below that, and Rename is selected and highlighted in the submenu.](./media/ssms-databases-rename.png "Rename in Object Explorer")
 
 17. Set the name of the database to `WideWorldImporters`.
 
@@ -204,7 +204,7 @@ In this task, you will update the SQL Server service accounts and other settings
 
 1. From the Start Menu on your SqlServer2008 VM, search for **SQL Server Config**, then select **SQL Server Configuration Manager** from the search results.
 
-   ![SQL Server Configuration Manager is selected and highlighted in the search results.](media/windows-server-2008-search-sql-server-config.png "Select SQL Server Configuration Manager")
+   ![SQL Server Configuration Manager is selected and highlighted in the search results.](media/windows-server-2008-search-sql-server-config.png "SQL Server Configuration Manager")
 
 2. From the tree on the left of the Configuration Manager window, select **SQL Server Services**, and then double-click **SQL Server (MSSQLSERVER)** in the list of services to open its properties dialog.
 

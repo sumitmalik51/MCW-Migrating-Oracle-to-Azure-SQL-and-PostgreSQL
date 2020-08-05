@@ -512,7 +512,7 @@ In this task, you create a new migration project for the WideWorldImporters data
 
 ### Task 4: Run the migration
 
-In this task, you will create a new activity in the Azure Database Migration Service to execute the migration from the "on-premises" SQL Server 2008 R2 server to Azure SQL Database.
+In this task, you will create a new activity in the Azure Database Migration Service to execute the migration from the on-premises SQL Server 2008 R2 server to Azure SQL Database.
 
 1. On the Azure Database Migration Service blade, select **+New Activity**, and then select **Offline data migration**.
 
@@ -883,7 +883,7 @@ In this exercise, you will install Oracle XE on your Lab VM, load a sample datab
 
 In this task, you will install a third-party extension to Visual Studio to enable interaction with, and script execution for, Oracle databases in Visual Studio 2019 Community Edition.
 
-> This step is required because the Oracle Developer Tools extension does not currently work with the Community edition of Visual Studio.
+>**Note**: This step is required because the Oracle Developer Tools extension does not currently work with the Community edition of Visual Studio.
 
 1. On your Lab VM, open a web browser and navigate to <https://www.devart.com/dbforge/oracle/fusion/download.html>.
 
@@ -1067,7 +1067,7 @@ In this task, you will add the necessary configuration to the `NorthwindMVC` sol
 
 Duration: 30 minutes
 
-In this exercise, you will migrate the Oracle database into the "on-premises" SQL Server 2017 instance using SSMA.
+In this exercise, you will migrate the Oracle database into the on-premises SQL Server 2017 instance using SSMA.
 
 ### Task 1: Migrate the Oracle database to SQL Server 2017 using SSMA
 
@@ -1113,13 +1113,13 @@ In this exercise, you will migrate the Oracle database into the "on-premises" SQ
 
 10. Next, select **Connect to SQL Server** from the toolbar, to add your SQL 2017 connection.
 
-    ![Connect to SQL Server is highlighted on the toolbar.](./media/ssma-toolbar-connect-to-sql-server.png "Select Connect to SQL Server")
+    ![Connect to SQL Server is highlighted on the toolbar.](./media/ssma-toolbar-connect-to-sql-server.png "Connect to SQL Server")
 
 11. In the connect to SQL Server dialog, provide the following:
 
     - **Server name**: Enter the IP address of your SqlServer2017 VM. You can get this from the Azure portal by navigating to your VM's blade, and looking at the Essentials area.
 
-    ![The IP address of your SqlServer2017 VM is highlighted in the Essentials area of your VM's blade in the Azure portal.](./media/azure-sql-database-public-ip-address.png "Enter the IP address ")
+    ![The IP address of your SqlServer2017 VM is highlighted in the Essentials area of your VM's blade in the Azure portal.](./media/azure-sql-database-public-ip-address.png "Enter the IP address")
 
     - **Server port**: Leave set to [default].
     - **Database**: Northwind
@@ -1375,7 +1375,7 @@ In this exercise, you will modify the `NorthwindMVC` application so it targets S
 
 ### Task 2: Modify Application Code
 
-1. In Visual Studio, open the file `DataContext.cs` from the Solution Explorer. You may need to collapse the Data folder, and re-expand it after refreshing if you don't see the file listed
+1. In Visual Studio, open the file `DataContext.cs` from the Solution Explorer. You may need to collapse the Data folder, and re-expand it after refreshing if you don't see the file listed.
 
    ![DataContext.cs is highlighted under the Data folder in Solution Explorer.](./media/visual-studio-solution-explorer-data-datacontext.png "Open DataContext.cs")
 
@@ -1399,7 +1399,7 @@ In this exercise, you will modify the `NorthwindMVC` application so it targets S
 
    ![In the DataContext constructor, : base ("name=SqlServerConnectionString") is highlighted.](./media/visual-studio-solution-explorer-data-datacontext-base-updated.png "Update the call to base")
 
-6. Next, open the file `HomeController.cs`, in the Controllers folder in the Solution Explorer
+6. Next, open the file `HomeController.cs`, in the Controllers folder in the Solution Explorer.
 
    ![The HomeController.cs file is selected and highlighted under the Controllers folder in Solution Explorer.](./media/visual-studio-solution-explorer-controllers-home-controller.png "Open HomeController.cs")
 

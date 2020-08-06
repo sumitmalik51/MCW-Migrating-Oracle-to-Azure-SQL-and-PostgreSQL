@@ -19,7 +19,7 @@ Microsoft may have patents, patent applications, trademarks, copyrights, or othe
 
 The names of manufacturers, products, or URLs are provided for informational purposes only and Microsoft makes no representations and warranties, either expressed, implied, or statutory, regarding these manufacturers or the use of the products with any Microsoft technologies. The inclusion of a manufacturer or product does not imply endorsement of Microsoft of the manufacturer or product. Links may be provided to third party sites. Such sites are not under the control of Microsoft and Microsoft is not responsible for the contents of any linked site or any link contained in a linked site, or any changes or updates to such sites. Microsoft is not responsible for webcasting or any other form of transmission received from any linked site. Microsoft is providing these links to you only as a convenience, and the inclusion of any link does not imply endorsement of Microsoft of the site or the products contained therein.
 
-© 2019 Microsoft Corporation. All rights reserved.
+© 2020 Microsoft Corporation. All rights reserved.
 
 Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/intellectualproperty/Trademarks/Usage/General.aspx> are trademarks of the Microsoft group of companies. All other trademarks are property of their respective owners.
 
@@ -31,7 +31,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
   - [Whiteboard design session flow](#whiteboard-design-session-flow)
   - [Before the whiteboard design session: How to prepare](#before-the-whiteboard-design-session-how-to-prepare)
   - [During the whiteboard design session: Tips for an effective whiteboard design session](#during-the-whiteboard-design-session-tips-for-an-effective-whiteboard-design-session)
-- [Data Platform upgrade and migration whiteboard design session student guide](#data-platform-upgrade-and-migration-whiteboard-design-session-student-guide)
+- [Migrating Oracle to PostgreSQL whiteboard design session student guide](#migratingoracletopostgresql-whiteboard-design-session-student-guide)
   - [Abstract](#abstract)
   - [Step 1: Review the customer case study](#step-1-review-the-customer-case-study)
     - [Customer situation](#customer-situation)
@@ -42,7 +42,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
   - [Step 3: Present the solution](#step-3-present-the-solution)
   - [Wrap-up](#wrap-up)
   - [Additional references](#additional-references)
-- [Data Platform upgrade and migration whiteboard design session trainer guide](#data-platform-upgrade-and-migration-whiteboard-design-session-trainer-guide)
+- [Migrating Oracle to PostgreSQL whiteboard design session trainer guide](#migratingoracletopostgresql-whiteboard-design-session-trainer-guide)
   - [Step 1: Review the customer case study](#step-1-review-the-customer-case-study-1)
   - [Step 2: Design a proof of concept solution](#step-2-design-a-proof-of-concept-solution-1)
   - [Step 3: Present the solution](#step-3-present-the-solution-1)
@@ -166,7 +166,7 @@ When participants are doing activities, you can **look ahead to refresh your mem
 
 **Wait for responses**. If you ask a question such as, "What's your experience with (fill in the blank)?" then wait. Do not be afraid of a little silence. If you leap into the silence, your participants will feel you are not serious about involving them and will become passive. Give participants a chance to think, and if no one answers, patiently ask again. You will usually get a response.
 
-# Data Platform upgrade and migration whiteboard design session student guide
+# Migrating Oracle to PostgreSQL whiteboard design session student guide
 
 ## Abstract
 
@@ -212,7 +212,7 @@ Kathleen Sloan, the CIO of WWI, is looking to decrease their software license fe
 
 1. Wants to migrate an existing Oracle database to PostgreSQL on-premises, PostgreSQL in an Azure VM, or Azure Database for PostgreSQL.
 
-2. Needs to know what's involved in migrating the external sales application to PostgreSQL.
+2. Need to know what's involved in migrating the external sales application to PostgreSQL.
 
 3. Wants a better understanding of what to do with the internal Oracle Forms application.
 
@@ -230,7 +230,7 @@ Kathleen Sloan, the CIO of WWI, is looking to decrease their software license fe
 
 1. Do we need to upgrade to on-premises PostgreSQL first or go can we go straight to Azure?
 
-2. Can we have two proofs-of-concept that demonstrate both migrations?
+2. Can we have two proofs of concept that demonstrate both migrations?
 
 3. Do we need to rewrite all our applications for Azure Database for PostgreSQL?
 
@@ -368,7 +368,8 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 | Older Oracle Forms Migration guide                       | <https://technet.microsoft.com/library/bb463141.aspx/> <https://www.microsoft.com/sql-server/sql-license-migration/>          |
 | Azure Database Migration Service Overview                | <https://docs.microsoft.com/azure/dms/dms-overview>                                                                           |
 | Differentiating Microsoft's database migration tools     | <https://blogs.msdn.microsoft.com/datamigration/2017/10/13/differentiating-microsofts-database-migration-tools-and-services/> |
-# Data Platform upgrade and migration whiteboard design session trainer guide
+
+# Migrating Oracle to PostgreSQL whiteboard design session trainer guide
 
 ## Step 1: Review the customer case study
 
@@ -450,7 +451,7 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 
     ![This is a diagram of an Example Oracle Forms migration to VB.NET windows application. On the left, the Oracle Forms Application includes an Oracle server, an Oracle module (Data block and control block), and Oracle Forms (menu module, PL/SQL library module, and object library module). On the right, a VB.NET Windows Application includes a VB.NET Windows Application project, which encompasses a menu, and WinForm (Databound Controls, and non-databound controls). In addition, below the project are two separate VB.NET Class Library Projects. The Oracle Forms PL/SQL Library module points to one, and the Object library module points to the other. The Oracle Menu Module points to VB.NET Menu, the Oracle Control block points to Non-databound controls, and the Oracle Data block passes through a DataSet/ DataReader / Command to the Databound controls. Between the two columns a SQL Server with ADO.NET connects through DataSet / DataReader / Command to VB.NET Class Library Project.](media/oracle-forms-migration.png "Example Oracle Forms migration to VB.NET windows application")
 
-2. What should be included in the PoC?
+2. What should be included in the POC?
 
     For the POC we should include the following:
 
@@ -477,15 +478,15 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 
     The PostgreSQL community provides an excellent resource to troubleshoot issues. Nonetheless, a wide variety of experienced companies are available to provide support in every geographic region. On the other hand, Oracle upgrades need Oracle consultants, meaning they take longer, and the consultants charge higher rates. Overall maintenance costs are much higher. These soft changes add to the overall cost of ownership for Oracle environments. 
 
-    > **NOTE**: The preferred solution is only one of many possible, viable approaches.
+    > **Note**: The preferred solution is only one of many possible, viable approaches.
 
 *Schema and data movement*
 
 1. How would you recommend that WWI move their data and schema into PostgreSQL? What services would you suggest and what are the specific steps they would need to take to prepare the data, to transfer the data, and where would the loaded data land?
 
-    ora2pg is a powerful open-source tool that converts an Oracle database schema into a PostgreSQL-compatible one. It provides assessment tools, allowing developers to get a sense of the amount of time that the migration will take. It also can directly copy data into the target database. While these features are excellent, performing an online migration requires that developers run a query against each table in the source individually to identify changes made following the initial migration, and then migrate the changes. So, Microsoft developed the Azure Database Migration Service (DMS) to address the issues present with online database migration.
+    Ora2pg is a powerful open-source tool that converts an Oracle database schema into a PostgreSQL-compatible one. It provides assessment tools, allowing developers to get a sense of the amount of time that the migration will take. It also can directly copy data into the target database. While these features are excellent, performing an online migration requires that developers run a query against each table in the source individually to identify changes made following the initial migration, and then migrate the changes. So, Microsoft developed the Azure Database Migration Service (DMS) to address the issues present with online database migration.
 
-    >**NOTE**: Using DMS requires that you enable the Microsoft.DataMigration resource provider for your subscription.
+    >**Note**: Using DMS requires that you enable the Microsoft.DataMigration resource provider for your subscription.
 
     DMS, when created with the Premium tier, simplifies Oracle to PostgreSQL online migrations. You have the option to create a PostgreSQL-compatible table schema using ora2pg, or allow DMS to copy the Oracle schema, modify it for PostgreSQL, and construct objects in the target itself. Note that the latter only migrates table schemas - you are still responsible for migrating other objects. With either of these workflows, you first create a new project, connect to the source Oracle database, and connect to the target PostgreSQL database. If you choose to create the target tables before using DMS, you will map source tables to target tables. Otherwise, you will simply map the source and target databases. Then, you will run the migration. The migration will automatically apply changes made to the source database during the migration (this is called incremental data sync). 
 
@@ -571,9 +572,9 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 
     It might be easier to be on-premises if they don't have ExpressRoute for their Excel spreadsheets and other on-premises resources that can't migrate to Azure quite yet.
 
-2. Can we have two proofs-of-concept that demonstrate both migrations?
+2. Can we have two proofs of concept that demonstrate both migrations?
 
-    Two proof-of-concepts are possible and easy to do. The application architecture might be quite a bit different if we choose to use Platform as a Service (PaaS). The online sales application and web services would migrate to Azure Websites. The changes made to existing Excel and Power BI reports would be minor. 
+    Two proofs of concept are possible and easy to do. The application architecture might be quite a bit different if we choose to use Platform as a Service (PaaS). The online sales application and web services would migrate to Azure Websites. The changes made to existing Excel and Power BI reports would be minor. 
 
 3. Do we need to rewrite all our applications for Azure Database for PostgreSQL?
 
@@ -589,7 +590,7 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 
 5. Will our security migrate over from Oracle to PostgreSQL? How do we handle security in the new database?
 
-    ora2pg does have the ability to migrate privileges granted to users. However, note that security concepts in Oracle differ from PostgreSQL. For instance, roles in PostgreSQL are not database-scoped; if a role has the privileges to do so, it can manipulate data in more than one database.
+    Ora2pg does have the ability to migrate privileges granted to users. However, note that security concepts in Oracle differ from PostgreSQL. For instance, roles in PostgreSQL are not database-scoped; if a role has the privileges to do so, it can manipulate data in more than one database.
 
 6. Do we need to invest in a JSON storage system for the JSON data we're storing from our vendor's web service?
 

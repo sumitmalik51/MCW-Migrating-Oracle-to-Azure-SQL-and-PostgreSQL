@@ -82,7 +82,7 @@ Kathleen Sloan, the CIO of WWI, is looking to decrease their software license fe
 
 1. Wants to migrate an existing Oracle database to PostgreSQL on-premises, PostgreSQL in an Azure VM, or Azure Database for PostgreSQL.
 
-2. Needs to know what's involved in migrating the external sales application to PostgreSQL.
+2. Need to know what's involved in migrating the external sales application to PostgreSQL.
 
 3. Wants a better understanding of what to do with the internal Oracle Forms application.
 
@@ -100,7 +100,7 @@ Kathleen Sloan, the CIO of WWI, is looking to decrease their software license fe
 
 1. Do we need to upgrade to on-premises PostgreSQL first or go can we go straight to Azure?
 
-2. Can we have two proofs-of-concept that demonstrate both migrations?
+2. Can we have two proofs of concept that demonstrate both migrations?
 
 3. Do we need to rewrite all our applications for Azure Database for PostgreSQL?
 
@@ -119,8 +119,6 @@ Kathleen Sloan, the CIO of WWI, is looking to decrease their software license fe
 10. Do we need to tell all our vendors that we're changing databases, so their integrations work?
 
 11. What will happen with Power BI?
-  
-
 
 ### Infographic for common scenarios
 

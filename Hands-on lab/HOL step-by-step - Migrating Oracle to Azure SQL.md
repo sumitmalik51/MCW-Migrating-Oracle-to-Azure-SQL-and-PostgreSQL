@@ -24,7 +24,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 
 **Contents**
 
-- [Migrating Oracle to Azure SQL hands-on lab step-by-step](#migrating-oracle-to-azure-sql-hands-on-lab-step-by-step)
+- [Migrating Oracle to Azure SQL hands-on lab step-by-step](#migratingoracletoazuresql-hands-on-lab-step-by-step)
   - [Abstract and learning objectives](#abstract-and-learning-objectives)
   - [Overview](#overview)
   - [Solution architecture](#solution-architecture)
@@ -763,7 +763,7 @@ In this exercise, you will install Oracle XE on your Lab VM, load a sample datab
 
 ### Task 1: Install Oracle XE
 
-1. Connect to your Lab VM, as you did in Task 5 of the [Before the Hands-on Lab](./Before%20the%20HOL%20-%20Data%20Platform%20upgrade%20and%20migration.md#task-5-connect-to-the-lab-vm) exercise.
+1. Connect to your Lab VM, as you did in Task 5 of the [Before the Hands-on Lab](./Before%20the%20HOL%20-%20Migrating%20Oracle%20to%20Azure%20SQL%20and%20PostgreSQL.md#task-5-connect-to-the-lab-vm) exercise.
 
    - **Username**: demouser
    - **Password**: Password.1!!
@@ -925,13 +925,13 @@ WWI has provided you with a copy of their application, including a database scri
 
    ![Northwind is highlighted in the Database name box in the New Database dialog box.](./media/ssms-databases-new-database-dialog.png "Enter the database name")
 
-5. Now, switch back to your LabVM, and download the starter project by downloading a .zip copy of the Data Platform upgrade and migration project from the GitHub repo.
+5. Now, switch back to your LabVM, and download the starter project by downloading a Git .zip copy of the Migrating Oracle Azure SQL and PostgreSQL upgrade and migration project from the GitHub repo.
 
-6. In a web browser, download a copy of the Data Platform upgrade and migration MCW repo from <https://github.com/microsoft/MCW-Data-Platform-upgrade-and-migration/archive/master.zip>.
+6. In a web browser, download a copy of the Migrating Oracle Azure SQL and PostgreSQL upgrade and migration MCW repo from <https://github.com/microsoft/MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL/archive/master.zip>.
 
 7. Unzip the contents to **C:\handsonlab**.
 
-8. Within the **handsonlab** folder, navigate to the folder `MCW-Data-Platform-upgrade-and-migration-master\Hands-on lab\lab-files\starter-project`, and double-click `NorthwindMVC.sln` to open the project in Visual Studio 2019.
+8. Within the **handsonlab** folder, navigate to the folder `MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL-master\Hands-on lab\lab-files\starter-project`, and double-click `NorthwindMVC.sln` to open the project in Visual Studio 2019.
 
 9. If prompted for how you want to open the file, select **Visual Studio 2019**, and select **OK**.
 
@@ -966,7 +966,7 @@ WWI has provided you with a copy of their application, including a database scri
 
     ![The Northwind connection is selected in the Database Explorer window.](./media/visual-studio-fusion-database-explorer.png "View the Northwind connection")
 
-17. In Visual Studio, select **File** in the menu, then select **Open File**, and navigate to `C:\handsonlab\MCW-Data-Platform-upgrade-and-migration-master\Hands-on lab\lab-files\starter-project\Oracle Scripts\`, select the file `1.northwind.oracle.schema.sql`, and then select **Open**.
+17. In Visual Studio, select **File** in the menu, then select **Open File**, and navigate to `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL-master\Hands-on lab\lab-files\starter-project\Oracle Scripts\`, select the file `1.northwind.oracle.schema.sql`, and then select **Open**.
 
     ![The file, 1.northwind.oracle.schema.sql, is selected and highlighted in the Open File window.](./media/visual-studio-open-file.png "Open File dialog")
 
@@ -999,7 +999,7 @@ WWI has provided you with a copy of their application, including a database scri
 
     ![The Open File icon is highlighted on the Visual Studio toolbar.](./media/visual-studio-toolbar-open-file.png "Select Open File")
 
-25. In the Open File dialog, navigate to `C:\handsonlab\MCW-Data-Platform-upgrade-and-migration-master\Hands-on lab\lab-files\starter-project\Oracle Scripts`, select the file `2.northwind.oracle.tables.views.sql`, and then select **Open**.
+25. In the Open File dialog, navigate to `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL-master\Hands-on lab\lab-files\starter-project\Oracle Scripts`, select the file `2.northwind.oracle.tables.views.sql`, and then select **Open**.
 
 26. As you did previously, select the **Execute** Fusion script button on the toolbar, and view the results of execute in the Output pane.
 

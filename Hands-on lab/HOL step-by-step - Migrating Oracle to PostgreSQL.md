@@ -24,7 +24,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 
 **Contents**
 
-- [Migrating Oracle to PostgreSQL hands-on lab step-by-step](#migrating-oracle-to-postgresql-hands-on-lab-step-by-step)
+- [Migrating Oracle to PostgreSQL hands-on lab step-by-step](#migratingoracletopostgresql-hands-on-lab-step-by-step)
   - [Abstract and learning objectives](#abstract-and-learning-objectives)
   - [Overview](#overview)
   - [Solution architecture](#solution-architecture)
@@ -47,7 +47,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
   - [Exercise 4: Migrate the Database and Application](#exercise-4-migrate-the-database-and-application)
     - [Task 1: Migrate the basic database table schema using ora2pg](#task-1-migrate-the-basic-database-table-schema-using-ora2pg)
     - [Task 2: Use Azure Database Migration Service to migrate table data](#task-2-use-azure-database-migration-service-to-migrate-table-data)
-  - [Task 3: Finishing the table schema migration](#task-3-finishing-the-table-schema-migration)
+    - [Task 3: Finishing the table schema migration](#task-3-finishing-the-table-schema-migration)
     - [Task 4: Migrate Views](#task-4-migrate-views)
     - [Task 5: Migrate the Stored Procedure](#task-5-migrate-the-stored-procedure)
     - [Task 6: Create new Entity Data Models and update the application on the Lab VM](#task-6-create-new-entity-data-models-and-update-the-application-on-the-lab-vm)
@@ -55,7 +55,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
   - [After the hands-on lab](#after-the-hands-on-lab)
     - [Task 1: Delete the resource group](#task-1-delete-the-resource-group)
 
-# Migrating Oracle to Azure SQL and PostgreSQL hands-on lab step-by-step
+# Migrating Oracle to PostgreSQL hands-on lab step-by-step
 
 ## Abstract and learning objectives
 
@@ -92,7 +92,7 @@ In this exercise, you will install Oracle XE on your Lab VM, load a sample datab
 
 ### Task 1: Install Oracle XE
 
-1. Connect to your Lab VM, as you did in Task 5 of the [Before the Hands-on Lab](./Before%20the%20HOL%20-%20Data%20Platform%20upgrade%20and%20migration.md#task-5-connect-to-the-lab-vm) exercise.
+1. Connect to your Lab VM, as you did in Task 5 of the [Before the Hands-on Lab](./Before%20the%20HOL%20-%20Migrating%20Oracle%20to%20Azure%20SQL%20and%20PostgreSQL.md#task-5-connect-to-the-lab-vm) exercise.
 
     - **Username**: demouser
     - **Password**: Password.1!!
@@ -214,17 +214,17 @@ In this task, you will install a third-party extension to Visual Studio to enabl
 
 WWI has provided you with a copy of their application, including a database script to create their Oracle database. They have asked that you use this as a starting point for migrating their database and application to Azure Database for PostgreSQL. In this task, you will create a connection to the Oracle database on your Lab VM, and create a database called Northwind.
 
-1. Navigate to the Lab VM and download the starter project by downloading a .zip copy of the Data Platform upgrade and migration project from the GitHub repo.
+1. Navigate to the Lab VM and download the starter project by downloading a .zip copy of the Migrating Oracle to Azure SQL and PostgreSQL upgrade and migration project from the GitHub repo.
 
-2. . In a web browser, navigate to the [Data Platform upgrade and migration MCW repo](https://github.com/Microsoft/MCW-Data-Platform-upgrade-and-migration)
+2. In a web browser, navigate to the [Migrating Oracle to Azure SQL and PostgreSQL upgrade and migration MCW repo](https://github.com/Microsoft/MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL)
 
 3. On the repo page, select **Clone or download**, then select **Download ZIP**.
 
-    ![Download .zip containing the Data Platform upgrade and migration repository.](media/git-hub-download-repo.png "Download ZIP")
+    ![Download .zip containing the upgrade content and migration repository.](media/git-hub-download-repo.png "Download ZIP")
 
 4. Unzip the contents to **C:\handsonlab**.
 
-5. Within the **handsonlab** folder, navigate to the folder `MCW-Data-Platform-upgrade-and-migration-master\Hands-on lab\lab-files\starter-project`, and double-select `NorthwindMVC.sln` to open the project in Visual Studio 2019.
+5. Within the **handsonlab** folder, navigate to the folder `MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL-master\Hands-on lab\lab-files\starter-project`, and double-select `NorthwindMVC.sln` to open the project in Visual Studio 2019.
 
 6. If prompted for how you want to open the file, select **Visual Studio 2019**, and select **OK**.
 
@@ -259,7 +259,7 @@ WWI has provided you with a copy of their application, including a database scri
 
     ![The Northwind connection is selected in the Database Explorer window.](./media/visual-studio-fusion-database-explorer.png "View the Northwind connection")
 
-14. In Visual Studio, select **File** in the menu, then select **Open File**, and navigate to `C:\handsonlab\MCW-Data-Platform-upgrade-and-migration-master\Hands-on lab\lab-files\starter-project\Oracle Scripts\`, select the file `1.northwind.oracle.schema.sql`, and then select **Open**.
+14. In Visual Studio, select **File** in the menu, then select **Open File**, and navigate to `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL-master\Hands-on lab\lab-files\starter-project\Oracle Scripts\`, select the file `1.northwind.oracle.schema.sql`, and then select **Open**.
 
     ![The file, 1.northwind.oracle.schema.sql, is selected and highlighted in the Open File window.](./media/visual-studio-open-file.png "Open File dialog")
 
@@ -292,7 +292,7 @@ WWI has provided you with a copy of their application, including a database scri
 
     ![The Open File icon is highlighted on the Visual Studio toolbar.](./media/visual-studio-toolbar-open-file.png "Select Open File")
 
-22. In the Open File dialog, navigate to `C:\handsonlab\MCW-Data-Platform-upgrade-and-migration-master\Hands-on lab\lab-files\starter-project\Oracle Scripts`, select the file `2.northwind.oracle.tables.views.sql`, and then select **Open**.
+22. In the Open File dialog, navigate to `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL-master\Hands-on lab\lab-files\starter-project\Oracle Scripts`, select the file `2.northwind.oracle.tables.views.sql`, and then select **Open**.
 
 23. As you did previously, select the **Execute** Fusion script button on the toolbar, and view the results of the execution in the Output pane.
 
@@ -332,7 +332,7 @@ In this exercise, you will prepare the existing Oracle database for its migratio
 
 ### Task 1: Update Statistics and Identify Invalid Objects
 
-1. Create a new folder titled `Postgre Scripts` at the `C:\handsonlab\MCW-Data-Platform-upgrade-and-migration\Hands-on lab\lab-files\starter-project` location.
+1. Create a new folder titled `Postgre Scripts` at the `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL\Hands-on lab\lab-files\starter-project` location.
 
 2. In Visual Studio, access the NW Schema in the Database Explorer. To create a new SQL file, where we will house the updated statements, navigate to the **Create New SQL** button near the top right corner of Visual Studio.
 
@@ -347,7 +347,7 @@ In this exercise, you will prepare the existing Oracle database for its migratio
     EXECUTE DBMS_STATS.GATHER_DICTIONARY_STATS;
     ```
 
-4. Save the file as `update-llg-stats.sql` in the `C:\handsonlab\MCW-Data-Platform-upgrade-and-migration\Hands-on lab\lab-files\starter-project\Postgre Scripts` directory. Run the file as you did when you created database objects.
+4. Save the file as `update-llg-stats.sql` in the `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL\Hands-on lab\lab-files\starter-project\Postgre Scripts` directory. Run the file as you did when you created database objects.
 
     ![The Execute Fusion script icon is highlighted on the Visual Studio toolbar.](./media/visual-studio-fusion-execute.png "Run the script")
 
@@ -411,7 +411,7 @@ We need to create a PostgreSQL instance and an App Service to host our applicati
 
     ![Downloading the publish profile.](./media/get-app-publish-file.png "Get publish profile")
 
-8. Save the file and move it to `C:\handsonlab\MCW-Data-Platform-upgrade-and-migration\Hands-on lab\lab-files\starter-project`. Later, we will need this file to import into Visual Studio for deployment.
+8. Save the file and move it to `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL\Hands-on lab\lab-files\starter-project`. Later, we will need this file to import into Visual Studio for deployment.
 
 9. We need to ensure that Azure supports the version of .NET used in the solution. We will do this by changing the target framework on the solution to **.NET Framework 4.7.2**. Open the NorthwindMVC solution in Visual Studio. Right-click the NorthwindMVC project (not the solution) and select **Properties**. Find the **Target framework:** dropdown menu and select **.NET Framework 4.7.2**.
 
@@ -465,7 +465,7 @@ PgAdmin greatly simplifies database administration and configuration tasks by pr
 
  **Download**: <https://github.com/microsoft/DataMigrationTeam/blob/master/IP%20and%20Scripts/PostgreSQL%20Migration%20and%20Assessment%20Tools/installora2pg.ps1>.
 
-1. Copy Microsoft's script to the `C:\handsonlab\MCW-Data-Platform-upgrade-and-migration\Hands-on lab\lab-files\starter-project\Postgre Scripts` location.
+1. Copy Microsoft's script to the `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL\Hands-on lab\lab-files\starter-project\Postgre Scripts` location.
 
 2. Navigate to the location mentioned above and right-click `installora2pg.ps1`. Then, select **Run with PowerShell**.
 
@@ -963,7 +963,7 @@ We migrated the data before the constraints to reduce the time required to copy 
 
     ![Screenshot showing running of the query.](./media/running-query.png "Execution button")
 
-7. If you were successful, you should see an output similar to the following. Notice the following result set, which consists of 49 rows. It is available under the **Data Output** tab.
+7. If you were successful, you should see an output similar to the following. The result set should have 49 rows. It is available under the **Data Output** tab.
 
     ![Screenshot showing Result set from the select query.](./media/select-query-result-set.PNG "Query result")
 
@@ -1092,13 +1092,15 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
 
 1. First, install the Entity Framework.
 
-    - Navigate to the Package Manager console and enter the following command:
+    - Navigate to the Package Manager console.
+
+    ![Accessing the package under manager console.](./media/accessing-package-manager-console.png "Accessing package manager console")
+
+    Enter the following command:
 
     ```cmd
     Install-Package EntityFramework
     ```
-
-    ![Accessing the package under manager console.](./media/accessing-package-manager-console.png "Accessing package manager console")
 
     >**Note**: We will be using Devart's dotConnect for PostgreSQL, which is an ADO.NET-compatible PostgreSQL driver. This will allow our application to connect to our Azure PostgreSQL instance.
 
@@ -1426,7 +1428,7 @@ The built application will be deployed to IIS. The existing publishing profile s
 
     ![Screenshot showing the publishing window.](./media/publish-window.png "selecting import profile in publishing window")
 
-9. Select **Browse** to locate the **Publish settings file**. Earlier, we saved our publish profile in `C:\handsonlab\MCW-Data-Platform-upgrade-and-migration\Hands-on lab\lab-files\starter-project` as `northwindapporacletopsql.PublishSettings`. Select **Finish**.
+9. Select **Browse** to locate the **Publish settings file**. Earlier, we saved our publish profile in `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL\Hands-on lab\lab-files\starter-project` as `northwindapporacletopsql.PublishSettings`. Select **Finish**.
 
     ![Screenshot showing publish settings window.](./media/publish-settings-file-dialog.PNG "publish settings window")
 

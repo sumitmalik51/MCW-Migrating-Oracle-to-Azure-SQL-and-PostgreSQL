@@ -1233,7 +1233,7 @@ In this exercise, you will migrate the Oracle database into the on-premises SQL 
 
 43. These errors are the result of improvements implemented in SQL Server 2017 SQLCLR security model. Specifically, in SQL Server 2017, Microsoft now by default requires that all types of assemblies (SAFE, EXTERNAL_ACCESS, UNSAFE) are authorized for UNSAFE access.
 
-44. For this hands-on lab, you will be adding the assemblies causing the errors to the trusted assembly list, which is synonymous with white-listing the assemblies. To fix these errors, complete the following:
+44. For this hands-on lab, you will be adding the assemblies causing the errors to the trusted assembly list, which will allow the assemblies. To fix these errors, complete the following:
 
     - Under the **Northwind** database in the SQL Server Metadata Explorer in SSMA, expand **Assemblies**.
 
@@ -1275,7 +1275,7 @@ In this exercise, you will migrate the Oracle database into the on-premises SQL 
 
 45. Repeat step 44, this time for the assembly `SSMA4OracleSQLServerExtensions.NET`. Make sure to replace the `@clrName` variable in the script with the value "SSMA4OracleSQLServerExtensions.NET".
 
-46. The SSMA assemblies have now been whitelisted in SQL Server 2017.
+46. The SSMA assemblies have now been allowed in SQL Server 2017.
 
 47. Return to SSMA on your Lab VM, and rerun the **Synchronize with Database** action on the Northwind database. This will create all the schema objects in the SQL Server Northwind database. There should now be no errors, and the Output pane should show **Synchronization operation is complete**.
 

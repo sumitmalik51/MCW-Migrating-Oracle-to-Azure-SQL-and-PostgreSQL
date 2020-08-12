@@ -1,7 +1,7 @@
 ![Microsoft Cloud Workshops](https://github.com/Microsoft/MCW-Template-Cloud-Workshop/raw/master/Media/ms-cloud-workshop.png "Microsoft Cloud Workshops")
 
 <div class="MCWHeader1">
-Data Platform upgrade and migration
+Migrating Oracle to Azure SQL
 </div>
 
 <div class="MCWHeader2">
@@ -24,7 +24,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 
 **Contents**
 
-- [Data Platform upgrade and migration hands-on lab step-by-step](#data-platform-upgrade-and-migration-hands-on-lab-step-by-step)
+- [Migrating Oracle to Azure SQL hands-on lab step-by-step](#migratingoracletoazuresql-hands-on-lab-step-by-step)
   - [Abstract and learning objectives](#abstract-and-learning-objectives)
   - [Overview](#overview)
   - [Solution architecture](#solution-architecture)
@@ -59,7 +59,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
   - [After the hands-on lab](#after-the-hands-on-lab)
     - [Task 1: Delete the resource group](#task-1-delete-the-resource-group)
 
-# Data Platform upgrade and migration hands-on lab step-by-step
+# Migrating Oracle to Azure SQL hands-on lab step-by-step
 
 ## Abstract and learning objectives
 
@@ -89,13 +89,13 @@ The solution begins with using the Microsoft Data Migration Assistant to assess 
 
 - Microsoft Azure subscription must be pay-as-you-go or MSDN.
   - Trial subscriptions will not work.
-- A virtual machine configured with Visual Studio 2019 Community edition
+- A virtual machine configured with Visual Studio 2019 Community edition.
 
 ## Exercise 1: Configure SQL Server instances
 
 Duration: 45 minutes
 
-In this exercise, you will configure SQL Server 2008 R2 on the SqlServer2008 VM. The database on this VM will act as the customer's existing "on-premises" database for this hands-on lab.
+In this exercise, you will configure SQL Server 2008 R2 on the SqlServer2008 VM. The database on this VM will act as the customer's existing on-premises database for this hands-on lab.
 
 ### Task 1: Connect to the SqlServer2008 VM
 
@@ -103,7 +103,7 @@ In this task, you will create an RDP connection to the SqlServer2008 VM.
 
 1. In the [Azure portal](https://portal.azure.com), select **Resource groups** in the Azure services list, enter your resource group name (hands-on-lab-SUFFIX) into the filter box, and select it from the list.
 
-   ![Resource groups is selected in the Azure navigation pane, "hands" is entered into the filter box, and the "hands-on-lab-SUFFIX" resource group is highlighted.](./media/resource-groups.png "Resource groups list")
+   ![Resource groups is selected in the Azure navigation pane, hands is entered into the filter box, and the hands-on-lab-SUFFIX resource group is highlighted.](./media/resource-groups.png "Resource groups list")
 
 2. In the list of resources for your resource group, select the SqlServer2008 VM.
 
@@ -132,7 +132,7 @@ In this task, you will create an RDP connection to the SqlServer2008 VM.
 
 ### Task 2: Install AdventureWorks sample database
 
-In this task, you will install the AdventureWorks database in SQL Server 2008 R2. It will act as the "on-premises" data warehouse database that you will migrate to Azure SQL Database.
+In this task, you will install the AdventureWorks database in SQL Server 2008 R2. It will act as the on-premises data warehouse database that you will migrate to Azure SQL Database.
 
 1. On the SqlServer2008 VM, open a web browser, and navigate to the GitHub site containing the sample AdventureWorks 2008 R2 database at <https://github.com/Microsoft/sql-server-samples/releases/tag/adventureworks2008r2>.
 
@@ -162,7 +162,7 @@ In this task, you will install the AdventureWorks database in SQL Server 2008 R2
 
 9. In the Options dialog, expand **Text Editor** in the tree view on the left, then expand **Transact-SQL**, select **General**, then check the box next to **Line numbers**. This will display line numbers in the query editor window, to make finding the lines specified below easier.
 
-   ![On the left side of the Options dialog box, Text Editor is highlighted, Transact-SQL is highlighted below that, and General is selected and highlighted below that. At right, Line numbers is selected and highlighted.](./media/ssms-tools-options-text-editor-tsql-general.png "Display line numbers in the query editor")
+   ![On the left side of the Options dialog box, Text Editor is highlighted, Transact-SQL is highlighted below that, and General is selected and highlighted below that. On the right, Line numbers is selected and highlighted.](./media/ssms-tools-options-text-editor-tsql-general.png "Display line numbers in the query editor")
 
 10. Select **OK** to close the Options dialog.
 
@@ -190,7 +190,7 @@ In this task, you will install the AdventureWorks database in SQL Server 2008 R2
 
 16. Expand **Databases** in Object Explorer, right-click the `AdventureWorksDW2008R2` database, and select **Rename**.
 
-    ![On the left side of Object Explorer, Databases is highlighted, AdventureWorksDW2008R2 is highlighted below that, and Rename is selected and highlighted in the submenu.](./media/ssms-databases-rename.png "Select Rename")
+    ![On the left side of Object Explorer, Databases is highlighted, AdventureWorksDW2008R2 is highlighted below that, and Rename is selected and highlighted in the submenu.](./media/ssms-databases-rename.png "Rename in Object Explorer")
 
 17. Set the name of the database to `WideWorldImporters`.
 
@@ -204,7 +204,7 @@ In this task, you will update the SQL Server service accounts and other settings
 
 1. From the Start Menu on your SqlServer2008 VM, search for **SQL Server Config**, then select **SQL Server Configuration Manager** from the search results.
 
-   ![SQL Server Configuration Manager is selected and highlighted in the search results.](media/windows-server-2008-search-sql-server-config.png "Select SQL Server Configuration Manager")
+   ![SQL Server Configuration Manager is selected and highlighted in the search results.](media/windows-server-2008-search-sql-server-config.png "SQL Server Configuration Manager")
 
 2. From the tree on the left of the Configuration Manager window, select **SQL Server Services**, and then double-click **SQL Server (MSSQLSERVER)** in the list of services to open its properties dialog.
 
@@ -315,7 +315,7 @@ In this task, you will update the SQL Server 2017 service accounts and other set
 
 Duration: 60 minutes
 
-Wide World Importers would like a Proof of Concept (POC) that moves their data warehouse to Azure SQL Database. They would like to know about any incompatible features that might block their eventual production move. In this exercise, you will use the [Azure Database Migration Service](https://azure.microsoft.com/services/database-migration/) (DMS) to perform an assessment on their SQL Server 2008 R2 data warehouse database, and then migrate the WideWorldImporters database from the "on-premises" SQL Server 2008 R2 instance to [Azure SQL Database](https://docs.microsoft.com/azure/sql-database/).
+Wide World Importers would like a Proof of Concept (POC) that moves their data warehouse to Azure SQL Database. They would like to know about any incompatible features that might block their eventual production move. In this exercise, you will use the [Azure Database Migration Service](https://azure.microsoft.com/services/database-migration/) (DMS) to perform an assessment on their SQL Server 2008 R2 data warehouse database, and then migrate the WideWorldImporters database from the on-premises SQL Server 2008 R2 instance to [Azure SQL Database](https://docs.microsoft.com/azure/sql-database/).
 
 ### Task 1: Assess the on-premises database
 
@@ -512,7 +512,7 @@ In this task, you create a new migration project for the WideWorldImporters data
 
 ### Task 4: Run the migration
 
-In this task, you will create a new activity in the Azure Database Migration Service to execute the migration from the "on-premises" SQL Server 2008 R2 server to Azure SQL Database.
+In this task, you will create a new activity in the Azure Database Migration Service to execute the migration from the on-premises SQL Server 2008 R2 server to Azure SQL Database.
 
 1. On the Azure Database Migration Service blade, select **+New Activity**, and then select **Offline data migration**.
 
@@ -759,11 +759,11 @@ In this task, you will create a new table based on the existing `FactResellerSal
 
 Duration: 45 minutes
 
-In this exercise, you will install Oracle XE on your Lab VM, load a sample database supporting an application, and then migrate the database to the "on-premises" SQL Server 2017 instance.
+In this exercise, you will install Oracle XE on your Lab VM, load a sample database supporting an application, and then migrate the database to the on-premises SQL Server 2017 instance.
 
 ### Task 1: Install Oracle XE
 
-1. Connect to your Lab VM, as you did in Task 5 of the [Before the Hands-on Lab](./Before%20the%20HOL%20-%20Data%20Platform%20upgrade%20and%20migration.md#task-5-connect-to-the-lab-vm) exercise.
+1. Connect to your Lab VM, as you did in Task 5 of the [Before the Hands-on Lab](./Before%20the%20HOL%20-%20Migrating%20Oracle%20to%20Azure%20SQL%20and%20PostgreSQL.md#task-5-connect-to-the-lab-vm) exercise.
 
    - **Username**: demouser
    - **Password**: Password.1!!
@@ -883,7 +883,7 @@ In this exercise, you will install Oracle XE on your Lab VM, load a sample datab
 
 In this task, you will install a third-party extension to Visual Studio to enable interaction with, and script execution for, Oracle databases in Visual Studio 2019 Community Edition.
 
-> This step is required because the Oracle Developer Tools extension does not currently work with the Community edition of Visual Studio.
+>**Note**: This step is required because the Oracle Developer Tools extension does not currently work with the Community edition of Visual Studio.
 
 1. On your Lab VM, open a web browser and navigate to <https://www.devart.com/dbforge/oracle/fusion/download.html>.
 
@@ -925,13 +925,13 @@ WWI has provided you with a copy of their application, including a database scri
 
    ![Northwind is highlighted in the Database name box in the New Database dialog box.](./media/ssms-databases-new-database-dialog.png "Enter the database name")
 
-5. Now, switch back to your LabVM, and download the starter project by downloading a .zip copy of the Data Platform upgrade and migration project from the GitHub repo.
+5. Now, switch back to your LabVM, and download the starter project by downloading a Git .zip copy of the Migrating Oracle Azure SQL and PostgreSQL upgrade and migration project from the GitHub repo.
 
-6. In a web browser, download a copy of the Data Platform upgrade and migration MCW repo from <https://github.com/microsoft/MCW-Data-Platform-upgrade-and-migration/archive/master.zip>.
+6. In a web browser, download a copy of the Migrating Oracle Azure SQL and PostgreSQL upgrade and migration MCW repo from <https://github.com/microsoft/MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL/archive/master.zip>.
 
 7. Unzip the contents to **C:\handsonlab**.
 
-8. Within the **handsonlab** folder, navigate to the folder `MCW-Data-Platform-upgrade-and-migration-master\Hands-on lab\lab-files\starter-project`, and double-click `NorthwindMVC.sln` to open the project in Visual Studio 2019.
+8. Within the **handsonlab** folder, navigate to the folder `MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL-master\Hands-on lab\lab-files\starter-project`, and double-click `NorthwindMVC.sln` to open the project in Visual Studio 2019.
 
 9. If prompted for how you want to open the file, select **Visual Studio 2019**, and select **OK**.
 
@@ -966,7 +966,7 @@ WWI has provided you with a copy of their application, including a database scri
 
     ![The Northwind connection is selected in the Database Explorer window.](./media/visual-studio-fusion-database-explorer.png "View the Northwind connection")
 
-17. In Visual Studio, select **File** in the menu, then select **Open File**, and navigate to `C:\handsonlab\MCW-Data-Platform-upgrade-and-migration-master\Hands-on lab\lab-files\starter-project\Oracle Scripts\`, select the file `1.northwind.oracle.schema.sql`, and then select **Open**.
+17. In Visual Studio, select **File** in the menu, then select **Open File**, and navigate to `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL-master\Hands-on lab\lab-files\starter-project\Oracle Scripts\`, select the file `1.northwind.oracle.schema.sql`, and then select **Open**.
 
     ![The file, 1.northwind.oracle.schema.sql, is selected and highlighted in the Open File window.](./media/visual-studio-open-file.png "Open File dialog")
 
@@ -999,7 +999,7 @@ WWI has provided you with a copy of their application, including a database scri
 
     ![The Open File icon is highlighted on the Visual Studio toolbar.](./media/visual-studio-toolbar-open-file.png "Select Open File")
 
-25. In the Open File dialog, navigate to `C:\handsonlab\MCW-Data-Platform-upgrade-and-migration-master\Hands-on lab\lab-files\starter-project\Oracle Scripts`, select the file `2.northwind.oracle.tables.views.sql`, and then select **Open**.
+25. In the Open File dialog, navigate to `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL-master\Hands-on lab\lab-files\starter-project\Oracle Scripts`, select the file `2.northwind.oracle.tables.views.sql`, and then select **Open**.
 
 26. As you did previously, select the **Execute** Fusion script button on the toolbar, and view the results of execute in the Output pane.
 
@@ -1067,7 +1067,7 @@ In this task, you will add the necessary configuration to the `NorthwindMVC` sol
 
 Duration: 30 minutes
 
-In this exercise, you will migrate the Oracle database into the "on-premises" SQL Server 2017 instance using SSMA.
+In this exercise, you will migrate the Oracle database into the on-premises SQL Server 2017 instance using SSMA.
 
 ### Task 1: Migrate the Oracle database to SQL Server 2017 using SSMA
 
@@ -1113,13 +1113,13 @@ In this exercise, you will migrate the Oracle database into the "on-premises" SQ
 
 10. Next, select **Connect to SQL Server** from the toolbar, to add your SQL 2017 connection.
 
-    ![Connect to SQL Server is highlighted on the toolbar.](./media/ssma-toolbar-connect-to-sql-server.png "Select Connect to SQL Server")
+    ![Connect to SQL Server is highlighted on the toolbar.](./media/ssma-toolbar-connect-to-sql-server.png "Connect to SQL Server")
 
 11. In the connect to SQL Server dialog, provide the following:
 
     - **Server name**: Enter the IP address of your SqlServer2017 VM. You can get this from the Azure portal by navigating to your VM's blade, and looking at the Essentials area.
 
-    ![The IP address of your SqlServer2017 VM is highlighted in the Essentials area of your VM's blade in the Azure portal.](./media/azure-sql-database-public-ip-address.png "Enter the IP address ")
+    ![The IP address of your SqlServer2017 VM is highlighted in the Essentials area of your VM's blade in the Azure portal.](./media/azure-sql-database-public-ip-address.png "Enter the IP address")
 
     - **Server port**: Leave set to [default].
     - **Database**: Northwind
@@ -1375,7 +1375,7 @@ In this exercise, you will modify the `NorthwindMVC` application so it targets S
 
 ### Task 2: Modify Application Code
 
-1. In Visual Studio, open the file `DataContext.cs` from the Solution Explorer. You may need to collapse the Data folder, and re-expand it after refreshing if you don't see the file listed
+1. In Visual Studio, open the file `DataContext.cs` from the Solution Explorer. You may need to collapse the Data folder, and re-expand it after refreshing if you don't see the file listed.
 
    ![DataContext.cs is highlighted under the Data folder in Solution Explorer.](./media/visual-studio-solution-explorer-data-datacontext.png "Open DataContext.cs")
 
@@ -1399,7 +1399,7 @@ In this exercise, you will modify the `NorthwindMVC` application so it targets S
 
    ![In the DataContext constructor, : base ("name=SqlServerConnectionString") is highlighted.](./media/visual-studio-solution-explorer-data-datacontext-base-updated.png "Update the call to base")
 
-6. Next, open the file `HomeController.cs`, in the Controllers folder in the Solution Explorer
+6. Next, open the file `HomeController.cs`, in the Controllers folder in the Solution Explorer.
 
    ![The HomeController.cs file is selected and highlighted under the Controllers folder in Solution Explorer.](./media/visual-studio-solution-explorer-controllers-home-controller.png "Open HomeController.cs")
 

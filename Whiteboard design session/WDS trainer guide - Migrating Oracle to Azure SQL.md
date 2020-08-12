@@ -24,13 +24,13 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 
 **Contents**
 
-- [Migrating Oracle to Azure SQL whiteboard design session trainer guide](#migratingoracletoazuresql-whiteboard-design-session-trainer-guide)
+- [Migrating Oracle to Azure SQL whiteboard design session trainer guide](#migrating-oracle-to-azuresql-whiteboard-design-session-trainer-guide)
 - [Trainer information](#trainer-information)
   - [Role of the trainer](#role-of-the-trainer)
   - [Whiteboard design session flow](#whiteboard-design-session-flow)
   - [Before the whiteboard design session: How to prepare](#before-the-whiteboard-design-session-how-to-prepare)
   - [During the whiteboard design session: Tips for an effective whiteboard design session](#during-the-whiteboard-design-session-tips-for-an-effective-whiteboard-design-session)
-- [Data Platform upgrade and migration whiteboard design session student guide](#data-platform-upgrade-and-migration-whiteboard-design-session-student-guide)
+- [Migrating Oracle to Azure SQL whiteboard design session student guide](#migrating-oracle-to-azuresql-whiteboard-design-session-student-guide)
   - [Abstract](#abstract)
   - [Step 1: Review the customer case study](#step-1-review-the-customer-case-study)
     - [Customer situation](#customer-situation)
@@ -41,7 +41,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
   - [Step 3: Present the solution](#step-3-present-the-solution)
   - [Wrap-up](#wrap-up)
   - [Additional references](#additional-references)
-- [Data Platform upgrade and migration whiteboard design session trainer guide](#data-platform-upgrade-and-migration-whiteboard-design-session-trainer-guide)
+- [Migrating Oracle to Azure SQL whiteboard design session trainer guide](#migrating-oracle-to-azuresql-whiteboard-design-session-trainer-guide)
   - [Step 1: Review the customer case study](#step-1-review-the-customer-case-study-1)
   - [Step 2: Design a proof of concept solution](#step-2-design-a-proof-of-concept-solution-1)
   - [Step 3: Present the solution](#step-3-present-the-solution-1)
@@ -165,7 +165,7 @@ When participants are doing activities, you can **look ahead to refresh your mem
 
 **Wait for responses**. If you ask a question such as, "What's your experience with (fill in the blank)?" then wait. Do not be afraid of a little silence. If you leap into the silence, your participants will feel you are not serious about involving them and will become passive. Give participants a chance to think, and if no one answers, patiently ask again. You will usually get a response.
 
-# Data Platform upgrade and migration whiteboard design session student guide
+# Migrating Oracle to Azure SQL whiteboard design session student guide
 
 ## Abstract
 
@@ -403,7 +403,7 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 | SQL Server database migration to Azure SQL Database      | <https://docs.microsoft.com/en-us/azure/sql-database/sql-database-cloud-migrate>                                              |
 | Differentiating Microsoft's database migration tools     | <https://blogs.msdn.microsoft.com/datamigration/2017/10/13/differentiating-microsofts-database-migration-tools-and-services/> |
 
-# Data Platform upgrade and migration whiteboard design session trainer guide
+# Migrating Oracle to Azure SQL whiteboard design session trainer guide
 
 ## Step 1: Review the customer case study
 

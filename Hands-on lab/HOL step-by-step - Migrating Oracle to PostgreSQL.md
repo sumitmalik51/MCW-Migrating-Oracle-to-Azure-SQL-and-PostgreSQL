@@ -845,8 +845,11 @@ We will first need to give DMS access to our local Oracle database. This will re
     - **Source server type:** Oracle
     - **Target server type:** Azure Database for PostgreSQL
     - **Choose type of activity:** Select Create project only and select **Save**.
+    - **Pricing Tier:** Premium
 
     ![Screenshot showing the process of configuring a new project.](./media/migration-project.PNG "Initializing project parameters")
+
+   >**Note**: Using Azure Database Migration Service to perform an online migration requires creating an instance based on the **Premium** pricing tier.
 
 25. Navigate to your resource group and select the migration project (OnPremToAzurePostgreSql). Select **+ New Activity** and **Online data migration [preview]**.
 

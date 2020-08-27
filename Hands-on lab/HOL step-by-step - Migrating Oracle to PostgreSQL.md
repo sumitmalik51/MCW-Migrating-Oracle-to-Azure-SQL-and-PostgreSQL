@@ -752,6 +752,8 @@ We will first need to give DMS access to our local Oracle database. This will re
     sqlplus / as sysdba
     ```
 
+    >**Note**: If you get the error `ORA-12560: TNS:protocol adapter error` you may have forgotten to close your command prompt after adding the new environment variables. Close your open command prompt and enter the command in a new one.
+
 13. The first feature we will enable is support for Archive Redo Logs. To do this, first shut down the instance.
 
     ```sql

@@ -9,7 +9,7 @@ Hands-on lab step-by-step
 </div>
 
 <div class="MCWHeader3">
-June 2020
+November 2020
 </div>
 
 Information in this document, including URL and other Internet Web site references, is subject to change without notice. Unless otherwise noted, the example companies, organizations, products, domain names, e-mail addresses, logos, people, places, and events depicted herein are fictitious, and no association with any real company, organization, product, domain name, e-mail address, logo, person, place or event is intended or should be inferred. Complying with all applicable copyright laws is the responsibility of the user. Without limiting the rights under copyright, no part of this document may be reproduced, stored in or introduced into a retrieval system, or transmitted in any form or by any means (electronic, mechanical, photocopying, recording, or otherwise), or for any purpose, without the express written permission of Microsoft Corporation.
@@ -84,6 +84,8 @@ The solution begins by installing and using ora2pg to assess the task of migrati
 - Microsoft Azure subscription must be pay-as-you-go or MSDN.
   - Trial subscriptions will not work.
 - A virtual machine configured with Visual Studio 2019 Community edition.
+
+    >**Note**: If you find that your Visual Studio 2019 VM image comes with Visual Studio 2017, and not 2019, you will need to manually install 2019 Community from [here](https://visualstudio.microsoft.com/downloads/). Ensure that the **ASP.NET and web development** and **Azure development** Workloads are enabled for your installation.
 
 ## Exercise 1: Setup Oracle 11g Express Edition
 Duration: 45 minutes
@@ -322,7 +324,7 @@ WWI has provided you with a copy of their application, including a database scri
 
         ![This is a screenshot of the Execute succeeded message in the output window.](./media/visual-studio-fusion-query-completed.png "Execute succeeded message")
 
-    - `6.northwind.oracle.constraints.sql
+    - `6.northwind.oracle.constraints.sql`
 
 ## Exercise 2: Assess the Oracle 11g Database before Migrating to PostgreSQL
 
@@ -334,7 +336,7 @@ In this exercise, you will prepare the existing Oracle database for its migratio
 
 1. Create a new folder titled `Postgre Scripts` at the `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL\Hands-on lab\lab-files\starter-project` location.
 
-2. In Visual Studio, access the NW Schema in the Database Explorer. To create a new SQL file, where we will house the updated statements, navigate to the **Create New SQL** button near the top right corner of Visual Studio.
+2. In Visual Studio, access the NW Schema in the Database Explorer. To create a new SQL file, where we will house the updated statements, navigate to the **Create New SQL** button near the top right corner of Visual Studio. Alternatively, access **File --> New --> File... --> Devart Files --> SQL File**.
 
     ![This is a screenshot of the window to create new SQL file.](./media/creating-new-sql-file.png "Creating new SQL file in Visual Studio")
 
@@ -346,6 +348,8 @@ In this exercise, you will prepare the existing Oracle database for its migratio
     EXECUTE DBMS_STATS.GATHER_DATABASE_STATS;
     EXECUTE DBMS_STATS.GATHER_DICTIONARY_STATS;
     ```
+
+    >**Note**: This script can take over one minute to run. Ensure that you receive confirmation that that the script has executed successfully.
 
 4. Save the file as `update-llg-stats.sql` in the `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL\Hands-on lab\lab-files\starter-project\Postgre Scripts` directory. Run the file as you did when you created database objects.
 
@@ -402,10 +406,10 @@ We need to create a PostgreSQL instance and an App Service to host our applicati
 6. Create a new app in your hands-on-lab-SUFFIX resource group. Configure it with the following parameters. Keep all other settings at their default values. Select **Review + create** when you are ready.
 
     - **Name**: Configure a unique app name (the name you choose will form part of your app's URL).
-    - **Runtime stack**: ASP.NET V4.7
+    - **Runtime stack**: ASP.NET V4.8
     - **Region**: Must support all necessary resources.
 
-    ![Configuring the web app details.](./media/web-app-configuration.PNG "Project Details window with pertinent details")
+    ![Configuring the web app details.](./media/web-app-configuration-asp-48.PNG "Project Details window with pertinent details")
 
 7. Select **Create** after reviewing parameters. Once the deployment finishes, navigate to the **App Service** resource you created. Select **Get publish profile** under the resource's **Overview** page.
 
@@ -413,9 +417,11 @@ We need to create a PostgreSQL instance and an App Service to host our applicati
 
 8. Save the file and move it to `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL\Hands-on lab\lab-files\starter-project`. Later, we will need this file to import into Visual Studio for deployment.
 
-9. We need to ensure that Azure supports the version of .NET used in the solution. We will do this by changing the target framework on the solution to **.NET Framework 4.7.2**. Open the NorthwindMVC solution in Visual Studio. Right-click the NorthwindMVC project (not the solution) and select **Properties**. Find the **Target framework:** dropdown menu and select **.NET Framework 4.7.2**.
+9. We need to ensure that Azure supports the version of .NET used in the solution. We will do this by changing the target framework on the solution to **.NET Framework 4.8**. Open the NorthwindMVC solution in Visual Studio. Right-click the NorthwindMVC project (not the solution) and select **Properties**. Find the **Target framework:** dropdown menu and select **.NET Framework 4.8**.
 
-    ![Window to change the target framework of the solution to .NET Framework 4.7.2.](./media/changing-target-framework.PNG "Target frametwork: .NET Framework 4.7.2")
+    ![Window to change the target framework of the solution to .NET Framework 4.8](./media/changing-target-framework-4.8.PNG "Target frametwork: .NET Framework 4.8")
+
+    >**Note**: To support ASP.NET 4.8, you may need to install [.NET framework 4.8](https://dotnet.microsoft.com/download/visual-studio-sdks?utm_source=getdotnetsdk&utm_medium=referral). Agree to the license terms and install. Note that you will need to restart your VM afterwards. 
 
 ### Task 2: Configure the PostgreSQL server instance
 
@@ -443,13 +449,13 @@ In this task, we will be modifying the PostgreSQL instance to fit our needs.
 
 PgAdmin greatly simplifies database administration and configuration tasks by providing an intuitive GUI. Hence, we will be using it to create a new application user and test the migration.
 
-1. You will need to navigate to <https://www.pgadmin.org/download/pgadmin-4-windows/> to obtain the latest version of pgAdmin 4, which, at the time of writing, is **v4.22**. Select the link to the installer, as shown below.
+1. You will need to navigate to <https://www.pgadmin.org/download/pgadmin-4-windows/> to obtain pgAdmin 4. At the time of writing, **v4.28** is the most recent version. However, we found that **v4.23** works optimally. Select the link to the installer, as shown below.
 
-    ![The screenshot shows the correct version of the pgAdmin utility to be installed.](./media/installing-pgadmin.PNG "pgAdmin 4 v4.22")
+    ![The screenshot shows the correct version of the pgAdmin utility to be installed.](./media/installing-pgadmin-4.23.PNG "pgAdmin 4 v4.23")
 
-2. Download the **pgadmin4-4.22-x86.exe** file, **not** the one with the **.asc** extension.
+2. Download the **pgadmin4-4.23-x64.exe** file.
 
-    ![Screenshot shows the correct installer to be used.](./media/correct-pgadmin-installer.png "pgAdmin version to be installed, pgadmin4-4.22-x86.exe")
+    ![Screenshot shows the correct installer to be used.](./media/correct-pgadmin-installer-4.23.png "pgAdmin version to be installed, pgadmin4-4.23-x64.exe")
 
 3. Once the installer launches, accept all defaults. Complete the installation steps.
 
@@ -459,6 +465,10 @@ PgAdmin greatly simplifies database administration and configuration tasks by pr
 
 5. PgAdmin will prompt you to set a password to govern access to database credentials. Enter a password. Confirm your choice. For now, our configuration of pgAdmin is complete.
 
+6. Since pgAdmin does not support Internet Explorer, we recommend you install Google Chrome on your VM. You can download it [here.](https://www.google.com/chrome/?brand=RXQR&ds_kid=43700052784036223&utm_source=bing&utm_medium=cpc&utm_campaign=1008138%20%7C%20Chrome%20Win10%20%7C%20DR%20%7C%20ESS01%20%7C%20NA%20%7C%20US%20%7C%20en%20%7C%20Desk%20%7C%20Bing%20SEM%20%7C%20BKWS%20~%20Top%20KWDS%20-%20Exact%20-%20NEW&utm_term=chrome%20download&utm_content=Desk%20%7C%20BING%20SEM%20%7C%20BKWS%20%7C%20Exact%20~%20Download%20Chrome%20~%20Top%20KWDS&gclid=872dabad2724111f0092f41cf4ab135e&gclsrc=3p.ds)
+
+    - If you follow the Chrome approach, you need to select it as your system's default browser
+
 ### Task 4: Install ora2pg
 
 **Ora2pg** is the tool we will use to migrate database objects and data. Microsoft's Data Migration Team has greatly simplified the process of obtaining this tool by providing the **installora2pg.ps1** script. You can download using the link below:
@@ -466,6 +476,11 @@ PgAdmin greatly simplifies database administration and configuration tasks by pr
  **Download**: <https://raw.githubusercontent.com/microsoft/DataMigrationTeam/master/IP%20and%20Scripts/PostgreSQL%20Migration%20and%20Assessment%20Tools/installora2pg.ps1>.
 
 1. Copy Microsoft's script to the `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL\Hands-on lab\lab-files\starter-project\Postgre Scripts` location.
+
+    - Press Ctrl+S to save the file from the webpage
+    - In the File Explorer dialog, quote the file name and ensure that the **Save as type** field is set to **All Files**.
+
+        ![Ensuring that the installora2pg.ps1 script does not have .txt appended to it by File Explorer.](./media/save-ps-script-properly.PNG "Saving the PowerShell script without a .txt extension")
 
 2. Navigate to the location mentioned above and right-click `installora2pg.ps1`. Then, select **Run with PowerShell**.
 
@@ -497,6 +512,8 @@ PgAdmin greatly simplifies database administration and configuration tasks by pr
     - Press any key to terminate the script's execution.
     - Launch the script once more.
     - If the previous steps were successful, the script should be able to locate **oci.dll** under `C:\instantclient_12_2\oci.dll`.
+
+        >**Note**: The script may throw errors of not being able to find a Git executable at a certain location. This should not impact the installation.
 
 7. Once ora2pg installs, you will need to configure PATH variables.
 
@@ -589,6 +606,8 @@ Our configuration in pgAdmin is now complete.
 
     >**Note**: In some cases, ora2pg may fail to find its configuration file. In scenarios such as these, you may need to provide the -c flag with the name of the actual configuration file in your ora2pg directory. For instance, **ora2pg.conf.dist** did not exist in my directory, but the file ora2pg_dist.conf was available.
 
+    >**Note**: You may receive an error that ora2pg cannot find Perl. If this is the case, just ensure that `C:\Strawberry\perl\bin` has been added to the PATH variable.
+
     ```cmd
     ora2pg -c ora2pg_dist.conf --init_project nw_migration
     ```
@@ -671,9 +690,9 @@ In this task, we will migrate the database table schema, using ora2pg and psql, 
 
     >**Note**: Open the **schema\tables\NW-psql.sql** file. Notice that all table names are lowercase--using uppercase names for tables and/or columns will require quotations whenever referenced. Furthermore, ora2pg converts data types fairly well. If you have strong knowledge of the stored data, you can modify types to improve performance. You can export individual table schemas in separate files to facilitate the review.
 
-3. Execute the PostgreSQL commands against the PostgreSQL database. You can use any PostgreSQL database client. One way to execute a SQL file against a PostgreSQL database is through the **psql** utility located at the `C:\Program Files (x86)\pgAdmin 4\v4\runtime` directory. Just as we did in task 4, append this location to the system PATH variable. Note that you will need to restart your command prompt windows for the change to take effect.
+3. Execute the PostgreSQL commands against the PostgreSQL database. You can use any PostgreSQL database client. One way to execute a SQL file against a PostgreSQL database is through the **psql** utility located at the `C:\Program Files\pgAdmin 4\v4\runtime` directory. Just as we did in task 4, append this location to the system PATH variable. Note that you will need to restart your command prompt windows for the change to take effect.
 
-    ![Screenshot showing the process to add psql to the PATH variable.](./media/adding-psql-loc-to-path.png "Adding psql to PATH variable")
+    ![Screenshot showing the process to add psql to the PATH variable.](./media/adding-psql-loc-to-path-x64.png "Adding psql to PATH variable")
 
 4. Reopen the command prompt in the `C:\ora2pg\nw_migration` directory.
 
@@ -685,6 +704,8 @@ In this task, we will migrate the database table schema, using ora2pg and psql, 
     ```cmd
     psql -U NW@[DB Name] -h [DB Name].postgres.database.azure.com -d NW < schema\tables\NW-psql.sql
     ```
+
+    >**Note**: If you receive an error like "could not find a 'psql' to execute", use the entire path to the executable in the command (`"C:\Program Files\pgAdmin 4\v4\runtime\psql"`)
 
 ### Task 2: Use Azure Database Migration Service to migrate table data
 
@@ -847,7 +868,6 @@ We will first need to give DMS access to our local Oracle database. This will re
     - **Source server type:** Oracle
     - **Target server type:** Azure Database for PostgreSQL
     - **Choose type of activity:** Select Create project only and select **Save**.
-    - **Pricing Tier:** Premium
 
     ![Screenshot showing the process of configuring a new project.](./media/migration-project.PNG "Initializing project parameters")
 
@@ -932,7 +952,7 @@ We will first need to give DMS access to our local Oracle database. This will re
 
 We migrated the data before the constraints to reduce the time required to copy data into the tables. In addition, if foreign keys were present on the target tables, data migration would fail. So, in this task, we will add constraints, foreign keys, and indexes to the target tables.
 
-1. Then, layer on constraints (not foreign keys):
+1. First, layer on constraints (not foreign keys):
 
     ```cmd
     psql -U NW@[DB Name] -h [DB Name].postgres.database.azure.com -d NW < schema\tables\CONSTRAINTS_NW-psql.sql
@@ -953,6 +973,8 @@ We migrated the data before the constraints to reduce the time required to copy 
 4. Before migrating views in the next task, let's verify that table data has been properly migrated. Open **pgAdmin** and connect to the database as the NW user. To use **Query Tool**, select **Query Tool** under the **Tools** dropdown.
 
     ![Screenshot showing entering the query tool.](./media/entering-query-tool.png "Query Tool highlighted")
+
+    >**Note**: You will need to select the **NW** database before accessing the Query Tool.
 
 5. Enter the following query into the editor:
 
@@ -1111,7 +1133,7 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
 
 2. Navigate to <https://www.devart.com/dotconnect/postgresql/download.html>.
 
-    - Locate **dotConnect for PostgreSQL 7.17 Professional Trial**.
+    - Locate the latest version of **dotConnect for PostgreSQL Professional Trial** (it is **7.17** at the time of writing). 
     - Select **Get Trial**.
 
     ![Screenshot showing how to download Dotconnect.](./media/dotconnect-download.PNG "Dotconnect Download")
@@ -1211,17 +1233,17 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
 
     ![Screenshot showing how to enter advanced properties.](./media/entering-advanced-properties.png "Entering advanced properties")
 
-21. Navigate to **SSL**. Change **SSLMode** to **Prefer**. Also, under **Source**, change **Database** to **NW** and **Initial Schema** to **public**. Select **OK**.
+21. Navigate to **SSL**. Change **SSLMode** to **Require**. Also, under **Source**, change **Database** to **NW** and **Initial Schema** to **public**. Select **OK**.
 
-    ![Configuring advanced config parameters window.](./media/advanced-config-parameters.png "Advanced config parameters")
+    ![Configuring advanced config parameters window.](./media/advanced-config-parameters-ssl-require.PNG "Advanced config parameters")
 
 22. Select **Test Connection**, and if the connection fails, verify that you entered all parameters correctly. If the connection succeeds, select **OK**.
 
 23. Back at the **Choose Your Data Connection** page, select **Yes, include the sensitive data in the connection string**. Select **Next >**.
 
-    ![Choose Your Data Connection screen with sensitive data included.](./media/edm-data-connection.PNG "Choose Your Data Connection:)
+    ![Choose Your Data Connection screen with sensitive data included.](./media/edm-data-connection.PNG "Choose Your Data Connection")
 
-24. You will now be presented with the option to choose your desired database objects. Select **Tables**. This should select all tables in the public schema. Select **Finish**.
+24. You will now be presented with the option to choose your desired database objects. Select **Tables**. This should select all tables in the public schema. If present, uncheck the **dms_apply_exceptions** table. Ensure that **Pluralize or singularize generated object names** is selected. Select **Finish**.
 
     ![Screenshot to choose database objects.](./media/choosing-db-objects.PNG "Choosing database objects")
 
@@ -1237,6 +1259,7 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
 
     - Change **File Name** from **category.cs** to **CATEGORY.cs**.
     - When asked to rename all references, select **Yes**. This action will rename the class and its constructor.
+    - Repeat this process for all files in the **Data** directory
 
 28. Now, we must capitalize property names while respecting the underlying database column names. Observe the inclusion of the data annotation and the uppercase property name. To capitalize a name, highlight it, and locate **Edit [in the top ribbon] > Advanced > Make Uppercase**. If a data annotation is already present, provide the name of the underlying column as the first argument.
 
@@ -1247,18 +1270,19 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
 29. Finally, navigate to **DataContext.cs**. Capitalize the property names (e.g. convert categories to CATEGORIES). There are multiple other changes you will need to make, mentioned below in the **Additional Notes** section.
 
     >**Additional Notes**
-        - In EMPLOYEE.cs, capitalize the employee1 property, but do not provide a column attribute.
-        - In ORDER.cs, do not capitalize or provide an attribute for any properties following SHIPCOUNTRY.
-        - In ORDER_DETAILS.cs, do not capitalize and do not provide column attributes for the order and product properties.
-        - In PRODUCT.cs, capitalize the category and supplier properties but do not provide attributes. Also, do not use CATEGORY as the property name--instead, write CATEGORy.
-        - In TERRITORY.cs, do not capitalize or provide an attribute for any properties following REGIONID.
-        - Check the table schema created by ora2pg. Any columns in the database will require an attribute.
-        **DataContext.cs changes:**
-            - Modify e.employee1 to e.EMPLOYEE1 (line 36)
-            - Modify e.reportsto to e.REPORTSTO (line 37)
-            - Replace e.unitprice with e.UNITPRICE (line 45)
-            - Replace e.freight with e.FREIGHT (line 49)
-            - Replace e.shipvia with e.SHIPVIA (line 74)
+      - In EMPLOYEE.cs, capitalize the employee1 property, but do not provide a column attribute. 
+      - In ORDER.cs, do not capitalize or provide an attribute for any properties following SHIPCOUNTRY.
+      - In ORDER_DETAILS.cs, do not capitalize and do not provide column attributes for the order and product properties.
+      - In PRODUCT.cs, capitalize the category and supplier properties but do not provide attributes. Also, do not use CATEGORY as the property name--instead, write CATEGORy.
+      - In TERRITORY.cs, do not capitalize or provide an attribute for any properties following REGIONID.
+      - Check the table schema created by ora2pg. Any columns in the database will require an attribute.
+
+      - **DataContext.cs changes:**
+        - Modify e.employee1 to e.EMPLOYEE1 (line 36)
+        - Modify e.reportsto to e.REPORTSTO (line 37)
+        - Replace e.unitprice with e.UNITPRICE (line 45)
+        - Replace e.freight with e.FREIGHT (line 49)
+        - Replace e.shipvia with e.SHIPVIA (line 74)
 
 30. Navigate to **HomeController.cs**. Replace the existing contents of the file with the following:
 
@@ -1433,7 +1457,7 @@ The built application will be deployed to IIS. The existing publishing profile s
 
     ![Screenshot showing the publishing window.](./media/publish-window.png "selecting import profile in publishing window")
 
-9. Select **Browse** to locate the **Publish settings file**. Earlier, we saved our publish profile in `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL\Hands-on lab\lab-files\starter-project` as `northwindapporacletopsql.PublishSettings`. Select **Finish**.
+9. Select **Browse** to locate the **Publish settings file**. Select your publish profile from `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL\Hands-on lab\lab-files\starter-project`. Select **Finish**.
 
     ![Screenshot showing publish settings window.](./media/publish-settings-file-dialog.PNG "publish settings window")
 

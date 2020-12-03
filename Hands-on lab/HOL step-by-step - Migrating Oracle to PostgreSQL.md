@@ -477,7 +477,7 @@ PgAdmin greatly simplifies database administration and configuration tasks by pr
 
 1. Copy Microsoft's script to the `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL\Hands-on lab\lab-files\starter-project\Postgre Scripts` location.
 
-    - Press Ctrl+S to save the file from the webpage
+    - Press Ctrl+S to save the file from the webpage.
     - In the File Explorer dialog, quote the file name and ensure that the **Save as type** field is set to **All Files**.
 
         ![Ensuring that the installora2pg.ps1 script does not have .txt appended to it by File Explorer.](./media/save-ps-script-properly.PNG "Saving the PowerShell script without a .txt extension")

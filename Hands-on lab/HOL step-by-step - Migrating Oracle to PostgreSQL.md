@@ -230,7 +230,7 @@ WWI has provided you with a copy of their application, including a database scri
 
 6. If prompted for how you want to open the file, select **Visual Studio 2019**, and select **OK**.
 
-7. Sign in to Visual Studio (or create an account if you don't have one), when prompted.
+7. Sign into Visual Studio (or create an account if you don't have one), when prompted.
 
 8. At the Security Warning screen, uncheck **Ask me for every project in this solution**, and select **OK**.
 
@@ -881,7 +881,7 @@ We will first need to give DMS access to our local Oracle database. This will re
     - **Source server name:** Enter the IP address of your Lab VM.
     - **Server port:** Enter **1521**.
     - **Oracle SID:** Enter **XE**.
-    - **User Name:** Enter **NW**.
+    - **Username:** Enter **NW**.
     - **Password:** Type **oracledemo123**.
 
     >**Note**: If Azure fails to connect to your Oracle database, run *lsnrctl status* in command prompt. There should be a listener identified by your VM's hostname (LabVM).
@@ -919,7 +919,7 @@ We will first need to give DMS access to our local Oracle database. This will re
 
     - **Target server name:** [DB Name].postgres.database.azure.com.
     - **Default Database:** postgres
-    - **User Name:** NW@[DB Name]
+    - **Username:** NW@[DB Name]
     - **Password:** The password of your NW user.
 
 32. At the **Map to target databases** page, verify that the source **NW** schema is being migrated to the **public** schema of the **NW** target database.

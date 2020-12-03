@@ -9,7 +9,7 @@ Hands-on lab step-by-step
 </div>
 
 <div class="MCWHeader3">
-June 2020
+November 2020
 </div>
 
 Information in this document, including URL and other Internet Web site references, is subject to change without notice. Unless otherwise noted, the example companies, organizations, products, domain names, e-mail addresses, logos, people, places, and events depicted herein are fictitious, and no association with any real company, organization, product, domain name, e-mail address, logo, person, place or event is intended or should be inferred. Complying with all applicable copyright laws is the responsibility of the user. Without limiting the rights under copyright, no part of this document may be reproduced, stored in or introduced into a retrieval system, or transmitted in any form or by any means (electronic, mechanical, photocopying, recording, or otherwise), or for any purpose, without the express written permission of Microsoft Corporation.
@@ -474,15 +474,15 @@ In this task, you create a new migration project for the WideWorldImporters data
    - **Password**: Password.1!!
    - **Connection properties**: Check both Encrypt connection and Trust server certificate.
 
-   ![The Migration Wizard Select source blade is displayed, with the values specified above entered into the appropriate fields.](media/dms-migration-wizard-select-source.png "Migration Wizard Select source")
+   ![The Migration Wizard Select source blade is displayed, with the values specified above entered into the appropriate fields.](media/dms-source-sql-server.PNG "Migration Wizard Select source")
 
-6. Select **Save**.
+6. Select **Next: Select databases >>**.
 
-7. On the Migration Wizard **Select source databases** blade, select WideWorldImporters.
+7. On the Migration Wizard **Select databases** blade, select WideWorldImporters.
 
-   ![The Migration Wizard Select databases blade is displayed, with the WideWorldImporters database selected.](media/dms-migration-wizard-select-databases.png "Migration Wizard Select databases")
+   ![The Migration Wizard Select databases blade is displayed, with the WideWorldImporters database selected.](media/dms-select-source-db.PNG "Migration Wizard Select databases")
 
-8. Select **Save**.
+8. Select **Next: Select target >>**.
 
 9. On the Migration Wizard **Select target** blade, enter the following:
 
@@ -498,17 +498,13 @@ In this task, you create a new migration project for the WideWorldImporters data
    - **Password**: Password.1!!
    - **Connection properties**: Check Encrypt connection.
 
-   ![The Migration Wizard Select target blade is displayed, with the values specified above entered into the appropriate fields.](media/dms-migration-wizard-select-target.png "Migration Wizard Select target")
+   ![The Migration Wizard Select target blade is displayed, with the values specified above entered into the appropriate fields.](media/dms-select-target-db.PNG "Migration Wizard Select target")
 
-10. Select **Save**.
+10. Select **Next: Summary >>**.
 
-11. On the Migration Wizard Summary blade, review the Project summary, then select **Save**.
+11. On the Migration Wizard Summary blade, review the Project summary, then select **Save project**.
 
-    ![The Migration Wizard summary blade is displayed.](media/dms-migration-wizard-summary.png "Migration Wizard summary")
-
-12. On the Azure Database Migration Project blade, you will receive a success message, similar to the following.
-
-    ![On the Azure Database Migration Project blade, a success message is displayed.](media/dms-migration-project-successfully-created.png "DMS project created successfully")
+    ![The Migration Wizard summary blade is displayed.](media/dms-migration-project-summary.PNG "Migration Wizard summary")
 
 ### Task 4: Run the migration
 
@@ -518,29 +514,29 @@ In this task, you will create a new activity in the Azure Database Migration Ser
 
    ![On the Azure Database Migration Service blade, +New Activity is highlighted, and the Run migration button is highlighted in the Create new activity dialog.](media/dms-add-new-activity.png "Azure Database Migration Service Add New Activity")
 
-2. On the Migration Wizard **Select source** blade, re-enter the demouser password, **Password.1!!**, then select **Save**.
+2. On the Migration Wizard **Select source** blade, re-enter the demouser password, **Password.1!!**, then select **Next: Select target >>**.
 
-   ![The Migration Wizard Select source blade is displayed, with the password value highlighted.](media/dms-migration-wizard-migration-source-detail.png "Migration Wizard Select source")
+   ![The Migration Wizard Select source blade is displayed, with the password value highlighted.](media/dms-migration-activity-source.PNG "Migration Wizard Select source")
 
-3. On the Migration Wizard **Select target** blade, re-enter the demouser password, **Password.1!!**, then select **Save**.
+3. On the Migration Wizard **Select target** blade, re-enter the demouser password, **Password.1!!**, then select **Next: Map to target databases >>**.
 
-   ![The Migration Wizard Select target blade is displayed, with the password value highlighted.](media/dms-migration-wizard-migration-target-detail.png "Migration Wizard Select target")
+   ![The Migration Wizard Select target blade is displayed, with the password value highlighted.](media/dms-migration-activity-target.PNG "Migration Wizard Select target")
 
-4. On the Migration Wizard **Map to target databases** blade, confirm that **WideWorldImporters** is checked as the source database, and that it is also the target database on the same line, then select **Save**.
+4. On the Migration Wizard **Map to target databases** blade, confirm that **WideWorldImporters** is checked as the source database, and that it is also the target database on the same line, then select **Next: Configure migration settings >>**.
 
-   ![The Migration Wizard Map to target database blade is displayed, with the WideWorldImporters line highlighted.](media/dms-migration-wizard-map-to-target-databases.png "Migration Wizard Map to target databases")
+   ![The Migration Wizard Map to target database blade is displayed, with the WideWorldImporters line highlighted.](media/dms-migration-activity-select-target-db.png "Migration Wizard Map to target databases")
 
-5. On the Migration Wizard **Configure migration settings** blade, expand the WideWorldImporters database, verify all the tables are selected, and select **Save**.
+5. On the Migration Wizard **Configure migration settings** blade, expand the WideWorldImporters database, verify all the tables are selected, and select **Next: Summary >>**.
 
-   ![The Migration Wizard Configure migration settings blade is displayed, with the expand arrow for WideWorldImporters highlighted, and all the tables checked.](media/dms-migration-wizard-configure-migration-settings.png "Migration Wizard Configure migration settings")
+   ![The Migration Wizard Configure migration settings blade is displayed, with the expand arrow for WideWorldImporters highlighted, and all the tables checked.](media/dms-migration-activity-confirm-source-tables.PNG "Migration Wizard Configure migration settings")
 
 6. On the Migration Wizard **Summary** blade, enter the following:
 
    - **Activity name**: Enter a name, such as DwMigration.
 
-   ![The Migration Wizard summary blade is displayed, DwMigration is entered into the name field, and Validate my database(s) is selected in the Choose validation option blade, with all three validation options selected.](media/dms-migration-wizard-migration-summary.png "Migration Wizard Summary")
+   ![The Migration Wizard summary blade is displayed, DwMigration is entered into the name field, and Validate my database(s) is selected in the Choose validation option blade, with all three validation options selected.](media/dms-migration-activity-start.PNG "Migration Wizard Summary")
 
-7. Select **Run migration**.
+7. Select **Start migration**.
 
 8. Monitor the migration on the status screen that appears. Select the refresh icon in the toolbar to retrieve the latest status.
 
@@ -714,6 +710,8 @@ In this task, you will create a new table based on the existing `FactResellerSal
 
 6. Select **Execute** on the toolbar to run the query.
 
+   >**Note**: You will need to be in SQLCMD mode for all these queries to execute.
+
 7. In the query results, observe the `Size_MB` value of the table before and after the creation of the clustered ColumnStore index. The first value is the size before the index was created, and the second value is the size after the ColumnStore index was created.
 
    ![The SSMS results pane is displayed, with the size of the ColumnStore_FactResellerSales table highlighted both before and after the creation of the clustered ColumnStore index.](media/ssms-query-results-columnstore-factresellersales-size.png "ColumnStore_FactResellerSales size query results")
@@ -858,6 +856,8 @@ In this exercise, you will install Oracle XE on your Lab VM, load a sample datab
 2. Select the Download button to download SSMA.
 
    ![Download is selected and highlighted under Microsoft SQL Server Migration Assistant v8.x for Oracle.](media/ssma-download.png "Download SSMA")
+
+   >**Note**: Download the latest version.
 
 3. Check the box next to **SSMAforOracle_8.x.0.msi**, and select **Next** to begin the download.
 
@@ -1087,7 +1087,7 @@ In this exercise, you will migrate the Oracle database into the on-premises SQL 
 
 5. In the Connect to Oracle dialog, enter the following:
 
-   - **Provider**: Leave set to the default value, Oracle Client Provider for .NET.
+   - **Provider**: Leave set to the default value, Oracle Data Provider for .NET.
    - **Mode**: Leave set to Standard mode.
    - **Server name**: localhost
    - **Server port**: Set to 1521.
@@ -1172,6 +1172,8 @@ In this exercise, you will migrate the Oracle database into the on-premises SQL 
 23. Double-click on the error listed. This will display the Table in both Oracle and SQL Server that is causing the error, `EMPLOYEETERRITORIES`. Notice the Oracle table lists `EMPLOYEEID` with a data type of `NUMBER`, while SQL Server is expecting a data type of `float(53)`.
 
     ![NUMBER and float(53) are highlighted under Data Type, and EMPLOYEEID is selected in the split-screen views of the Table tab for Oracle and SQL Server.](./media/ssma-data-type-error.png "View the information")
+
+    >**Note**: If the datatype conversions are already correct, feel free to skip steps 23 to 30.
 
 24. Look at the table definition for the table on the Oracle side.
 

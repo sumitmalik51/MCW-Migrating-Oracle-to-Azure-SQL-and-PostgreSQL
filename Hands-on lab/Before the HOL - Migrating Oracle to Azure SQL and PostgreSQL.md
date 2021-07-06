@@ -36,7 +36,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
     - [Task 7 (Migrate to Azure SQL): Provision Azure SQL Database](#task-7-migrate-to-azure-sql-provision-azure-sql-database)
     - [Task 8: Register the Microsoft DataMigration resource provider](#task-8-register-the-microsoft-datamigration-resource-provider)
     - [Task 9 (Migrate to Azure SQL): Create Azure Database Migration Service for SQL Server](#task-9-migrate-to-azure-sql-create-azure-database-migration-service-for-sql-server)
-    - [Task 10  (Migrate to PostgreSQL): Create Azure Database Migration Service for an Oracle to PostgreSQL Migration](#task-10-migrate-to-postgresql-create-azure-database-migration-service-for-an-oracle-to-postgresql-migration)
+    - [Task 10 (Migrate to PostgreSQL): Create Azure Database Migration Service for an Oracle to PostgreSQL Migration](#task-10-migrate-to-postgresql-create-azure-database-migration-service-for-an-oracle-to-postgresql-migration)
 
 # Migrating Oracle to Azure SQL and PostgreSQL before the hands-on lab setup guide
 
@@ -275,7 +275,7 @@ In this task, you will provision another virtual machine (VM) in Azure which wil
 
 2. Enter "SQL Server 2008R2SP3 on Windows Server 2008R2" into the Search the Marketplace box and press Enter.
 
-3. On the **SQL Server 2008 R2 SP3 Standard on Windows Server 2008 R2** blade, select **SQL Server R2 SP3 Standard on Windows Server 2008 R2** for the software plan and then select **Create**.
+3. On the **SQL Server 2008 R2 SP3 on Windows Server 2008 R2** blade, select **SQL Server R2 SP3 Standard on Windows Server 2008 R2** for the software plan and then select **Create**.
 
     ![The SQL Server 2008 R2 SP3 on Windows Server 2008 R2 blade is displayed with the standard edition selected for the software plan, and the Create button highlighted.](media/create-resource-sql-server-2008-r2.png "Create SQL Server 2008 R2 Resource")
 
@@ -422,7 +422,7 @@ In this task, you will create an Azure SQL Database, which will serve as the tar
 
       ![Configure database is highlighted under Compute + storage.](media/azure-sql-database-create-compute-storage.png "Compute + storage")
 
-    - On the Compute + storage blade, select the **Looking for basic, standard, premium?** link, and then select the **Premium** tab, with 125 DTUs and 500 GB, and then select. Keep the default options for **Read scale-out** and making the database zone redundant. Then, select **Apply**.
+    - On the Compute + storage blade, select the **Looking for basic, standard, premium?** link, and then select the **Premium** tab, with 125 DTUs and 500 GB. Keep the default options for **Read scale-out** and making the database zone redundant. Then, select **Apply**.
 
     ![The Configure pricing tier for SQL Server is displayed, with Premium selected and highlighted.](media/premium-sql-db-config.PNG "SQL Pricing tier configuration")
 
@@ -490,7 +490,7 @@ In this task, you will provision an instance of the Azure Database Migration Ser
 
 >**Note**: It can take 15 minutes to deploy the Azure Data Migration Service.
 
-### Task 10  (Migrate to PostgreSQL): Create Azure Database Migration Service for an Oracle to PostgreSQL Migration
+### Task 10 (Migrate to PostgreSQL): Create Azure Database Migration Service for an Oracle to PostgreSQL Migration
 
 In this task, you will provision an instance of the Azure Database Migration Service (DMS) for use with an *online* Oracle to PostgreSQL migration. This requires that we implement the **Premium** tier.
 

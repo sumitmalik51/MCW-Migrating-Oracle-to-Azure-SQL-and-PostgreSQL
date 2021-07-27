@@ -52,7 +52,8 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
     - [Task 5: Create the Northwind database in Oracle 11g XE](#task-5-create-the-northwind-database-in-oracle-11g-xe)
     - [Task 6: Configure the Starter Application to use Oracle](#task-6-configure-the-starter-application-to-use-oracle)
   - [Exercise 5: Migrate the Oracle database to SQL Server 2017](#exercise-5-migrate-the-oracle-database-to-sql-server-2017)
-    - [Task 1: Migrate the Oracle database to SQL Server 2017 using SSMA](#task-1-migrate-the-oracle-database-to-sql-server-2017-using-ssma)
+    - [Task 1: Prepare to load SSMA](#task-1-prepare-to-load-ssma)
+    - [Task 2: Migrate the Oracle database to SQL Server 2017 using SSMA](#task-2-migrate-the-oracle-database-to-sql-server-2017-using-ssma)
   - [Exercise 6: Migrate the Application](#exercise-6-migrate-the-application)
     - [Task 1: Create a new Entity Model against SQL Server](#task-1-create-a-new-entity-model-against-sql-server)
     - [Task 2: Modify Application Code](#task-2-modify-application-code)
@@ -321,21 +322,23 @@ Wide World Importers would like a Proof of Concept (POC) that moves their data w
 
 Wide World Importers would like an assessment to see what potential issues they would have to address in moving their database to Azure SQL Database.
 
-1. On the SqlServer2008 VM, download the [Data Migration Assistant v5.x](https://www.microsoft.com/download/confirmation.aspx?id=53595) and run the downloaded installer.
+1. On the SqlServer2008 VM, install the .NET Framework 4.8 Runtime, a requirement for Data Migration Assistant to run. Locate the downloader [here.](https://dotnet.microsoft.com/download/dotnet-framework/net48) Restart the system.
 
-2. Select **Next** on each of the screens, accepting to the license terms and privacy policy in the process.
+2. Download the [Data Migration Assistant v5.x](https://www.microsoft.com/download/confirmation.aspx?id=53595) and run the downloaded installer.
 
-3. Select **Install** on the Privacy Policy screen to begin the installation.
+3. Select **Next** on each of the screens, accepting to the license terms and privacy policy in the process.
 
-4. On the final screen, check the **Launch Microsoft Data Migration Assistant** check box, and select **Finish**.
+4. Select **Install** on the Privacy Policy screen to begin the installation.
+
+5. On the final screen, check the **Launch Microsoft Data Migration Assistant** check box, and select **Finish**.
 
    ![Launch Microsoft Data Migration Assistant is selected and highlighted at the bottom of the Microsoft Data Migration Assistant Setup dialog box.](./media/data-migration-assistant-setup-finish.png "Run the Microsoft Data Migration Assistant")
 
-5. In the Data Migration Assistant window, select the New **(+)** icon in the left-hand menu.
+6. In the Data Migration Assistant window, select the New **(+)** icon in the left-hand menu.
 
    ![+ New is selected and highlighted in the Data Migration Assistant window.](./media/data-migration-assistant-new-project.png "Select + New")
 
-6. In the New project dialog, enter the following:
+7. In the New project dialog, enter the following:
 
    - **Project type**: Select Assessment.
    - **Project name**: Enter Assessment.
@@ -347,25 +350,25 @@ Wide World Importers would like an assessment to see what potential issues they 
 
    - Select **Create**.
 
-7. On the **Options** tab, ensure the **Check database compatibility** and **Check feature parity** report types are checked, and select **Next**.
+8. On the **Options** tab, ensure the **Check database compatibility** and **Check feature parity** report types are checked, and select **Next**.
 
    ![Check database compatibility and Check feature parity are selected and highlighted on the Options screen.](./media/data-migration-assistant-options.png "Select the report types")
 
-8. In the **Connect to a server** dialog on the **Select sources** tab, enter `SQLSERVER2008` into the Server name box, and **uncheck Encrypt connection**, then select **Connect**.
+9. In the **Connect to a server** dialog on the **Select sources** tab, enter `SQLSERVER2008` into the Server name box, and **uncheck Encrypt connection**, then select **Connect**.
 
    ![In the Connect to a server dialog box, SQLSERVER2008 is highlighted in the Server name box, and Encrypt connection is unchecked and highlighted below that in the Connect to a server dialog box.](./media/data-migration-assistant-select-sources-sqlserver2008.png "Enter information in the Connect to a server dialog box")
 
-9. In the **Add sources** dialog that appears, check the box next to **WideWorldImporters**, and select **Add**.
+10. In the **Add sources** dialog that appears, check the box next to **WideWorldImporters**, and select **Add**.
 
    ![WideWorldImporters is selected and highlighted under SQLSERVER2008 in the Add sources dialog box.](./media/data-migration-assistant-select-sources-sqlserver2008-wideworldimporters.png "Select WideWorldImporters")
 
-10. Select **Start Assessment**.
+11. Select **Start Assessment**.
 
-11. Review the Assessment results, selecting both **SQL Server feature parity** and **Compatibility issues** options and viewing the reports.
+12. Review the Assessment results, selecting both **SQL Server feature parity** and **Compatibility issues** options and viewing the reports.
 
     ![Various information is selected on the Review results screen.](./media/data-migration-assistant-review-results-sqlserver2008-wideworldimporters.png "Review the Assessment results")
 
-12. You now have a list of the issues WWI will need to consider in upgrading their database to Azure SQL Database. Notice the assessment includes recommendations on the potential resolutions to issues. You can select **Export Assessment** on the top toolbar to save the report as a JSON file, if desired.
+13. You now have a list of the issues WWI will need to consider in upgrading their database to Azure SQL Database. Notice the assessment includes recommendations on the potential resolutions to issues. You can select **Export Assessment** on the top toolbar to save the report as a JSON file, if desired.
 
 ### Task 2: Migrate the database schema
 
@@ -455,7 +458,7 @@ In this task, you create a new migration project for the WideWorldImporters data
 
    - **Target server type**: Select Azure SQL Database.
 
-   - **Choose type of activity**: Select Create project only and select **Save**.
+   - **Choose type of activity**: Select Create project only.
 
      ![The New migration project blade is displayed, with the values specified above entered into the appropriate fields.](media/dms-new-migration-project-blade.png "New migration project")
 
@@ -1069,7 +1072,29 @@ Duration: 30 minutes
 
 In this exercise, you will migrate the Oracle database into the on-premises SQL Server 2017 instance using SSMA.
 
-### Task 1: Migrate the Oracle database to SQL Server 2017 using SSMA
+### Task 1: Prepare to load SSMA
+
+1. You may need to download the latest version of .NET Framework to load the SQL Server Migration Assistance for Oracle tool. Select [this](https://dotnet.microsoft.com/download/dotnet-framework/net48) link to install .NET Framework 4.8.
+
+   >**Note**: If you are prompted to relaunch **RdAgent**, select **No**. This will require you to restart the VM after the .NET Framework installation.
+
+   ![.NET Framework 4.8 install dialog in LabVM.](./media/net-framework-install.png ".NET Framework 4.8 installation dialog")
+
+2. Navigate to `C:\Windows\Microsoft.NET\Framework64\v4.0.30319\Config` in File Explorer. Right-click `machine.config` and select **Open with > Notepad**.
+
+3. Once the `machine.config` file opens in Notepad, remove the reference to `oracle.manageddataaccess.client` below the `configSections` node.
+
+4. Below `DbProviderFactories`, remove the reference to the managed Oracle connector.
+
+   ![Remove reference to the Managed Oracle provider in the system-wide machine.config file.](./media/dbproviderfactory-odpnet-reference.png "Removing reference to Managed Oracle provider")
+
+5. Lastly, remove the reference to the `oracle.manageddataaccess.client` node in the `configuration` root node.
+
+   ![Remove Oracle managed client configuration details from machine.config.](./media/remove-manageddata-reference.png "Remove managed client configuration")
+
+6. Save the file. Close notepad.
+
+### Task 2: Migrate the Oracle database to SQL Server 2017 using SSMA
 
 1. On your LabVM, launch **Microsoft SQL Server Migration Assistant for Oracle** from the Start Menu.
 

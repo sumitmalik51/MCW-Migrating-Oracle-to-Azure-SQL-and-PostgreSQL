@@ -515,6 +515,8 @@ PgAdmin greatly simplifies database administration and configuration tasks by pr
 
         >**Note**: The script may throw errors of not being able to find a Git executable at a certain location. This should not impact the installation.
 
+        >**Note**: If the script still cannot find `oci.dll`, rename `C:\instantclient_12_2` to `C:\instantclient`.
+
 7. Once ora2pg installs, you will need to configure PATH variables.
 
     - Search for **View advanced system settings** in Windows.
@@ -531,7 +533,7 @@ PgAdmin greatly simplifies database administration and configuration tasks by pr
 9. The **Edit environment variable** box should be displaying.
 
     - Select **New**.
-    - Enter **C:\instantclient_12_2**.
+    - Enter **C:\instantclient_12_2** (or **C:\instantclient**).
     - Repeat this process, but enter **%%PATH%%** instead.
 
     ![Screenshot showing path variable configuration.](./media/path-variable-configuration.png "Path variable configuration")
@@ -585,6 +587,10 @@ In this task, we will create the new application user and create the NW database
     - Add the **azure_pg_admin** role.
     - Do not select the checkbox next to the role name (this user will not be granting the azure_pg_admin role to others).
     - Select **Save**.
+
+    >**Note**: New versions of pgAdmin, such as v5.4, follow a different UI layout. In this case, select **azure_pg_admin** for the **Member of** box.
+
+    ![Setting the NW role as a member of the azure_pg_admin role.](./media/set-role-membership-5.4.png "azure_pg_admin role membership")
 
 Our configuration in pgAdmin is now complete.
 

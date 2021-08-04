@@ -1,0 +1,182 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "namespace": {
+            "type": "string"
+        }
+    },
+    "functions": [],
+    "variables": {
+        "LabVMName": "LabVM",
+        "LabVMStorageName": "[toLower(concat(variables('LabVMName'), 'storage', toLower(parameters('namespace'))))]",
+        "LabVMPublicIPName": "[concat(variables('LabVMName'), '-PublicIP-', parameters('namespace'))]",
+        "LabVMNSGName": "[concat(variables('LabVMName'), '-nsg-', parameters('namespace'))]",
+        "LabVMVirtualNetworkName": "[concat(variables('LabVMName'), '-VirtualNetwork-', parameters('namespace'))]",
+        "LabVMSubnetName": "[concat(variables('LabVMName'), '-Subnet-', parameters('namespace'))]",
+        "LabVMNetworkInterfaceName": "[concat(variables('LabVMName'), '-NetworkInterface-', parameters('namespace'))]",
+        "VMUsername": "demouser",
+        "VMPassword": "Password.1!!",
+        "LabVMDiskName": "[concat(variables('LabVMName'), '-OsDisk-', parameters('namespace'))]"
+    },
+    "resources": [
+        {
+            "name": "[variables('LabVMStorageName')]",
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2019-06-01",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "displayName": "[concat(variables('LabVMStorageName'), ' Storage Account')]"
+            },
+            "sku": {
+                "name": "Standard_LRS"
+            },
+            "kind": "Storage"
+        },
+        {
+            "name": "[variables('LabVMPublicIPName')]",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "apiVersion": "2019-11-01",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "displayName": "[concat(variables('LabVMPublicIPName'), ' PublicIPAddress')]"
+            },
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic"
+            }
+        },
+        {
+            "name": "[variables('LabVMNSGName')]",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2018-08-01",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "RDP",
+                        "properties": {
+                            "description": "Allows RDP traffic.",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "3389",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 100,
+                            "direction": "Inbound"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "[variables('LabVMVirtualNetworkName')]",
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2019-11-01",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', variables('LabVMNSGName'))]"
+            ],
+            "tags": {
+                "displayName": "[variables('LabVMVirtualNetworkName')]"
+            },
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "10.0.0.0/16"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[variables('LabVMSubnetName')]",
+                        "properties": {
+                            "addressPrefix": "10.0.0.0/24",
+                            "networkSecurityGroup": {
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('LabVMNSGName'))]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "[variables('LabVMNetworkInterfaceName')]",
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2019-11-01",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', variableS('LabVMPublicIPName'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks', variables('LabVMVirtualNetworkName'))]"
+            ],
+            "tags": {
+                "displayName": "[concat(variables('LabVMName'), ' Network Interface')]"
+            },
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "DynamicIP",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('LabVMPublicIPName'))]"
+                            },
+                            "subnet": {
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('LabVMVirtualNetworkName'), variables('LabVMSubnetName'))]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "[variables('LabVMName')]",
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2019-07-01",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', variables('LabVMStorageName'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces', variables('LabVMNetworkInterfaceName'))]"
+            ],
+            "tags": {
+                "displayName": "[variables('LabVMName')]"
+            },
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_D2s_v3"
+                },
+                "osProfile": {
+                    "computerName": "[variables('LabVMName')]",
+                    "adminUsername": "[variables('VMUsername')]",
+                    "adminPassword": "[variables('VMPassword')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftVisualStudio",
+                        "offer": "visualstudio2019latest",
+                        "sku": "vs-2019-comm-latest-ws2019",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "name": "[variables('LabVMDiskName')]",
+                        "caching": "ReadWrite",
+                        "createOption": "FromImage"
+                    }
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('LabVMNetworkInterfaceName'))]"
+                        }
+                    ]
+                },
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": true,
+                        "storageUri": "[reference(resourceId('Microsoft.Storage/storageAccounts/', variables('LabVMStorageName'))).primaryEndpoints.blob]"
+                    }
+                }
+            }
+        }
+    ],
+    "outputs": {}
+}

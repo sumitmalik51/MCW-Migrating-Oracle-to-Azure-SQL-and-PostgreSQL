@@ -230,6 +230,20 @@
                             "priority": 100,
                             "direction": "Inbound"
                         }
+                    },
+                    {
+                        "name": "SqlServer",
+                        "properties": {
+                            "description": "Allows SQL Server traffic.",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "1433",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 200,
+                            "direction": "Inbound"
+                        }
                     }
                 ]
             }
@@ -349,6 +363,12 @@
                     },
                     "SQLTempDbSettings": {
                         "DefaultFilePath": "D:\\SQLTemp"
+                    }
+                },
+                "serverConfigurationsManagementSettings": {
+                    "sqlConnectivityUpdateSettings": {
+                        "connectivityType": "PUBLIC",
+                        "port": 1433
                     }
                 }
             }

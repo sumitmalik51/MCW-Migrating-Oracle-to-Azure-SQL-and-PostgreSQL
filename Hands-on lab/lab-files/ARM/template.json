@@ -2,28 +2,36 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "namespace": {
-            "type": "string"
+        "uniqueSuffix": {
+            "type": "string",
+            "metadata": {
+                "description": "Suffix added to all resource names to make them unique."
+            }
+        },
+        "VMPassword": {
+            "type": "SecureString",
+            "metadata": {
+                "description": "The password for demouser in the Lab VM, SQL Server 2019 VM, and SQL Server 2008 R2 VM."
+            }
         }
     },
     "functions": [],
     "variables": {
         "LabVMName": "LabVM",
-        "LabVMStorageName": "[toLower(concat(variables('LabVMName'), 'storage', toLower(parameters('namespace'))))]",
-        "LabVMPublicIPName": "[concat(variables('LabVMName'), '-PublicIP-', parameters('namespace'))]",
-        "LabVMNSGName": "[concat(variables('LabVMName'), '-nsg-', parameters('namespace'))]",
-        "LabVMVirtualNetworkName": "[concat(variables('LabVMName'), '-VirtualNetwork-', parameters('namespace'))]",
-        "LabVMSubnetName": "[concat(variables('LabVMName'), '-Subnet-', parameters('namespace'))]",
-        "LabVMNetworkInterfaceName": "[concat(variables('LabVMName'), '-NetworkInterface-', parameters('namespace'))]",
+        "LabVMStorageName": "[toLower(concat(variables('LabVMName'), 'storage', toLower(parameters('uniqueSuffix'))))]",
+        "LabVMPublicIPName": "[concat(variables('LabVMName'), '-PublicIP-', parameters('uniqueSuffix'))]",
+        "LabVMNSGName": "[concat(variables('LabVMName'), '-nsg-', parameters('uniqueSuffix'))]",
+        "LabVMVirtualNetworkName": "[concat(variables('LabVMName'), '-VirtualNetwork-', parameters('uniqueSuffix'))]",
+        "LabVMSubnetName": "[concat(variables('LabVMName'), '-Subnet-', parameters('uniqueSuffix'))]",
+        "LabVMNetworkInterfaceName": "[concat(variables('LabVMName'), '-NetworkInterface-', parameters('uniqueSuffix'))]",
         "VMUsername": "demouser",
-        "VMPassword": "Password.1!!",
-        "LabVMDiskName": "[concat(variables('LabVMName'), '-OsDisk-', parameters('namespace'))]",
+        "LabVMDiskName": "[concat(variables('LabVMName'), '-OsDisk-', parameters('uniqueSuffix'))]",
 
         "SqlServerVMName": "SqlServer2019",
-        "SqlServerPublicIPName": "[concat(variables('SqlServerVMName'), '-PublicIP-', parameters('namespace'))]",
-        "SqlServerNSGName": "[concat(variables('SqlServerVMName'), '-nsg-', parameters('namespace'))]",
-        "SqlServerNetworkInterfaceName": "[concat(variables('SqlServerVMName'), '-NetworkInterface-', parameters('namespace'))]",
-        "SqlServerSubnetName": "[concat(variables('SqlServerVMName'), '-Subnet-', parameters('namespace'))]",
+        "SqlServerPublicIPName": "[concat(variables('SqlServerVMName'), '-PublicIP-', parameters('uniqueSuffix'))]",
+        "SqlServerNSGName": "[concat(variables('SqlServerVMName'), '-nsg-', parameters('uniqueSuffix'))]",
+        "SqlServerNetworkInterfaceName": "[concat(variables('SqlServerVMName'), '-NetworkInterface-', parameters('uniqueSuffix'))]",
+        "SqlServerSubnetName": "[concat(variables('SqlServerVMName'), '-Subnet-', parameters('uniqueSuffix'))]",
 
         "dataDisks": {
             "createOption": "empty",
@@ -170,7 +178,7 @@
                 "osProfile": {
                     "computerName": "[variables('LabVMName')]",
                     "adminUsername": "[variables('VMUsername')]",
-                    "adminPassword": "[variables('VMPassword')]"
+                    "adminPassword": "[parameters('VMPassword')]"
                 },
                 "storageProfile": {
                     "imageReference": {
@@ -330,7 +338,7 @@
                 "osProfile": {
                     "computerName": "[variables('SqlServerVMName')]",
                     "adminUsername": "[variables('VMUsername')]",
-                    "adminPassword": "[variables('VMPassword')]",
+                    "adminPassword": "[parameters('VMPassword')]",
                     "windowsConfiguration": {
                         "enableAutomaticUpdates": true,
                         "provisionVmAgent": true

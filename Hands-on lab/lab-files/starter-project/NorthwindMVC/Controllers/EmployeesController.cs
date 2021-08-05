@@ -1,148 +1,159 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Web.Mvc;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using NorthwindMVC.Data;
 
 namespace NorthwindMVC.Controllers
 {
     public class EmployeesController : Controller
     {
-        private DataContext db = new DataContext();
+        private readonly DataContext _context;
+
+        public EmployeesController(DataContext context)
+        {
+            _context = context;
+        }
 
         // GET: Employees
-        public ActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var eMPLOYEES = this.db.EMPLOYEES.Include(e => e.EMPLOYEE1);
-
-            return this.View(eMPLOYEES.ToList());
+            var dataContext = _context.Employees.Include(e => e.ReportstoNavigation);
+            return View(await dataContext.ToListAsync());
         }
 
         // GET: Employees/Details/5
-        public ActionResult Details(decimal id)
+        public async Task<IActionResult> Details(decimal? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return NotFound();
             }
 
-            var eMPLOYEE = this.db.EMPLOYEES.Find(id);
-
-            if (eMPLOYEE == null)
+            var employee = await _context.Employees
+                .Include(e => e.ReportstoNavigation)
+                .FirstOrDefaultAsync(m => m.Employeeid == id);
+            if (employee == null)
             {
-                return this.HttpNotFound();
+                return NotFound();
             }
 
-            return this.View(eMPLOYEE);
+            return View(employee);
         }
 
         // GET: Employees/Create
-        public ActionResult Create()
+        public IActionResult Create()
         {
-            ViewBag.REPORTSTO = new SelectList(this.db.EMPLOYEES, "EMPLOYEEID", "LASTNAME");
-
-            return this.View();
+            ViewData["Reportsto"] = new SelectList(_context.Employees, "Employeeid", "Firstname");
+            return View();
         }
 
         // POST: Employees/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "EMPLOYEEID,LASTNAME,FIRSTNAME,TITLE,TITLEOFCOURTESY,BIRTHDATE,HIREDATE,ADDRESS,CITY,REGION,POSTALCODE,COUNTRY,HOMEPHONE,EXTENSION,PHOTO,NOTES,REPORTSTO,PHOTOPATH")] EMPLOYEE eMPLOYEE)
+        public async Task<IActionResult> Create([Bind("Employeeid,Lastname,Firstname,Title,Titleofcourtesy,Birthdate,Hiredate,Address,City,Region,Postalcode,Country,Homephone,Extension,Photo,Notes,Reportsto,Photopath")] Employee employee)
         {
             if (ModelState.IsValid)
             {
-                this.db.EMPLOYEES.Add(eMPLOYEE);
-                this.db.SaveChanges();
-
-                return this.RedirectToAction("Index");
+                _context.Add(employee);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-
-            ViewBag.REPORTSTO = new SelectList(this.db.EMPLOYEES, "EMPLOYEEID", "LASTNAME", eMPLOYEE.REPORTSTO);
-
-            return this.View(eMPLOYEE);
+            ViewData["Reportsto"] = new SelectList(_context.Employees, "Employeeid", "Firstname", employee.Reportsto);
+            return View(employee);
         }
 
         // GET: Employees/Edit/5
-        public ActionResult Edit(decimal id)
+        public async Task<IActionResult> Edit(decimal? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return NotFound();
             }
 
-            var eMPLOYEE = this.db.EMPLOYEES.Find(id);
-
-            if (eMPLOYEE == null)
+            var employee = await _context.Employees.FindAsync(id);
+            if (employee == null)
             {
-                return this.HttpNotFound();
+                return NotFound();
             }
-
-            ViewBag.REPORTSTO = new SelectList(this.db.EMPLOYEES, "EMPLOYEEID", "LASTNAME", eMPLOYEE.REPORTSTO);
-
-            return this.View(eMPLOYEE);
+            ViewData["Reportsto"] = new SelectList(_context.Employees, "Employeeid", "Firstname", employee.Reportsto);
+            return View(employee);
         }
 
         // POST: Employees/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "EMPLOYEEID,LASTNAME,FIRSTNAME,TITLE,TITLEOFCOURTESY,BIRTHDATE,HIREDATE,ADDRESS,CITY,REGION,POSTALCODE,COUNTRY,HOMEPHONE,EXTENSION,PHOTO,NOTES,REPORTSTO,PHOTOPATH")] EMPLOYEE eMPLOYEE)
+        public async Task<IActionResult> Edit(decimal id, [Bind("Employeeid,Lastname,Firstname,Title,Titleofcourtesy,Birthdate,Hiredate,Address,City,Region,Postalcode,Country,Homephone,Extension,Photo,Notes,Reportsto,Photopath")] Employee employee)
         {
-            if (ModelState.IsValid)
+            if (id != employee.Employeeid)
             {
-                this.db.Entry(eMPLOYEE).State = EntityState.Modified;
-                this.db.SaveChanges();
-
-                return this.RedirectToAction("Index");
+                return NotFound();
             }
 
-            ViewBag.REPORTSTO = new SelectList(this.db.EMPLOYEES, "EMPLOYEEID", "LASTNAME", eMPLOYEE.REPORTSTO);
-
-            return this.View(eMPLOYEE);
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(employee);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!EmployeeExists(employee.Employeeid))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["Reportsto"] = new SelectList(_context.Employees, "Employeeid", "Firstname", employee.Reportsto);
+            return View(employee);
         }
 
         // GET: Employees/Delete/5
-        public ActionResult Delete(decimal id)
+        public async Task<IActionResult> Delete(decimal? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return NotFound();
             }
 
-            var eMPLOYEE = this.db.EMPLOYEES.Find(id);
-
-            if (eMPLOYEE == null)
+            var employee = await _context.Employees
+                .Include(e => e.ReportstoNavigation)
+                .FirstOrDefaultAsync(m => m.Employeeid == id);
+            if (employee == null)
             {
-                return this.HttpNotFound();
+                return NotFound();
             }
 
-            return this.View(eMPLOYEE);
+            return View(employee);
         }
 
         // POST: Employees/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(decimal id)
+        public async Task<IActionResult> DeleteConfirmed(decimal id)
         {
-            var eMPLOYEE = this.db.EMPLOYEES.Find(id);
-
-            this.db.EMPLOYEES.Remove(eMPLOYEE);
-            this.db.SaveChanges();
-
-            return this.RedirectToAction("Index");
+            var employee = await _context.Employees.FindAsync(id);
+            _context.Employees.Remove(employee);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
-        protected override void Dispose(bool disposing)
+        private bool EmployeeExists(decimal id)
         {
-            if (disposing)
-            {
-                this.db.Dispose();
-            }
-
-            base.Dispose(disposing);
+            return _context.Employees.Any(e => e.Employeeid == id);
         }
     }
 }

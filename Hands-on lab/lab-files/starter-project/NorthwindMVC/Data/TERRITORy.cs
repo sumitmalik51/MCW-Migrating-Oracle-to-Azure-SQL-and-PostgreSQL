@@ -1,32 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+
+#nullable disable
+
 namespace NorthwindMVC.Data
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
-
-    [Table("NW.TERRITORIES")]
-    public partial class TERRITORy
+    public partial class Territory
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TERRITORy()
-        {
-            EMPLOYEES = new HashSet<EMPLOYEE>();
-        }
+        public string Territoryid { get; set; }
+        public string Territorydescription { get; set; }
+        public decimal Regionid { get; set; }
 
-        [StringLength(20)]
-        public string TERRITORYID { get; set; }
-
-        [Required]
-        [StringLength(50)]
-        public string TERRITORYDESCRIPTION { get; set; }
-
-        public decimal REGIONID { get; set; }
-
-        public virtual REGION REGION { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EMPLOYEE> EMPLOYEES { get; set; }
+        public virtual Region Region { get; set; }
     }
 }

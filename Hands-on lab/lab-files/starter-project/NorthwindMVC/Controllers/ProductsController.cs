@@ -1,152 +1,165 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Web.Mvc;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using NorthwindMVC.Data;
 
 namespace NorthwindMVC.Controllers
 {
     public class ProductsController : Controller
     {
-        private DataContext db = new DataContext();
+        private readonly DataContext _context;
+
+        public ProductsController(DataContext context)
+        {
+            _context = context;
+        }
 
         // GET: Products
-        public ActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var pRODUCTS = this.db.PRODUCTS.Include(p => p.CATEGORy).Include(p => p.SUPPLIER);
-
-            return this.View(pRODUCTS.ToList());
+            var dataContext = _context.Products.Include(p => p.Category).Include(p => p.Supplier);
+            return View(await dataContext.ToListAsync());
         }
 
         // GET: Products/Details/5
-        public ActionResult Details(decimal id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return NotFound();
             }
 
-            var pRODUCT = this.db.PRODUCTS.Find(id);
-
-            if (pRODUCT == null)
+            var product = await _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.Supplier)
+                .FirstOrDefaultAsync(m => m.Productid == id);
+            if (product == null)
             {
-                return this.HttpNotFound();
+                return NotFound();
             }
 
-            return this.View(pRODUCT);
+            return View(product);
         }
 
         // GET: Products/Create
-        public ActionResult Create()
+        public IActionResult Create()
         {
-            ViewBag.CATEGORYID = new SelectList(this.db.CATEGORIES, "CATEGORYID", "CATEGORYNAME");
-            ViewBag.SUPPLIERID = new SelectList(this.db.SUPPLIERS, "SUPPLIERID", "COMPANYNAME");
-
-            return this.View();
+            ViewData["Categoryid"] = new SelectList(_context.Categories, "Categoryid", "Categoryname");
+            ViewData["Supplierid"] = new SelectList(_context.Suppliers, "Supplierid", "Companyname");
+            return View();
         }
 
         // POST: Products/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PRODUCTID,PRODUCTNAME,SUPPLIERID,CATEGORYID,QUANTITYPERUNIT,UNITPRICE,UNITSINSTOCK,UNITSONORDER,REORDERLEVEL,DISCONTINUED")] PRODUCT pRODUCT)
+        public async Task<IActionResult> Create([Bind("Productid,Productname,Supplierid,Categoryid,Quantityperunit,Unitprice,Unitsinstock,Unitsonorder,Reorderlevel,Discontinued")] Product product)
         {
             if (ModelState.IsValid)
             {
-                this.db.PRODUCTS.Add(pRODUCT);
-                this.db.SaveChanges();
-
-                return this.RedirectToAction("Index");
+                _context.Add(product);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-
-            ViewBag.CATEGORYID = new SelectList(this.db.CATEGORIES, "CATEGORYID", "CATEGORYNAME", pRODUCT.CATEGORYID);
-            ViewBag.SUPPLIERID = new SelectList(this.db.SUPPLIERS, "SUPPLIERID", "COMPANYNAME", pRODUCT.SUPPLIERID);
-
-            return this.View(pRODUCT);
+            ViewData["Categoryid"] = new SelectList(_context.Categories, "Categoryid", "Categoryname", product.Categoryid);
+            ViewData["Supplierid"] = new SelectList(_context.Suppliers, "Supplierid", "Companyname", product.Supplierid);
+            return View(product);
         }
 
         // GET: Products/Edit/5
-        public ActionResult Edit(decimal id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return NotFound();
             }
 
-            var pRODUCT = this.db.PRODUCTS.Find(id);
-
-            if (pRODUCT == null)
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
             {
-                return this.HttpNotFound();
+                return NotFound();
             }
-
-            ViewBag.CATEGORYID = new SelectList(this.db.CATEGORIES, "CATEGORYID", "CATEGORYNAME", pRODUCT.CATEGORYID);
-            ViewBag.SUPPLIERID = new SelectList(this.db.SUPPLIERS, "SUPPLIERID", "COMPANYNAME", pRODUCT.SUPPLIERID);
-
-            return this.View(pRODUCT);
+            ViewData["Categoryid"] = new SelectList(_context.Categories, "Categoryid", "Categoryname", product.Categoryid);
+            ViewData["Supplierid"] = new SelectList(_context.Suppliers, "Supplierid", "Companyname", product.Supplierid);
+            return View(product);
         }
 
         // POST: Products/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PRODUCTID,PRODUCTNAME,SUPPLIERID,CATEGORYID,QUANTITYPERUNIT,UNITPRICE,UNITSINSTOCK,UNITSONORDER,REORDERLEVEL,DISCONTINUED")] PRODUCT pRODUCT)
+        public async Task<IActionResult> Edit(int id, [Bind("Productid,Productname,Supplierid,Categoryid,Quantityperunit,Unitprice,Unitsinstock,Unitsonorder,Reorderlevel,Discontinued")] Product product)
         {
-            if (ModelState.IsValid)
+            if (id != product.Productid)
             {
-                this.db.Entry(pRODUCT).State = EntityState.Modified;
-                this.db.SaveChanges();
-
-                return this.RedirectToAction("Index");
+                return NotFound();
             }
 
-            ViewBag.CATEGORYID = new SelectList(this.db.CATEGORIES, "CATEGORYID", "CATEGORYNAME", pRODUCT.CATEGORYID);
-            ViewBag.SUPPLIERID = new SelectList(this.db.SUPPLIERS, "SUPPLIERID", "COMPANYNAME", pRODUCT.SUPPLIERID);
-
-            return this.View(pRODUCT);
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(product);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ProductExists(product.Productid))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["Categoryid"] = new SelectList(_context.Categories, "Categoryid", "Categoryname", product.Categoryid);
+            ViewData["Supplierid"] = new SelectList(_context.Suppliers, "Supplierid", "Companyname", product.Supplierid);
+            return View(product);
         }
 
         // GET: Products/Delete/5
-        public ActionResult Delete(decimal id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return NotFound();
             }
 
-            var pRODUCT = this.db.PRODUCTS.Find(id);
-
-            if (pRODUCT == null)
+            var product = await _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.Supplier)
+                .FirstOrDefaultAsync(m => m.Productid == id);
+            if (product == null)
             {
-                return this.HttpNotFound();
+                return NotFound();
             }
 
-            return this.View(pRODUCT);
+            return View(product);
         }
 
         // POST: Products/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(decimal id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var pRODUCT = this.db.PRODUCTS.Find(id);
-
-            this.db.PRODUCTS.Remove(pRODUCT);
-            this.db.SaveChanges();
-
-            return this.RedirectToAction("Index");
+            var product = await _context.Products.FindAsync(id);
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
-        protected override void Dispose(bool disposing)
+        private bool ProductExists(int id)
         {
-            if (disposing)
-            {
-                this.db.Dispose();
-            }
-
-            base.Dispose(disposing);
+            return _context.Products.Any(e => e.Productid == id);
         }
     }
 }

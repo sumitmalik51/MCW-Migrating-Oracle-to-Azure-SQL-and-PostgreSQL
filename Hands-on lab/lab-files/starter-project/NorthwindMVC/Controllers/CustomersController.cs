@@ -1,138 +1,152 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Web.Mvc;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using NorthwindMVC.Data;
 
 namespace NorthwindMVC.Controllers
 {
     public class CustomersController : Controller
     {
-        private DataContext db = new DataContext();
+        private readonly DataContext _context;
+
+        public CustomersController(DataContext context)
+        {
+            _context = context;
+        }
 
         // GET: Customers
-        public ActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return this.View(this.db.CUSTOMERS.ToList());
+            return View(await _context.Customers.ToListAsync());
         }
 
         // GET: Customers/Details/5
-        public ActionResult Details(string id)
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return NotFound();
             }
 
-            var cUSTOMER = this.db.CUSTOMERS.Find(id);
-
-            if (cUSTOMER == null)
+            var customer = await _context.Customers
+                .FirstOrDefaultAsync(m => m.Customerid == id);
+            if (customer == null)
             {
-                return this.HttpNotFound();
+                return NotFound();
             }
 
-            return this.View(cUSTOMER);
+            return View(customer);
         }
 
         // GET: Customers/Create
-        public ActionResult Create()
+        public IActionResult Create()
         {
-            return this.View();
+            return View();
         }
 
         // POST: Customers/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CUSTOMERID,COMPANYNAME,CONTACTNAME,CONTACTTITLE,ADDRESS,CITY,REGION,POSTALCODE,COUNTRY,PHONE,FAX")] CUSTOMER cUSTOMER)
+        public async Task<IActionResult> Create([Bind("Customerid,Companyname,Contactname,Contacttitle,Address,City,Region,Postalcode,Country,Phone,Fax")] Customer customer)
         {
             if (ModelState.IsValid)
             {
-                this.db.CUSTOMERS.Add(cUSTOMER);
-                this.db.SaveChanges();
-
-                return this.RedirectToAction("Index");
+                _context.Add(customer);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-
-            return this.View(cUSTOMER);
+            return View(customer);
         }
 
         // GET: Customers/Edit/5
-        public ActionResult Edit(string id)
+        public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return NotFound();
             }
 
-            var cUSTOMER = this.db.CUSTOMERS.Find(id);
-
-            if (cUSTOMER == null)
+            var customer = await _context.Customers.FindAsync(id);
+            if (customer == null)
             {
-                return this.HttpNotFound();
+                return NotFound();
             }
-
-            return this.View(cUSTOMER);
+            return View(customer);
         }
 
         // POST: Customers/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CUSTOMERID,COMPANYNAME,CONTACTNAME,CONTACTTITLE,ADDRESS,CITY,REGION,POSTALCODE,COUNTRY,PHONE,FAX")] CUSTOMER cUSTOMER)
+        public async Task<IActionResult> Edit(string id, [Bind("Customerid,Companyname,Contactname,Contacttitle,Address,City,Region,Postalcode,Country,Phone,Fax")] Customer customer)
         {
-            if (ModelState.IsValid)
+            if (id != customer.Customerid)
             {
-                this.db.Entry(cUSTOMER).State = EntityState.Modified;
-                this.db.SaveChanges();
-
-                return this.RedirectToAction("Index");
+                return NotFound();
             }
 
-            return this.View(cUSTOMER);
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(customer);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!CustomerExists(customer.Customerid))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(customer);
         }
 
         // GET: Customers/Delete/5
-        public ActionResult Delete(string id)
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return NotFound();
             }
 
-            var cUSTOMER = this.db.CUSTOMERS.Find(id);
-
-            if (cUSTOMER == null)
+            var customer = await _context.Customers
+                .FirstOrDefaultAsync(m => m.Customerid == id);
+            if (customer == null)
             {
-                return this.HttpNotFound();
+                return NotFound();
             }
 
-            return this.View(cUSTOMER);
+            return View(customer);
         }
 
         // POST: Customers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var cUSTOMER = this.db.CUSTOMERS.Find(id);
-
-            this.db.CUSTOMERS.Remove(cUSTOMER);
-            this.db.SaveChanges();
-
-            return this.RedirectToAction("Index");
+            var customer = await _context.Customers.FindAsync(id);
+            _context.Customers.Remove(customer);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
-        protected override void Dispose(bool disposing)
+        private bool CustomerExists(string id)
         {
-            if (disposing)
-            {
-                this.db.Dispose();
-            }
-
-            base.Dispose(disposing);
+            return _context.Customers.Any(e => e.Customerid == id);
         }
     }
 }

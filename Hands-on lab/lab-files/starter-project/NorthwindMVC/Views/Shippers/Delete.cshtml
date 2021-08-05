@@ -1,37 +1,33 @@
-﻿@model NorthwindMVC.Data.SHIPPER
+﻿@model NorthwindMVC.Data.Shipper
 
 @{
-    ViewBag.Title = "Delete Shipper";
+    ViewData["Title"] = "Delete";
 }
 
-<h3>Are you sure you want to delete this shipper?</h3>
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
 <div>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.COMPANYNAME)
+    <h4>Shipper</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Companyname)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.COMPANYNAME)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Companyname)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PHONE)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Phone)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PHONE)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Phone)
         </dd>
-
     </dl>
-
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-danger" />
-            @Html.ActionLink("Back to List", "Index", new { }, new { @class = "btn btn-default" })
-        </div>
-    }
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Shipperid" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
 </div>

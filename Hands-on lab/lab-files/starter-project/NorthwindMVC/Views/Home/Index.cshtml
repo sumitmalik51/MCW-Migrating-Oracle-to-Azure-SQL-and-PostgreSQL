@@ -1,7 +1,5 @@
-﻿@model IEnumerable<NorthwindMVC.Models.SalesByYearViewModel>
-
-@{
-    ViewBag.Title = "Dashboard";
+﻿@{
+    ViewData["Title"] = "Home Page";
 }
 
 <div class="row">
@@ -20,12 +18,12 @@
 </div>
 
 @section Scripts {
-    <script src="~/Scripts/plugins/flot/jquery.flot.min.js"></script>
-    <script src="~/Scripts/plugins/flot/jquery.flot.tooltip.min.js"></script>
-    <script src="~/Scripts/plugins/flot/jquery.flot.resize.min.js"></script>
-    <script src="~/Scripts/plugins/flot/jquery.flot.selection.min.js"></script>
-    <script src="~/Scripts/plugins/flot/jquery.flot.pie.min.js"></script>
-    <script src="~/Scripts/plugins/flot/jquery.flot.time.min.js"></script>
+    <script src="~/lib/flot/jquery.flot.min.js"></script>
+    <script src="~/lib/flot/jquery.flot.tooltip.min.js"></script>
+    <script src="~/lib/flot/jquery.flot.resize.min.js"></script>
+    <script src="~/lib/flot/jquery.flot.selection.min.js"></script>
+    <script src="~/lib/flot/jquery.flot.pie.min.js"></script>
+    <script src="~/lib/flot/jquery.flot.time.min.js"></script>
     <script type="text/javascript">
         $(function () {
             var barOptions = {
@@ -71,7 +69,7 @@
                         }
                 ]
             };
-            $.plot($("#flot-bar-chart"), [barData], barOptions);
+            $(document).plot($("#flot-bar-chart"), [barData], barOptions);
 
         });
     </script>

@@ -1,49 +1,30 @@
+﻿using System;
+using System.Collections.Generic;
+
+#nullable disable
+
 namespace NorthwindMVC.Data
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
-
-    [Table("NW.PRODUCTS")]
-    public partial class PRODUCT
+    public partial class Product
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public PRODUCT()
+        public Product()
         {
-            ORDER_DETAILS = new HashSet<ORDER_DETAILS>();
+            OrderDetails = new HashSet<OrderDetail>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int PRODUCTID { get; set; }
+        public int Productid { get; set; }
+        public string Productname { get; set; }
+        public int? Supplierid { get; set; }
+        public int? Categoryid { get; set; }
+        public string Quantityperunit { get; set; }
+        public decimal? Unitprice { get; set; }
+        public short? Unitsinstock { get; set; }
+        public short? Unitsonorder { get; set; }
+        public short? Reorderlevel { get; set; }
+        public byte Discontinued { get; set; }
 
-        [Required]
-        [StringLength(40)]
-        public string PRODUCTNAME { get; set; }
-
-        public int? SUPPLIERID { get; set; }
-
-        public int? CATEGORYID { get; set; }
-
-        [StringLength(20)]
-        public string QUANTITYPERUNIT { get; set; }
-
-        public decimal? UNITPRICE { get; set; }
-
-        public short? UNITSINSTOCK { get; set; }
-
-        public short? UNITSONORDER { get; set; }
-
-        public short? REORDERLEVEL { get; set; }
-
-        public byte DISCONTINUED { get; set; }
-
-        public virtual CATEGORy CATEGORy { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ORDER_DETAILS> ORDER_DETAILS { get; set; }
-
-        public virtual SUPPLIER SUPPLIER { get; set; }
+        public virtual Category Category { get; set; }
+        public virtual Supplier Supplier { get; set; }
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

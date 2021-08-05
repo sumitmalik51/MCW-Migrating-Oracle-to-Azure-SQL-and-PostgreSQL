@@ -1,138 +1,152 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Web.Mvc;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using NorthwindMVC.Data;
 
 namespace NorthwindMVC.Controllers
 {
     public class SuppliersController : Controller
     {
-        private DataContext db = new DataContext();
+        private readonly DataContext _context;
+
+        public SuppliersController(DataContext context)
+        {
+            _context = context;
+        }
 
         // GET: Suppliers
-        public ActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return this.View(this.db.SUPPLIERS.ToList());
+            return View(await _context.Suppliers.ToListAsync());
         }
 
         // GET: Suppliers/Details/5
-        public ActionResult Details(decimal id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return NotFound();
             }
 
-            var sUPPLIER = this.db.SUPPLIERS.Find(id);
-
-            if (sUPPLIER == null)
+            var supplier = await _context.Suppliers
+                .FirstOrDefaultAsync(m => m.Supplierid == id);
+            if (supplier == null)
             {
-                return this.HttpNotFound();
+                return NotFound();
             }
 
-            return this.View(sUPPLIER);
+            return View(supplier);
         }
 
         // GET: Suppliers/Create
-        public ActionResult Create()
+        public IActionResult Create()
         {
-            return this.View();
+            return View();
         }
 
         // POST: Suppliers/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "SUPPLIERID,COMPANYNAME,CONTACTNAME,CONTACTTITLE,ADDRESS,CITY,REGION,POSTALCODE,COUNTRY,PHONE,FAX,HOMEPAGE")] SUPPLIER sUPPLIER)
+        public async Task<IActionResult> Create([Bind("Supplierid,Companyname,Contactname,Contacttitle,Address,City,Region,Postalcode,Country,Phone,Fax,Homepage")] Supplier supplier)
         {
             if (ModelState.IsValid)
             {
-                this.db.SUPPLIERS.Add(sUPPLIER);
-                this.db.SaveChanges();
-
-                return this.RedirectToAction("Index");
+                _context.Add(supplier);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-
-            return this.View(sUPPLIER);
+            return View(supplier);
         }
 
         // GET: Suppliers/Edit/5
-        public ActionResult Edit(decimal id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return NotFound();
             }
 
-            var sUPPLIER = this.db.SUPPLIERS.Find(id);
-
-            if (sUPPLIER == null)
+            var supplier = await _context.Suppliers.FindAsync(id);
+            if (supplier == null)
             {
-                return this.HttpNotFound();
+                return NotFound();
             }
-
-            return this.View(sUPPLIER);
+            return View(supplier);
         }
 
         // POST: Suppliers/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "SUPPLIERID,COMPANYNAME,CONTACTNAME,CONTACTTITLE,ADDRESS,CITY,REGION,POSTALCODE,COUNTRY,PHONE,FAX,HOMEPAGE")] SUPPLIER sUPPLIER)
+        public async Task<IActionResult> Edit(int id, [Bind("Supplierid,Companyname,Contactname,Contacttitle,Address,City,Region,Postalcode,Country,Phone,Fax,Homepage")] Supplier supplier)
         {
-            if (ModelState.IsValid)
+            if (id != supplier.Supplierid)
             {
-                this.db.Entry(sUPPLIER).State = EntityState.Modified;
-                this.db.SaveChanges();
-
-                return this.RedirectToAction("Index");
+                return NotFound();
             }
 
-            return this.View(sUPPLIER);
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(supplier);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!SupplierExists(supplier.Supplierid))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(supplier);
         }
 
         // GET: Suppliers/Delete/5
-        public ActionResult Delete(decimal id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return NotFound();
             }
 
-            var sUPPLIER = this.db.SUPPLIERS.Find(id);
-
-            if (sUPPLIER == null)
+            var supplier = await _context.Suppliers
+                .FirstOrDefaultAsync(m => m.Supplierid == id);
+            if (supplier == null)
             {
-                return this.HttpNotFound();
+                return NotFound();
             }
 
-            return this.View(sUPPLIER);
+            return View(supplier);
         }
 
         // POST: Suppliers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(decimal id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var sUPPLIER = this.db.SUPPLIERS.Find(id);
-
-            this.db.SUPPLIERS.Remove(sUPPLIER);
-            this.db.SaveChanges();
-
-            return this.RedirectToAction("Index");
+            var supplier = await _context.Suppliers.FindAsync(id);
+            _context.Suppliers.Remove(supplier);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
-        protected override void Dispose(bool disposing)
+        private bool SupplierExists(int id)
         {
-            if (disposing)
-            {
-                this.db.Dispose();
-            }
-
-            base.Dispose(disposing);
+            return _context.Suppliers.Any(e => e.Supplierid == id);
         }
     }
 }

@@ -17,7 +17,21 @@
         "LabVMNetworkInterfaceName": "[concat(variables('LabVMName'), '-NetworkInterface-', parameters('namespace'))]",
         "VMUsername": "demouser",
         "VMPassword": "Password.1!!",
-        "LabVMDiskName": "[concat(variables('LabVMName'), '-OsDisk-', parameters('namespace'))]"
+        "LabVMDiskName": "[concat(variables('LabVMName'), '-OsDisk-', parameters('namespace'))]",
+
+        "SqlServerVMName": "SqlServer2019",
+        "SqlServerPublicIPName": "[concat(variables('SqlServerVMName'), '-PublicIP-', parameters('namespace'))]",
+        "SqlServerNSGName": "[concat(variables('SqlServerVMName'), '-nsg-', parameters('namespace'))]",
+        "SqlServerNetworkInterfaceName": "[concat(variables('SqlServerVMName'), '-NetworkInterface-', parameters('namespace'))]",
+        "SqlServerSubnetName": "[concat(variables('SqlServerVMName'), '-Subnet-', parameters('namespace'))]",
+
+        "dataDisks": {
+            "createOption": "empty",
+            "caching": "ReadOnly",
+            "writeAcceleratorEnabled": false,
+            "storageAccountType": "Premium_LRS",
+            "diskSizeGB": 1023
+        }
     },
     "resources": [
         {
@@ -93,6 +107,15 @@
                             "addressPrefix": "10.0.0.0/24",
                             "networkSecurityGroup": {
                                 "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('LabVMNSGName'))]"
+                            }
+                        }
+                    },
+                    {
+                        "name": "[variables('SqlServerSubnetName')]",
+                        "properties": {
+                            "addressPrefix": "10.0.1.0/24",
+                            "networkSecurityGroup": {
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('SqlServerNSGName'))]" 
                             }
                         }
                     }
@@ -173,6 +196,159 @@
                     "bootDiagnostics": {
                         "enabled": true,
                         "storageUri": "[reference(resourceId('Microsoft.Storage/storageAccounts/', variables('LabVMStorageName'))).primaryEndpoints.blob]"
+                    }
+                }
+            }
+        },
+
+        {
+            "type": "Microsoft.Network/publicIpAddresses",
+            "apiVersion": "2020-06-01",
+            "name": "[variables('SqlServerPublicIPName')]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "publicIpAllocationMethod": "Dynamic"
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2020-06-01",
+            "name": "[variables('SqlServerNSGName')]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "RDP",
+                        "properties": {
+                            "description": "Allows RDP traffic.",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "3389",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 100,
+                            "direction": "Inbound"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2020-06-01",
+            "name": "[variables('SqlServerNetworkInterfaceName')]",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups/', variables('SqlServerNSGName'))]",
+                "[resourceId('Microsoft.Network/publicIpAddresses/', variables('SqlServerPublicIPName'))]"
+            ],
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "DynamicIP",
+                        "properties": {
+                            "subnet": {
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('LabVMVirtualNetworkName'), variables('SqlServerSubnetName'))]"
+                            },
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIpAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIpAddresses', variables('SqlServerPublicIPName'))]"
+                            }
+                        }
+                    }
+                ],
+                "enableAcceleratedNetworking": true,
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('SqlServerNSGName'))]"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2020-06-01",
+            "name": "[variables('SqlServerVMName')]",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkInterfaces/', variables('SqlServerNetworkInterfaceName'))]"
+            ],
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_D2s_v3"
+                },
+                "storageProfile": {
+                    "osDisk": {
+                        "createOption": "fromImage",
+                        "managedDisk": {
+                            "storageAccountType": "Premium_LRS"
+                        }
+                    },
+                    "imageReference": {
+                        "publisher": "MicrosoftSQLServer",
+                        "offer": "sql2019-ws2019",
+                        "sku": "SQLDEV",
+                        "version": "latest"
+                    },
+                    "copy": [
+                        {
+                            "name": "dataDisks",
+                            "count": 2,
+                            "input": {
+                                "lun": "[copyIndex('dataDisks')]",
+                                "createOption": "[variables('dataDisks').createOption]",
+                                "caching": "[if(greaterOrEquals(copyIndex('dataDisks'), 1) ,'None', variables('dataDisks').caching )]",
+                                "writeAcceleratorEnabled": "[variables('dataDisks').writeAcceleratorEnabled]",
+                                "diskSizeGB": "[variables('dataDisks').diskSizeGB]",
+                                "managedDisk": {
+                                    "storageAccountType": "[variables('dataDisks').storageAccountType]"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('SqlServerNetworkInterfaceName'))]"
+                        }
+                    ]
+                },
+                "osProfile": {
+                    "computerName": "[variables('SqlServerVMName')]",
+                    "adminUsername": "[variables('VMUsername')]",
+                    "adminPassword": "[variables('VMPassword')]",
+                    "windowsConfiguration": {
+                        "enableAutomaticUpdates": true,
+                        "provisionVmAgent": true
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.SqlVirtualMachine/SqlVirtualMachines",
+            "apiVersion": "2017-03-01-preview",
+            "name": "[variables('SqlServerVMName')]",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', variables('SqlServerVMName'))]"
+            ],
+            "properties": {
+                "virtualMachineResourceId": "[resourceId('Microsoft.Compute/virtualMachines', variables('SqlServerVMName'))]",
+                "sqlManagement": "Full",
+                "SqlServerLicenseType": "PAYG",
+                "StorageConfigurationSettings": {
+                    "DiskConfigurationType": "NEW",
+                    "StorageWorkloadType": "General",
+                    "SQLDataSettings": {
+                        "LUNs": [0],
+                        "DefaultFilePath": "F:\\SQLData"
+                    },
+                    "SQLLogSettings": {
+                        "Luns": [1],
+                        "DefaultFilePath": "G:\\SQLLog"
+                    },
+                    "SQLTempDbSettings": {
+                        "DefaultFilePath": "D:\\SQLTemp"
                     }
                 }
             }

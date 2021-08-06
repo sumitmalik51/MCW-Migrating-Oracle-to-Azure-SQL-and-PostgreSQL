@@ -48,7 +48,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
     - [Task 1: Install Oracle XE](#task-1-install-oracle-xe)
     - [Task 2: Install Oracle Data Access components](#task-2-install-oracle-data-access-components)
     - [Task 3: Install SQL Server Migration Assistant for Oracle](#task-3-install-sql-server-migration-assistant-for-oracle)
-    - [Task 4: Install dbForge Fusion tool](#task-4-install-dbforge-fusion-tool)
+    - [Task 4: Install SQL Developer Tool](#task-4-install-sql-developer-tool)
     - [Task 5: Create the Northwind database in Oracle 11g XE](#task-5-create-the-northwind-database-in-oracle-11g-xe)
     - [Task 6: Configure the Starter Application to use Oracle](#task-6-configure-the-starter-application-to-use-oracle)
   - [Exercise 5: Migrate the Oracle database to SQL Server 2017](#exercise-5-migrate-the-oracle-database-to-sql-server-2017)
@@ -760,7 +760,7 @@ In this task, you will create a new table based on the existing `FactResellerSal
 
 Duration: 45 minutes
 
-In this exercise, you will install Oracle XE on your Lab VM, load a sample database supporting an application, and then migrate the database to the on-premises SQL Server 2017 instance.
+In this exercise, you will install Oracle XE on your Lab VM, load a sample database supporting an application, and then migrate the database to the Azure SQL DB instance.
 
 ### Task 1: Install Oracle XE
 
@@ -769,13 +769,13 @@ In this exercise, you will install Oracle XE on your Lab VM, load a sample datab
    - **Username**: demouser
    - **Password**: Password.1!!
 
-2. In a web browser on your Lab VM, navigate to <https://www.oracle.com/technetwork/database/database-technologies/express-edition/downloads/xe-prior-releases-5172097.html>.
+2. In a web browser on your Lab VM, navigate to <https://www.oracle.com/database/technologies/xe-downloads.html>.
 
-3. On the Oracle Database XE Prior Release Archive page, select **Oracle Database 11gR2 Express Edition for Windows x64** download link.
+3. On the Oracle Database XE Downloads page, select **Oracle Database 18c Express Edition for Windows x64** download link.
 
-   ![Accept the license agreement and Oracle Database 11g Express Edition Release 2 for Windows x64 are highlighted under Oracle Database Express Edition 11g Release 2.](./media/oracle-11g-download.png "Oracle 11g download")
+   ![Accept the license agreement and Oracle Database 18c Express Edition for Windows x64 are highlighted under Oracle Database Express Edition 18c.](./media/18c-oracle-download.png "Oracle 18c download")
 
-4. Accept the license agreement, when prompted, and then select **Download OracleXE112_Win64.zip**. You might need to select the **Oracle License Agreement** link and scroll to the bottom of the agreement to enable the checkbox.
+4. Accept the license agreement, when prompted, and then select **Download OracleXE184_Win64.zip**. You might need to select the **Oracle License Agreement** link and scroll to the bottom of the agreement to enable the checkbox.
 
    ![The license agreement checkbox is checked on the license agreement dialog.](media/download-oracle-xe.png "Download Oracle XE")
 
@@ -793,13 +793,13 @@ In this exercise, you will install Oracle XE on your Lab VM, load a sample datab
 
 9. Select **Next** to step through each screen of the installer, accepting the license agreement and default values, until you get to the **Specify Database Passwords** screen.
 
-10. On the **Specify Database Passwords** screen, set the password to **Password.1!!**, and select **Next**.
+10. On the **Oracle Database Information** screen, set the password to **Password.1!!**, and select **Next**.
 
-    ![The above credentials are entered on the Specify Database Passwords screen.](./media/oracle-11g-install-passwords.png "Set the password")
+    ![The above credentials are entered on the Oracle Database Information screen.](./media/oracle-18c-specify-passwords.png "Set the password")
 
-11. On the Summary screen, take note of the ports being assigned, and select **Install**.
+11. Select **Install**. Once the installation completes, take note of the ports assigned.
 
-    ![Several of the ports being assigned are highlighted on the Summary screen.](./media/oracle-11g-install-summary.png "Note the ports being assigned")
+    ![Several of the ports being assigned are highlighted on the Summary screen.](./media/oracle-18c-install-summary.png "Note the ports being assigned")
 
 12. Select **Finish** on the final dialog to compete the installation.
 
@@ -833,24 +833,13 @@ In this exercise, you will install Oracle XE on your Lab VM, load a sample datab
 
     ![Configure ODP.NET and/or Oracle Providers for ASP.NET at machine-wide level is selected on the ODP.NET screen, and Next is selected at the bottom.](./media/oracle-odac-install-odp-net.png "Select Configure ODP.NET and/or Oracle Providers for ASP.NET at machine-wide level")
 
-11. On the DB Connection Configuration screen, enter the following:
-
-    - **Connection Alias**: Northwind
-    - **Port Number**: 1521
-    - **Database Host Name**: localhost
-    - **Database Service Name**: XE
-
-      ![The information above is entered on the DB Connection Configuration screen, and Next is selected at the bottom.](./media/oracle-odac-install-db-connection.png "Enter the information")
-
-    - Select **Next**.
-
-12. If the Next button is disabled on the Perform Prerequisite Checks screen, check the **Ignore All** box, and then select **Next**. This screen will be skipped by the installer if no missing prerequisites are found.
+11. If the Next button is disabled on the Perform Prerequisite Checks screen, check the **Ignore All** box, and then select **Next**. This screen will be skipped by the installer if no missing prerequisites are found.
 
     ![The Ignore All box is cleared on highlighted on the Perform Prerequisite Checks screen, and Next is selected at the bottom.](./media/oracle-odac-install-prerequisite-checks.png "Perform Prerequisite Checks")
 
-13. On the Summary screen, select **Install**.
+12. On the Summary screen, select **Install**.
 
-14. On the Finish screen, select **Close**.
+13. On the Finish screen, select **Close**.
 
 ### Task 3: Install SQL Server Migration Assistant for Oracle
 
@@ -882,73 +871,49 @@ In this exercise, you will install Oracle XE on your Lab VM, load a sample datab
 
 8. Select **Finish** when the installation is complete.
 
-### Task 4: Install dbForge Fusion tool
+### Task 4: Install SQL Developer Tool
 
-In this task, you will install a third-party extension to Visual Studio to enable interaction with, and script execution for, Oracle databases in Visual Studio 2019 Community Edition.
+In this task, you will install Oracle SQL Developer, a common IDE to interact with Oracle databases.
 
->**Note**: This step is required because the Oracle Developer Tools extension does not currently work with the Community edition of Visual Studio.
+1. On your Lab VM, open a web browser and navigate to <https://www.oracle.com/tools/downloads/sqldev-downloads.html>.
 
-1. On your Lab VM, open a web browser and navigate to <https://www.devart.com/dbforge/oracle/fusion/download.html>.
+2. Scroll down on the page and download **Windows 64-bit with JDK 8 included**.
 
-2. Scroll down on the page, and download a Trial of the current version by selecting the blue download link.
+   ![The Download button is highlighted for the Oracle SQL Developer download.](./media/sqldeveloper-download.png "SQL Developer with JDK 8 selection")
 
-   ![The Download button is highlighted under dbForge Fusion, Current Version.](./media/dbforge-trial-download.png "dbForge Fusion, Current Version section")
+3. Accept the license terms. Extract the files to `C:\Tools`.
 
-3. Run the installer.
+4. Navigate to `C:\Tools\sqldeveloper`. Select and run the executable file. Ensure that SQL Developer loads.
 
-   > **Note**: Close Visual Studio if it is open to complete the installation.
+   ![Launch SQL Developer from the extracted file path.](./media/sqldeveloper-executable.png "Launching SQL Developer executable")
 
-4. Select **Next** on the Welcome screen.
-
-   ![Next is selected on the Devart dbForge Fusion for Oracle Welcome screen.](./media/dbforge-install-welcome.png "Select Next on the Welcome screen")
-
-5. Select **Next** on each screen, accepting the license agreement and default settings, until reaching the Ready to Install screen.
-
-6. Select **Install** on the Ready to Install screen.
-
-   ![Install is selected on the Ready to Install screen.](./media/dbforge-install-ready-to-install.png "Select Install ")
-
-7. Select **Finish** when the installation is complete.
+   >**Note**: If you are prompted to import preferences from a previous installation, select **No**.
 
 ### Task 5: Create the Northwind database in Oracle 11g XE
 
-WWI has provided you with a copy of their application, including a database script to create their Oracle database. They have asked that you use this as a starting point for migrating their database and application to SQL Server 2017. In this task, you will create a connection to the Oracle database on your Lab VM, and create a database called Northwind.
+WWI has provided you with a copy of their application, including a database script to create their Oracle database. They have asked that you use this as a starting point for migrating their database and application to Azure SQL DB. In this task, you will create a connection to the Oracle database on your Lab VM.
 
-1. On your SqlServer2017 VM, open Microsoft SQL Server Management Studio 18 (SSMS).
+1. Now, switch back to your LabVM, and download the starter project by downloading a Git .zip copy of the Migrating Oracle Azure SQL and PostgreSQL upgrade and migration project from the GitHub repo.
 
-2. In the Connect to Server dialog, enter or select **SqlServer2017** in the Server name drop down, leave Authentication set to **Windows Authentication**, and select **Connect**.
+2. In a web browser, download a copy of the Migrating Oracle Azure SQL and PostgreSQL upgrade and migration MCW repo from <https://github.com/microsoft/MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL/archive/master.zip>.
 
-   ![SqlServer2017 is selected and highlighted in the Server name drop-down list in the Connect to Server dialog box.](./media/ssms-connect-to-sqlserver2017.png "Select SqlServer2017")
+3. Unzip the contents to **C:\handsonlab**.
 
-3. In the Object Explorer, under the 2017 instance, SqlServer2017, right-click **Databases**, and select **New Database**.
+4. Within the **handsonlab** folder, navigate to the folder `MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL-master\Hands-on lab\lab-files\starter-project`, and double-click `NorthwindMVC.sln` to open the project in Visual Studio 2019.
 
-   ![Databases is highlighted under the SqlServer2017 instance, and New Database is selected and highlighted in the submenu.](./media/ssms-databases-new-database.png "Select New Database")
+5. If prompted for how you want to open the file, select **Visual Studio 2019**, and select **OK**.
 
-4. In the New Database dialog, enter **Northwind** for the Database name, and select **OK**.
+6.  Sign into Visual Studio (or create an account if you don't have one), when prompted.
 
-   ![Northwind is highlighted in the Database name box in the New Database dialog box.](./media/ssms-databases-new-database-dialog.png "Enter the database name")
-
-5. Now, switch back to your LabVM, and download the starter project by downloading a Git .zip copy of the Migrating Oracle Azure SQL and PostgreSQL upgrade and migration project from the GitHub repo.
-
-6. In a web browser, download a copy of the Migrating Oracle Azure SQL and PostgreSQL upgrade and migration MCW repo from <https://github.com/microsoft/MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL/archive/master.zip>.
-
-7. Unzip the contents to **C:\handsonlab**.
-
-8. Within the **handsonlab** folder, navigate to the folder `MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL-master\Hands-on lab\lab-files\starter-project`, and double-click `NorthwindMVC.sln` to open the project in Visual Studio 2019.
-
-9. If prompted for how you want to open the file, select **Visual Studio 2019**, and select **OK**.
-
-10. Sign into Visual Studio (or create an account if you don't have one), when prompted.
-
-11. At the Security Warning screen, uncheck **Ask me for every project in this solution**, and select **OK**.
+7.  At the Security Warning screen, uncheck **Ask me for every project in this solution**, and select **OK**.
 
     ![Ask me for every project in this solution is cleared and OK is selected on the Security Warning screen.](./media/visual-studio-security-warning.png "Clear Ask me for every project in this solution")
 
-12. Once then solution is open in Visual Studio, select the **Extensions -> Fusion** menu, and then select **New Connection**.
+8.  Once then solution is open in Visual Studio, select the **Extensions -> Fusion** menu, and then select **New Connection**.
 
     ![New Connection is highlighted in the Fusion menu in Visual Studio.](./media/visual-studio-fusion-menu-new-connection.png "Select New Connection")
 
-13. In the Database Connection properties dialog, set the following values:
+9.  In the Database Connection properties dialog, set the following values:
 
     - **Host**: localhost
     - **Port**: Leave 1521 selected.
@@ -961,54 +926,54 @@ WWI has provided you with a copy of their application, including a database scri
 
     ![The information above is entered in the Database Connection Properties * Oracle dialog box, and OK is selected at the bottom.](./media/visual-studio-fusion-new-database-connection.png "Specify the settings")
 
-14. Select **Test Connection** to verify the settings are correct, and select **OK** to close the popup.
+10. Select **Test Connection** to verify the settings are correct, and select **OK** to close the popup.
 
-15. Select **OK** to create the Database Connection.
+11. Select **OK** to create the Database Connection.
 
-16. You will now see the Northwind connection in the Database Explorer window.
+12. You will now see the Northwind connection in the Database Explorer window.
 
     ![The Northwind connection is selected in the Database Explorer window.](./media/visual-studio-fusion-database-explorer.png "View the Northwind connection")
 
-17. In Visual Studio, select **File** in the menu, then select **Open File**, and navigate to `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL-master\Hands-on lab\lab-files\starter-project\Oracle Scripts\`, select the file `1.northwind.oracle.schema.sql`, and then select **Open**.
+13. In Visual Studio, select **File** in the menu, then select **Open File**, and navigate to `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL-master\Hands-on lab\lab-files\starter-project\Oracle Scripts\`, select the file `1.northwind.oracle.schema.sql`, and then select **Open**.
 
     ![The file, 1.northwind.oracle.schema.sql, is selected and highlighted in the Open File window.](./media/visual-studio-open-file.png "Open File dialog")
 
     > **Note**: You may receive a notification that your Fusion trial has expired when you do this. This can be ignored for this hands-on lab. Close that dialog, and continue to the query window that opens in Visual Studio.
 
-18. Select the **Execute** Fusion script button on the Visual Studio toolbar to run the SQL script.
+14. Select the **Execute** Fusion script button on the Visual Studio toolbar to run the SQL script.
 
     ![The Execute Fusion script icon is highlighted on the Visual Studio toolbar.](./media/visual-studio-fusion-execute.png "Run the script")
 
-19. The results of execution can be viewed in the Output window, found at the bottom left of the Visual Studio window.
+15. The results of execution can be viewed in the Output window, found at the bottom left of the Visual Studio window.
 
     ![Output is highlighted in the Output window.](./media/visual-studio-fusion-output-query-1.png "View the results")
 
-20. In the Database Explorer window, right-click on the **Northwind** connection, and select **Modify Connection** (If the Database Explorer is not already open, you can open it by selecting Fusion in the menu, then selecting Database Explorer).
+16. In the Database Explorer window, right-click on the **Northwind** connection, and select **Modify Connection** (If the Database Explorer is not already open, you can open it by selecting Fusion in the menu, then selecting Database Explorer).
 
     ![Modify Connection is highlighted in the submenu for the Northwind connection in the Database Explorer window.](./media/visual-studio-database-explorer-modify-connection.png "Modify Connection")
 
-21. In the Modify Connection dialog, change the username and password as follows:
+17. In the Modify Connection dialog, change the username and password as follows:
 
     - **Username**: NW
     - **Password**: oracledemo123
 
-22. Select **Test Connection** to verify the new credentials work.
+18. Select **Test Connection** to verify the new credentials work.
 
     ![The information above is entered and highlighted in the Database Connection Properties * Oracle dialog box, and Test Connection is selected at the bottom.](./media/visual-studio-database-explorer-modify-connection-update.png "Specify the settings")
 
-23. Select **OK** to close the Database Connection properties dialog.
+19. Select **OK** to close the Database Connection properties dialog.
 
-24. Select the **Open File** icon on the Visual Studio toolbar.
+20. Select the **Open File** icon on the Visual Studio toolbar.
 
     ![The Open File icon is highlighted on the Visual Studio toolbar.](./media/visual-studio-toolbar-open-file.png "Select Open File")
 
-25. In the Open File dialog, navigate to `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL-master\Hands-on lab\lab-files\starter-project\Oracle Scripts`, select the file `2.northwind.oracle.tables.views.sql`, and then select **Open**.
+21. In the Open File dialog, navigate to `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL-master\Hands-on lab\lab-files\starter-project\Oracle Scripts`, select the file `2.northwind.oracle.tables.views.sql`, and then select **Open**.
 
-26. As you did previously, select the **Execute** Fusion script button on the toolbar, and view the results of execute in the Output pane.
+22. As you did previously, select the **Execute** Fusion script button on the toolbar, and view the results of execute in the Output pane.
 
     ![The Execute Fusion script icon is highlighted on the Visual Studio toolbar.](./media/visual-studio-fusion-execute.png "Run the script")
 
-27. Repeat steps 26 - 27, replacing the file name in step 26 with each of the following:
+23. Repeat steps 26 - 27, replacing the file name in step 26 with each of the following:
 
     - `3.northwind.oracle.packages.sql`
 

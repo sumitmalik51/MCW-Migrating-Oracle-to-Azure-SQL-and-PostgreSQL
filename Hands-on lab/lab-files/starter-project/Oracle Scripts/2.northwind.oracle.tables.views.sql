@@ -9,7 +9,7 @@ http://www.techonthenet.com/oracle/datatypes.php
 */
 
 CREATE TABLE Employees (
-	EmployeeID number(10) NOT NULL ,
+	EmployeeID number NOT NULL ,
 	LastName varchar2 (20) NOT NULL ,
 	FirstName varchar2 (10) NOT NULL ,
 	Title varchar2 (30) NULL ,
@@ -25,7 +25,7 @@ CREATE TABLE Employees (
 	Extension varchar2 (4) NULL ,
 	Photo blob NULL ,
 	Notes blob NULL ,
-	ReportsTo number(10) NULL ,
+	ReportsTo number NULL ,
 	PhotoPath varchar2 (255) NULL,
 	PRIMARY KEY(EmployeeID),
 	CONSTRAINT FK_Employees_Employees FOREIGN KEY (ReportsTo) 
@@ -98,7 +98,7 @@ CREATE INDEX SuppliersPostalCode ON Suppliers(PostalCode);
 CREATE TABLE Orders (
 	OrderID number(10) NOT NULL ,
 	CustomerID varchar2 (5) NULL ,
-	EmployeeID number(10) NULL ,
+	EmployeeID number NULL ,
 	OrderDate TIMESTAMP NULL ,
 	RequiredDate TIMESTAMP NULL ,
 	ShippedDate TIMESTAMP NULL ,

@@ -13,6 +13,9 @@
             "metadata": {
                 "description": "The password for demouser in the Lab VM, SQL Server 2019 VM, and SQL Server 2008 R2 VM."
             }
+        },
+        "DeploySqlServer2019": {
+            "type": "bool"
         }
     },
     "functions": [],
@@ -39,7 +42,10 @@
             "writeAcceleratorEnabled": false,
             "storageAccountType": "Premium_LRS",
             "diskSizeGB": 1023
-        }
+        },
+
+        "AzureSQLName": "[toLower(concat('Northwind-Server-', parameters('uniqueSuffix')))]",
+        "AzureSQLDBName": "Northwind"
     },
     "resources": [
         {
@@ -210,6 +216,7 @@
         },
 
         {
+            "condition": "[parameters('DeploySqlServer2019')]",
             "type": "Microsoft.Network/publicIpAddresses",
             "apiVersion": "2020-06-01",
             "name": "[variables('SqlServerPublicIPName')]",
@@ -219,6 +226,7 @@
             }
         },
         {
+            "condition": "[parameters('DeploySqlServer2019')]",
             "type": "Microsoft.Network/networkSecurityGroups",
             "apiVersion": "2020-06-01",
             "name": "[variables('SqlServerNSGName')]",
@@ -257,6 +265,7 @@
             }
         },
         {
+            "condition": "[parameters('DeploySqlServer2019')]",
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "2020-06-01",
             "name": "[variables('SqlServerNetworkInterfaceName')]",
@@ -287,6 +296,7 @@
             }
         },
         {
+            "condition": "[parameters('DeploySqlServer2019')]",
             "type": "Microsoft.Compute/virtualMachines",
             "apiVersion": "2020-06-01",
             "name": "[variables('SqlServerVMName')]",
@@ -347,6 +357,7 @@
             }
         },
         {
+            "condition": "[parameters('DeploySqlServer2019')]",
             "type": "Microsoft.SqlVirtualMachine/SqlVirtualMachines",
             "apiVersion": "2017-03-01-preview",
             "name": "[variables('SqlServerVMName')]",
@@ -380,6 +391,49 @@
                     }
                 }
             }
+        },
+
+        {
+            "name": "[variables('AzureSQLName')]",
+            "type": "Microsoft.Sql/servers",
+            "apiVersion": "2021-02-01-preview",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "displayName": "[variables('AzureSQLName')]"
+            },
+            "properties": {
+                "administratorLogin": "[variables('VMUsername')]",
+                "administratorLoginPassword": "[parameters('VMPassword')]"
+            },
+            "resources": [
+                {
+                    "type": "firewallRules",
+                    "apiVersion": "2021-02-01-preview",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Sql/servers', variables('AzureSQLName'))]"
+                    ],
+                    "location": "[resourceGroup().location]",
+                    "name": "AllowAllWindowsAzureIps",
+                    "properties": {
+                        "startIpAddress": "0.0.0.0",
+                        "endIpAddress": "0.0.0.0"
+                    }
+                },
+                {
+
+                    "type": "databases",
+                    "apiVersion": "2021-02-01-preview",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Sql/servers', variables('AzureSQLName'))]"
+                    ],
+                    "location": "[resourceGroup().location]",
+                    "name": "[variables('AzureSQLDBName')]",
+                    "sku": {
+                        "name": "P1"
+                    },
+                    "properties": {}
+                }
+            ]
         }
     ],
     "outputs": {}

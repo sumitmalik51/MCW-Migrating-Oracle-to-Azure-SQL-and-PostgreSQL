@@ -1,3 +1,5 @@
+SET DEFINE OFF;
+
 INSERT INTO CATEGORIES VALUES (1,'Beverages', 'Soft drinks, coffees, teas, beers, and ales', null);
 INSERT INTO CATEGORIES VALUES (2,'Condiments', 'Sweet and savory sauces, relishes, spreads, and seasonings', null);
 INSERT INTO CATEGORIES VALUES (3,'Confections', 'Desserts, candies, and sweet breads', null);

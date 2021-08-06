@@ -44,12 +44,12 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
   - [Exercise 3: Post upgrade enhancement](#exercise-3-post-upgrade-enhancement)
     - [Task 1: Table compression](#task-1-table-compression)
     - [Task 2: Clustered ColumnStore index](#task-2-clustered-columnstore-index)
-  - [Exercise 4: Setup Oracle 11g Express Edition](#exercise-4-setup-oracle-11g-express-edition)
+  - [Exercise 4: Setup Oracle 18c Express Edition](#exercise-4-setup-oracle-18c-express-edition)
     - [Task 1: Install Oracle XE](#task-1-install-oracle-xe)
     - [Task 2: Install Oracle Data Access components](#task-2-install-oracle-data-access-components)
     - [Task 3: Install SQL Server Migration Assistant for Oracle](#task-3-install-sql-server-migration-assistant-for-oracle)
     - [Task 4: Install SQL Developer Tool](#task-4-install-sql-developer-tool)
-    - [Task 5: Create the Northwind database in Oracle 11g XE](#task-5-create-the-northwind-database-in-oracle-11g-xe)
+    - [Task 5: Create the Northwind database in Oracle 18c XE](#task-5-create-the-northwind-database-in-oracle-18c-xe)
     - [Task 6: Configure the Starter Application to use Oracle](#task-6-configure-the-starter-application-to-use-oracle)
   - [Exercise 5: Migrate the Oracle database to SQL Server 2017](#exercise-5-migrate-the-oracle-database-to-sql-server-2017)
     - [Task 1: Prepare to load SSMA](#task-1-prepare-to-load-ssma)
@@ -756,7 +756,7 @@ In this task, you will create a new table based on the existing `FactResellerSal
 
 15. You are now done with the SqlServer2008 VM. Log off of the VM to close the RDP session.
 
-## Exercise 4: Setup Oracle 11g Express Edition
+## Exercise 4: Setup Oracle 18c Express Edition
 
 Duration: 45 minutes
 
@@ -889,91 +889,40 @@ In this task, you will install Oracle SQL Developer, a common IDE to interact wi
 
    >**Note**: If you are prompted to import preferences from a previous installation, select **No**.
 
-### Task 5: Create the Northwind database in Oracle 11g XE
+### Task 5: Create the Northwind database in Oracle 18c XE
 
 WWI has provided you with a copy of their application, including a database script to create their Oracle database. They have asked that you use this as a starting point for migrating their database and application to Azure SQL DB. In this task, you will create a connection to the Oracle database on your Lab VM.
 
-1. Now, switch back to your LabVM, and download the starter project by downloading a Git .zip copy of the Migrating Oracle Azure SQL and PostgreSQL upgrade and migration project from the GitHub repo.
+1. In a web browser on LabVM, download a copy of the [Migrating Oracle to  Azure SQL and PostgreSQL upgrade and migration MCW repo](https://github.com/microsoft/MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL/archive/master.zip).
 
-2. In a web browser, download a copy of the Migrating Oracle Azure SQL and PostgreSQL upgrade and migration MCW repo from <https://github.com/microsoft/MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL/archive/master.zip>.
+2. Unzip the contents to **C:\handsonlab**.
 
-3. Unzip the contents to **C:\handsonlab**.
+3. Launch SQL Developer from the `C:\Tools\sqldeveloper` path from earlier. In the **Database Connection** window, select **Create a Connection Manually**.
 
-4. Within the **handsonlab** folder, navigate to the folder `MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL-master\Hands-on lab\lab-files\starter-project`, and double-click `NorthwindMVC.sln` to open the project in Visual Studio 2019.
+   ![Manual connection creation in Oracle SQL Developer.](./media/create-connection-sql-developer.png "SQL Developer add connection manually")
 
-5. If prompted for how you want to open the file, select **Visual Studio 2019**, and select **OK**.
+4. Provide the following parameters to the **New / Select Database Connection** window. Select **Connect** when you are complete.
 
-6.  Sign into Visual Studio (or create an account if you don't have one), when prompted.
+   - **Name**: Northwind
+   - **Username**: system
+   - **Password**: Password.1!!
+   - Keep the **Details** at their defaults
 
-7.  At the Security Warning screen, uncheck **Ask me for every project in this solution**, and select **OK**.
+   ![Northwind connection in SQL Developer.](./media/new-oracle-connection-sqldeveloper.png "Northwind connection")
 
-    ![Ask me for every project in this solution is cleared and OK is selected on the Security Warning screen.](./media/visual-studio-security-warning.png "Clear Ask me for every project in this solution")
+5. Once the connection completes, select the **Open File** icon (1). Navigate to `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL-master\Hands-on lab\lab-files\starter-project\Oracle Scripts\1.northwind.oracle.schema`. Then, execute the DDL statements (2).
 
-8.  Once then solution is open in Visual Studio, select the **Extensions -> Fusion** menu, and then select **New Connection**.
+   ![Execute schema creation script in SQL Developer.](./media/execute-first-northwind-sql-script.png "Schema creation script")
 
-    ![New Connection is highlighted in the Fusion menu in Visual Studio.](./media/visual-studio-fusion-menu-new-connection.png "Select New Connection")
+6. Right-click the **Northwind** connection and select **Properties**. Then, edit the **Username** to `NW`, and the **Password** to `oracledemo123`. Select **Connect**. Note that you may be asked to enter the password again.
 
-9.  In the Database Connection properties dialog, set the following values:
+7. In the Open File dialog, navigate to `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL-master\Hands-on lab\lab-files\starter-project\Oracle Scripts`, select the file `2.northwind.oracle.tables.views.sql`, and then select **Open**.
 
-    - **Host**: localhost
-    - **Port**: Leave 1521 selected.
-    - Select **SID**, and enter **XE**.
-    - **User**: system
-    - **Password**: Password.1!!
-    - Check **Allow saving password**.
-    - **Connect as**: Normal
-    - **Connection Name**: Northwind
+8. As you did previously, run the script. Note that SQL Developer provides an output pane to view any errors.
 
-    ![The information above is entered in the Database Connection Properties * Oracle dialog box, and OK is selected at the bottom.](./media/visual-studio-fusion-new-database-connection.png "Specify the settings")
+   ![Script output of the second Northwind database script.](./media/northwind-script-2-output.png "SQL Developer output pane")
 
-10. Select **Test Connection** to verify the settings are correct, and select **OK** to close the popup.
-
-11. Select **OK** to create the Database Connection.
-
-12. You will now see the Northwind connection in the Database Explorer window.
-
-    ![The Northwind connection is selected in the Database Explorer window.](./media/visual-studio-fusion-database-explorer.png "View the Northwind connection")
-
-13. In Visual Studio, select **File** in the menu, then select **Open File**, and navigate to `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL-master\Hands-on lab\lab-files\starter-project\Oracle Scripts\`, select the file `1.northwind.oracle.schema.sql`, and then select **Open**.
-
-    ![The file, 1.northwind.oracle.schema.sql, is selected and highlighted in the Open File window.](./media/visual-studio-open-file.png "Open File dialog")
-
-    > **Note**: You may receive a notification that your Fusion trial has expired when you do this. This can be ignored for this hands-on lab. Close that dialog, and continue to the query window that opens in Visual Studio.
-
-14. Select the **Execute** Fusion script button on the Visual Studio toolbar to run the SQL script.
-
-    ![The Execute Fusion script icon is highlighted on the Visual Studio toolbar.](./media/visual-studio-fusion-execute.png "Run the script")
-
-15. The results of execution can be viewed in the Output window, found at the bottom left of the Visual Studio window.
-
-    ![Output is highlighted in the Output window.](./media/visual-studio-fusion-output-query-1.png "View the results")
-
-16. In the Database Explorer window, right-click on the **Northwind** connection, and select **Modify Connection** (If the Database Explorer is not already open, you can open it by selecting Fusion in the menu, then selecting Database Explorer).
-
-    ![Modify Connection is highlighted in the submenu for the Northwind connection in the Database Explorer window.](./media/visual-studio-database-explorer-modify-connection.png "Modify Connection")
-
-17. In the Modify Connection dialog, change the username and password as follows:
-
-    - **Username**: NW
-    - **Password**: oracledemo123
-
-18. Select **Test Connection** to verify the new credentials work.
-
-    ![The information above is entered and highlighted in the Database Connection Properties * Oracle dialog box, and Test Connection is selected at the bottom.](./media/visual-studio-database-explorer-modify-connection-update.png "Specify the settings")
-
-19. Select **OK** to close the Database Connection properties dialog.
-
-20. Select the **Open File** icon on the Visual Studio toolbar.
-
-    ![The Open File icon is highlighted on the Visual Studio toolbar.](./media/visual-studio-toolbar-open-file.png "Select Open File")
-
-21. In the Open File dialog, navigate to `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL-master\Hands-on lab\lab-files\starter-project\Oracle Scripts`, select the file `2.northwind.oracle.tables.views.sql`, and then select **Open**.
-
-22. As you did previously, select the **Execute** Fusion script button on the toolbar, and view the results of execute in the Output pane.
-
-    ![The Execute Fusion script icon is highlighted on the Visual Studio toolbar.](./media/visual-studio-fusion-execute.png "Run the script")
-
-23. Repeat steps 26 - 27, replacing the file name in step 26 with each of the following:
+9. Repeat steps 7 - 8, replacing the file name in step 26 with each of the following:
 
     - `3.northwind.oracle.packages.sql`
 
@@ -981,21 +930,15 @@ WWI has provided you with a copy of their application, including a database scri
 
       - During the Execute script step for this file, you will need to execute each CREATE OR REPLACE statement independently.
 
-      - Using your mouse, select the first statement, starting with CREATE and going to END;
+      - Using your mouse, select the first statement, starting with CREATE and going to END. Then, run the selection, as highligted in the image.
 
-      ![The first statement between CREATE and END is highlighted.](./media/visual-studio-fusion-query-selection.png "Select the first statement")
-
-      - Next, select **Execute Selection** in the Visual Studio toolbar.
-
-      ![Execute Selection is highlighted on the Visual Studio toolbar.](./media/visual-studio-fusion-query-execute-selection.png "Select Execute Selection")
+      ![The first statement between CREATE and END is highlighted, along with the selection execution button.](./media/sqldeveloper-execute-first-query.png "Select and execute the first statement")
 
       - Repeat this for each of the remaining CREATE OR REPLACE... END; blocks in the script file (there are 7 more to execute, for 8 total).
 
     - `5.northwind.oracle.seed.sql`
 
-      > **Important**: This query can take several minutes to run, so make sure you wait until you see **Execute succeeded** message, followed by **Done: 5.northwind.oracle.seed.sql**, in the output window before executing the next file, like the following:
-
-      ![This is a screenshot of the Execute succeeded message in the output window.](./media/visual-studio-fusion-query-completed.png "Execute succeeded message")
+      > **Important**: This query can take several minutes to run, so make sure you wait until you see the **Commit complete** message in the output window before executing the next file.
 
     - `6.northwind.oracle.constraints.sql`
 

@@ -29,27 +29,16 @@ namespace NorthwindMVC.Controllers
 
         public async Task<IActionResult> Index()
         {
-            //List<OracleParameter> storedProcParams = new List<OracleParameter>
-            //{
-            //    new OracleParameter { ParameterName = ":P_BEGIN_DATE", OracleDbType = OracleDbType.TimeStamp, Direction = ParameterDirection.Input, Value = new OracleTimeStamp(1996, 1, 1) },
-            //    new OracleParameter { ParameterName = ":P_END_DATE", OracleDbType = OracleDbType.TimeStamp, Direction = ParameterDirection.Input, Value = new OracleTimeStamp(1999, 12, 31) },
-            //    new OracleParameter { ParameterName = ":CUR_OUT", OracleDbType = OracleDbType.RefCursor, Direction = ParameterDirection.Input }
-            //};
+            // Oracle
+            var salesByYear = await _context.SalesByYearDbSet.FromSqlRaw("BEGIN NW.SALESBYYEAR(:P_BEGIN_DATE, :P_END_DATE, :CUR_OUT); END;",
+                                new OracleParameter { ParameterName = "P_BEGIN_DATE", OracleDbType = OracleDbType.TimeStamp, Direction = ParameterDirection.Input, Value = new OracleTimeStamp(1996, 1, 1) },
+                                new OracleParameter { ParameterName = "P_END_DATE", OracleDbType = OracleDbType.TimeStamp, Direction = ParameterDirection.Input, Value = new OracleTimeStamp(1999, 12, 31) },
+                                new OracleParameter { ParameterName = "CUR_OUT", OracleDbType = OracleDbType.RefCursor, Direction = ParameterDirection.Output }).ToListAsync();
 
-            //// Oracle
-            //var salesByYear = await _context.SalesByYearDbSet.FromSqlRaw<SalesByYear>("BEGIN NW.SALESBYYEAR(:P_BEGIN_DATE, :P_END_DATE, :CUR_OUT); END;", storedProcParams.ToArray()).ToListAsync();
-
-            //var model = from r in salesByYear
-            //            orderby r.Year
-            //            group r by r.Year into grp
-            //            select new SalesByYearViewModel { Year = grp.Key, Count = grp.Count() };
-
-            var model = new List<SalesByYearViewModel>
-            {
-                new SalesByYearViewModel { Year = "97", Count = 300 },
-                new SalesByYearViewModel { Year = "98", Count = 400 },
-                new SalesByYearViewModel { Year = "99", Count = 500 }
-            };
+            var model = from r in salesByYear
+                        orderby r.Year
+                        group r by r.Year into grp
+                        select new SalesByYearViewModel { Year = grp.Key, Count = grp.Count() };
 
             return View(model);
         }

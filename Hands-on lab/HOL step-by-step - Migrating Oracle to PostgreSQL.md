@@ -395,7 +395,7 @@ In this task, we will be modifying the PostgreSQL instance to fit our needs.
 
 PgAdmin greatly simplifies database administration and configuration tasks by providing an intuitive GUI. Hence, we will be using it to create a new application user and test the migration.
 
-1. You will need to navigate to <https://www.pgadmin.org/download/pgadmin-4-windows/> to obtain pgAdmin 4. At the time of writing, **v4.28** is the most recent version. However, we found that **v4.23** works optimally. Select the link to the installer, as shown below.
+1. You will need to navigate to <https://www.pgadmin.org/download/pgadmin-4-windows/> to obtain pgAdmin 4. At the time of writing, **v5.5** is the most recent version. However, we found that **v4.23** works optimally. Select the link to the installer, as shown below.
 
     ![The screenshot shows the correct version of the pgAdmin utility to be installed.](./media/installing-pgadmin-4.23.PNG "pgAdmin 4 v4.23")
 
@@ -556,7 +556,7 @@ Our configuration in pgAdmin is now complete.
     ora2pg --init_project nw_migration
     ```
 
-    >**Note**: In some cases, ora2pg may fail to find its configuration file. In scenarios such as these, you may need to provide the -c flag with the name of the actual configuration file in your ora2pg directory. For instance, **ora2pg.conf.dist** did not exist in my directory, but the file ora2pg_dist.conf was available.
+    >**Note**: In some cases, ora2pg may fail to find its configuration file. In scenarios such as these, you may need to provide the -c flag with the name of the actual configuration file in your ora2pg directory. For instance, `ora2pg.conf.dist` did not exist in my directory, but the file `ora2pg_conf.dist` was available.
 
     >**Note**: You may receive an error that ora2pg cannot find Perl. If this is the case, just ensure that `C:\Strawberry\perl\bin` has been added to the PATH variable.
 
@@ -577,7 +577,22 @@ Our configuration in pgAdmin is now complete.
 
 5. In the **config\ora2pg.conf** file, replace the old values in the file with the correct information.
 
-    ![Screenshot showing how to replace values with correct information.](./media/ora2pg-conf.png "Ora2pg configuration parameters")
+    ```text
+    # Set the Oracle home directory
+    ORACLE_HOME	C:\app\demouser\product\18.0.0\dbhomeXE
+
+    # Set Oracle database connection (datasource, user, password)
+    ORACLE_DSN	dbi:Oracle:host=LabVM;sid=XE;port=1521
+    ORACLE_USER	NW
+    ORACLE_PWD	oracledemo123
+    ```
+
+    Moreover, you need to populate the schema name correctly.
+
+    ```text
+    # Oracle schema/owner to use
+    SCHEMA	NW
+    ```
 
 6. Confirm that all information entered is correct. The command below should display the version of your local Oracle database.
 
@@ -589,10 +604,6 @@ Our configuration in pgAdmin is now complete.
 7. We will also need to populate connection information for our Postgre instance. We will use the role we created in the previous task.
 
     ![Window showing populating connection information.](./media/ora2pg-conf-pgsql.PNG "Populating connection information")
-
-8. Now, specify the schema to migrate. In this scenario, we are migrating the **NW** schema.
-
-    ![Setting the appropriate schema to migrate.](./media/set-schema.PNG "Specified schema is NW")
 
 ### Task 7: Create a migration report
 
@@ -624,9 +635,9 @@ In this exercise, we will begin the migration of the database and the applicatio
 
 In this task, we will migrate the database table schema, using ora2pg and psql, which is a command-line utility that makes it easy to run SQL files against the database.
 
-1. Exercise 3 covered planning and assessment steps.  To start the database migration, DDL statements must be created for all valid Oracle objects.
+Exercise 3 covered planning and assessment steps.  To start the database migration, DDL statements must be created for all valid Oracle objects.
 
-    >**Note**: In almost all migration scenarios, it is advised that table, index, and constraint schemas are kept in separate files. For data migration performance reasons, constraints should be applied to the target database only after tables are created and data copied. To enable this feature, open **config\ora2pg.conf** file. Set **FILE_PER_CONSTRAINT**, **FILE_PER_INDEX**, **FILE_PER_FKEYS**, and **FILE_PER_TABLE** to 1.
+1. In almost all migration scenarios, it is advised that table, index, and constraint schemas are kept in separate files. For data migration performance reasons, constraints should be applied to the target database only after tables are created and data copied. To enable this feature, open **config\ora2pg.conf** file. Set **FILE_PER_CONSTRAINT**, **FILE_PER_INDEX**, **FILE_PER_FKEYS**, and **FILE_PER_TABLE** to 1.
 
     ![Screenshot showing how to separate table from index and constraints.](./media/separating-table-from-index-and-constraint.PNG "Separating table from index constraints")
 

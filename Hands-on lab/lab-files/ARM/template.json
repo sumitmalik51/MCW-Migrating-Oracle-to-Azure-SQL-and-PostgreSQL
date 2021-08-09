@@ -16,6 +16,13 @@
         },
         "DeploySqlServer2019": {
             "type": "bool"
+        },
+        "PostgreSQLPassword": {
+            "type": "securestring",
+            "defaultValue": "[parameters('VMPassword')]",
+            "metadata": {
+                "description": "PostgreSQL administrator user password. Defaults to the same password for the Lab VM and Azure SQL DB instance."
+            }
         }
     },
     "functions": [],
@@ -45,7 +52,10 @@
         },
 
         "AzureSQLName": "[toLower(concat('Northwind-Server-', parameters('uniqueSuffix')))]",
-        "AzureSQLDBName": "Northwind"
+        "AzureSQLDBName": "Northwind",
+
+        "PostgreSQLName": "[toLower(concat('Northwind-Ora2Pg-', parameters('uniqueSuffix')))]",
+        "PostgreSQLAdministrator": "solldba"
     },
     "resources": [
         {
@@ -432,6 +442,52 @@
                         "name": "P1"
                     },
                     "properties": {}
+                }
+            ]
+        },
+
+        {
+            "type": "Microsoft.DBForPostgreSQL/servers",
+            "apiVersion": "2017-12-01",
+            "location": "[resourceGroup().location]",
+            "name": "[variables('PostgreSQLName')]",
+            "sku": {
+                "name": "GP_Gen5_4",
+                "tier": "GeneralPurpose",
+                "capacity": 4
+            },
+            "properties": {
+                "version": "11",
+                "sslEnforcement": "Disabled",
+                "publicNetworkAccess": "Enabled",
+                "createMode": "Default",
+                "administratorLogin": "[variables('PostgreSQLAdministrator')]",
+                "administratorLoginPassword": "[parameters('PostgreSQLPassword')]",
+                "storageProfile": {
+                    "storageAutogrow": "Disabled"
+                }
+            },
+            "resources": [
+                {
+                    "type": "firewallRules",
+                    "apiVersion": "2017-12-01",
+                    "name": "AllowAzureIPs",
+                    "properties": {
+                        "startIpAddress": "0.0.0.0",
+                        "endIpAddress": "0.0.0.0"
+                    },
+                    "dependsOn": [
+                        "[resourceId('Microsoft.DBForPostgreSQL/servers', variables('PostgreSQLName'))]"
+                    ]
+                },
+                {
+                    "type": "databases",
+                    "apiVersion": "2017-12-01",
+                    "name": "NW",
+                    "properties": {},
+                    "dependsOn": [
+                        "[resourceId('Microsoft.DBForPostgreSQL/servers', variables('PostgreSQLName'))]"
+                    ]
                 }
             ]
         }

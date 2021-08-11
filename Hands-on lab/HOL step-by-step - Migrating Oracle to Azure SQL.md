@@ -51,9 +51,9 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
     - [Task 4: Install SQL Developer Tool](#task-4-install-sql-developer-tool)
     - [Task 5: Create the Northwind database in Oracle 18c XE](#task-5-create-the-northwind-database-in-oracle-18c-xe)
     - [Task 6: Configure the Starter Application to use Oracle](#task-6-configure-the-starter-application-to-use-oracle)
-  - [Exercise 5: Migrate the Oracle database to SQL Server 2017](#exercise-5-migrate-the-oracle-database-to-sql-server-2017)
+  - [Exercise 5: Migrate the Oracle database to Azure SQL Database](#exercise-5-migrate-the-oracle-database-to-azure-sql-database)
     - [Task 1: Prepare to load SSMA](#task-1-prepare-to-load-ssma)
-    - [Task 2: Migrate the Oracle database to SQL Server 2017 using SSMA](#task-2-migrate-the-oracle-database-to-sql-server-2017-using-ssma)
+    - [Task 2: Migrate the Oracle database to Azure SQL Database using SSMA](#task-2-migrate-the-oracle-database-to-azure-sql-database-using-ssma)
   - [Exercise 6: Migrate the Application](#exercise-6-migrate-the-application)
     - [Task 1: Create a new Entity Model against SQL Server](#task-1-create-a-new-entity-model-against-sql-server)
     - [Task 2: Modify Application Code](#task-2-modify-application-code)
@@ -974,11 +974,11 @@ In this task, you will add the necessary configuration to the `NorthwindMVC` sol
 
 6. Close the browser to stop debugging the application, and return to Visual Studio.
 
-## Exercise 5: Migrate the Oracle database to SQL Server 2017
+## Exercise 5: Migrate the Oracle database to Azure SQL Database
 
 Duration: 30 minutes
 
-In this exercise, you will migrate the Oracle database into the on-premises SQL Server 2017 instance using SSMA.
+In this exercise, you will migrate the Oracle database to Azure SQL DB using SSMA.
 
 ### Task 1: Prepare to load SSMA
 
@@ -1002,7 +1002,7 @@ In this exercise, you will migrate the Oracle database into the on-premises SQL 
 
 6. Save the file. Close notepad.
 
-### Task 2: Migrate the Oracle database to SQL Server 2017 using SSMA
+### Task 2: Migrate the Oracle database to Azure SQL Database using SSMA
 
 1. On your LabVM, launch **Microsoft SQL Server Migration Assistant for Oracle** from the Start Menu.
 
@@ -1010,9 +1010,9 @@ In this exercise, you will migrate the Oracle database into the on-premises SQL 
 
    ![File and New Project are highlighted in the SQL Server Migration Assistant for Oracle.](./media/ssma-menu-file-new-project.png "Select New Project")
 
-3. In the New Project dialog, accept the default name and location, select **SQL Server 2017** for the Migration To value, and select **OK**.
+3. In the New Project dialog, accept the default name and location, select **Azure SQL Database** for the Migrate To value, and select **OK**.
 
-   ![In the New Project dialog box, SQL Server 2017 is selected and highlighted in the Migration To box.](./media/ssma-new-project.png "New Project dialog box")
+   ![In the New Project dialog box, Azure SQL DB is selected and highlighted in the Migration To box.](./media/ssma-new-project.png "New Project dialog box")
 
 4. Select **Connect to Oracle** in the SSMA toolbar.
 
@@ -1030,11 +1030,15 @@ In this exercise, you will migrate the Oracle database into the on-premises SQL 
 
    ![The information above is entered in the Connect to Oracle dialog box, and Connect is selected at the bottom.](./media/ssma-connect-to-oracle.png "Specify the settings")
 
+   >**Note**: You can also connect to SSMA using a connection string through the **Mode** dropdown. Irrespective of how you connect to Oracle from SSMA, using the **Oracle Data Provider for .NET** is the best-practice technology.
+
 6. Select **Connect**.
 
-7. In the Filter objects dialog, uncheck everything except the **NW**, **Sys**, and **System** databases.
+7. In the Filter objects dialog, uncheck **Load all user objects**. Then, select the **NW** schema. Note that the **Sys** and **System** schemas are automatically checked. 
 
-   ![The NW database is highlighted and checked in the Filter objects dialog. The System database is checked, and all others are unchecked.](media/ssms-filter-objects.png "SSMA Filter objects")
+   ![The NW schema is highlighted and checked in the Filter objects dialog. The System schema is checked, and all others are unchecked.](media/ssms-filter-objects.png "SSMA Filter objects")
+
+   >**Note**: In production Oracle environments, you must ensure that you have sufficient permissions to run SSMA. See Microsoft's complete list [here.](https://docs.microsoft.com/sql/ssma/oracle/connecting-to-oracle-database-oracletosql)
 
 8. In the Output window, you will see a message that the connection was established successfully, similar to the following:
 
@@ -1044,23 +1048,22 @@ In this exercise, you will migrate the Oracle database into the on-premises SQL 
 
    ![The NW schema is highlighted in Oracle Metadata Explorer.](./media/ssma-oracle-metadata-explorer-nw.png "Confirm the NW schema")
 
-10. Next, select **Connect to SQL Server** from the toolbar, to add your SQL 2017 connection.
+10. Next, select **Connect to Azure SQL Database** from the toolbar, to add your Azure SQL DB connection.
 
-    ![Connect to SQL Server is highlighted on the toolbar.](./media/ssma-toolbar-connect-to-sql-server.png "Connect to SQL Server")
+    ![Connect to Azure SQL Database is highlighted on the toolbar.](./media/connect-to-azure-sql-db.png "Connect to Azure SQL DB")
 
-11. In the connect to SQL Server dialog, provide the following:
+11. In the Connect to Azure SQL Database dialog, provide the following:
 
-    - **Server name**: Enter the IP address of your SqlServer2017 VM. You can get this from the Azure portal by navigating to your VM's blade, and looking at the Essentials area.
+    - **Server name**: Enter the DNS name of your Azure SQL DB. It is going to be `northwind-server-[SUFFIX].database.windows.net`, where `[SUFFIX]` represents the parameter you provided to the ARM template.
 
-    ![The IP address of your SqlServer2017 VM is highlighted in the Essentials area of your VM's blade in the Azure portal.](./media/azure-sql-database-public-ip-address.png "Enter the IP address")
-
-    - **Server port**: Leave set to [default].
     - **Database**: Northwind
-    - **Authentication**: Set to Windows Authentication.
+    - **Authentication**: Set to **SQL Server Authentication**
+      - **Username**: `demouser`
+      - **Password**: Use the value you provided to the ARM template
     - **Encrypt Connection**: Check this box.
     - **Trust Server Certificate**: Check this box.
 
-    ![The information above is entered in the Connect to SQL Server dialog box, and Connect is selected at the bottom.](./media/ssma-connect-to-sql-server.png "Specify the settings")
+    ![The information above is entered in the Connect to Azure SQL Database dialog box, and Connect is selected at the bottom.](./media/azure-sql-db-params.png "Specify the settings")
 
 12. Select **Connect**.
 
@@ -1068,17 +1071,17 @@ In this exercise, you will migrate the Oracle database into the on-premises SQL 
 
     ![The successful connection message is highlighted in the Output window.](./media/ssma-connect-to-sql-server-success.png "View the successful connection message")
 
-14. In the SQL Server Metadata Explorer, expand the server node, then Databases. You should see Northwind listed.
+14. In the Azure SQL Database Metadata Explorer, expand the server node, then Databases. You should see Northwind listed.
 
-    ![Northwind is highlighted under Databases in SQL Server Metadata Explorer.](./media/ssma-sql-server-metadata-explorer-northwind.png "Verify the Northwind listing")
+    ![Northwind is highlighted under Databases in Azure SQL Database Metadata Explorer.](./media/azure-sql-db-metadata-explorer.png "Verify the Northwind listing")
 
 15. In the Oracle Metadata Explorer, check the box next to NW, expand the NW database, and uncheck **Packages**. Next, select NW to make sure it is selected in the tree.
 
     ![The NW schema is selected and highlighted in Oracle Metadata Explorer.](./media/ssma-oracle-metadata-explorer-nw-selected.png "Confirm the NW schema")
 
-16. In the SQL Server Metadata explorer, check the box next to Northwind.
+16. In the Azure SQL Database Metadata explorer, check the box next to Northwind.
 
-    ![Northwind is selected and highlighted under Databases in SQL Server Metadata Explorer.](./media/ssma-sql-server-metadata-explorer-northwind-selected.png "Select Northwind")
+    ![Northwind is selected and highlighted under Databases in Azure SQL DB Metadata Explorer.](./media/northwind-db-metadata-explorer.png "Select Northwind")
 
 17. In the SSMA toolbar, select **Convert Schema**. There is a bug in SSMA which prevents this button to being properly enabled, so if the button is disabled, you can select the NW node in the Oracle Metadata Explorer, which should cause the Convert Schema button to become enabled. You can also right-click on the NW database in the Oracle Metadata Explorer, and select Convert Schema if that does not work.
 
@@ -1086,141 +1089,27 @@ In this exercise, you will migrate the Oracle database into the on-premises SQL 
 
 18. After about a minute the conversion should have completed.
 
-19. In the SQL Server Metadata Explorer, observe that new schema objects have been added. For example, under Northwind, Schemas, NW, Tables you should see the tables from the Oracle database.
+19. In the Azure SQL Database Metadata Explorer, observe that new schema objects have been added. For example, under Northwind, Schemas, NW, Tables you should see the tables from the Oracle database. Note that these objects have not been persisted to the Azure SQL Database instance yet.
 
-    ![NW is selected in the SQL Server Metadata Explorer, and tables from the Oracle database are visible below that.](./media/ssma-sql-server-metadata-explorer-nw-tables.png "Observe new schema objects")
+    ![NW is selected in the Azure SQL Database Metadata Explorer, and tables from the Oracle database are visible below that.](./media/azure-sql-metadata-explorer-nw-tables.png "Observe new schema objects")
 
-20. In the output pane, you will notice a message that the conversion finished with 1 error, and 13 warnings.
+20. In the output pane, you will notice a message that the conversion finished with no errors and 17 warnings.
 
     ![The conversion message is highlighted in the Output window.](./media/ssma-convert-schema-output.png "View the conversion message")
 
-21. To view the errors, select the **Error List** at the bottom of the SSMA screen.
+21. **Optional**: Save the project. This can take a while, and is not necessary to complete the hands-on lab.
 
-    ![Errors List is highlighted at the bottom of the SSMA screen.](./media/ssma-error-list.png "Select Errors List")
+22. To apply the resultant schema to the Northwind database in Azure SQL Database, use the Azure SQL Database Metadata Explorer to view the Northwind database. Right-click Northwind, and select **Synchronize with Database**.
 
-22. Select **Warnings** to hide the warnings, and leave only Errors displayed.
+    ![Synchronize with Database is highlighted in the submenu of the Northwind database in Azure SQL Database Metadata Explorer.](./media/ssma-synchronize-with-database.png "Select Synchronize with Database")
 
-    ![The Warnings notification is highlighted in the Errors List.](./media/ssma-warnings.png "Warning tab")
+23. Select **OK** in the Synchronize with the Database dialog. Wait until you see **Synchronization operation is complete** in the output window.
 
-23. Double-click on the error listed. This will display the Table in both Oracle and SQL Server that is causing the error, `EMPLOYEETERRITORIES`. Notice the Oracle table lists `EMPLOYEEID` with a data type of `NUMBER`, while SQL Server is expecting a data type of `float(53)`.
-
-    ![NUMBER and float(53) are highlighted under Data Type, and EMPLOYEEID is selected in the split-screen views of the Table tab for Oracle and SQL Server.](./media/ssma-data-type-error.png "View the information")
-
-    >**Note**: If the datatype conversions are already correct, feel free to skip steps 23 to 30.
-
-24. Look at the table definition for the table on the Oracle side.
-
-25. To change the data type, select the **Type Mapping** tab, select the row with source type of number, and select **Edit**.
-
-    ![The Type Mapping tab is highlighted, and below that, the row with source type of number is highlighted, and Edit is highlighted on the right.](./media/ssma-source-type-mapping-number-edit.png "Change the data type")
-
-26. In the Edit Type Mapping dialog, set the Target type to **numeric(precision, scale)**, set the Precision to **10**, and select **OK**.
-
-    ![The information above is entered in the Edit Type Mapping dialog box, and OK is selected at the bottom.](./media/ssma-source-type-mapping-edit-type-mapping-number.png "Specify the settings")
-
-27. Select **Apply** on the Type mapping tab.
-
-    ![The row with source type of number is highlighted on the Type Mapping tab, and Apply is highlighted at the bottom.](./media/ssma-source-type-mapping-number-edit-apply.png "Select Apply")
-
-28. In the Oracle Metadata Explorer, right-click the `EMPLOYEETERRITORIES` table, and select **Convert Schema**.
-
-    ![Convert Schema is highlighted in the submenu of the EMPLOYEETERRITORIES table in Oracle Metadata Explorer.](./media/ssma-table-convert-schema.png "Select Convert Schema")
-
-29. When prompted that the target exists, select **Overwrite**.
-
-    ![Overwrite is selected and highlighted in the Target Exists prompt.](./media/ssma-table-convert-schema-overwrite.png "Select Overwrite")
-
-30. Notice the error is now gone from the Error List.
-
-31. We are going to fix another data type conversion issue now, which will otherwise appear when we attempt to migrate the data.
-
-32. Select the `ORDER_DETAILS` table in the Oracle Metadata Explorer.
-
-    ![The ORDER_DETAILS table is selected and highlighted in Oracle Metadata Explorer.](./media/ssma-oracle-metadata-explorer-order-details.png "Select the ORDER_DETAILS table ")
-
-33. Next, you are going to convert the type associated with the `DISCOUNT` column, `FLOAT(23)` to a `numeric(10, 0)`, similar to what you did for the `EMPLOYEETERRITORIES` table.
-
-34. Select the **Type Mapping** tab, then select `float[*..53]` from the Source Type list, and select **Edit**.
-
-    ![The row with source type of float[*..53] is selected and highlighted on the Type Mapping tab, and Edit is highlighted on the right.](./media/ssma-type-mapping-float-edit.png "Edit float[*..53]")
-
-35. In the Edit Type Mapping dialog, change the Target type to `numeric(precision, scale)`, and set the Precision to **10**, then select **OK**.
-
-    ![In the Edit Type Mapping dialog box, numeric(precision, scale) is highlighted under Target type, 10 is highlighted next to Replace with under Precision, and OK is highlighted at the bottom.](./media/ssma-edit-type-mapping-float-to-numeric.png "Change the Target type")
-
-36. Select **Apply** to save the changes to the `ORDER_DETAILS` table.
-
-37. Now, right-click on the `ORDER_DETAILS` table in the Oracle Metadata Explorer, and select **Convert Schema**.
-
-38. When prompted that the target exists, select **Overwrite**.
-
-39. **Optional**: Save the project. This can take a while, and is not necessary to complete the hands-on lab.
-
-40. To apply the resultant schema to the Northwind database in SQL Server, use the SQL Server Metadata Explorer to view the Northwind database. Right-click Northwind, and select **Synchronize with Database**.
-
-    ![Synchronize with Database is highlighted in the submenu of the Northwind database in SQL Server Metadata Explorer.](./media/ssma-synchronize-with-database.png "Select Synchronize with Database")
-
-41. Select **OK** in the Synchronize with the Database dialog.
-
-42. The Synchronize action will result in multiple errors in the Error List, resulting from attempting to add the SSMA assemblies to the Northwind database.
-
-    ![The Errors notification is highlighted at the top of the Errors List window, and the first of multiple errors is selected and highlighted in the Message list.](./media/ssma-synchronize-errors.png "View the errors")
-
-43. These errors are the result of improvements implemented in SQL Server 2017 SQLCLR security model. Specifically, in SQL Server 2017, Microsoft now by default requires that all types of assemblies (SAFE, EXTERNAL_ACCESS, UNSAFE) are authorized for UNSAFE access.
-
-44. For this hands-on lab, you will be adding the assemblies causing the errors to the trusted assembly list, which will allow the assemblies. To fix these errors, complete the following:
-
-    - Under the **Northwind** database in the SQL Server Metadata Explorer in SSMA, expand **Assemblies**.
-
-    ![Three items are listed below Assemblies, which is highlighted below the Northwind database in SQL Server Metadata Explorer.](./media/ssma-sql-server-metadata-explorer-northwind-assemblies.png "Expand Assemblies")
-
-    - Right-click `SSMA4OracleSQLServerCollections.NET`, and select **Save as Script**.
-
-    ![Save as Script is highlighted in the submenu for SSMA4OracleSQLServerCollections.NET.](./media/ssma-sql-server-metadata-explorer-northwind-assemblies-save-as-script.png "Select Save as Script")
-
-    - Save the script to the local machine.
-    - Now, you will need to use SSMS on your SqlServer2017 VM.
-
-      - Open an RDP connection to your SqlServer2017 VM, if one is not already open.
-      - Open SSMS 18.
-      - Connect to SqlServer2017, by entering **SqlServer2017** into the Server name field, using Windows Authentication, and selecting **Connect**.
-      - Expand **Databases**, right-click on **Northwind**, and select **New Query**.
-      - Paste the following query into the new query window, but don't execute it until you complete the steps below:
-
-      ```sql
-      USE master;
-      GO
-
-      DECLARE @clrName nvarchar(4000) = 'SSMA4OracleSQLServerCollections.NET'
-      DECLARE @asmBin varbinary(max) = [INSERT BINARY];
-      DECLARE @hash varbinary(64);
-
-      SELECT @hash = HASHBYTES('SHA2_512', @asmBin);
-
-      EXEC sys.sp_add_trusted_assembly @hash = @hash, @description = @clrName;
-      ```
-
-    - Now, return to your Lab VM, and open the saved `SSMA4OracleSQLServerCollections.NET.sql` file from the desktop with Notepad.exe.
-    - Within the SQL file, locate the line that begins with `CREATE ASSEMBLY`, then locate the word `FROM`. Copy the binary string that appears after `FROM`. This value will span all the way down to the line containing the text `WITH PERMISSION_SET = SAFE`. Be sure not to include any whitespace at the end of the binary value.
-
-      ![The binary string that appears after FROM is highlighted within the SQL file.](./media/assembly-binary-value.png "Copy the binary string")
-
-    - Now, return to SSMS on your SqlServer2017 VM, and replace `INSERT BINARY` with the copied binary value. The line should end with ";" and there should be no whitespace before the ";".
-    - Execute the query in SSMS.
-
-45. Repeat step 44, this time for the assembly `SSMA4OracleSQLServerExtensions.NET`. Make sure to replace the `@clrName` variable in the script with the value "SSMA4OracleSQLServerExtensions.NET".
-
-46. The SSMA assemblies have now been allowed in SQL Server 2017.
-
-47. Return to SSMA on your Lab VM, and rerun the **Synchronize with Database** action on the Northwind database. This will create all the schema objects in the SQL Server Northwind database. There should now be no errors, and the Output pane should show **Synchronization operation is complete**.
-
-48. Now you need to migrate the data.
-
-49. In the Oracle Metadata Explorer, select **NW** and from the command bar, select **Migrate Data**.
+24. Now you need to migrate the data. In the Oracle Metadata Explorer, select **NW** and from the command bar, select **Migrate Data**.
 
     ![Migrate Data is highlighted in the command bar of Oracle Metadata Explorer.](./media/ssma-toolbar-migrate-data.png "Select Migrate Data")
 
-50. You will be prompted to re-enter your Oracle credentials for use by the migration connection.
+25. You will be prompted to re-enter your Oracle credentials for use by the migration connection.
 
     - Recall the Oracle credentials are:
 
@@ -1230,21 +1119,22 @@ In this exercise, you will migrate the Oracle database into the on-premises SQL 
       - **Username**: NW
       - **Password**: oracledemo123
 
-    - The SQL Server credentials are:
+    - The Azure SQL Database credentials are:
 
-      - **Server name**: IP address of your SqlServer2017 VM (obtained in the essentials area of your VM's blade in Azure portal).
-      - **Server port**: [default]
-      - **Authentication**: Windows Authentication
+      - **Server name**: Follows the format `northwind-server-[SUFFIX].database.windows.net`
+      - **Authentication**: SQL Server Authentication
+        - **Username**: `demouser`
+        - **Password**: Use the value you provided to the ARM template
 
-51. Select **Connect**.
+26. Select **Connect**.
 
-52. After the migration completes, you will be presented with a Data Migration Report, similar to the following:
+27. After the migration completes, you will be presented with a Data Migration Report, similar to the following:
 
     ![This is screenshot of an example Data Migration Report.](./media/ssma-data-migration-report.png "View the Data Migration Report")
 
-53. Select **Close** on the migration report.
+28. Select **Close** on the migration report.
 
-54. Close SSMA for Oracle.
+29. Close SSMA for Oracle.
 
 ## Exercise 6: Migrate the Application
 

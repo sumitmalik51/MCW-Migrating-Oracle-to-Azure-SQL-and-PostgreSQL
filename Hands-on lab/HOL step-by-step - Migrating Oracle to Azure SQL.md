@@ -56,7 +56,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
     - [Task 2: Migrate the Oracle database to Azure SQL Database using SSMA](#task-2-migrate-the-oracle-database-to-azure-sql-database-using-ssma)
   - [Exercise 6: Migrate the Application](#exercise-6-migrate-the-application)
     - [Task 1: Create new Entity Models against Azure SQL Database and Scaffold Views](#task-1-create-new-entity-models-against-azure-sql-database-and-scaffold-views)
-    - [Task 2: Modify Application Code](#task-2-modify-application-code)
+    - [Task 2: Ensure Application Compatibility with the Stored Procedure](#task-2-ensure-application-compatibility-with-the-stored-procedure)
   - [After the hands-on lab](#after-the-hands-on-lab)
     - [Task 1: Delete the resource group](#task-1-delete-the-resource-group)
 
@@ -1221,17 +1221,17 @@ In this exercise, you will modify the `NorthwindMVC` application so it targets A
 
 13. In the **ADD MVC Controller with views, using Entity Framework** dialog box, provide the following details. Then, select **Add**. Visual Studio will build the project.
 
-   - **Model class**: Select `Customer`
-   - **Data context class**: Select `DataContext`
-   - Select all three checkboxes below **Views**
-   - **Controller name**: Keep it set to `CustomersController`
+    - **Model class**: Select `Customer`
+    - **Data context class**: Select `DataContext`
+    - Select all three checkboxes below **Views**
+    - **Controller name**: Keep it set to `CustomersController`
 
    ![Scaffolding controllers and views from model classes.](./media/customer-scaffold-views.png "Scaffolding controllers and views")
 
 14. Repeat steps 11-13, according to the following details:
 
     - **EmployeesController.cs**
-      -  Based on the **Employee** model class
+      - Based on the **Employee** model class
     - **ProductsController.cs**
       - Based on the **Product** model class
     - **ShippersController.cs**
@@ -1239,141 +1239,116 @@ In this exercise, you will modify the `NorthwindMVC` application so it targets A
     - **SuppliersController.cs**
       - Based on the **Supplier** model class
 
-15. Navigate to **Startup.cs**. Ensure that SQL Server is configured as the correct provider, and the appropriate connection string is referenced.
+15. Navigate to **Startup.cs**. Ensure that SQL Server is configured as the correct provider and the appropriate connection string is referenced.
 
    ```csharp
    services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AzureSqlConnectionString")));
    ```
 
-### Task 2: Modify Application Code
+### Task 2: Ensure Application Compatibility with the Stored Procedure
 
-1. In Visual Studio, open the file `DataContext.cs` from the Solution Explorer. You may need to collapse the Data folder, and re-expand it after refreshing if you don't see the file listed.
-
-   ![DataContext.cs is highlighted under the Data folder in Solution Explorer.](./media/visual-studio-solution-explorer-data-datacontext.png "Open DataContext.cs")
-
-2. The call to base in the DataContext constructor, at the top of the file, needs to be updated to reflect the correct connection string.
-
-   ![In the DataContext constructor, : base ("name=DataContext") is highlighted.](./media/visual-studio-solution-explorer-data-datacontext-base.png "Update the call to base")
-
-3. Change the line from:
-
-   ```csharp
-   : base ("name=DataContext")
-   ```
-
-4. To:
-
-   ```csharp
-   : base ("name=SqlServerConnectionString")
-   ```
-
-5. Save the file.
-
-   ![In the DataContext constructor, : base ("name=SqlServerConnectionString") is highlighted.](./media/visual-studio-solution-explorer-data-datacontext-base-updated.png "Update the call to base")
-
-6. Next, open the file `HomeController.cs`, in the Controllers folder in the Solution Explorer.
+1. Open the file `HomeController.cs`, in the Controllers folder in the Solution Explorer.
 
    ![The HomeController.cs file is selected and highlighted under the Controllers folder in Solution Explorer.](./media/visual-studio-solution-explorer-controllers-home-controller.png "Open HomeController.cs")
 
-7. Comment out the code under the Oracle comment. First, select the lines for the Oracle code, then select the Comment button in the toolbar.
+2. Comment out the code under the Oracle comment. First, select the lines for the Oracle code, then select the Comment button in the toolbar.
 
    ![The code under the Oracle comment is highlighted and labeled 1, and the Comment button in the toolbar is highlighted and labeled 2.](./media/visual-studio-home-controller-comment-out-oracle-lines.png "Comment out code")
 
-8. Next, uncomment the code under the SQL Server comment. Select the commented out code, then choose the Uncomment button on the toolbar.
+3. Next, add the following code below the commented Oracle stored procedure call. Notice how it excludes the cursor output parameter.
 
-   > **Note**: The lines will change from green to colored text when the comment characters have been removed from the front of each line. This code change is done because of differences in how stored procedures are accessed in Oracle versus Sql Server.
+   ```csharp
+   var salesByYear = await _context.SalesByYearDbSet.FromSqlRaw(
+      "exec [NW].[SALESBYYEAR] @p_begin_date, @p_end_date ",
+      new SqlParameter("p_begin_date", "1996-1-1"),
+      new SqlParameter("p_end_date", "1999-1-1")).ToListAsync();
+   ```
 
-   ![The code under the SQL Server comment is highlighted and labeled 1, and the Uncomment button in the toolbar is highlighted and labeled 2.](./media/visual-studio-home-controller-uncomment-sql-server-lines.png "Uncomment code")
+4. Save the changes to `HomeController.cs`.
 
-9. Save the changes to `HomeController.cs`.
-
-10. Open the file, `SALESBYYEAR.cs`, in the Models folder in the Solution Explorer.
+5. Open the file, `SALESBYYEAR.cs`, in the Models folder in the Solution Explorer.
 
     ![SALESBYYEAR.cs is highlighted under the Models folder in the Solution Explorer.](./media/visual-studio-models-salesbyyear.png "Open SALESBYYEAR.cs")
 
-11. Change the types of the following properties:
+6. Change the `YEAR` property from string to int.
 
-    - Change the `SUBTOTAL` property from double to decimal.
+    ![The int property is highlighted.](./media/visual-studio-models-salesbyyear-updated.png "Change YEAR property")
 
-    - Change the `YEAR` property from string to int.
+7. Save the file.
 
-    ![The decimal and int property values are highlighted.](./media/visual-studio-models-salesbyyear-updated.png "Change the SUBTOTAL and YEAR properties")
-
-12. Save the file.
-
-13. Open the `SalesByYearViewModel.cs` file from the Models folder in the Solution Explorer.
+8. Open the `SalesByYearViewModel.cs` file from the Models folder in the Solution Explorer.
 
     ![SalesByYearViewModel.cs is highlighted under the Models folder in the Solution Explorer.](./media/visual-studio-models-salesbyyearviewmodel.png "Open SalesByYearViewModel.cs")
 
-14. Change the type of the `YEAR` property from string to int, then save the file.
+9. Change the type of the `YEAR` property from string to int, then save the file.
 
     ![The int property value is highlighted.](./media/visual-studio-models-salesbyyearviewmodel-updated.png "Change the YEAR property")
 
-15. Run the solution by selecting the green Start button on the toolbar.
+10. Run the solution by selecting the green Start button on the toolbar.
 
     ![Start is highlighted on the toolbar.](./media/visual-studio-toolbar-start.png "Select Start")
 
-16. You will get an exception that the stored procedure call has failed. This is because of an error in migrating the stored procedure.
+11. You will get an exception that the stored procedure call has failed. This is because of an error in migrating the stored procedure.
 
     ![An exception appears indicating that the stored procedure call has failed.](./media/visual-studio-exception-sqlexception.png "View the error")
 
-17. Select the red Stop button to end execution of the application.
+12. Select the red Stop button to end execution of the application.
 
     ![The Stop button is highlighted on the toolbar.](./media/visual-studio-toolbar-stop.png "Select Stop")
 
-18. To resolve the error, open the `SALES_BY_YEAR_fix.sql` file, located under Solution Items in the Solution Explorer.
+13. To resolve the error, open the `SALES_BY_YEAR_fix.sql` file, located under Solution Items in the Solution Explorer.
 
-19. From the Visual Studio menu, select **View**, and then **Server Explorer**.
+14. From the Visual Studio menu, select **View**, and then **Server Explorer**.
 
     ![View and Server Explorer are highlighted in the Visual Studio menu.](./media/visual-studio-menu-view-server-explorer.png "Select Server Explorer")
 
-20. In the Server Explorer, right-click on **Data Connections**, and select **Add Connections...**
+15. In the Server Explorer, right-click on **Data Connections**, and select **Add Connections...**
 
     ![Data Connections is selected in Server Explorer, and Add Connection is highlighted in the shortcut menu.](./media/visual-studio-server-explorer-data-connections.png "Select Add Connection")
 
-21. On the Choose Data Source dialog, select **Microsoft SQL Server**, and select **Continue**.
+16. On the Choose Data Source dialog, select **Microsoft SQL Server**, and select **Continue**.
 
     ![Microsoft SQL Server is selected and highlighted under Data source in the Choose Data Source dialog box.](./media/visual-studio-server-explorer-data-connections-add.png "Select Microsoft SQL Server")
 
-22. On the Add Connection dialog, enter the following:
+17. On the Add Connection dialog, enter the following:
 
     - **Data source**: Leave Microsoft SQL Server (SqlClient).
-    - **Server name**: Enter the IP address of your SqlServer2017 VM.
+    - **Server name**: Enter the DNS name of the Azure SQL DB instance
     - **Authentication**: Select SQL Server Authentication.
     - **Username**: demouser
-    - **Password**: Password.1!!
+    - **Password**: Provide the password you configured for `demouser`
     - **Connect to a database**: Choose Select or enter database name, and enter Northwind.
     - Select **Test Connection** to verify your settings are correct, and select **OK** to close the successful connection dialog.
 
     ![The information above is entered in the Add Connection dialog box, and Test Connection is selected at the bottom.](./media/visual-studio-server-explorer-data-connections-add-connection.png "Specify the settings")
 
-23. Select **OK**.
+18. Select **OK**.
 
-24. Right-click the newly added SQL Server connection in the Server Explorer, and select **New Query**.
+19. Right-click the newly added Azure SQL DB connection in the Server Explorer, and select **New Query**.
 
     ![The newly added SQL Server connection is selected in Server Explorer, and New Query is highlighted in the shortcut menu.](./media/visual-studio-server-explorer-data-connections-new-query.png "Select New Query")
 
-25. Select and copy all of the text from the `SALES_BY_YEAR_fix.sql` file (click CTRL+A, CTRL+C in the `SALES_BY_YEAR_fix.sql` file).
+20. Select and copy all of the text from the `SALES_BY_YEAR_fix.sql` file (click CTRL+A, CTRL+C in the `SALES_BY_YEAR_fix.sql` file).
 
-26. Paste (CTRL+V) the copied text into the new Query window.
+21. Paste (CTRL+V) the copied text into the new Query window.
 
-27. Verify `Use [Northwind]` is the first line of the file, and that it matches the database listed in the query bar, then select the green **Execute** button.
+22. Verify `Use [Northwind]` is the first line of the file, and that it matches the database listed in the query bar, then select the green **Execute** button.
 
     ![The Use [Northwind] statement is highlighted, as is the Northwind database and the Execute button in the query bar.](./media/visual-studio-sql-query-execute.png "Verify the Use [Northwind] statement")
 
-28. You should see a message that the command completed successfully.
+23. You should see a message that the command completed successfully.
 
     ![This is a screenshot of a message that the command completed successfully.](./media/visual-studio-sql-query-completed-successfully.png "View the message")
 
-29. Run the application again by selecting the green Start button in the Visual Studio toolbar.
+24. Run the application again by selecting the green Start button in the Visual Studio toolbar.
 
     ![The Start button is highlighted on the Visual Studio toolbar.](./media/visual-studio-toolbar-start.png "Select Start")
 
-30. Verify the graph is showing correctly on the Northwind Traders dashboard.
+25. Verify the graph is showing correctly on the Northwind Traders dashboard.
 
     ![The Northwind Traders Dashboard is visible in a browser.](./media/northwind-traders-dashboard.png "View the dashboard")
 
-31. Congratulations! You have successfully migrated the data and application from Oracle to SQL Server.
+26. Congratulations! You have successfully migrated the data and application from Oracle to SQL Server.
 
 ## After the hands-on lab
 

@@ -29,34 +29,32 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
   - [Overview](#overview)
   - [Solution architecture](#solution-architecture)
   - [Requirements](#requirements)
-  - [Exercise 1: Configure SQL Server instances](#exercise-1-configure-sql-server-instances)
-    - [Task 1: Connect to the SqlServer2008 VM](#task-1-connect-to-the-sqlserver2008-vm)
-    - [Task 2: Install AdventureWorks sample database](#task-2-install-adventureworks-sample-database)
-    - [Task 3: Update SQL Server settings using Configuration Manager](#task-3-update-sql-server-settings-using-configuration-manager)
-    - [Task 4: Connect to the SqlServer2017 VM](#task-4-connect-to-the-sqlserver2017-vm)
-    - [Task 5: Update SQL Server settings using Configuration Manager 2017](#task-5-update-sql-server-settings-using-configuration-manager-2017)
-  - [Exercise 2: Migrate SQL Server to Azure SQL Database using DMS](#exercise-2-migrate-sql-server-to-azure-sql-database-using-dms)
-    - [Task 1: Assess the on-premises database](#task-1-assess-the-on-premises-database)
-    - [Task 2: Migrate the database schema](#task-2-migrate-the-database-schema)
-    - [Task 3: Create a migration project](#task-3-create-a-migration-project)
-    - [Task 4: Run the migration](#task-4-run-the-migration)
-    - [Task 5: Verify data migration](#task-5-verify-data-migration)
-  - [Exercise 3: Post upgrade enhancement](#exercise-3-post-upgrade-enhancement)
-    - [Task 1: Table compression](#task-1-table-compression)
-    - [Task 2: Clustered ColumnStore index](#task-2-clustered-columnstore-index)
-  - [Exercise 4: Setup Oracle 18c Express Edition](#exercise-4-setup-oracle-18c-express-edition)
+  - [Exercise 1: Setup Oracle 18c Express Edition](#exercise-1-setup-oracle-18c-express-edition)
     - [Task 1: Install Oracle XE](#task-1-install-oracle-xe)
     - [Task 2: Install Oracle Data Access components](#task-2-install-oracle-data-access-components)
     - [Task 3: Install SQL Server Migration Assistant for Oracle](#task-3-install-sql-server-migration-assistant-for-oracle)
     - [Task 4: Install SQL Developer Tool](#task-4-install-sql-developer-tool)
     - [Task 5: Create the Northwind database in Oracle 18c XE](#task-5-create-the-northwind-database-in-oracle-18c-xe)
     - [Task 6: Configure the Starter Application to use Oracle](#task-6-configure-the-starter-application-to-use-oracle)
-  - [Exercise 5: Migrate the Oracle database to Azure SQL Database](#exercise-5-migrate-the-oracle-database-to-azure-sql-database)
+  - [Exercise 2: Migrate the Oracle database to Azure SQL Database](#exercise-2-migrate-the-oracle-database-to-azure-sql-database)
     - [Task 1: Prepare to load SSMA](#task-1-prepare-to-load-ssma)
     - [Task 2: Migrate the Oracle database to Azure SQL Database using SSMA](#task-2-migrate-the-oracle-database-to-azure-sql-database-using-ssma)
-  - [Exercise 6: Migrate the Application](#exercise-6-migrate-the-application)
+  - [Exercise 3: Migrate the Application](#exercise-3-migrate-the-application)
     - [Task 1: Create new Entity Models against Azure SQL Database and Scaffold Views](#task-1-create-new-entity-models-against-azure-sql-database-and-scaffold-views)
     - [Task 2: Ensure Application Compatibility with the Stored Procedure](#task-2-ensure-application-compatibility-with-the-stored-procedure)
+  - [Exercise 4: Configure SQL Server instances (Optional Homogenous Migration)](#exercise-4-configure-sql-server-instances-optional-homogenous-migration)
+    - [Task 1: Connect to the SqlServer2008 VM](#task-1-connect-to-the-sqlserver2008-vm)
+    - [Task 2: Install AdventureWorks sample database](#task-2-install-adventureworks-sample-database)
+    - [Task 3: Update SQL Server settings using Configuration Manager](#task-3-update-sql-server-settings-using-configuration-manager)
+  - [Exercise 5: Migrate SQL Server to Azure SQL Database using DMS (Optional Homogenous Migration)](#exercise-5-migrate-sql-server-to-azure-sql-database-using-dms-optional-homogenous-migration)
+    - [Task 1: Assess the on-premises database](#task-1-assess-the-on-premises-database)
+    - [Task 2: Migrate the database schema](#task-2-migrate-the-database-schema)
+    - [Task 3: Create a migration project](#task-3-create-a-migration-project)
+    - [Task 4: Run the migration](#task-4-run-the-migration)
+    - [Task 5: Verify data migration](#task-5-verify-data-migration)
+  - [Exercise 6: Post upgrade enhancement (Optional Homogenous Migration)](#exercise-6-post-upgrade-enhancement-optional-homogenous-migration)
+    - [Task 1: Table compression](#task-1-table-compression)
+    - [Task 2: Clustered ColumnStore index](#task-2-clustered-columnstore-index)
   - [After the hands-on lab](#after-the-hands-on-lab)
     - [Task 1: Delete the resource group](#task-1-delete-the-resource-group)
 
@@ -92,7 +90,601 @@ The solution begins with using the Microsoft Data Migration Assistant to assess 
   - Trial subscriptions will not work.
 - A virtual machine configured with Visual Studio 2019 Community edition.
 
-## Exercise 1: Configure SQL Server instances
+## Exercise 1: Setup Oracle 18c Express Edition
+
+Duration: 45 minutes
+
+In this exercise, you will install Oracle XE on your Lab VM, load a sample database supporting an application, and then migrate the database to the Azure SQL DB instance.
+
+### Task 1: Install Oracle XE
+
+1. Connect to your Lab VM, as you did in Task 5 of the [Before the Hands-on Lab](./Before%20the%20HOL%20-%20Migrating%20Oracle%20to%20Azure%20SQL%20and%20PostgreSQL.md#task-5-connect-to-the-lab-vm) exercise.
+
+   - **Username**: demouser
+   - **Password**: Password.1!!
+
+2. In a web browser on your Lab VM, navigate to <https://www.oracle.com/database/technologies/xe-downloads.html>.
+
+3. On the Oracle Database XE Downloads page, select **Oracle Database 18c Express Edition for Windows x64** download link.
+
+   ![Accept the license agreement and Oracle Database 18c Express Edition for Windows x64 are highlighted under Oracle Database Express Edition 18c.](./media/18c-oracle-download.png "Oracle 18c download")
+
+4. Accept the license agreement, when prompted, and then select **Download OracleXE184_Win64.zip**. You might need to select the **Oracle License Agreement** link and scroll to the bottom of the agreement to enable the checkbox.
+
+   ![The license agreement checkbox is checked on the license agreement dialog.](media/download-oracle-xe.png "Download Oracle XE")
+
+5. Sign in with your Oracle account to complete the download. If you don't already have a free Oracle account, you will need to create one.
+
+   ![This is a screenshot of the Sign in screen.](./media/oracle-sign-in.png "Sign in to complete the download")
+
+6. After signing in, the file will download.
+
+7. Unzip the file, and navigate to the `DISK1` folder.
+
+8. Right-click `setup.exe`, and select **Run as administrator**.
+
+   ![In File Explorer, setup.exe is selected, and Run as administrator is highlighted in the shortcut menu.](./media/windows-file-menu-run-as-administrator.png "Run setup.exe as an administrator")
+
+9. Select **Next** to step through each screen of the installer, accepting the license agreement and default values, until you get to the **Specify Database Passwords** screen.
+
+10. On the **Oracle Database Information** screen, set the password to **Password.1!!**, and select **Next**.
+
+    ![The above credentials are entered on the Oracle Database Information screen.](./media/oracle-18c-specify-passwords.png "Set the password")
+
+11. Select **Install**. Once the installation completes, take note of the ports assigned.
+
+    ![Several of the ports being assigned are highlighted on the Summary screen.](./media/oracle-18c-install-summary.png "Note the ports being assigned")
+
+12. Select **Finish** on the final dialog to compete the installation.
+
+### Task 2: Install Oracle Data Access components
+
+1. On your Lab VM, navigate to <http://www.oracle.com/technetwork/database/windows/downloads/index-090165.html>.
+
+2. On the 64-bit Oracle Data Access Components (ODAC) Downloads page, scroll down and locate the **64-bit ODAC 12.2c Release 1 (12.2.0.1.1) for Windows x64** section, and then select the **ODAC122011_x64.zip** link.
+
+   ![Accept the license agreement and ODAC122010_x64.zip are highlighted on the 64-bit Oracle Data Access Components (ODAC) Downloads screen.](./media/oracle-odac-download.png "64-bit Oracle Data Access Components (ODAC) Downloads screen")
+
+3. Accept the license agreement, and then select **Download ODAC122011_x64.zip**.
+
+   ![The Oracle license agreement dialog is displayed for downloading the Oracle Data Access Components.](media/oracle-odac-license-dialog.png "Download ODAC")
+
+4. When the download completes, extract the contents of the ZIP file to a local drive.
+
+5. Navigate to the folder containing the extracted ZIP file, and right-click `setup.exe`, then select **Run as administrator** to begin the installation.
+
+6. Select **Next** to accept the default language, English, on the first screen.
+
+7. On the Specify Oracle Home User screen, accept the default, Use Windows Built-in Account, and select **Next**.
+
+8. Accept the default installation locations, and select **Next**.
+
+9. On the **Available Product Components**, uncheck **Oracle Data Access Components Documentation for Visual Studio**, and select **Next**.
+
+   ![Oracle Data Access Components Documentation for Visual Studio is cleared on the Available Product Components screen, and Next is selected at the bottom.](./media/oracle-odac-install-product-components.png "Clear Oracle Data Access Components Documentation for Visual Studio")
+
+10. On the ODP.NET screen, check the box for **Configure ODP.NET and/or Oracle Providers for ASP.NET at machine-wide level**, and select **Next**.
+
+    ![Configure ODP.NET and/or Oracle Providers for ASP.NET at machine-wide level is selected on the ODP.NET screen, and Next is selected at the bottom.](./media/oracle-odac-install-odp-net.png "Select Configure ODP.NET and/or Oracle Providers for ASP.NET at machine-wide level")
+
+11. If the Next button is disabled on the Perform Prerequisite Checks screen, check the **Ignore All** box, and then select **Next**. This screen will be skipped by the installer if no missing prerequisites are found.
+
+    ![The Ignore All box is cleared on highlighted on the Perform Prerequisite Checks screen, and Next is selected at the bottom.](./media/oracle-odac-install-prerequisite-checks.png "Perform Prerequisite Checks")
+
+12. On the Summary screen, select **Install**.
+
+13. On the Finish screen, select **Close**.
+
+### Task 3: Install SQL Server Migration Assistant for Oracle
+
+1. On your Lab VM, download SQL Server Migration Assistant v8.x for Oracle from <https://www.microsoft.com/en-us/download/details.aspx?id=54258>.
+
+2. Select the Download button to download SSMA.
+
+   ![Download is selected and highlighted under Microsoft SQL Server Migration Assistant v8.x for Oracle.](media/ssma-download.png "Download SSMA")
+
+   >**Note**: Download the latest version.
+
+3. Check the box next to **SSMAforOracle_8.x.0.msi**, and select **Next** to begin the download.
+
+   ![SSMAforOracle_8.x.0.msi is selected and highlighted under Choose the download you want.](media/ssma-download-files.png)
+
+4. Run the downloaded installer, and select **Next** on the Welcome screen.
+
+   ![Next is selected on the SSMA for Oracle Welcome screen.](./media/ssma-installer-welcome.png " SSMA for Oracle Welcome screen")
+
+5. Accept the License Agreement, and select **Next**.
+
+6. On the Choose Setup Type screen, select **Typical**, which will move you to the next screen.
+
+   ![Typical is selected and highlighted on the Choose Setup Type screen.](./media/ssma-install-setup-type.png "Select Typical")
+
+7. Select **Install** on the Ready to Install screen.
+
+   ![Install is selected on the Ready to Install screen.](./media/ssma-install-ready-to-install.png "Select Install")
+
+8. Select **Finish** when the installation is complete.
+
+### Task 4: Install SQL Developer Tool
+
+In this task, you will install Oracle SQL Developer, a common IDE to interact with Oracle databases.
+
+1. On your Lab VM, open a web browser and navigate to <https://www.oracle.com/tools/downloads/sqldev-downloads.html>.
+
+2. Scroll down on the page and download **Windows 64-bit with JDK 8 included**.
+
+   ![The Download button is highlighted for the Oracle SQL Developer download.](./media/sqldeveloper-download.png "SQL Developer with JDK 8 selection")
+
+3. Accept the license terms. Extract the files to `C:\Tools`.
+
+4. Navigate to `C:\Tools\sqldeveloper`. Select and run the executable file. Ensure that SQL Developer loads.
+
+   ![Launch SQL Developer from the extracted file path.](./media/sqldeveloper-executable.png "Launching SQL Developer executable")
+
+   >**Note**: If you are prompted to import preferences from a previous installation, select **No**.
+
+### Task 5: Create the Northwind database in Oracle 18c XE
+
+WWI has provided you with a copy of their application, including a database script to create their Oracle database. They have asked that you use this as a starting point for migrating their database and application to Azure SQL DB. In this task, you will create a connection to the Oracle database on your Lab VM.
+
+1. In a web browser on LabVM, download a copy of the [Migrating Oracle to  Azure SQL and PostgreSQL upgrade and migration MCW repo](https://github.com/microsoft/MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL/archive/master.zip).
+
+2. Unzip the contents to **C:\handsonlab**.
+
+3. Launch SQL Developer from the `C:\Tools\sqldeveloper` path from earlier. In the **Database Connection** window, select **Create a Connection Manually**.
+
+   ![Manual connection creation in Oracle SQL Developer.](./media/create-connection-sql-developer.png "SQL Developer add connection manually")
+
+4. Provide the following parameters to the **New / Select Database Connection** window. Select **Connect** when you are complete.
+
+   - **Name**: Northwind
+   - **Username**: system
+   - **Password**: Password.1!!
+   - Keep the **Details** at their defaults
+
+   ![Northwind connection in SQL Developer.](./media/new-oracle-connection-sqldeveloper.png "Northwind connection")
+
+5. Once the connection completes, select the **Open File** icon (1). Navigate to `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL-master\Hands-on lab\lab-files\starter-project\Oracle Scripts\1.northwind.oracle.schema`. Then, execute the DDL statements (2).
+
+   ![Execute schema creation script in SQL Developer.](./media/execute-first-northwind-sql-script.png "Schema creation script")
+
+6. Right-click the **Northwind** connection and select **Properties**. Then, edit the **Username** to `NW`, and the **Password** to `oracledemo123`. Select **Connect**. Note that you may be asked to enter the password again.
+
+7. In the Open File dialog, navigate to `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL-master\Hands-on lab\lab-files\starter-project\Oracle Scripts`, select the file `2.northwind.oracle.tables.views.sql`, and then select **Open**.
+
+8. As you did previously, run the script. Note that SQL Developer provides an output pane to view any errors.
+
+   ![Script output of the second Northwind database script.](./media/northwind-script-2-output.png "SQL Developer output pane")
+
+9. Repeat steps 7 - 8, replacing the file name in step 26 with each of the following:
+
+    - `3.northwind.oracle.packages.sql`
+
+    - `4.northwind.oracle.sps.sql`
+
+      - During the Execute script step for this file, you will need to execute each CREATE OR REPLACE statement independently.
+
+      - Using your mouse, select the first statement, starting with CREATE and going to END. Then, run the selection, as highligted in the image.
+
+      ![The first statement between CREATE and END is highlighted, along with the selection execution button.](./media/sqldeveloper-execute-first-query.png "Select and execute the first statement")
+
+      - Repeat this for each of the remaining CREATE OR REPLACE... END; blocks in the script file (there are 7 more to execute, for 8 total).
+
+    - `5.northwind.oracle.seed.sql`
+
+      > **Important**: This query can take several minutes to run, so make sure you wait until you see the **Commit complete** message in the output window before executing the next file.
+
+    - `6.northwind.oracle.constraints.sql`
+
+### Task 6: Configure the Starter Application to use Oracle
+
+In this task, you will add the necessary configuration to the `NorthwindMVC` solution to connect to the Oracle database you created in the previous task.
+
+1. In Visual Studio on your LabVM, select **Build** from the menu, then select **Build Solution**.
+
+   ![Build Solution is highlighted in the Build menu in Visual Studio.](./media/visual-studio-menu-build-build-solution.png "Select Build Solution")
+
+2. Open the `appsettings.json` file in the `NorthwindMVC` project by double-clicking the file in the Solution Explorer, on the right-hand side in Visual Studio.
+
+3. In the `appsettings.json` file, locate the `ConnectionStrings` section, and verify the connection string named **OracleConnectionString** matches the values you have used in this hands-on lab:
+
+   ```xml
+   DATA SOURCE=localhost:1521/XE;PASSWORD=oracledemo123;USER ID=NW
+   ```
+
+   ```json
+   "ConnectionStrings": {
+      "OracleConnectionString": "DATA SOURCE=localhost:1521/XE;PASSWORD=oracledemo123;USER ID=NW"
+   }
+   ```
+
+4. Run the solution by selecting the green **Start** button on the Visual Studio toolbar.
+
+   ![Start is selected on the toolbar.](./media/visual-studio-toolbar-start.png "Run the solution")
+
+5. You should see the Northwind Traders Dashboard load in your browser.
+
+   ![The Northwind Traders Dashboard is visible in a browser.](./media/northwind-traders-dashboard.png "View the dashboard")
+
+6. Close the browser to stop debugging the application, and return to Visual Studio.
+
+## Exercise 2: Migrate the Oracle database to Azure SQL Database
+
+Duration: 30 minutes
+
+In this exercise, you will migrate the Oracle database to Azure SQL DB using SSMA.
+
+### Task 1: Prepare to load SSMA
+
+1. You may need to download the latest version of .NET Framework to load the SQL Server Migration Assistance for Oracle tool. Select [this](https://dotnet.microsoft.com/download/dotnet-framework/net48) link to install .NET Framework 4.8.
+
+   >**Note**: If you are prompted to relaunch **RdAgent**, select **No**. This will require you to restart the VM after the .NET Framework installation.
+
+   ![.NET Framework 4.8 install dialog in LabVM.](./media/net-framework-install.png ".NET Framework 4.8 installation dialog")
+
+2. Navigate to `C:\Windows\Microsoft.NET\Framework64\v4.0.30319\Config` in File Explorer. Right-click `machine.config` and select **Open with > Notepad**.
+
+3. Once the `machine.config` file opens in Notepad, remove the reference to `oracle.manageddataaccess.client` below the `configSections` node.
+
+4. Below `DbProviderFactories`, remove the reference to the managed Oracle connector.
+
+   ![Remove reference to the Managed Oracle provider in the system-wide machine.config file.](./media/dbproviderfactory-odpnet-reference.png "Removing reference to Managed Oracle provider")
+
+5. Lastly, remove the reference to the `oracle.manageddataaccess.client` node in the `configuration` root node.
+
+   ![Remove Oracle managed client configuration details from machine.config.](./media/remove-manageddata-reference.png "Remove managed client configuration")
+
+6. Save the file. Close notepad.
+
+### Task 2: Migrate the Oracle database to Azure SQL Database using SSMA
+
+1. On your LabVM, launch **Microsoft SQL Server Migration Assistant for Oracle** from the Start Menu.
+
+2. Select **File**, then **New Project...**
+
+   ![File and New Project are highlighted in the SQL Server Migration Assistant for Oracle.](./media/ssma-menu-file-new-project.png "Select New Project")
+
+3. In the New Project dialog, accept the default name and location, select **Azure SQL Database** for the Migrate To value, and select **OK**.
+
+   ![In the New Project dialog box, Azure SQL DB is selected and highlighted in the Migration To box.](./media/ssma-new-project.png "New Project dialog box")
+
+4. Select **Connect to Oracle** in the SSMA toolbar.
+
+   ![Connect to Oracle is highlighted on the SSMA toolbar.](./media/ssma-toolbar-connect-to-oracle.png "Select Connect to Oracle")
+
+5. In the Connect to Oracle dialog, enter the following:
+
+   - **Provider**: Leave set to the default value, Oracle Data Provider for .NET.
+   - **Mode**: Leave set to Standard mode.
+   - **Server name**: localhost
+   - **Server port**: Set to 1521.
+   - **Oracle SID**: XE
+   - **Username**: NW
+   - **Password**: oracledemo123
+
+   ![The information above is entered in the Connect to Oracle dialog box, and Connect is selected at the bottom.](./media/ssma-connect-to-oracle.png "Specify the settings")
+
+   >**Note**: You can also connect to SSMA using a connection string through the **Mode** dropdown. Irrespective of how you connect to Oracle from SSMA, using the **Oracle Data Provider for .NET** is the best-practice technology.
+
+6. Select **Connect**.
+
+7. In the Filter objects dialog, uncheck **Load all user objects**. Then, select the **NW** schema. Note that the **Sys** and **System** schemas are automatically checked. 
+
+   ![The NW schema is highlighted and checked in the Filter objects dialog. The System schema is checked, and all others are unchecked.](media/ssms-filter-objects.png "SSMA Filter objects")
+
+   >**Note**: In production Oracle environments, you must ensure that you have sufficient permissions to run SSMA. See Microsoft's complete list [here.](https://docs.microsoft.com/sql/ssma/oracle/connecting-to-oracle-database-oracletosql)
+
+8. In the Output window, you will see a message that the connection was established successfully, similar to the following:
+
+   ![The successful connection message is highlighted in the Output window.](./media/ssma-connect-to-oracle-success.png "View the successful connection message")
+
+9. Under Oracle Metadata Explorer, expand the localhost node, Schemas, and confirm you can see the NW schema, which will be the source for the migration.
+
+   ![The NW schema is highlighted in Oracle Metadata Explorer.](./media/ssma-oracle-metadata-explorer-nw.png "Confirm the NW schema")
+
+10. Next, select **Connect to Azure SQL Database** from the toolbar, to add your Azure SQL DB connection.
+
+    ![Connect to Azure SQL Database is highlighted on the toolbar.](./media/connect-to-azure-sql-db.png "Connect to Azure SQL DB")
+
+11. In the Connect to Azure SQL Database dialog, provide the following:
+
+    - **Server name**: Enter the DNS name of your Azure SQL DB. It is going to be `northwind-server-[SUFFIX].database.windows.net`, where `[SUFFIX]` represents the parameter you provided to the ARM template.
+
+    - **Database**: Northwind
+    - **Authentication**: Set to **SQL Server Authentication**
+      - **Username**: `demouser`
+      - **Password**: Use the value you provided to the ARM template
+    - **Encrypt Connection**: Check this box.
+    - **Trust Server Certificate**: Check this box.
+
+    ![The information above is entered in the Connect to Azure SQL Database dialog box, and Connect is selected at the bottom.](./media/azure-sql-db-params.png "Specify the settings")
+
+12. Select **Connect**.
+
+13. You will see a success message in the output window.
+
+    ![The successful connection message is highlighted in the Output window.](./media/ssma-connect-to-sql-server-success.png "View the successful connection message")
+
+14. In the Azure SQL Database Metadata Explorer, expand the server node, then Databases. You should see Northwind listed.
+
+    ![Northwind is highlighted under Databases in Azure SQL Database Metadata Explorer.](./media/azure-sql-db-metadata-explorer.png "Verify the Northwind listing")
+
+15. In the Oracle Metadata Explorer, check the box next to NW, expand the NW database, and uncheck **Packages**. Next, select NW to make sure it is selected in the tree.
+
+    ![The NW schema is selected and highlighted in Oracle Metadata Explorer.](./media/ssma-oracle-metadata-explorer-nw-selected.png "Confirm the NW schema")
+
+16. In the Azure SQL Database Metadata explorer, check the box next to Northwind.
+
+    ![Northwind is selected and highlighted under Databases in Azure SQL DB Metadata Explorer.](./media/northwind-db-metadata-explorer.png "Select Northwind")
+
+17. In the SSMA toolbar, select **Convert Schema**. There is a bug in SSMA which prevents this button to being properly enabled, so if the button is disabled, you can select the NW node in the Oracle Metadata Explorer, which should cause the Convert Schema button to become enabled. You can also right-click on the NW database in the Oracle Metadata Explorer, and select Convert Schema if that does not work.
+
+    ![Convert Schema is highlighted on the SSMA toolbar.](./media/ssma-toolbar-convert-schema.png "Select Convert Schema")
+
+18. After about a minute the conversion should have completed.
+
+19. In the Azure SQL Database Metadata Explorer, observe that new schema objects have been added. For example, under Northwind, Schemas, NW, Tables you should see the tables from the Oracle database. Note that these objects have not been persisted to the Azure SQL Database instance yet.
+
+    ![NW is selected in the Azure SQL Database Metadata Explorer, and tables from the Oracle database are visible below that.](./media/azure-sql-metadata-explorer-nw-tables.png "Observe new schema objects")
+
+20. In the output pane, you will notice a message that the conversion finished with no errors and 17 warnings.
+
+    ![The conversion message is highlighted in the Output window.](./media/ssma-convert-schema-output.png "View the conversion message")
+
+21. **Optional**: Save the project. This can take a while, and is not necessary to complete the hands-on lab.
+
+22. To apply the resultant schema to the Northwind database in Azure SQL Database, use the Azure SQL Database Metadata Explorer to view the Northwind database. Right-click Northwind, and select **Synchronize with Database**.
+
+    ![Synchronize with Database is highlighted in the submenu of the Northwind database in Azure SQL Database Metadata Explorer.](./media/ssma-synchronize-with-database.png "Select Synchronize with Database")
+
+23. Select **OK** in the Synchronize with the Database dialog. Wait until you see **Synchronization operation is complete** in the output window.
+
+24. Now you need to migrate the data. In the Oracle Metadata Explorer, select **NW** and from the command bar, select **Migrate Data**.
+
+    ![Migrate Data is highlighted in the command bar of Oracle Metadata Explorer.](./media/ssma-toolbar-migrate-data.png "Select Migrate Data")
+
+25. You will be prompted to re-enter your Oracle credentials for use by the migration connection.
+
+    - Recall the Oracle credentials are:
+
+      - **Server name**: localhost
+      - **Server port**: 1521
+      - **Oracle SID**: XE
+      - **Username**: NW
+      - **Password**: oracledemo123
+
+    - The Azure SQL Database credentials are:
+
+      - **Server name**: Follows the format `northwind-server-[SUFFIX].database.windows.net`
+      - **Authentication**: SQL Server Authentication
+        - **Username**: `demouser`
+        - **Password**: Use the value you provided to the ARM template
+
+26. Select **Connect**.
+
+27. After the migration completes, you will be presented with a Data Migration Report, similar to the following:
+
+    ![This is screenshot of an example Data Migration Report.](./media/ssma-data-migration-report.png "View the Data Migration Report")
+
+28. Select **Close** on the migration report.
+
+29. Close SSMA for Oracle.
+
+## Exercise 3: Migrate the Application
+
+Duration: 15 minutes
+
+In this exercise, you will modify the `NorthwindMVC` application so it targets Azure SQL Database instead of Oracle.
+
+### Task 1: Create new Entity Models against Azure SQL Database and Scaffold Views
+
+1. On your Lab VM, return to Visual Studio, and open `appsettings.json` from the Solution Explorer.
+
+2. Add a connection string called `AzureSqlConnectionString`. Ensure that it correctly references the remote Azure SQL Database credentials.
+
+   - Replace the value of `Server` with your Azure SQL Database DNS name
+   - Verify the value of `Password` is set
+
+   ```json
+   "ConnectionStrings": {
+      "OracleConnectionString": "DATA SOURCE=localhost:1521/XE;PASSWORD=oracledemo123;USER ID=NW",
+      "AzureSqlConnectionString": "Server={Server},1433;Initial Catalog=Northwind;Persist Security Info=False;User ID=demouser;Password={Password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+   }
+   ```
+
+3. Save the `appsettings.json` file.
+
+    >**Note**: In production scenarios, it is not recommended to store connection strings in files that are checked into version control. Consider using Azure Key Vault references in production and [user secrets](https://docs.microsoft.com/aspnet/core/security/app-secrets) in development.
+
+4. Open the Package Manager console by selecting **Tools** (1), **NuGet Package Manager** (2), and **Package Manager Console** (3).
+
+    ![Opening the Package Manager console in Visual Studio.](./media/open-pmc.png "Opening the Package Manager Console")
+
+5. Enter the following command in the Package Manager console. The `-Force` flag eliminates the need to manually clear the `Data` directory.
+
+    ```powershell
+    Scaffold-DbContext Name=ConnectionStrings:AzureSqlConnectionString Microsoft.EntityFrameworkCore.SqlServer -OutputDir Data -Context DataContext -Schemas NW -Force
+    ```
+
+    >**Note**: This command will reverse-engineer more tables than are actually needed. The `-Tables` flag, referencing schema-qualified table names, provides a more accurate approach.
+
+6. Attempt to build the solution to identify errors.
+
+    ![Errors in the solution.](./media/solution-errors.png "Solution errors")
+
+7. Expand the **Views** folder. Delete the following folders, each of which contain five views:
+
+   - **Customers**
+   - **Employees**
+   - **Products**
+   - **Shippers**
+   - **Suppliers**
+
+8. Expand the **Controllers** folder. Delete all controllers, except **HomeController.cs**.
+
+9. Open **DataContext.cs**. Add the following line to the top of the file, below the other `using` directives.
+
+   ```csharp
+   using NorthwindMVC.Models;
+   ```
+
+   Add the following below the other property definitions.
+
+   ```csharp
+   public virtual DbSet<SalesByYear> SalesByYearDbSet { get; set; }
+   ```
+
+   Lastly, add the following statement to the `OnModelCreating()` method. 
+
+   ```csharp
+   modelBuilder.Entity<SalesByYear>(entity =>
+   {
+         entity.HasNoKey();
+   });
+   ```
+
+10. Build the solution. Ensure that no errors appear. We added `SalesByYearDbSet` to **DataContext** because **HomeController.cs** references it. We deleted the controllers and their associated views because we will scaffold them again from the models.
+
+11. Right-click the **Controllers** folder and select **Add** (1). Select **New Scaffolded Item...** (2).
+
+   ![Adding a new scaffolded item.](./media/add-scaffolded-item.png "New scaffolded item")
+
+12. Select **MVC Controller with views, using Entity Framework**. Then, select **Add**.
+
+   ![Add MVC Controller with Views, using Entity Framework.](./media/add-mvc-with-ef.png "MVC Controller with Views, using Entity Framework")
+
+13. In the **ADD MVC Controller with views, using Entity Framework** dialog box, provide the following details. Then, select **Add**. Visual Studio will build the project.
+
+    - **Model class**: Select `Customer`
+    - **Data context class**: Select `DataContext`
+    - Select all three checkboxes below **Views**
+    - **Controller name**: Keep it set to `CustomersController`
+
+   ![Scaffolding controllers and views from model classes.](./media/customer-scaffold-views.png "Scaffolding controllers and views")
+
+14. Repeat steps 11-13, according to the following details:
+
+    - **EmployeesController.cs**
+      - Based on the **Employee** model class
+    - **ProductsController.cs**
+      - Based on the **Product** model class
+    - **ShippersController.cs**
+      - Based on the **Shipper** model class
+    - **SuppliersController.cs**
+      - Based on the **Supplier** model class
+
+15. Navigate to **Startup.cs**. Ensure that SQL Server is configured as the correct provider and the appropriate connection string is referenced.
+
+   ```csharp
+   services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AzureSqlConnectionString")));
+   ```
+
+### Task 2: Ensure Application Compatibility with the Stored Procedure
+
+1. Open the file `HomeController.cs`, in the Controllers folder in the Solution Explorer.
+
+   ![The HomeController.cs file is selected and highlighted under the Controllers folder in Solution Explorer.](./media/visual-studio-solution-explorer-controllers-home-controller.png "Open HomeController.cs")
+
+2. Comment out the code under the Oracle comment. First, select the lines for the Oracle code, then select the Comment button in the toolbar.
+
+   ![The code under the Oracle comment is highlighted and labeled 1, and the Comment button in the toolbar is highlighted and labeled 2.](./media/visual-studio-home-controller-comment-out-oracle-lines.png "Comment out code")
+
+3. Next, add the following code below the commented Oracle stored procedure call. Notice how it excludes the cursor output parameter.
+
+   ```csharp
+   var salesByYear = await _context.SalesByYearDbSet.FromSqlRaw(
+      "exec [NW].[SALESBYYEAR] @p_begin_date, @p_end_date ",
+      new SqlParameter("p_begin_date", "1996-1-1"),
+      new SqlParameter("p_end_date", "1999-1-1")).ToListAsync();
+   ```
+
+4. Save the changes to `HomeController.cs`.
+
+5. Open the file, `SALESBYYEAR.cs`, in the Models folder in the Solution Explorer.
+
+    ![SALESBYYEAR.cs is highlighted under the Models folder in the Solution Explorer.](./media/visual-studio-models-salesbyyear.png "Open SALESBYYEAR.cs")
+
+6. Change the `YEAR` property from string to int.
+
+    ![The int property is highlighted.](./media/visual-studio-models-salesbyyear-updated.png "Change YEAR property")
+
+7. Save the file.
+
+8. Open the `SalesByYearViewModel.cs` file from the Models folder in the Solution Explorer.
+
+    ![SalesByYearViewModel.cs is highlighted under the Models folder in the Solution Explorer.](./media/visual-studio-models-salesbyyearviewmodel.png "Open SalesByYearViewModel.cs")
+
+9. Change the type of the `YEAR` property from string to int, then save the file.
+
+    ![The int property value is highlighted.](./media/visual-studio-models-salesbyyearviewmodel-updated.png "Change the YEAR property")
+
+10. Run the solution by selecting the green Start button on the toolbar.
+
+    ![Start is highlighted on the toolbar.](./media/visual-studio-toolbar-start.png "Select Start")
+
+11. You will get an exception that the stored procedure call has failed. This is because of an error in migrating the stored procedure.
+
+    ![An exception appears indicating that the stored procedure call has failed.](./media/visual-studio-exception-sqlexception.png "View the error")
+
+12. Select the red Stop button to end execution of the application.
+
+    ![The Stop button is highlighted on the toolbar.](./media/visual-studio-toolbar-stop.png "Select Stop")
+
+13. To resolve the error, open the `SALES_BY_YEAR_fix.sql` file, located under Solution Items in the Solution Explorer.
+
+14. From the Visual Studio menu, select **View**, and then **Server Explorer**.
+
+    ![View and Server Explorer are highlighted in the Visual Studio menu.](./media/visual-studio-menu-view-server-explorer.png "Select Server Explorer")
+
+15. In the Server Explorer, right-click on **Data Connections**, and select **Add Connections...**
+
+    ![Data Connections is selected in Server Explorer, and Add Connection is highlighted in the shortcut menu.](./media/visual-studio-server-explorer-data-connections.png "Select Add Connection")
+
+16. On the Choose Data Source dialog, select **Microsoft SQL Server**, and select **Continue**.
+
+    ![Microsoft SQL Server is selected and highlighted under Data source in the Choose Data Source dialog box.](./media/visual-studio-server-explorer-data-connections-add.png "Select Microsoft SQL Server")
+
+17. On the Add Connection dialog, enter the following:
+
+    - **Data source**: Leave Microsoft SQL Server (SqlClient).
+    - **Server name**: Enter the DNS name of the Azure SQL DB instance
+    - **Authentication**: Select SQL Server Authentication.
+    - **Username**: demouser
+    - **Password**: Provide the password you configured for `demouser`
+    - **Connect to a database**: Choose Select or enter database name, and enter Northwind.
+    - Select **Test Connection** to verify your settings are correct, and select **OK** to close the successful connection dialog.
+
+    ![The information above is entered in the Add Connection dialog box, and Test Connection is selected at the bottom.](./media/visual-studio-server-explorer-data-connections-add-connection.png "Specify the settings")
+
+18. Select **OK**.
+
+19. Right-click the newly added Azure SQL DB connection in the Server Explorer, and select **New Query**.
+
+    ![The newly added SQL Server connection is selected in Server Explorer, and New Query is highlighted in the shortcut menu.](./media/visual-studio-server-explorer-data-connections-new-query.png "Select New Query")
+
+20. Select and copy all of the text from the `SALES_BY_YEAR_fix.sql` file (click CTRL+A, CTRL+C in the `SALES_BY_YEAR_fix.sql` file).
+
+21. Paste (CTRL+V) the copied text into the new Query window.
+
+22. Verify `Use [Northwind]` is the first line of the file, and that it matches the database listed in the query bar, then select the green **Execute** button.
+
+    ![The Use [Northwind] statement is highlighted, as is the Northwind database and the Execute button in the query bar.](./media/visual-studio-sql-query-execute.png "Verify the Use [Northwind] statement")
+
+23. You should see a message that the command completed successfully.
+
+    ![This is a screenshot of a message that the command completed successfully.](./media/visual-studio-sql-query-completed-successfully.png "View the message")
+
+24. Run the application again by selecting the green Start button in the Visual Studio toolbar.
+
+    ![The Start button is highlighted on the Visual Studio toolbar.](./media/visual-studio-toolbar-start.png "Select Start")
+
+25. Verify the graph is showing correctly on the Northwind Traders dashboard.
+
+    ![The Northwind Traders Dashboard is visible in a browser.](./media/northwind-traders-dashboard.png "View the dashboard")
+
+26. Congratulations! You have successfully migrated the data and application from Oracle to SQL Server.
+
+## Exercise 4: Configure SQL Server instances (Optional Homogenous Migration)
 
 Duration: 45 minutes
 
@@ -239,80 +831,7 @@ In this task, you will update the SQL Server service accounts and other settings
 
 10. Close the SQL Server Configuration Manager.
 
-### Task 4: Connect to the SqlServer2017 VM
-
-In this task, you will create an RDP connection to the SqlServer2017 VM.
-
-1. In the [Azure portal](https://portal.azure.com), select **Resource groups** in the Azure services list, enter your resource group name (hands-on-lab-SUFFIX) into the filter box, and select it from the list.
-
-   ![Resource groups is selected in the Azure navigation pane, "hands" is entered into the filter box, and the "hands-on-lab-SUFFIX" resource group is highlighted.](./media/resource-groups.png "Resource groups list")
-
-2. In the list of resources for your resource group, select the SqlServer2017 VM.
-
-   ![The list of resources in the hands-on-lab-SUFFIX resource group are displayed, and SqlServer2017 is highlighted.](media/resource-group-resources-sqlserver2017.png "SqlServer2017 VM in resource group list")
-
-3. On the SqlServer2017 blade, select Connect from the top menu.
-
-   ![The SqlServer2017 blade is displayed, with the Connect button highlighted in the top menu.](media/connect-vm.png "Connect to SqlServer2017")
-
-4. Select **Download RDP file**, then open the downloaded RDP file.
-
-   ![The Connect to virtual machine blade is displayed, and the Download RDP file button is highlighted.](./media/connect-to-virtual-machine.png "Connect to virtual machine")
-
-5. Select **Connect** on the Remote Desktop Connection dialog.
-
-   ![In the Remote Desktop Connection Dialog Box, the Connect button is highlighted.](./media/remote-desktop-connection.png "Remote Desktop Connection dialog")
-
-6. Enter the following credentials when prompted:
-
-   - **Username**: demouser
-   - **Password**: Password.1!!
-
-7. Select **Yes** to connect, if prompted that the identity of the remote computer cannot be verified.
-
-   ![In the Remote Desktop Connection dialog box, a warning states that the identity of the remote computer cannot be verified, and asks if you want to continue anyway. At the bottom, the Yes button is circled.](./media/remote-desktop-connection-identity-verification-sqlserver2008r2.png "Remote Desktop Connection dialog")
-
-### Task 5: Update SQL Server settings using Configuration Manager 2017
-
-In this task, you will update the SQL Server 2017 service accounts and other settings associated with the SQL Server 2017 instance installed on the VM.
-
-1. From the Search Menu on your SqlServer2017 VM, search for **SQL Server 2017 Configuration Manager**, then select it from the search results.
-
-   ![SQL Server 2017 Configuration Manager is highlighted in the Search results.](./media/windows-search-sql-server-2017-configuration-manager.png "Select SQL Server 2017 Configuration Manager")
-
-2. From the tree on the left of the Configuration Manager window, select **SQL Server Services**.
-
-   ![SQL Server Services is highlighted on the left side of SQL Server 2017 Configuration Manager.](./media/sql-server-2017-configuration-manager-sql-server-services.png "Select SQL Server Services")
-
-3. In the list of services, double-click **SQL Server (MSSQLSERVER)** to open its properties dialog.
-
-   ![SQL Server (MSSQLSERVER) is highlighted in the list on the right side of SQL Server 2017 Configuration Manager.](media/sql-server-2017-configuration-manager-sql-server-mssqlserver.png "Select SQL Server (MSSQLSERVER)")
-
-4. In the SQL Server (MSSQLSERVER) Properties dialog, change the **Log On user** to use the demouser account, by entering **demouser** into the Account Name box, then entering the password, **Password.1!!**, into the Password and Confirm password boxes.
-
-   ![The above credentials are highlighted in the SQL Server (MSSQLSERVER) Properties dialog box.](media/sql-server-2017-configuration-manager-sql-server-mssqlserver-properties.png "Enter demouser credentials")
-
-5. Select **OK**.
-
-6. Select **Yes** to restart the service in the **Confirm Account Change** dialog.
-
-7. While still in the SQL Server 2017 Configuration Manager, expand **SQL Server Network Configuration**, select **Protocols for MSSQLSERVER**, and double-click **TCP/IP** to open the properties dialog.
-
-   ![Protocols for MSSQLSERVER is highlighted on the left side of SQL Server 2017 Configuration Manager, and TCP/IP is highlighted in the Protocol Name list on the right.](./media/sql-server-2017-configuration-manager-protocols-for-mssqlserver.png "Select TCP/IP")
-
-8. On the TCP/IP Properties dialog, verify **Enabled** is set to **Yes**, and select **OK**.
-
-   ![Enabled is selected on the Protocol tab of the TCP/IP Properties dialog box.](./media/sql-server-2017-configuration-manager-protocols-tcp-ip-properties.png "Enable TCP/IP")
-
-   > **Note**: If TCP/IP was not already enabled, you will be prompted that the changes will not take effect until the service is restarted, select **OK**. Restart the service by selecting **SQL Server Services** in the tree on the left, then right-clicking **SQL Server (MSSQLSERVER)** in the services pane, and selecting **Restart**.
-
-9. Select **SQL Server Services** in the tree on the left, right-click the **SQL Server Agent (MSSQLSERVER)** service, and then select **Start** from the menu.
-
-   ![SQL Server Services is highlighted on the left side of SQL Server 2017 Configuration Manager, SQL Server Agent (MSSQLSERVER) is highlighted on the right, and Start is highlighted in the submenu.](./media/sql-server-2017-configuration-manager-sql-server-services-sql-server-agent-restart.png "Select Start")
-
-10. Close the SQL Server 2017 Configuration Manager.
-
-## Exercise 2: Migrate SQL Server to Azure SQL Database using DMS
+## Exercise 5: Migrate SQL Server to Azure SQL Database using DMS (Optional Homogenous Migration)
 
 Duration: 60 minutes
 
@@ -572,7 +1091,7 @@ In this task, you will use SSMS to verify the database was successfully migrated
 
 5. Leave SSMS open with the connection to your Azure SQL Database for the next exercise.
 
-## Exercise 3: Post upgrade enhancement
+## Exercise 6: Post upgrade enhancement (Optional Homogenous Migration)
 
 Duration: 20 minutes
 
@@ -755,600 +1274,6 @@ In this task, you will create a new table based on the existing `FactResellerSal
     ![Various information is highlighted on the Messages tab of the Results pane.](./media/ssms-query-results-messages-statistics-io.png "Compare the information")
 
 15. You are now done with the SqlServer2008 VM. Log off of the VM to close the RDP session.
-
-## Exercise 4: Setup Oracle 18c Express Edition
-
-Duration: 45 minutes
-
-In this exercise, you will install Oracle XE on your Lab VM, load a sample database supporting an application, and then migrate the database to the Azure SQL DB instance.
-
-### Task 1: Install Oracle XE
-
-1. Connect to your Lab VM, as you did in Task 5 of the [Before the Hands-on Lab](./Before%20the%20HOL%20-%20Migrating%20Oracle%20to%20Azure%20SQL%20and%20PostgreSQL.md#task-5-connect-to-the-lab-vm) exercise.
-
-   - **Username**: demouser
-   - **Password**: Password.1!!
-
-2. In a web browser on your Lab VM, navigate to <https://www.oracle.com/database/technologies/xe-downloads.html>.
-
-3. On the Oracle Database XE Downloads page, select **Oracle Database 18c Express Edition for Windows x64** download link.
-
-   ![Accept the license agreement and Oracle Database 18c Express Edition for Windows x64 are highlighted under Oracle Database Express Edition 18c.](./media/18c-oracle-download.png "Oracle 18c download")
-
-4. Accept the license agreement, when prompted, and then select **Download OracleXE184_Win64.zip**. You might need to select the **Oracle License Agreement** link and scroll to the bottom of the agreement to enable the checkbox.
-
-   ![The license agreement checkbox is checked on the license agreement dialog.](media/download-oracle-xe.png "Download Oracle XE")
-
-5. Sign in with your Oracle account to complete the download. If you don't already have a free Oracle account, you will need to create one.
-
-   ![This is a screenshot of the Sign in screen.](./media/oracle-sign-in.png "Sign in to complete the download")
-
-6. After signing in, the file will download.
-
-7. Unzip the file, and navigate to the `DISK1` folder.
-
-8. Right-click `setup.exe`, and select **Run as administrator**.
-
-   ![In File Explorer, setup.exe is selected, and Run as administrator is highlighted in the shortcut menu.](./media/windows-file-menu-run-as-administrator.png "Run setup.exe as an administrator")
-
-9. Select **Next** to step through each screen of the installer, accepting the license agreement and default values, until you get to the **Specify Database Passwords** screen.
-
-10. On the **Oracle Database Information** screen, set the password to **Password.1!!**, and select **Next**.
-
-    ![The above credentials are entered on the Oracle Database Information screen.](./media/oracle-18c-specify-passwords.png "Set the password")
-
-11. Select **Install**. Once the installation completes, take note of the ports assigned.
-
-    ![Several of the ports being assigned are highlighted on the Summary screen.](./media/oracle-18c-install-summary.png "Note the ports being assigned")
-
-12. Select **Finish** on the final dialog to compete the installation.
-
-### Task 2: Install Oracle Data Access components
-
-1. On your Lab VM, navigate to <http://www.oracle.com/technetwork/database/windows/downloads/index-090165.html>.
-
-2. On the 64-bit Oracle Data Access Components (ODAC) Downloads page, scroll down and locate the **64-bit ODAC 12.2c Release 1 (12.2.0.1.1) for Windows x64** section, and then select the **ODAC122011_x64.zip** link.
-
-   ![Accept the license agreement and ODAC122010_x64.zip are highlighted on the 64-bit Oracle Data Access Components (ODAC) Downloads screen.](./media/oracle-odac-download.png "64-bit Oracle Data Access Components (ODAC) Downloads screen")
-
-3. Accept the license agreement, and then select **Download ODAC122011_x64.zip**.
-
-   ![The Oracle license agreement dialog is displayed for downloading the Oracle Data Access Components.](media/oracle-odac-license-dialog.png "Download ODAC")
-
-4. When the download completes, extract the contents of the ZIP file to a local drive.
-
-5. Navigate to the folder containing the extracted ZIP file, and right-click `setup.exe`, then select **Run as administrator** to begin the installation.
-
-6. Select **Next** to accept the default language, English, on the first screen.
-
-7. On the Specify Oracle Home User screen, accept the default, Use Windows Built-in Account, and select **Next**.
-
-8. Accept the default installation locations, and select **Next**.
-
-9. On the **Available Product Components**, uncheck **Oracle Data Access Components Documentation for Visual Studio**, and select **Next**.
-
-   ![Oracle Data Access Components Documentation for Visual Studio is cleared on the Available Product Components screen, and Next is selected at the bottom.](./media/oracle-odac-install-product-components.png "Clear Oracle Data Access Components Documentation for Visual Studio")
-
-10. On the ODP.NET screen, check the box for **Configure ODP.NET and/or Oracle Providers for ASP.NET at machine-wide level**, and select **Next**.
-
-    ![Configure ODP.NET and/or Oracle Providers for ASP.NET at machine-wide level is selected on the ODP.NET screen, and Next is selected at the bottom.](./media/oracle-odac-install-odp-net.png "Select Configure ODP.NET and/or Oracle Providers for ASP.NET at machine-wide level")
-
-11. If the Next button is disabled on the Perform Prerequisite Checks screen, check the **Ignore All** box, and then select **Next**. This screen will be skipped by the installer if no missing prerequisites are found.
-
-    ![The Ignore All box is cleared on highlighted on the Perform Prerequisite Checks screen, and Next is selected at the bottom.](./media/oracle-odac-install-prerequisite-checks.png "Perform Prerequisite Checks")
-
-12. On the Summary screen, select **Install**.
-
-13. On the Finish screen, select **Close**.
-
-### Task 3: Install SQL Server Migration Assistant for Oracle
-
-1. On your Lab VM, download SQL Server Migration Assistant v8.x for Oracle from <https://www.microsoft.com/en-us/download/details.aspx?id=54258>.
-
-2. Select the Download button to download SSMA.
-
-   ![Download is selected and highlighted under Microsoft SQL Server Migration Assistant v8.x for Oracle.](media/ssma-download.png "Download SSMA")
-
-   >**Note**: Download the latest version.
-
-3. Check the box next to **SSMAforOracle_8.x.0.msi**, and select **Next** to begin the download.
-
-   ![SSMAforOracle_8.x.0.msi is selected and highlighted under Choose the download you want.](media/ssma-download-files.png)
-
-4. Run the downloaded installer, and select **Next** on the Welcome screen.
-
-   ![Next is selected on the SSMA for Oracle Welcome screen.](./media/ssma-installer-welcome.png " SSMA for Oracle Welcome screen")
-
-5. Accept the License Agreement, and select **Next**.
-
-6. On the Choose Setup Type screen, select **Typical**, which will move you to the next screen.
-
-   ![Typical is selected and highlighted on the Choose Setup Type screen.](./media/ssma-install-setup-type.png "Select Typical")
-
-7. Select **Install** on the Ready to Install screen.
-
-   ![Install is selected on the Ready to Install screen.](./media/ssma-install-ready-to-install.png "Select Install")
-
-8. Select **Finish** when the installation is complete.
-
-### Task 4: Install SQL Developer Tool
-
-In this task, you will install Oracle SQL Developer, a common IDE to interact with Oracle databases.
-
-1. On your Lab VM, open a web browser and navigate to <https://www.oracle.com/tools/downloads/sqldev-downloads.html>.
-
-2. Scroll down on the page and download **Windows 64-bit with JDK 8 included**.
-
-   ![The Download button is highlighted for the Oracle SQL Developer download.](./media/sqldeveloper-download.png "SQL Developer with JDK 8 selection")
-
-3. Accept the license terms. Extract the files to `C:\Tools`.
-
-4. Navigate to `C:\Tools\sqldeveloper`. Select and run the executable file. Ensure that SQL Developer loads.
-
-   ![Launch SQL Developer from the extracted file path.](./media/sqldeveloper-executable.png "Launching SQL Developer executable")
-
-   >**Note**: If you are prompted to import preferences from a previous installation, select **No**.
-
-### Task 5: Create the Northwind database in Oracle 18c XE
-
-WWI has provided you with a copy of their application, including a database script to create their Oracle database. They have asked that you use this as a starting point for migrating their database and application to Azure SQL DB. In this task, you will create a connection to the Oracle database on your Lab VM.
-
-1. In a web browser on LabVM, download a copy of the [Migrating Oracle to  Azure SQL and PostgreSQL upgrade and migration MCW repo](https://github.com/microsoft/MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL/archive/master.zip).
-
-2. Unzip the contents to **C:\handsonlab**.
-
-3. Launch SQL Developer from the `C:\Tools\sqldeveloper` path from earlier. In the **Database Connection** window, select **Create a Connection Manually**.
-
-   ![Manual connection creation in Oracle SQL Developer.](./media/create-connection-sql-developer.png "SQL Developer add connection manually")
-
-4. Provide the following parameters to the **New / Select Database Connection** window. Select **Connect** when you are complete.
-
-   - **Name**: Northwind
-   - **Username**: system
-   - **Password**: Password.1!!
-   - Keep the **Details** at their defaults
-
-   ![Northwind connection in SQL Developer.](./media/new-oracle-connection-sqldeveloper.png "Northwind connection")
-
-5. Once the connection completes, select the **Open File** icon (1). Navigate to `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL-master\Hands-on lab\lab-files\starter-project\Oracle Scripts\1.northwind.oracle.schema`. Then, execute the DDL statements (2).
-
-   ![Execute schema creation script in SQL Developer.](./media/execute-first-northwind-sql-script.png "Schema creation script")
-
-6. Right-click the **Northwind** connection and select **Properties**. Then, edit the **Username** to `NW`, and the **Password** to `oracledemo123`. Select **Connect**. Note that you may be asked to enter the password again.
-
-7. In the Open File dialog, navigate to `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL-master\Hands-on lab\lab-files\starter-project\Oracle Scripts`, select the file `2.northwind.oracle.tables.views.sql`, and then select **Open**.
-
-8. As you did previously, run the script. Note that SQL Developer provides an output pane to view any errors.
-
-   ![Script output of the second Northwind database script.](./media/northwind-script-2-output.png "SQL Developer output pane")
-
-9. Repeat steps 7 - 8, replacing the file name in step 26 with each of the following:
-
-    - `3.northwind.oracle.packages.sql`
-
-    - `4.northwind.oracle.sps.sql`
-
-      - During the Execute script step for this file, you will need to execute each CREATE OR REPLACE statement independently.
-
-      - Using your mouse, select the first statement, starting with CREATE and going to END. Then, run the selection, as highligted in the image.
-
-      ![The first statement between CREATE and END is highlighted, along with the selection execution button.](./media/sqldeveloper-execute-first-query.png "Select and execute the first statement")
-
-      - Repeat this for each of the remaining CREATE OR REPLACE... END; blocks in the script file (there are 7 more to execute, for 8 total).
-
-    - `5.northwind.oracle.seed.sql`
-
-      > **Important**: This query can take several minutes to run, so make sure you wait until you see the **Commit complete** message in the output window before executing the next file.
-
-    - `6.northwind.oracle.constraints.sql`
-
-### Task 6: Configure the Starter Application to use Oracle
-
-In this task, you will add the necessary configuration to the `NorthwindMVC` solution to connect to the Oracle database you created in the previous task.
-
-1. In Visual Studio on your LabVM, select **Build** from the menu, then select **Build Solution**.
-
-   ![Build Solution is highlighted in the Build menu in Visual Studio.](./media/visual-studio-menu-build-build-solution.png "Select Build Solution")
-
-2. Open the `Web.config` file in the `NorthwindMVC` project by double-clicking the file in the Solution Explorer, on the right-hand side in Visual Studio.
-
-   ![Web.config is selected under the NorthwindMVC project within the Solution 'NorthwindMVC' in Solution Explorer.](./media/visual-studio-solution-explorer-northwindmvc-web-config.png "Open Web.config")
-
-3. In the `Web.config` file, locate the `connectionStrings` section, and verify the connection string named **OracleConnectionString** matches the values you have used in this hands-on lab:
-
-   ```xml
-   DATA SOURCE=localhost:1521/XE;PASSWORD=oracledemo123;USER ID=NW
-   ```
-
-   ![The information above is highlighted in the Web.config file.](./media/visual-studio-web-config-connection-strings.png "Verify the connection string")
-
-4. Run the solution by selecting the green **Start** button on the Visual Studio toolbar.
-
-   ![Start is selected on the toolbar.](./media/visual-studio-toolbar-start.png "Run the solution")
-
-5. You should see the Northwind Traders Dashboard load in your browser.
-
-   ![The Northwind Traders Dashboard is visible in a browser.](./media/northwind-traders-dashboard.png "View the dashboard")
-
-   > **Note**: If you receive an error about being unable to find part of the path for `bin\roslyn\csc.exe`, stop the debugging session by selecting the Stop button on the toolbar. Next, select Tools -> NuGet Package Manager -> Package Manager Console, and at the prompt execute the following command: `Update-Package Microsoft.CodeDom.Providers.DotNetCompilerPlatform -r`. Once the command finishes, run the solution again.
-
-6. Close the browser to stop debugging the application, and return to Visual Studio.
-
-## Exercise 5: Migrate the Oracle database to Azure SQL Database
-
-Duration: 30 minutes
-
-In this exercise, you will migrate the Oracle database to Azure SQL DB using SSMA.
-
-### Task 1: Prepare to load SSMA
-
-1. You may need to download the latest version of .NET Framework to load the SQL Server Migration Assistance for Oracle tool. Select [this](https://dotnet.microsoft.com/download/dotnet-framework/net48) link to install .NET Framework 4.8.
-
-   >**Note**: If you are prompted to relaunch **RdAgent**, select **No**. This will require you to restart the VM after the .NET Framework installation.
-
-   ![.NET Framework 4.8 install dialog in LabVM.](./media/net-framework-install.png ".NET Framework 4.8 installation dialog")
-
-2. Navigate to `C:\Windows\Microsoft.NET\Framework64\v4.0.30319\Config` in File Explorer. Right-click `machine.config` and select **Open with > Notepad**.
-
-3. Once the `machine.config` file opens in Notepad, remove the reference to `oracle.manageddataaccess.client` below the `configSections` node.
-
-4. Below `DbProviderFactories`, remove the reference to the managed Oracle connector.
-
-   ![Remove reference to the Managed Oracle provider in the system-wide machine.config file.](./media/dbproviderfactory-odpnet-reference.png "Removing reference to Managed Oracle provider")
-
-5. Lastly, remove the reference to the `oracle.manageddataaccess.client` node in the `configuration` root node.
-
-   ![Remove Oracle managed client configuration details from machine.config.](./media/remove-manageddata-reference.png "Remove managed client configuration")
-
-6. Save the file. Close notepad.
-
-### Task 2: Migrate the Oracle database to Azure SQL Database using SSMA
-
-1. On your LabVM, launch **Microsoft SQL Server Migration Assistant for Oracle** from the Start Menu.
-
-2. Select **File**, then **New Project...**
-
-   ![File and New Project are highlighted in the SQL Server Migration Assistant for Oracle.](./media/ssma-menu-file-new-project.png "Select New Project")
-
-3. In the New Project dialog, accept the default name and location, select **Azure SQL Database** for the Migrate To value, and select **OK**.
-
-   ![In the New Project dialog box, Azure SQL DB is selected and highlighted in the Migration To box.](./media/ssma-new-project.png "New Project dialog box")
-
-4. Select **Connect to Oracle** in the SSMA toolbar.
-
-   ![Connect to Oracle is highlighted on the SSMA toolbar.](./media/ssma-toolbar-connect-to-oracle.png "Select Connect to Oracle")
-
-5. In the Connect to Oracle dialog, enter the following:
-
-   - **Provider**: Leave set to the default value, Oracle Data Provider for .NET.
-   - **Mode**: Leave set to Standard mode.
-   - **Server name**: localhost
-   - **Server port**: Set to 1521.
-   - **Oracle SID**: XE
-   - **Username**: NW
-   - **Password**: oracledemo123
-
-   ![The information above is entered in the Connect to Oracle dialog box, and Connect is selected at the bottom.](./media/ssma-connect-to-oracle.png "Specify the settings")
-
-   >**Note**: You can also connect to SSMA using a connection string through the **Mode** dropdown. Irrespective of how you connect to Oracle from SSMA, using the **Oracle Data Provider for .NET** is the best-practice technology.
-
-6. Select **Connect**.
-
-7. In the Filter objects dialog, uncheck **Load all user objects**. Then, select the **NW** schema. Note that the **Sys** and **System** schemas are automatically checked. 
-
-   ![The NW schema is highlighted and checked in the Filter objects dialog. The System schema is checked, and all others are unchecked.](media/ssms-filter-objects.png "SSMA Filter objects")
-
-   >**Note**: In production Oracle environments, you must ensure that you have sufficient permissions to run SSMA. See Microsoft's complete list [here.](https://docs.microsoft.com/sql/ssma/oracle/connecting-to-oracle-database-oracletosql)
-
-8. In the Output window, you will see a message that the connection was established successfully, similar to the following:
-
-   ![The successful connection message is highlighted in the Output window.](./media/ssma-connect-to-oracle-success.png "View the successful connection message")
-
-9. Under Oracle Metadata Explorer, expand the localhost node, Schemas, and confirm you can see the NW schema, which will be the source for the migration.
-
-   ![The NW schema is highlighted in Oracle Metadata Explorer.](./media/ssma-oracle-metadata-explorer-nw.png "Confirm the NW schema")
-
-10. Next, select **Connect to Azure SQL Database** from the toolbar, to add your Azure SQL DB connection.
-
-    ![Connect to Azure SQL Database is highlighted on the toolbar.](./media/connect-to-azure-sql-db.png "Connect to Azure SQL DB")
-
-11. In the Connect to Azure SQL Database dialog, provide the following:
-
-    - **Server name**: Enter the DNS name of your Azure SQL DB. It is going to be `northwind-server-[SUFFIX].database.windows.net`, where `[SUFFIX]` represents the parameter you provided to the ARM template.
-
-    - **Database**: Northwind
-    - **Authentication**: Set to **SQL Server Authentication**
-      - **Username**: `demouser`
-      - **Password**: Use the value you provided to the ARM template
-    - **Encrypt Connection**: Check this box.
-    - **Trust Server Certificate**: Check this box.
-
-    ![The information above is entered in the Connect to Azure SQL Database dialog box, and Connect is selected at the bottom.](./media/azure-sql-db-params.png "Specify the settings")
-
-12. Select **Connect**.
-
-13. You will see a success message in the output window.
-
-    ![The successful connection message is highlighted in the Output window.](./media/ssma-connect-to-sql-server-success.png "View the successful connection message")
-
-14. In the Azure SQL Database Metadata Explorer, expand the server node, then Databases. You should see Northwind listed.
-
-    ![Northwind is highlighted under Databases in Azure SQL Database Metadata Explorer.](./media/azure-sql-db-metadata-explorer.png "Verify the Northwind listing")
-
-15. In the Oracle Metadata Explorer, check the box next to NW, expand the NW database, and uncheck **Packages**. Next, select NW to make sure it is selected in the tree.
-
-    ![The NW schema is selected and highlighted in Oracle Metadata Explorer.](./media/ssma-oracle-metadata-explorer-nw-selected.png "Confirm the NW schema")
-
-16. In the Azure SQL Database Metadata explorer, check the box next to Northwind.
-
-    ![Northwind is selected and highlighted under Databases in Azure SQL DB Metadata Explorer.](./media/northwind-db-metadata-explorer.png "Select Northwind")
-
-17. In the SSMA toolbar, select **Convert Schema**. There is a bug in SSMA which prevents this button to being properly enabled, so if the button is disabled, you can select the NW node in the Oracle Metadata Explorer, which should cause the Convert Schema button to become enabled. You can also right-click on the NW database in the Oracle Metadata Explorer, and select Convert Schema if that does not work.
-
-    ![Convert Schema is highlighted on the SSMA toolbar.](./media/ssma-toolbar-convert-schema.png "Select Convert Schema")
-
-18. After about a minute the conversion should have completed.
-
-19. In the Azure SQL Database Metadata Explorer, observe that new schema objects have been added. For example, under Northwind, Schemas, NW, Tables you should see the tables from the Oracle database. Note that these objects have not been persisted to the Azure SQL Database instance yet.
-
-    ![NW is selected in the Azure SQL Database Metadata Explorer, and tables from the Oracle database are visible below that.](./media/azure-sql-metadata-explorer-nw-tables.png "Observe new schema objects")
-
-20. In the output pane, you will notice a message that the conversion finished with no errors and 17 warnings.
-
-    ![The conversion message is highlighted in the Output window.](./media/ssma-convert-schema-output.png "View the conversion message")
-
-21. **Optional**: Save the project. This can take a while, and is not necessary to complete the hands-on lab.
-
-22. To apply the resultant schema to the Northwind database in Azure SQL Database, use the Azure SQL Database Metadata Explorer to view the Northwind database. Right-click Northwind, and select **Synchronize with Database**.
-
-    ![Synchronize with Database is highlighted in the submenu of the Northwind database in Azure SQL Database Metadata Explorer.](./media/ssma-synchronize-with-database.png "Select Synchronize with Database")
-
-23. Select **OK** in the Synchronize with the Database dialog. Wait until you see **Synchronization operation is complete** in the output window.
-
-24. Now you need to migrate the data. In the Oracle Metadata Explorer, select **NW** and from the command bar, select **Migrate Data**.
-
-    ![Migrate Data is highlighted in the command bar of Oracle Metadata Explorer.](./media/ssma-toolbar-migrate-data.png "Select Migrate Data")
-
-25. You will be prompted to re-enter your Oracle credentials for use by the migration connection.
-
-    - Recall the Oracle credentials are:
-
-      - **Server name**: localhost
-      - **Server port**: 1521
-      - **Oracle SID**: XE
-      - **Username**: NW
-      - **Password**: oracledemo123
-
-    - The Azure SQL Database credentials are:
-
-      - **Server name**: Follows the format `northwind-server-[SUFFIX].database.windows.net`
-      - **Authentication**: SQL Server Authentication
-        - **Username**: `demouser`
-        - **Password**: Use the value you provided to the ARM template
-
-26. Select **Connect**.
-
-27. After the migration completes, you will be presented with a Data Migration Report, similar to the following:
-
-    ![This is screenshot of an example Data Migration Report.](./media/ssma-data-migration-report.png "View the Data Migration Report")
-
-28. Select **Close** on the migration report.
-
-29. Close SSMA for Oracle.
-
-## Exercise 6: Migrate the Application
-
-Duration: 15 minutes
-
-In this exercise, you will modify the `NorthwindMVC` application so it targets Azure SQL Database instead of Oracle.
-
-### Task 1: Create new Entity Models against Azure SQL Database and Scaffold Views
-
-1. On your Lab VM, return to Visual Studio, and open `appsettings.json` from the Solution Explorer.
-
-2. Add a connection string called `AzureSqlConnectionString`. Ensure that it correctly references the remote Azure SQL Database credentials.
-
-   - Replace the value of `Server` with your Azure SQL Database DNS name
-   - Verify the value of `Password` is set
-
-   ```json
-   "ConnectionStrings": {
-      "OracleConnectionString": "DATA SOURCE=localhost:1521/XE;PASSWORD=oracledemo123;USER ID=NW",
-      "AzureSqlConnectionString": "Server={Server},1433;Initial Catalog=Northwind;Persist Security Info=False;User ID=demouser;Password={Password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
-   }
-   ```
-
-3. Save the `appsettings.json` file.
-
-    >**Note**: In production scenarios, it is not recommended to store connection strings in files that are checked into version control. Consider using Azure Key Vault references in production and [user secrets](https://docs.microsoft.com/aspnet/core/security/app-secrets) in development.
-
-4. Open the Package Manager console by selecting **Tools** (1), **NuGet Package Manager** (2), and **Package Manager Console** (3).
-
-    ![Opening the Package Manager console in Visual Studio.](./media/open-pmc.png "Opening the Package Manager Console")
-
-5. Enter the following command in the Package Manager console. The `-Force` flag eliminates the need to manually clear the `Data` directory.
-
-    ```powershell
-    Scaffold-DbContext Name=ConnectionStrings:AzureSqlConnectionString Microsoft.EntityFrameworkCore.SqlServer -OutputDir Data -Context DataContext -Schemas NW -Force
-    ```
-
-    >**Note**: This command will reverse-engineer more tables than are actually needed. The `-Tables` flag, referencing schema-qualified table names, provides a more accurate approach.
-
-6. Attempt to build the solution to identify errors.
-
-    ![Errors in the solution.](./media/solution-errors.png "Solution errors")
-
-7. Expand the **Views** folder. Delete the following folders, each of which contain five views:
-
-   - **Customers**
-   - **Employees**
-   - **Products**
-   - **Shippers**
-   - **Suppliers**
-
-8. Expand the **Controllers** folder. Delete all controllers, except **HomeController.cs**.
-
-9. Open **DataContext.cs**. Add the following line to the top of the file, below the other `using` directives.
-
-   ```csharp
-   using NorthwindMVC.Models;
-   ```
-
-   Add the following below the other property definitions.
-
-   ```csharp
-   public virtual DbSet<SalesByYear> SalesByYearDbSet { get; set; }
-   ```
-
-   Lastly, add the following statement to the `OnModelCreating()` method. 
-
-   ```csharp
-   modelBuilder.Entity<SalesByYear>(entity =>
-   {
-         entity.HasNoKey();
-   });
-   ```
-
-10. Build the solution. Ensure that no errors appear. We added `SalesByYearDbSet` to **DataContext** because **HomeController.cs** references it. We deleted the controllers and their associated views because we will scaffold them again from the models.
-
-11. Right-click the **Controllers** folder and select **Add** (1). Select **New Scaffolded Item...** (2).
-
-   ![Adding a new scaffolded item.](./media/add-scaffolded-item.png "New scaffolded item")
-
-12. Select **MVC Controller with views, using Entity Framework**. Then, select **Add**.
-
-   ![Add MVC Controller with Views, using Entity Framework.](./media/add-mvc-with-ef.png "MVC Controller with Views, using Entity Framework")
-
-13. In the **ADD MVC Controller with views, using Entity Framework** dialog box, provide the following details. Then, select **Add**. Visual Studio will build the project.
-
-    - **Model class**: Select `Customer`
-    - **Data context class**: Select `DataContext`
-    - Select all three checkboxes below **Views**
-    - **Controller name**: Keep it set to `CustomersController`
-
-   ![Scaffolding controllers and views from model classes.](./media/customer-scaffold-views.png "Scaffolding controllers and views")
-
-14. Repeat steps 11-13, according to the following details:
-
-    - **EmployeesController.cs**
-      - Based on the **Employee** model class
-    - **ProductsController.cs**
-      - Based on the **Product** model class
-    - **ShippersController.cs**
-      - Based on the **Shipper** model class
-    - **SuppliersController.cs**
-      - Based on the **Supplier** model class
-
-15. Navigate to **Startup.cs**. Ensure that SQL Server is configured as the correct provider and the appropriate connection string is referenced.
-
-   ```csharp
-   services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AzureSqlConnectionString")));
-   ```
-
-### Task 2: Ensure Application Compatibility with the Stored Procedure
-
-1. Open the file `HomeController.cs`, in the Controllers folder in the Solution Explorer.
-
-   ![The HomeController.cs file is selected and highlighted under the Controllers folder in Solution Explorer.](./media/visual-studio-solution-explorer-controllers-home-controller.png "Open HomeController.cs")
-
-2. Comment out the code under the Oracle comment. First, select the lines for the Oracle code, then select the Comment button in the toolbar.
-
-   ![The code under the Oracle comment is highlighted and labeled 1, and the Comment button in the toolbar is highlighted and labeled 2.](./media/visual-studio-home-controller-comment-out-oracle-lines.png "Comment out code")
-
-3. Next, add the following code below the commented Oracle stored procedure call. Notice how it excludes the cursor output parameter.
-
-   ```csharp
-   var salesByYear = await _context.SalesByYearDbSet.FromSqlRaw(
-      "exec [NW].[SALESBYYEAR] @p_begin_date, @p_end_date ",
-      new SqlParameter("p_begin_date", "1996-1-1"),
-      new SqlParameter("p_end_date", "1999-1-1")).ToListAsync();
-   ```
-
-4. Save the changes to `HomeController.cs`.
-
-5. Open the file, `SALESBYYEAR.cs`, in the Models folder in the Solution Explorer.
-
-    ![SALESBYYEAR.cs is highlighted under the Models folder in the Solution Explorer.](./media/visual-studio-models-salesbyyear.png "Open SALESBYYEAR.cs")
-
-6. Change the `YEAR` property from string to int.
-
-    ![The int property is highlighted.](./media/visual-studio-models-salesbyyear-updated.png "Change YEAR property")
-
-7. Save the file.
-
-8. Open the `SalesByYearViewModel.cs` file from the Models folder in the Solution Explorer.
-
-    ![SalesByYearViewModel.cs is highlighted under the Models folder in the Solution Explorer.](./media/visual-studio-models-salesbyyearviewmodel.png "Open SalesByYearViewModel.cs")
-
-9. Change the type of the `YEAR` property from string to int, then save the file.
-
-    ![The int property value is highlighted.](./media/visual-studio-models-salesbyyearviewmodel-updated.png "Change the YEAR property")
-
-10. Run the solution by selecting the green Start button on the toolbar.
-
-    ![Start is highlighted on the toolbar.](./media/visual-studio-toolbar-start.png "Select Start")
-
-11. You will get an exception that the stored procedure call has failed. This is because of an error in migrating the stored procedure.
-
-    ![An exception appears indicating that the stored procedure call has failed.](./media/visual-studio-exception-sqlexception.png "View the error")
-
-12. Select the red Stop button to end execution of the application.
-
-    ![The Stop button is highlighted on the toolbar.](./media/visual-studio-toolbar-stop.png "Select Stop")
-
-13. To resolve the error, open the `SALES_BY_YEAR_fix.sql` file, located under Solution Items in the Solution Explorer.
-
-14. From the Visual Studio menu, select **View**, and then **Server Explorer**.
-
-    ![View and Server Explorer are highlighted in the Visual Studio menu.](./media/visual-studio-menu-view-server-explorer.png "Select Server Explorer")
-
-15. In the Server Explorer, right-click on **Data Connections**, and select **Add Connections...**
-
-    ![Data Connections is selected in Server Explorer, and Add Connection is highlighted in the shortcut menu.](./media/visual-studio-server-explorer-data-connections.png "Select Add Connection")
-
-16. On the Choose Data Source dialog, select **Microsoft SQL Server**, and select **Continue**.
-
-    ![Microsoft SQL Server is selected and highlighted under Data source in the Choose Data Source dialog box.](./media/visual-studio-server-explorer-data-connections-add.png "Select Microsoft SQL Server")
-
-17. On the Add Connection dialog, enter the following:
-
-    - **Data source**: Leave Microsoft SQL Server (SqlClient).
-    - **Server name**: Enter the DNS name of the Azure SQL DB instance
-    - **Authentication**: Select SQL Server Authentication.
-    - **Username**: demouser
-    - **Password**: Provide the password you configured for `demouser`
-    - **Connect to a database**: Choose Select or enter database name, and enter Northwind.
-    - Select **Test Connection** to verify your settings are correct, and select **OK** to close the successful connection dialog.
-
-    ![The information above is entered in the Add Connection dialog box, and Test Connection is selected at the bottom.](./media/visual-studio-server-explorer-data-connections-add-connection.png "Specify the settings")
-
-18. Select **OK**.
-
-19. Right-click the newly added Azure SQL DB connection in the Server Explorer, and select **New Query**.
-
-    ![The newly added SQL Server connection is selected in Server Explorer, and New Query is highlighted in the shortcut menu.](./media/visual-studio-server-explorer-data-connections-new-query.png "Select New Query")
-
-20. Select and copy all of the text from the `SALES_BY_YEAR_fix.sql` file (click CTRL+A, CTRL+C in the `SALES_BY_YEAR_fix.sql` file).
-
-21. Paste (CTRL+V) the copied text into the new Query window.
-
-22. Verify `Use [Northwind]` is the first line of the file, and that it matches the database listed in the query bar, then select the green **Execute** button.
-
-    ![The Use [Northwind] statement is highlighted, as is the Northwind database and the Execute button in the query bar.](./media/visual-studio-sql-query-execute.png "Verify the Use [Northwind] statement")
-
-23. You should see a message that the command completed successfully.
-
-    ![This is a screenshot of a message that the command completed successfully.](./media/visual-studio-sql-query-completed-successfully.png "View the message")
-
-24. Run the application again by selecting the green Start button in the Visual Studio toolbar.
-
-    ![The Start button is highlighted on the Visual Studio toolbar.](./media/visual-studio-toolbar-start.png "Select Start")
-
-25. Verify the graph is showing correctly on the Northwind Traders dashboard.
-
-    ![The Northwind Traders Dashboard is visible in a browser.](./media/northwind-traders-dashboard.png "View the dashboard")
-
-26. Congratulations! You have successfully migrated the data and application from Oracle to SQL Server.
 
 ## After the hands-on lab
 

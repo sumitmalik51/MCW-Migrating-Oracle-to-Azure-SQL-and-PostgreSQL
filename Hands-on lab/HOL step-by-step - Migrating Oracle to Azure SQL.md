@@ -9,7 +9,7 @@ Hands-on lab step-by-step
 </div>
 
 <div class="MCWHeader3">
-November 2020
+September 2021
 </div>
 
 Information in this document, including URL and other Internet Web site references, is subject to change without notice. Unless otherwise noted, the example companies, organizations, products, domain names, e-mail addresses, logos, people, places, and events depicted herein are fictitious, and no association with any real company, organization, product, domain name, e-mail address, logo, person, place or event is intended or should be inferred. Complying with all applicable copyright laws is the responsibility of the user. Without limiting the rights under copyright, no part of this document may be reproduced, stored in or introduced into a retrieval system, or transmitted in any form or by any means (electronic, mechanical, photocopying, recording, or otherwise), or for any purpose, without the express written permission of Microsoft Corporation.
@@ -36,23 +36,26 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
     - [Task 4: Install SQL Developer Tool](#task-4-install-sql-developer-tool)
     - [Task 5: Create the Northwind database in Oracle 18c XE](#task-5-create-the-northwind-database-in-oracle-18c-xe)
     - [Task 6: Configure the Starter Application to use Oracle](#task-6-configure-the-starter-application-to-use-oracle)
-  - [Exercise 2: Migrate the Oracle database to Azure SQL Database](#exercise-2-migrate-the-oracle-database-to-azure-sql-database)
+  - [Exercise 2: Assess the Oracle 18c Database before Migrating to Azure SQL Database](#exercise-2-assess-the-oracle-18c-database-before-migrating-to-azure-sql-database)
+    - [Task 1: Update Statistics and Identify Invalid Objects](#task-1-update-statistics-and-identify-invalid-objects)
+  - [Exercise 3: Migrate the Oracle database to Azure SQL Database](#exercise-3-migrate-the-oracle-database-to-azure-sql-database)
     - [Task 1: Prepare to load SSMA](#task-1-prepare-to-load-ssma)
     - [Task 2: Migrate the Oracle database to Azure SQL Database using SSMA](#task-2-migrate-the-oracle-database-to-azure-sql-database-using-ssma)
-  - [Exercise 3: Migrate the Application](#exercise-3-migrate-the-application)
+    - [Task 3: Additional SSMA Usage Details](#task-3-additional-ssma-usage-details)
+  - [Exercise 4: Migrate the Application](#exercise-4-migrate-the-application)
     - [Task 1: Create new Entity Models against Azure SQL Database and Scaffold Views](#task-1-create-new-entity-models-against-azure-sql-database-and-scaffold-views)
     - [Task 2: Ensure Application Compatibility with the Stored Procedure](#task-2-ensure-application-compatibility-with-the-stored-procedure)
-  - [Exercise 4: Configure SQL Server instances (Optional Homogenous Migration)](#exercise-4-configure-sql-server-instances-optional-homogenous-migration)
+  - [Exercise 5: Configure SQL Server instances (Optional Homogenous Migration)](#exercise-5-configure-sql-server-instances-optional-homogenous-migration)
     - [Task 1: Connect to the SqlServer2008 VM](#task-1-connect-to-the-sqlserver2008-vm)
     - [Task 2: Install AdventureWorks sample database](#task-2-install-adventureworks-sample-database)
     - [Task 3: Update SQL Server settings using Configuration Manager](#task-3-update-sql-server-settings-using-configuration-manager)
-  - [Exercise 5: Migrate SQL Server to Azure SQL Database using DMS (Optional Homogenous Migration)](#exercise-5-migrate-sql-server-to-azure-sql-database-using-dms-optional-homogenous-migration)
+  - [Exercise 6: Migrate SQL Server to Azure SQL Database using DMS (Optional Homogenous Migration)](#exercise-6-migrate-sql-server-to-azure-sql-database-using-dms-optional-homogenous-migration)
     - [Task 1: Assess the on-premises database](#task-1-assess-the-on-premises-database)
     - [Task 2: Migrate the database schema](#task-2-migrate-the-database-schema)
     - [Task 3: Create a migration project](#task-3-create-a-migration-project)
     - [Task 4: Run the migration](#task-4-run-the-migration)
     - [Task 5: Verify data migration](#task-5-verify-data-migration)
-  - [Exercise 6: Post upgrade enhancement (Optional Homogenous Migration)](#exercise-6-post-upgrade-enhancement-optional-homogenous-migration)
+  - [Exercise 7: Post upgrade enhancement (Optional Homogenous Migration)](#exercise-7-post-upgrade-enhancement-optional-homogenous-migration)
     - [Task 1: Table compression](#task-1-table-compression)
     - [Task 2: Clustered ColumnStore index](#task-2-clustered-columnstore-index)
   - [After the hands-on lab](#after-the-hands-on-lab)
@@ -191,8 +194,6 @@ In this exercise, you will install Oracle XE on your Lab VM, load a sample datab
 
 4. Run the downloaded installer, and select **Next** on the Welcome screen.
 
-   ![Next is selected on the SSMA for Oracle Welcome screen.](./media/ssma-installer-welcome.png " SSMA for Oracle Welcome screen")
-
 5. Accept the License Agreement, and select **Next**.
 
 6. On the Choose Setup Type screen, select **Typical**, which will move you to the next screen.
@@ -308,7 +309,44 @@ In this task, you will add the necessary configuration to the `NorthwindMVC` sol
 
 6. Close the browser to stop debugging the application, and return to Visual Studio.
 
-## Exercise 2: Migrate the Oracle database to Azure SQL Database
+## Exercise 2: Assess the Oracle 18c Database before Migrating to Azure SQL Database
+
+Duration: 15 mins
+
+In this exercise, you will prepare the existing Oracle database for its migration to Azure SQL DB. Preparation involves two main steps. The first step is to update the database statistics. Statistics about the database become outdated as data volumes and activity change over time. Second, you will need to identify invalid objects in the Oracle database to minimize disturbances to the migration.
+
+### Task 1: Update Statistics and Identify Invalid Objects
+
+1. Launch SQL Developer. Open the **Northwind** database connection.
+
+2. Create a new SQL file using the **New** button (1). Select **Database Files** (2) and **SQL File** (3). Select **OK** (4). 
+
+    ![Creating a new SQL script in Oracle SQL Developer](./media/creating-new-sql-file-sqldev.png "New SQL file")
+   
+3. Call the new SQL File `update-18c-stats.sql`. Save it in a location of your choice, such as the `Oracle Scripts` directory from earlier.
+
+4. Now, you will populate the new file with the following statements. Run the file as you did when you populated database objects.
+
+    ```sql
+    -- 18c script
+    EXECUTE DBMS_STATS.GATHER_SCHEMA_STATS(ownname => 'NW');
+    EXECUTE DBMS_STATS.GATHER_DATABASE_STATS;
+    EXECUTE DBMS_STATS.GATHER_DICTIONARY_STATS;
+    ```
+
+    >**Note**: This script can take over one minute to run. Ensure that you receive confirmation that that the script has executed successfully.
+
+5. Now, we will utilize a query that lists database objects that are invalid. It is recommended to fix any errors and compile the objects before starting the migration process. Create a new file named `show-invalid-objects.sql` and save it in the same directory. Run this query to find all of the invalid objects.
+
+    ```sql
+    SELECT owner, object_type, object_name
+    FROM all_objects
+    WHERE status = 'INVALID';
+    ```
+
+    >**Note**: You should not see any invalid objects.
+
+## Exercise 3: Migrate the Oracle database to Azure SQL Database
 
 Duration: 30 minutes
 
@@ -431,6 +469,8 @@ In this exercise, you will migrate the Oracle database to Azure SQL DB using SSM
 
     ![The conversion message is highlighted in the Output window.](./media/ssma-convert-schema-output.png "View the conversion message")
 
+    It is important to note the meaning of errors and warnings. They are not issues with the SSMA program; they indicate objects that cannot be migrated automatically by SSMA or important considerations as you complete the migration. [Here](https://docs.microsoft.com/sql/ssma/oracle/messages/o2ss0007) is an example SSMA error code in the Microsoft documentation.
+
 21. **Optional**: Save the project. This can take a while, and is not necessary to complete the hands-on lab.
 
 22. To apply the resultant schema to the Northwind database in Azure SQL Database, use the Azure SQL Database Metadata Explorer to view the Northwind database. Right-click Northwind, and select **Synchronize with Database**.
@@ -468,9 +508,64 @@ In this exercise, you will migrate the Oracle database to Azure SQL DB using SSM
 
 28. Select **Close** on the migration report.
 
-29. Close SSMA for Oracle.
+### Task 3: Additional SSMA Usage Details
 
-## Exercise 3: Migrate the Application
+This lab explores a relatively simple migration. This Task will provide additional considerations that you can refer to as you attempt more complex migrations.
+
+1. To facilitate the migration, SSMA migrates certain .NET assemblies to the target Azure SQL Database instance, as indicated by the first image. Be mindful that SQL Server 2017 and above enforce *CLR strict security*, which you must consider during your migration. As you complete other migrations, be mindful of errors such as the second image.
+
+   ![Migrated assemblies in Azure SQL Database.](./media/assemblies-in-azure-sql-db.png "Migrated assemblies")
+
+   ![CLR Strict Security causes .NET assembly migration to fail.](./media/ssma-synchronize-errors.png "CLR strict security")
+
+2. To help you resolve errors during your migrations, utilize SSMA's comprehensive logs. Follow the steps below to access them.
+   
+   - Select **Tools** in the upper left-hand corner of SSMA 
+   - Select **Global Settings**
+   - Select the **Logging** tab on the **Global Settings** window
+   - Observe the **Log file path**
+
+   ![Locating the log file path in SSMA.](./media/ssma-log-file-location.png "SSMA log file path")
+
+3. Besides the default data integrity mechanism in SSMA (comparing hashes), SSMA also provides a powerful testing suite that follows the steps below.
+
+   - Initialize test case
+   - Select and configure objects
+   - Select and configure affected objects
+   - Call Ordering
+   - Finalize test case
+
+   Access the **Test Case Wizard**, which guides you through these steps, by selecting **Tester** and **New Test Case**.
+
+   ![Launching the test case wizard in SSMA.](./media/test-case-wizard.png "Test case wizard")
+
+4. Note that SSMA for Oracle also allows developers to port ad-hoc queries from Oracle to the target database engine syntax, in this case T-SQL. To do this, in the Oracle Metadata Explorer, right-click **Statements** and select **Add Statement**.
+
+5. In the statement editor window, paste the following code. The Oracle `ROWNUM` pseudo-column limits the number of rows in the result set.
+
+   ```sql
+   SELECT *
+   FROM NW.CATEGORIES
+   WHERE ROWNUM <= 5;
+   ```
+
+   ![Oracle statement in the SSMA Statement editor.](./media/oracle-statement-ssma.png "Oracle statement with ROWNUM")
+
+6. Right-click the new statement in the Oracle Metadata Explorer and select **Convert Schema**. Immediately, a T-SQL version of the statement should appear next to the **Azure SQL Database Metadata Explorer**.
+
+   Notice how the `ROWNUM` Oracle pseudo-column is substituted for the T-SQL `TOP` keyword.
+   
+   ```sql
+   SELECT TOP (5) CATEGORIES.CATEGORYID, CATEGORIES.CATEGORYNAME, CATEGORIES.DESCRIPTION, CATEGORIES.PICTURE
+   FROM NW.CATEGORIES
+   GO
+   ```
+
+7. Just like other objects it migrates, SSMA produces a report for the statement conversion. Simply select the **Report** tab.
+
+   ![Statement conversion report.](./media/report-for-statement-conversion.png "Statement conversion report")
+
+## Exercise 4: Migrate the Application
 
 Duration: 15 minutes
 
@@ -684,7 +779,7 @@ In this exercise, you will modify the `NorthwindMVC` application so it targets A
 
 26. Congratulations! You have successfully migrated the data and application from Oracle to SQL Server.
 
-## Exercise 4: Configure SQL Server instances (Optional Homogenous Migration)
+## Exercise 5: Configure SQL Server instances (Optional Homogenous Migration)
 
 Duration: 45 minutes
 
@@ -831,7 +926,7 @@ In this task, you will update the SQL Server service accounts and other settings
 
 10. Close the SQL Server Configuration Manager.
 
-## Exercise 5: Migrate SQL Server to Azure SQL Database using DMS (Optional Homogenous Migration)
+## Exercise 6: Migrate SQL Server to Azure SQL Database using DMS (Optional Homogenous Migration)
 
 Duration: 60 minutes
 
@@ -1091,7 +1186,7 @@ In this task, you will use SSMS to verify the database was successfully migrated
 
 5. Leave SSMS open with the connection to your Azure SQL Database for the next exercise.
 
-## Exercise 6: Post upgrade enhancement (Optional Homogenous Migration)
+## Exercise 7: Post upgrade enhancement (Optional Homogenous Migration)
 
 Duration: 20 minutes
 

@@ -55,7 +55,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
     - [Task 1: Prepare to load SSMA](#task-1-prepare-to-load-ssma)
     - [Task 2: Migrate the Oracle database to Azure SQL Database using SSMA](#task-2-migrate-the-oracle-database-to-azure-sql-database-using-ssma)
   - [Exercise 6: Migrate the Application](#exercise-6-migrate-the-application)
-    - [Task 1: Create a new Entity Model against SQL Server](#task-1-create-a-new-entity-model-against-sql-server)
+    - [Task 1: Create new Entity Models against Azure SQL Database and Scaffold Views](#task-1-create-new-entity-models-against-azure-sql-database-and-scaffold-views)
     - [Task 2: Modify Application Code](#task-2-modify-application-code)
   - [After the hands-on lab](#after-the-hands-on-lab)
     - [Task 1: Delete the resource group](#task-1-delete-the-resource-group)
@@ -1140,63 +1140,110 @@ In this exercise, you will migrate the Oracle database to Azure SQL DB using SSM
 
 Duration: 15 minutes
 
-In this exercise, you will modify the `NorthwindMVC` application so it targets SQL Server 2017 instead of Oracle.
+In this exercise, you will modify the `NorthwindMVC` application so it targets Azure SQL Database instead of Oracle.
 
-### Task 1: Create a new Entity Model against SQL Server
+### Task 1: Create new Entity Models against Azure SQL Database and Scaffold Views
 
-1. On your Lab VM, return to Visual Studio, and open `Web.config` from the Solution Explorer.
+1. On your Lab VM, return to Visual Studio, and open `appsettings.json` from the Solution Explorer.
 
-2. Modify the connection string named `SqlServerConnectionString` to match your remote SQL Server credentials.
+2. Add a connection string called `AzureSqlConnectionString`. Ensure that it correctly references the remote Azure SQL Database credentials.
 
-   - Replace the value of "data source" with your SqlServer2017 VM's public IP address.
-   - Verify the value of "password" is **Password.1!!**
+   - Replace the value of `Server` with your Azure SQL Database DNS name
+   - Verify the value of `Password` is set
 
-   ![The information above is highlighted in Web.config.](./media/visual-studio-web-config-connection-string-sql-server.png "Replace the password value")
+   ```json
+   "ConnectionStrings": {
+      "OracleConnectionString": "DATA SOURCE=localhost:1521/XE;PASSWORD=oracledemo123;USER ID=NW",
+      "AzureSqlConnectionString": "Server={Server},1433;Initial Catalog=Northwind;Persist Security Info=False;User ID=demouser;Password={Password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+   }
+   ```
 
-3. Save the `web.config` file.
+3. Save the `appsettings.json` file.
 
-4. Build the solution, by selecting Build in the Visual Studio menu, then selecting Build Solution.
+    >**Note**: In production scenarios, it is not recommended to store connection strings in files that are checked into version control. Consider using Azure Key Vault references in production and [user secrets](https://docs.microsoft.com/aspnet/core/security/app-secrets) in development.
 
-5. In the Solution Explorer, expand the Data folder, and select all the files within the folder.
+4. Open the Package Manager console by selecting **Tools** (1), **NuGet Package Manager** (2), and **Package Manager Console** (3).
 
-   ![In Solution Explorer, all the files under Data (highlighted) are selected.](./media/visual-studio-solution-explorer-data-folder.png "Expand the Data folder")
+    ![Opening the Package Manager console in Visual Studio.](./media/open-pmc.png "Opening the Package Manager Console")
 
-6. Right-click, and choose **Delete**.
+5. Enter the following command in the Package Manager console. The `-Force` flag eliminates the need to manually clear the `Data` directory.
 
-   ![Delete is selected in the shortcut menu for all the files listed under Data.](./media/visual-studio-solution-explorer-data-folder-delete.png "Delete the files")
+    ```powershell
+    Scaffold-DbContext Name=ConnectionStrings:AzureSqlConnectionString Microsoft.EntityFrameworkCore.SqlServer -OutputDir Data -Context DataContext -Schemas NW -Force
+    ```
 
-7. Select **OK** at the confirmation prompt.
+    >**Note**: This command will reverse-engineer more tables than are actually needed. The `-Tables` flag, referencing schema-qualified table names, provides a more accurate approach.
 
-8. Right-click on the Data folder, and select **Add > New Item...**
+6. Attempt to build the solution to identify errors.
 
-   ![In the shortcut menu for the Data folder, New Item and Add are highlighted.](./media/visual-studio-solution-explorer-data-add-new-item.png "Select Add")
+    ![Errors in the solution.](./media/solution-errors.png "Solution errors")
 
-9. In the Add New Item dialog, expand Visual C#, select **Data**, and select **ADO.NET Entity Data Model**. Enter **DataContext** for the name, and select **Add**.
+7. Expand the **Views** folder. Delete the following folders, each of which contain five views:
 
-   ![In the Add New Item dialog box, Visual C#, Data, ADO.NET Entity Data Model, and DataContext are highlighted.](./media/visual-studio-solution-explorer-data-add-new-data-context.png "Add DataContext")
+   - **Customers**
+   - **Employees**
+   - **Products**
+   - **Shippers**
+   - **Suppliers**
 
-10. In the wizard's Choose Model Contents dialog, select **Code First from database**, and select **Next**.
+8. Expand the **Controllers** folder. Delete all controllers, except **HomeController.cs**.
 
-    ![Code First from database is highlighted under What should the model contain? in the Entity Data Model Wizard.](./media/visual-studio-entity-data-model-wizard-choose-model.png "Select Code First from database")
+9. Open **DataContext.cs**. Add the following line to the top of the file, below the other `using` directives.
 
-11. In the Choose Your Data Connection dialog:
+   ```csharp
+   using NorthwindMVC.Models;
+   ```
 
-    - Select **SqlServerConnectionString (Settings)** from the data connection drop down.
-    - Select **Yes, include the sensitive data in the connection string**.
-    - **Uncheck Save connection settings in Web.Config**.
-    - Select **Next**.
+   Add the following below the other property definitions.
 
-    ![SqlServerConnectionString (Settings) and Yes, include the sensitive data in the connection string are selected and highlighted in the Entity Data Model Wizard, and Save connection settings in Web.Config is cleared.](./media/visual-studio-entity-data-model-wizard-data-connection.png "Choose Your Data Connection settings")
+   ```csharp
+   public virtual DbSet<SalesByYear> SalesByYearDbSet { get; set; }
+   ```
 
-12. If prompted, in the Connect to SQL Server dialog, enter the Password, **Password.1!!**
+   Lastly, add the following statement to the `OnModelCreating()` method. 
 
-    ![The password above is entered in the Connect to SQL Server dialog box.](./media/visual-studio-entity-data-model-wizard-connect-to-sql-server.png "Enter the Password")
+   ```csharp
+   modelBuilder.Entity<SalesByYear>(entity =>
+   {
+         entity.HasNoKey();
+   });
+   ```
 
-13. On the Choose Your Database Objects and Settings screen, expand the Tables node, and check **NW** only. Ensure **Pluralize or singularize generated column names** is checked.
+10. Build the solution. Ensure that no errors appear. We added `SalesByYearDbSet` to **DataContext** because **HomeController.cs** references it. We deleted the controllers and their associated views because we will scaffold them again from the models.
 
-    ![The Tables node is selected, and NW is selected and highlighted in the Entity Data Model Wizard. Pluralize or singularize generated column names is also selected.](./media/visual-studio-entity-data-model-wizard-database-objects.png "Choose Your Database Objects and Settings")
+11. Right-click the **Controllers** folder and select **Add** (1). Select **New Scaffolded Item...** (2).
 
-14. Select **Finish**, and the model will be generated. This may take a few minutes.
+   ![Adding a new scaffolded item.](./media/add-scaffolded-item.png "New scaffolded item")
+
+12. Select **MVC Controller with views, using Entity Framework**. Then, select **Add**.
+
+   ![Add MVC Controller with Views, using Entity Framework.](./media/add-mvc-with-ef.png "MVC Controller with Views, using Entity Framework")
+
+13. In the **ADD MVC Controller with views, using Entity Framework** dialog box, provide the following details. Then, select **Add**. Visual Studio will build the project.
+
+   - **Model class**: Select `Customer`
+   - **Data context class**: Select `DataContext`
+   - Select all three checkboxes below **Views**
+   - **Controller name**: Keep it set to `CustomersController`
+
+   ![Scaffolding controllers and views from model classes.](./media/customer-scaffold-views.png "Scaffolding controllers and views")
+
+14. Repeat steps 11-13, according to the following details:
+
+    - **EmployeesController.cs**
+      -  Based on the **Employee** model class
+    - **ProductsController.cs**
+      - Based on the **Product** model class
+    - **ShippersController.cs**
+      - Based on the **Shipper** model class
+    - **SuppliersController.cs**
+      - Based on the **Supplier** model class
+
+15. Navigate to **Startup.cs**. Ensure that SQL Server is configured as the correct provider, and the appropriate connection string is referenced.
+
+   ```csharp
+   services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AzureSqlConnectionString")));
+   ```
 
 ### Task 2: Modify Application Code
 

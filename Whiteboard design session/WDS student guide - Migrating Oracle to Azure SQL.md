@@ -9,7 +9,7 @@ Whiteboard design session student guide
 </div>
 
 <div class="MCWHeader3">
-November 2020
+September 2021
 </div>
 
 Information in this document, including URL and other Internet Web site references, is subject to change without notice. Unless otherwise noted, the example companies, organizations, products, domain names, e-mail addresses, logos, people, places, and events depicted herein are fictitious, and no association with any real company, organization, product, domain name, e-mail address, logo, person, place or event is intended or should be inferred. Complying with all applicable copyright laws is the responsibility of the user. Without limiting the rights under copyright, no part of this document may be reproduced, stored in or introduced into a retrieval system, or transmitted in any form or by any means (electronic, mechanical, photocopying, recording, or otherwise), or for any purpose, without the express written permission of Microsoft Corporation.
@@ -40,7 +40,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 
 ## Abstract
 
-In this whiteboard design session, you work with a group to design a proof of concept (POC) for conducting a site analysis for a customer to compare cost, performance, and level of effort required to migrate from Oracle to SQL Server. You evaluate the dependent applications and reports that need to be updated and come up with a migration plan. Also, you review ways to help the customer take advantage of new SQL Server features to improve performance and resiliency, as well as explore ways to migrate from an old version of SQL Server to the latest version and consider the impact of migrating from on-premises to the cloud.
+In this whiteboard design session, you work with a group to design a proof of concept (POC) for conducting a site analysis for a customer to compare cost, performance, and level of effort required to migrate from Oracle to Azure SQL Database. You evaluate the dependent applications and reports that need to be updated and come up with a migration plan. Also, you review ways to help the customer take advantage of new Azure SQL Database features to improve performance and resiliency, as well as explore ways to migrate from an old version of SQL Server to the latest version and consider the impact of migrating from on-premises to the cloud.
 
 At the end of this whiteboard design session, you will be better able to design a database migration plan and implementation.
 
@@ -62,11 +62,11 @@ Directions: With all participants in the session, the facilitator/SME presents a
 
 ### Customer situation
 
-Wide World Importers (WWI) has experienced massive growth over the last few years. That growth has resulted in a tremendous influx of new data they need to maintain their business. This data has become increasingly expensive to store in an Oracle relational database management system (RDBMS). Oracle upgrades are tedious and costly projects. Business stakeholders have tired of the process and have requested a proof of concept (POC) for replacing Oracle with Microsoft SQL Server.
+Wide World Importers (WWI) has experienced massive growth over the last few years. That growth has resulted in a tremendous influx of new data they need to maintain their business. This data has become increasingly expensive to store in an Oracle relational database management system (RDBMS). Oracle upgrades are tedious and costly projects. Business stakeholders have tired of the process and have requested a proof of concept (POC) for replacing Oracle with Azure SQL Database.
 
 WWI is investigating ways to improve the performance of their transactional databases without incurring expensive new license fees. They're also concerned with keeping their transactional system available and online for their store. They've noticed that Oracle has been slowing down as their growth has doubled. They realize that they would need to invest in new hardware to achieve this on-premises and, as a result, are looking at this as more of a migration to a new system.
 
-WWI has several external and internal applications that need to migrate with the database. The database is used by an online store application, written in ASP.NET MVC. They also have internal applications that manage their product catalog, written in Oracle Forms. Also, they have many reports to aid in forecasting, sales reporting, and inventory maintenance. Those reports are a mixture of SQL Server Reporting Services (SSRS), Excel, and Oracle Forms and hit the Oracle OLTP database directly.
+WWI has several external and internal applications that need to migrate with the database. The database is used by an online store application, written in ASP.NET Core MVC. They also have internal applications that manage their product catalog, written in Oracle Forms. Also, they have many reports to aid in forecasting, sales reporting, and inventory maintenance. Those reports are a mixture of SQL Server Reporting Services (SSRS), Excel, and Oracle Forms and hit the Oracle OLTP database directly.
 
 WWI also uses this database to interact with vendors. Several of their vendors require real-time access to their sales data through an API so they can draw warranty information on the date of sale. They do this through a Representational State Transfer (REST) service that is maintained by WWI.
 
@@ -78,19 +78,19 @@ WWI also has a new requirement. They have an existing web service that interacts
 
 Also, they had a significant outage last year because one of their audit tables ran out of space. They had to wait many hours to resolve the issue while their IT department scrambled to make space on an already overloaded Storage Area Network (SAN). They would like a full briefing on how to monitor that situation, so it doesn't happen again, and possible remedies if it does happen again. They would also like high availability to be built into the project plan and are wondering what additional fees that would incur.
 
-Kathleen Sloan, the CIO of WWI, is looking to decrease their software license fees, take advantage of a modern data warehouse, and provide a strong vision of availability for the future that can handle their momentous growth. She is sold on SQL Server, but her Oracle DBAs keep telling her that migration to SQL Server is simply impossible. They cite that they have never done it before. They say it's hard to find tools that make it possible. The Oracle DBAs say that SQL Server is not as high performing as Oracle, does not have great high availability like Oracle Real Application Clusters (RAC), and doesn't have a replacement for Oracle Forms. She's tired of hearing "no" whenever the topic is brought up and would love to prove them wrong. She is also exploring the cloud and is wondering if she can make a direct migration to a cloud database or if she must stay on-premises because of her requirements. She has seen SQL Server make tremendous gains in features over the last several versions, particularly in business intelligence. Her data warehouse has slowed down as the data has increased. On the one hand, this is because the data warehouse SQL Server has gotten very popular, but it's still considered a negative in her mind. She's concerned about the upgrade path because of all the dependencies on the data warehouse in her organization.
+Kathleen Sloan, the CIO of WWI, is looking to decrease their software license fees, take advantage of a modern data warehouse, and provide a strong vision of availability for the future that can handle their momentous growth. She is sold on SQL Server, and cloud Azure SQL Database, but her Oracle DBAs keep telling her that migration to SQL Server is simply impossible. They cite that they have never done it before. They say it's hard to find tools that make it possible. The Oracle DBAs say that SQL Server is not as high performing as Oracle, does not have great high availability like Oracle Real Application Clusters (RAC), and doesn't have a replacement for Oracle Forms. She's tired of hearing "no" whenever the topic is brought up and would love to prove them wrong. She is also exploring the cloud and is wondering if she can make a direct migration to a cloud database or if she must stay on-premises because of her requirements. She has seen SQL Server make tremendous gains in features over the last several versions, particularly in business intelligence. Her data warehouse has slowed down as the data has increased. On the one hand, this is because the data warehouse SQL Server has gotten very popular, but it's still considered a negative in her mind. She's concerned about the upgrade path because of all the dependencies on the data warehouse in her organization.
 
 ### Customer needs
 
-1. Wants to migrate an existing Oracle database to SQL Server 2017 on-premises, SQL Server 2017 in an Azure VM, or Azure SQL Database.
+1. Wants to migrate an existing Oracle database to SQL Server 2019 on-premises, SQL Server 2019 in an Azure VM, or Azure SQL Database.
 
-2. Needs to know what's involved in migrating the external sales application to SQL Server.
+2. Needs to know what's involved in migrating the external sales application to Azure SQL Database.
 
 3. Wants a better understanding of what to do with the internal Oracle Forms application.
 
 4. Has multiple touchpoints with external vendors and wants to know what needs to change with those web services.
 
-5. Wants to upgrade their existing data warehouse from SQL Server 2008 R2 Standard Edition to Azure SQL Database or SQL Server 2017 Enterprise Edition to take advantage of some new features:
+5. Wants to upgrade their existing data warehouse from SQL Server 2008 R2 Standard Edition to Azure SQL Database or SQL Server 2019 Enterprise Edition to take advantage of some new features:
 
    - They want Transparent Data Encryption (TDE), so they pass audits when asked if they encrypt data at rest.
    - They want compression for some of their large fact tables.
@@ -112,11 +112,11 @@ Kathleen Sloan, the CIO of WWI, is looking to decrease their software license fe
 
 2. Can we have two proof of concepts that demonstrate both migrations?
 
-3. Do we need to rewrite all our applications for SQL Server?
+3. Do we need to rewrite all our applications for SQL Server or Azure SQL Database?
 
-4. Do we need to rewrite all our reports for SQL Server?
+4. Do we need to rewrite all our reports for SQL Server or Azure SQL Database?
 
-5. Will our security migrate over from Oracle to SQL Server? How do we handle security in the new database?
+5. Will our security migrate over from Oracle? How do we handle security in the new database?
 
 6. Do we need to invest in a JSON storage system for the JSON data we're storing from our vendor's web service?
 
@@ -124,11 +124,11 @@ Kathleen Sloan, the CIO of WWI, is looking to decrease their software license fe
 
 8. If we take advantage of new features, will our license costs keep ratcheting up and up? Will we have a dependable way of budgeting for this project?
 
-9. Are there any Oracle features required by WWI for which SQL Server has no equivalent?
+9. Are there any Oracle features required by WWI for which SQL Server or Azure offerings have no equivalent?
 
 10. Do we need to tell all our vendors that we're changing databases, so their integrations work?
 
-11. What might prevent us from upgrading our data warehouse to Azure SQL Database or SQL Server 2017 Enterprise?
+11. What might prevent us from upgrading our data warehouse to Azure SQL Database or SQL Server 2019 Enterprise?
 
 12. When we upgrade the data warehouse, how will we keep all our connected dependencies updated?
 
@@ -166,17 +166,17 @@ _High-level architecture_
 
 2. What should be included in the POC?
 
-3. How will SQL Server save them on licensing costs?
+3. How will SQL Server and Azure SQL Database save them on licensing costs?
 
 _Schema and data movement_
 
-1. How would you recommend that WWI move their data and schema into SQL Server? What services would you suggest and what are the specific steps they would need to take to prepare the data, to transfer the data, and where would the loaded data land?
+1. How would you recommend that WWI move their data and schema into Azure SQL Database? What services would you suggest and what are the specific steps they would need to take to prepare the data, to transfer the data, and where would the loaded data land?
 
 2. Update your diagram with the data loading process with the steps you identified.
 
 _Application changes_
 
-1. What product would you recommend to WWI to migrate their storefront MVC application to the new SQL Server database?
+1. What product would you recommend to WWI to migrate their storefront MVC application to the new database?
 
 2. How would you migrate the Oracle Forms applications? How would you define success? Are there any technologies the customer needs to know?
 
@@ -188,9 +188,9 @@ _Data warehouse and reporting_
 
 2. What must change about the way WWI loads its data warehouse?
 
-3. What components do they need to use to upgrade the SQL Server 2008 R2 data warehouse to Azure SQL Database or SQL Server 2017 Enterprise?
+3. What components do they need to use to upgrade the SQL Server 2008 R2 data warehouse to Azure SQL Database or SQL Server 2019 Enterprise?
 
-4. Identify the significant milestones of delivering an upgrade to Azure SQL Database or SQL Server 2017 Enterprise.
+4. Identify the significant milestones of delivering an upgrade to Azure SQL Database or SQL Server 2019 Enterprise.
 
 5. Are there any tools or processes that would make this easier? How does Azure Database Migration Service (DMS) compare to other Microsoft database migration tools, such as Database Migration Assistant (DMA) or SQL Server Migration Assistant (SSMA)?
 
@@ -238,7 +238,7 @@ Directions:
 
 1. Pair with another table.
 
-2. One table is the Microsoft team ,and the other table is the customer.
+2. One table is the Microsoft team and the other table is the customer.
 
 3. The Microsoft team presents its proposed solution to the customer.
 

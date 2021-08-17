@@ -527,7 +527,7 @@ This lab explores a relatively simple migration. This Task will provide addition
 
    ![Locating the log file path in SSMA.](./media/ssma-log-file-location.png "SSMA log file path")
 
-3. Besides the default data integrity mechanism in SSMA (comparing hashes), SSMA also provides a powerful testing suite that follows the steps below.
+3. Besides the default data integrity mechanism in SSMA (comparing hashes), SSMA also provides a powerful testing suite that follows the flow outlined below.
 
    - Initialize test case
    - Select and configure objects
@@ -539,9 +539,9 @@ This lab explores a relatively simple migration. This Task will provide addition
 
    ![Launching the test case wizard in SSMA.](./media/test-case-wizard.png "Test case wizard")
 
-4. Note that SSMA for Oracle also allows developers to port ad-hoc queries from Oracle to the target database engine syntax, in this case T-SQL. To do this, in the Oracle Metadata Explorer, right-click **Statements** and select **Add Statement**.
+4. Note that SSMA for Oracle also allows developers to port ad-hoc queries from Oracle to the target database engine syntax, T-SQL. To do this, in the Oracle Metadata Explorer, right-click **Statements** and select **Add Statement**.
 
-5. In the statement editor window, paste the following code. The Oracle `ROWNUM` pseudo-column limits the number of rows in the result set.
+5. In the statement editor window, paste the following code. The Oracle `ROWNUM` pseudo-column limits the number of rows in the result set. 
 
    ```sql
    SELECT *

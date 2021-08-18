@@ -947,52 +947,47 @@ With PostgreSQL, stored procedures cannot return output values without a cursor.
 
 ### Task 8: Deploy the application to Azure
 
-The built application will be deployed to IIS. The existing publishing profile should be used.
+As part of the PoC, the finished app will be hosted on Azure App Service. In this task, you will add a connection string to the App Service resource and use Visual Studio 2019 to complete the deployment.
 
-1. Devart's dotConnect has licensing agreements that must be met before deployment.
+1. In the Azure portal, navigate to your App Service instance. Navigate to **Configuration** below **Settings**.
 
-    - Select **License Information...** under **Tools > PostgreSQL**. The following wizard will open.
-    - Select **Fix**.
+2. Below **Connection strings**, select **+ New connection string**. In the **Add/Edit connection string** window, provide the following:
 
-    ![Screenshot showing the licensing wizard.](./media/licensing-wizard.PNG "Licensing wizard")
+    - **Name**: Use `PostgreSqlConnectionString`
+    - **Value**: Use the connection string from the `appsettings.json` file
+    - **Type**: Select `Custom` (with ASP.NET Core, it is not possible to use the `PostgreSQL` connection string type)
 
-2. Select **Next >** until you reach **Execute**. A **licenses.licx** file will be created, which contains information about **Devart.Data.PostgreSql**,**PgSqlConnection.dll**, and **Devart.Data.PostgreSql.dll**.
+    ![Adding a PostgreSQL connection string to the App Service configuration page.](./media/add-new-connection-string.png "PostgreSQL connection string in App Service")
 
-    ![Screenshot showing the execution licensing info.](./media/execute-licensing-info.PNG "Execute licensing info")
+3. Select **OK** and then select **Save**.
+   
+4. In Visual Studio's Solution Explorer, right-click the **NorthwindMVC** project (not the solution) and select **Publish...**.
 
-3. Select the option to **Rebuild Application** and then select **Finish**.
+5. The **Publish** window should open. Select **Azure**. Select **Next**.
 
-    ![Screenshot showing recompiling the build.](./media/recompile-build.PNG "Recompiling the build")
+    ![Screenshot showing the publishing window.](./media/publish-window.png "Selecting Azure in publishing window")
 
-4. If you relaunch the wizard, another fix will have to be done. **dotConnect** must know the applications and libraries reference its DLLs. Again, select **Fix**.
+6. Select **Azure App Service (Linux)**. Select **Next**.
 
-    ![Screenshot showing how to fix licensing.](./media/fix-2-licensing.PNG "Fix licensing")
+7. In the **Publish** window, select your **Subscription name**. Expand the correct resource group and select the App Service resource. Select **Next**.
 
-5. At the **Specify which executables are allowed to use the class library** dialog, select the **Add** button and then select *NorthwindMVC.dll* and *w3wp.exe* executable options. The IIS worker process will allow requests to be served. A new file titled licenses.config will be created with these details. Select **Next >**.
+    ![Selecting the correct App Service instance in the Visual Studio Publish window.](./media/app-service-in-publish-window.png "App Service instance in the Publish window")
 
-    ![Screenshot showing choosing the right executables.](./media/dll-and-exe.PNG "Specify which executables")
+8. Select **Publish (generates pubxml file)** for the **Deployment type** tab. Select **Finish**.
 
-6. Again, select **Execute** and rebuild the service.
+    ![Generating a publish profile for the Visual Studio App Service deployment.](./media/pubxml-deployment-type.png "Generating a publish profile")
 
-7. In Visual Studio's Solution Explorer, right-click the **NorthwindMVC** project (not the solution) and select **Publish...**.
+9. Select **Publish** next to the new publish profile.
 
-8. The **Publish** window should open. Select **Import Profile**. Select **Next**.
+10. First, your application will build. Then, all relevant files will be copied into a ZIP archive for deployment.
 
-    ![Screenshot showing the publishing window.](./media/publish-window.png "selecting import profile in publishing window")
-
-9. Select **Browse** to locate the **Publish settings file**. Select your publish profile from `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL\Hands-on lab\lab-files\starter-project`. Select **Finish**.
-
-    ![Screenshot showing publish settings window.](./media/publish-settings-file-dialog.PNG "publish settings window")
-
-10. Verify that your app is published using the **Web Deploy** method. Accept the remaining settings and select **Publish**.
-
-    ![Screenshot showing Azure deployment.](./media/azure-deploy.png "Azure deploy")
-
-11. First, your application will build. Then, all relevant files will be copied and organized on the host such that all relevant assets are served to the client.
-
-12. Once the build completes, navigate to your app's link. Test the web application.
+11. Once the build completes, navigate to your app's link. Test the web application.
 
     ![Screenshot showing The Northwind app deployed to Azure App Service.](./media/final-northwindapp.png "App deployed to Azure")
+
+    >**Note**: If you still see the default page display, try publishing again.
+
+    >**Note**: Feel free to remove the connection string from the `appsettings.json` file, as it is securely provided to the application through Azure App Service. This is usually done to avoid committing connection strings into version control.
 
 ## After the hands-on lab
 

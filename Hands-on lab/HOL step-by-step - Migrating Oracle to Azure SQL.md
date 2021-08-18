@@ -595,7 +595,7 @@ In this exercise, you will modify the `NorthwindMVC` application so it targets A
 
     ![Opening the Package Manager console in Visual Studio.](./media/open-pmc.png "Opening the Package Manager Console")
 
-5. Enter the following command in the Package Manager console. The `-Force` flag eliminates the need to manually clear the `Data` directory.
+5. Enter the following command in the Package Manager console to create the models. The `-Force` flag eliminates the need to manually clear the `Data` directory.
 
     ```powershell
     Scaffold-DbContext Name=ConnectionStrings:AzureSqlConnectionString Microsoft.EntityFrameworkCore.SqlServer -OutputDir Data -Context DataContext -Schemas NW -Force
@@ -629,7 +629,7 @@ In this exercise, you will modify the `NorthwindMVC` application so it targets A
    public virtual DbSet<SalesByYear> SalesByYearDbSet { get; set; }
    ```
 
-   Lastly, add the following statement to the `OnModelCreating()` method. 
+   Lastly, add the following statement to the `OnModelCreating()` method, after setting the collation information. 
 
    ```csharp
    modelBuilder.Entity<SalesByYear>(entity =>

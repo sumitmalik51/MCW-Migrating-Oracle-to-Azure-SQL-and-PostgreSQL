@@ -9,7 +9,7 @@ Hands-on lab step-by-step
 </div>
 
 <div class="MCWHeader3">
-November 2020
+September 2021
 </div>
 
 Information in this document, including URL and other Internet Web site references, is subject to change without notice. Unless otherwise noted, the example companies, organizations, products, domain names, e-mail addresses, logos, people, places, and events depicted herein are fictitious, and no association with any real company, organization, product, domain name, e-mail address, logo, person, place or event is intended or should be inferred. Complying with all applicable copyright laws is the responsibility of the user. Without limiting the rights under copyright, no part of this document may be reproduced, stored in or introduced into a retrieval system, or transmitted in any form or by any means (electronic, mechanical, photocopying, recording, or otherwise), or for any purpose, without the express written permission of Microsoft Corporation.
@@ -50,7 +50,8 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
     - [Task 4: Migrate Views](#task-4-migrate-views)
     - [Task 5: Migrate the Stored Procedure](#task-5-migrate-the-stored-procedure)
     - [Task 6: Create new Entity Data Models and update the application on the Lab VM](#task-6-create-new-entity-data-models-and-update-the-application-on-the-lab-vm)
-    - [Task 7: Deploy the application to Azure](#task-7-deploy-the-application-to-azure)
+    - [Task 7: Update the Dashboard Stored Procedure Call](#task-7-update-the-dashboard-stored-procedure-call)
+    - [Task 8: Deploy the application to Azure](#task-8-deploy-the-application-to-azure)
   - [After the hands-on lab](#after-the-hands-on-lab)
     - [Task 1: Delete the resource group](#task-1-delete-the-resource-group)
 
@@ -781,314 +782,170 @@ Our application utilizes a single stored procedure, so we must be able to migrat
 
 ### Task 6: Create new Entity Data Models and update the application on the Lab VM
 
-In this task, we will be recreating the ADO.NET data models to accurately represent our PostgreSQL database objects. Entity Framework leverages ADO.NET, allowing us to map database objects to classes.  
+In this task, we will be recreating the ADO.NET data models to accurately represent our PostgreSQL database objects.  
 
-1. First, install the Entity Framework.
+1. On your Lab VM, return to Visual Studio, and open `appsettings.json` from the Solution Explorer.
 
-    - Navigate to the Package Manager console.
+2. Add a connection string called `PostgreSqlConnectionString`. Ensure that it correctly references the remote Azure Database for PostgreSQL credentials.
 
-    ![Accessing the package under manager console.](./media/accessing-package-manager-console.png "Accessing package manager console")
+   - Replace the value of `Server` with your Azure Database for PostgreSQL DNS name
+   - Substitute the `Server Name`
+   - Verify the value of `Password` is set
 
-    Enter the following command:
+   ```json
+   "ConnectionStrings": {
+      "OracleConnectionString": "DATA SOURCE=localhost:1521/XE;PASSWORD=oracledemo123;USER ID=NW",
+      "PostgreSqlConnectionString": "Server={Server};Database=NW;Port=5432;User Id=NW@{Server Name};Password={Password};Ssl Mode=Require;"
+   }
+   ```
 
-    ```cmd
-    Install-Package EntityFramework
+3. Save the `appsettings.json` file.
+
+    >**Note**: In production scenarios, it is not recommended to store connection strings in files that are checked into version control. Consider using Azure Key Vault references in production and [user secrets](https://docs.microsoft.com/aspnet/core/security/app-secrets) in development.
+
+4. Open the Package Manager console by selecting **Tools** (1), **NuGet Package Manager** (2), and **Package Manager Console** (3).
+
+    ![Opening the Package Manager console in Visual Studio.](./media/open-pmc.png "Opening the Package Manager Console")
+
+5. Enter the following command in the Package Manager console. It will install the open-source Npgsql Entity Framework Core provider.
+
+    ```powershell
+    Install-Package Npgsql.EntityFrameworkCore.PostgreSQL
     ```
 
-    >**Note**: We will be using Devart's dotConnect for PostgreSQL, which is an ADO.NET-compatible PostgreSQL driver. This will allow our application to connect to our Azure PostgreSQL instance.
+6. Enter the following command in the Package Manager console to produce the models. The `-Force` flag eliminates the need to manually clear the `Data` directory.
 
-2. Navigate to <https://www.devart.com/dotconnect/postgresql/download.html>.
-
-    - Locate the latest version of **dotConnect for PostgreSQL Professional Trial** (it is **7.17** at the time of writing). 
-    - Select **Get Trial**.
-
-    ![Screenshot showing how to download Dotconnect.](./media/dotconnect-download.PNG "Dotconnect Download")
-
-3. Unless you have a Devart account, select **Sign-Up**.
-
-    ![Signing up for Devart download screenshot.](./media/sign-up-devart.PNG "Devart sign-up link")
-
-4. Enter your information and select **Sign-Up**.
-
-    ![Screenshot showing Devart sign-up.](./media/devart-sign-up-details.png "Devart sign up")
-
-5. Now, you will be redirected to the downloads page.
-
-    - Select **Download**.
-    - Run the executable (no need to save).
-
-6. Accept all defaults until **Select Components**. Unselect **SQL Server Business Intelligence Solutions** and **Samples**.
-
-    ![Screenshot showing which components to install.](./media/dc-install-select-components.PNG "Selecting components for installation")
-
-7. Continue to the **Ready to Install** screen. Select **Install**. Select **Finish** once setup has completed.
-
-8. Reopen the Visual Studio solution. We will now modify the web.config file to use the Devart PostgreSQL driver.
-
-    - Under the `<providers>` node below the `<entityFramework>` node, add the following statement. Note that you will need to change the assembly version if you use updated DLLs.
-
-    ```xml
-    <provider invariantName="Devart.Data.PostgreSql" type="Devart.Data.PostgreSql.Entity.PgSqlEntityProviderServices, Devart.Data.PostgreSql.Entity.EF6, Version=7.17.1666.0, Culture=neutral, PublicKeyToken=09af7300eec23701" />
+    ```powershell
+    Scaffold-DbContext Name=ConnectionStrings:PostgreSqlConnectionString Npgsql.EntityFrameworkCore.PostgreSQL -OutputDir Data -Context DataContext -Schemas public -Force
     ```
 
-    This is how the `<entityFramework>` section of the file should appear:
+    >**Note**: This command will reverse-engineer more tables than are actually needed. The `-Tables` flag, referencing schema-qualified table names, provides a more accurate approach.
 
-    ![Screenshot showing adding providers to the solution.](./media/adding-provider.png "Adding providers")
+7. Attempt to build the solution to identify errors.
 
-9. We will need to make another change to Web.config. Under the `<DbProviderFactories>` node below the `<system.data>` node, add the following statements (the second statement should be added as a single line). Again, enter your version of the DLL.
+    ![Errors in the solution.](./media/solution-errors.png "Solution errors")
 
-    ```xml
-    <remove invariant="Devart.Data.PostgreSql" />
-    <add name="dotConnect for PostgreSQL" invariant="Devart.Data.PostgreSql" description="Devart dotConnect for PostgreSQL" type="Devart.Data.PostgreSql.PgSqlProviderFactory, Devart.Data.PostgreSql, Version=7.17.1666.0, Culture=neutral, PublicKeyToken=09af7300eec23701" />
+8. Expand the **Views** folder. Delete the following folders, each of which contain five views:
+
+   - **Customers**
+   - **Employees**
+   - **Products**
+   - **Shippers**
+   - **Suppliers**
+
+9. Expand the **Controllers** folder. Delete all controllers, except **HomeController.cs**.
+
+10. Open **DataContext.cs**. Add the following line to the top of the file, below the other `using` directives.
+
+   ```csharp
+   using NorthwindMVC.Models;
+   ```
+
+   Add the following below the other property definitions.
+
+   ```csharp
+   public virtual DbSet<SalesByYear> SalesByYearDbSet { get; set; }
+   ```
+
+   Lastly, add the following statement to the `OnModelCreating()` method, after setting the collation information. 
+
+   ```csharp
+   modelBuilder.Entity<SalesByYear>(entity =>
+   {
+         entity.HasNoKey();
+   });
+   ```
+
+11. Build the solution. Ensure that no errors appear. We added `SalesByYearDbSet` to **DataContext** because **HomeController.cs** references it. We deleted the controllers and their associated views because we will scaffold them again from the models.
+
+12. Right-click the **Controllers** folder and select **Add** (1). Select **New Scaffolded Item...** (2).
+
+   ![Adding a new scaffolded item.](./media/add-scaffolded-item.png "New scaffolded item")
+
+13. Select **MVC Controller with views, using Entity Framework**. Then, select **Add**.
+
+   ![Add MVC Controller with Views, using Entity Framework.](./media/add-mvc-with-ef.png "MVC Controller with Views, using Entity Framework")
+
+14. In the **ADD MVC Controller with views, using Entity Framework** dialog box, provide the following details. Then, select **Add**. Visual Studio will build the project.
+
+    - **Model class**: Select `Customer`
+    - **Data context class**: Select `DataContext`
+    - Select all three checkboxes below **Views**
+    - **Controller name**: Keep it set to `CustomersController`
+
+   ![Scaffolding controllers and views from model classes.](./media/customer-scaffold-views.png "Scaffolding controllers and views")
+
+15. Repeat steps 11-13, according to the following details:
+
+    - **EmployeesController.cs**
+      - Based on the **Employee** model class
+    - **ProductsController.cs**
+      - Based on the **Product** model class
+    - **ShippersController.cs**
+      - Based on the **Shipper** model class
+    - **SuppliersController.cs**
+      - Based on the **Supplier** model class
+
+16. Navigate to **Startup.cs**. Ensure that PostgreSQL is configured as the correct provider and the appropriate connection string is referenced.
+
+   ```csharp
+   services.AddDbContext<DataContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PostgreSqlConnectionString")));
+   ```
+
+### Task 7: Update the Dashboard Stored Procedure Call
+
+With PostgreSQL, stored procedures cannot return output values without a cursor. This Task details how to write a function to replicate the same logic. Functions can return result sets directly, without a cursor.
+
+1. Open PostgreSQL pgAdmin. Connect to the **NW** database as the **NW** user. Launch the query tool.
+
+2. Into the query tool, copy the following statement and execute it.
+
+    ```sql
+    CREATE OR REPLACE FUNCTION SALESBYYEAR_func (p_begin_date TIMESTAMP, p_end_date TIMESTAMP)
+	RETURNS TABLE (
+		ShippedDate TIMESTAMP,
+		OrderID bigint,
+		Subtotal double precision,
+		Year text
+    )
+    AS $$
+    BEGIN
+        RETURN QUERY 
+        SELECT Orders.ShippedDate, 
+                Orders.OrderID, 
+                Order_Subtotals.Subtotal, 
+                TO_CHAR(Orders.ShippedDate, 'YY') AS Year
+        FROM Orders INNER JOIN Order_Subtotals ON Orders.OrderID = Order_Subtotals.OrderID
+        WHERE Orders.ShippedDate Between p_begin_date And p_end_date;
+    END;
+    $$ 
+    LANGUAGE 'plpgsql';
     ```
 
-10. Now, add references to multiple assemblies.
+    ![Creating the SALESBYYEAR_func function in pgAdmin.](./media/sales-by-year-func.png "Creating new function SALESBYYEAR_func")
 
-    - Under the **Solution Explorer**, right-click **References**.
-    - Select **Add Reference**.  
-    - Locate **Browse** on the left-hand side of the **Reference Manager** dialog box.
-    - Select **Browse** at the bottom right corner of the box.
+3. Comment out the code under the Oracle comment. First, select the lines for the Oracle code, then select the Comment button in the toolbar.
 
-    ![Screenshot to navigate to Reference manager.](./media/reference-manager.png "Reference manager navigation")
+   ![The code under the Oracle comment is highlighted and labeled 1, and the Comment button in the toolbar is highlighted and labeled 2.](./media/visual-studio-home-controller-comment-out-oracle-lines.png "Comment out code")
 
-11. The first assembly we will need is **Devart.Data.dll**.
-    - Navigate to `C:\Windows\assembly\GAC_MSIL\Devart.Data\[DATA DLL ASSEMBLY VERSION]`.
-    - Select the DLL.
-    - Select **Add**.
-
-    ![Screenshot showing Devart assembly process.](./media/devart-data-dll.png "Devart assembly process")
-
-12. Now, we need **Devart.Data.PostgreSql.dll**.
-    - Navigate to `C:\Windows\assembly\GAC_MSIL\Devart.Data.PostgreSql\[PostgreSQL DLL ASSEMBLY VERSION]`.
-    - Select the object.
-    - Select **Add**.
-
-13. Finally, we need **Devart.Data.PostgreSql.Entity.EF6.dll**.
-    - Navigate to `C:\Program Files (x86)\Devart\dotConnect\PostgreSQL\Entity\EF6`.
-    - Select the correct DLL.
-
-14. Now, you will need to rebuild the solution. Under **Build**, select **Rebuild Solution**.
-
-    ![Screenshot showing how to rebuild the solution.](./media/rebuild-solution.png "Rebuilding the solution")
-
-15. After the solution rebuilds, delete the existing contents of the **Data** folder. Select all items, right-click, and select **Delete**.
-
-16. Then, right-click the **Data** directory in the **Solution Explorer**.
-
-    - Select **Add** and then **New Item**.
-    - Then, select **ADO.NET Entity Data Model**.
-    - Name it **DataContext**.
-    - Finally, select **Add**.
-
-    ![Screenshot showing how to ADO.NET Entity data model.](./media/adonet-entity-model.png "ADO.NET entity data model")
-
-17. On the **Choose Model Contents** page, select **Code First from database**.
-
-    ![Screenshot to choose model type.](./media/visual-studio-entity-data-model-wizard-choose-model.png "Choosing model type")
-
-18. On the **Choose Your Data Connection** page, select **New Connection**.
-
-19. Under the **Connection Properties** window, you will need to change your Data Source to **PostgreSQL Server (dotConnect for PostgreSQL)**.
-    - Select **Change**.
-    - Choose **PostgreSQL Server** as the **Data source**, and **dotConnect for PostgreSQL** as the **Data provider**.
-    - Select **OK**.
-
-    ![Screenshot showing how to change the data source.](./media/change-data-source.PNG "Changing the data source")
-
-20. The **Connection Properties** box should open. Enter the DNS name of your Azure PostgreSQL database as the **Host**. Enter **NW@[DB NAME]** as the **User Id**. Provide the user's **Password**. Then, select **Advanced...** at the bottom right corner of the box.
-
-    ![Screenshot showing how to enter advanced properties.](./media/entering-advanced-properties.png "Entering advanced properties")
-
-21. Navigate to **SSL**. Change **SSLMode** to **Require**. Also, under **Source**, change **Database** to **NW** and **Initial Schema** to **public**. Select **OK**.
-
-    ![Configuring advanced config parameters window.](./media/advanced-config-parameters-ssl-require.PNG "Advanced config parameters")
-
-22. Select **Test Connection**, and if the connection fails, verify that you entered all parameters correctly. If the connection succeeds, select **OK**.
-
-23. Back at the **Choose Your Data Connection** page, select **Yes, include the sensitive data in the connection string**. Select **Next >**.
-
-    ![Choose Your Data Connection screen with sensitive data included.](./media/edm-data-connection.PNG "Choose Your Data Connection")
-
-24. You will now be presented with the option to choose your desired database objects. Select **Tables**. This should select all tables in the public schema. If present, uncheck the **dms_apply_exceptions** table. Ensure that **Pluralize or singularize generated object names** is selected. Select **Finish**.
-
-    ![Screenshot to choose database objects.](./media/choosing-db-objects.PNG "Choosing database objects")
-
-25. If all was successful, the new models should be located under the **Data** directory.
-
-    ![Screenshot to show the final models view.](./media/table-models.PNG "Final models view")
-
-26. Since we recommend using lowercase table names in **PostgreSQL**, the resulting model classes are also in lowercase. This poses an issue because of the views and the controllers in our app reference uppercase class names and properties. We will demonstrate how to accommodate for this in the **category** model, the process of which can be repeated for other models.
-
-    >**Note:** This action can be avoided if you use Devart's Entity Developer.
-
-27. First, right-click the model file, and select **Properties**.
-
-    - Change **File Name** from **category.cs** to **CATEGORY.cs**.
-    - When asked to rename all references, select **Yes**. This action will rename the class and its constructor.
-    - Repeat this process for all files in the **Data** directory
-
-28. Now, we must capitalize property names while respecting the underlying database column names. Observe the inclusion of the data annotation and the uppercase property name. To capitalize a name, highlight it, and locate **Edit [in the top ribbon] > Advanced > Make Uppercase**. If a data annotation is already present, provide the name of the underlying column as the first argument.
-
-    ![Screenshot to show category properties.](./media/categoryid-property.PNG "Category properties")
-
-    >**Note:** ICollections do not need to be modified in any way.
-
-29. Finally, navigate to **DataContext.cs**. Capitalize the property names (e.g. convert categories to CATEGORIES). There are multiple other changes you will need to make, mentioned below in the **Additional Notes** section.
-
-    >**Additional Notes**
-      - In EMPLOYEE.cs, capitalize the employee1 property, but do not provide a column attribute. 
-      - In ORDER.cs, do not capitalize or provide an attribute for any properties following SHIPCOUNTRY.
-      - In ORDER_DETAILS.cs, do not capitalize and do not provide column attributes for the order and product properties.
-      - In PRODUCT.cs, capitalize the category and supplier properties but do not provide attributes. Also, do not use CATEGORY as the property name--instead, write CATEGORy.
-      - In TERRITORY.cs, do not capitalize or provide an attribute for any properties following REGIONID.
-      - Check the table schema created by ora2pg. Any columns in the database will require an attribute.
-
-      - **DataContext.cs changes:**
-        - Modify e.employee1 to e.EMPLOYEE1 (line 36)
-        - Modify e.reportsto to e.REPORTSTO (line 37)
-        - Replace e.unitprice with e.UNITPRICE (line 45)
-        - Replace e.freight with e.FREIGHT (line 49)
-        - Replace e.shipvia with e.SHIPVIA (line 74)
-
-30. Navigate to **HomeController.cs**. Replace the existing contents of the file with the following:
+4. Below the commented Oracle code and before the LINQ query, add the following:
 
     ```csharp
-    using System.Data;
-    using System.Data.SqlClient;
-    using System.Linq;
-    using System.Web.Mvc;
-    using NorthwindMVC.Data;
-    using NorthwindMVC.Models;
-    using Oracle.ManagedDataAccess.Client;
-    using Oracle.ManagedDataAccess.Types;
-    using Devart.Data.PostgreSql;
-    using System;
-    using System.Collections.Generic;
+    var beginDate = new NpgsqlParameter { ParameterName = "beginDate", NpgsqlDbType = NpgsqlDbType.Timestamp, Direction = ParameterDirection.Input, Value = new NpgsqlDateTime(DateTime.Parse("Jan 1, 1996")) };
+    var endDate = new NpgsqlParameter { ParameterName = "endDate", NpgsqlDbType = NpgsqlDbType.Timestamp, Direction = ParameterDirection.Input, Value = new NpgsqlDateTime(DateTime.Parse("Jan 1, 1999")) };
 
-    namespace NorthwindMVC.Controllers
-    {
-        public class HomeController : Controller
-        {
-            private DataContext db = new DataContext();
-
-            public ActionResult Index()
-            {
-                // Oracle
-                //var salesByYear = this.db.Database.SqlQuery<SALESBYYEAR>(
-                //    "BEGIN NW.SALESBYYEAR(:P_BEGIN_DATE, :P_END_DATE, :CUR_OUT); END;",
-                //    new OracleParameter("P_BEGIN_DATE", OracleDbType.TimeStamp, new OracleTimeStamp(1996, 1, 1),
-                //                         ParameterDirection.Input),
-                //    new OracleParameter("P_END_DATE", OracleDbType.TimeStamp, new OracleTimeStamp(1999, 12, 31),
-                //                         ParameterDirection.Input),
-                //    new OracleParameter("CUR_OUT", OracleDbType.RefCursor, ParameterDirection.Output)).ToList();
-
-                //var salesByYear = this.db.Database.SqlQuery<SALESBYYEAR>(
-                //    "exec [NW].[SALESBYYEAR] @p_begin_date, @p_end_date ",
-                //    new SqlParameter("p_begin_date", "1996-1-1"),
-                //    new SqlParameter("p_end_date", "1999-1-1")).ToList();
-
-                // Create the command on the existing connection
-                PgSqlConnection connection = (PgSqlConnection)this.db.Database.Connection;
-                PgSqlCommand spCommand = connection.CreateCommand();
-                PgSqlParameter p_begin_date, p_end_date, cur_OUT;
-
-                spCommand.CommandText = "salesbyyear";
-                spCommand.CommandType = CommandType.StoredProcedure;
-
-                p_begin_date = spCommand.Parameters.Add("p_begin_date", PgSqlType.TimeStamp);
-                p_end_date = spCommand.Parameters.Add("p_end_date", PgSqlType.TimeStamp);
-                // cur_OUT will be cast to a PgSqlCursor later on
-                cur_OUT = spCommand.Parameters.Add("cur_OUT", PgSqlType.VarChar);
-
-                p_begin_date.Direction = ParameterDirection.Input;
-                p_end_date.Direction = ParameterDirection.Input;
-                // There are no OUT parameters in PostgreSQL -- just INOUT
-                cur_OUT.Direction = ParameterDirection.InputOutput;
-
-                connection.Open();
-
-                spCommand.Prepare();
-
-                p_begin_date.Value = new PgSqlTimeStamp(DateTime.Parse("Jan 1, 1996"));
-                p_end_date.Value = new PgSqlTimeStamp(DateTime.Parse("Jan 1, 1999"));
-
-                // The cursor is only accessible within the transaction in which its stored procedure is executed
-                PgSqlTransaction t = connection.BeginTransaction();
-
-                spCommand.ExecuteNonQuery();
-
-                PgSqlCursor cursor = cur_OUT.PgSqlValue as PgSqlCursor;
-                PgSqlDataReader dataReader = cursor.GetDataReader();
-
-                List<SALESBYYEAR> salesByYear = new List<SALESBYYEAR>();
-
-                while (dataReader.Read())
-                {
-                    SALESBYYEAR yearlySales = new SALESBYYEAR();
-                    yearlySales.ShippedDate = (DateTime)dataReader.GetValue(0);
-                    yearlySales.ORDERID = Convert.ToDecimal(dataReader.GetValue(1));
-                    yearlySales.SUBTOTAL = Convert.ToDecimal(dataReader.GetValue(2));
-                    yearlySales.YEAR = Convert.ToInt32(dataReader.GetValue(3));
-
-                    salesByYear.Add(yearlySales);
-                }
-
-                var model = from r in salesByYear
-                            orderby r.YEAR
-                            group r by r.YEAR into grp
-                            select new SalesByYearViewModel { Year = grp.Key, Count = grp.Count() };
-
-                // Evaluates the LINQ query -- we want to pass data to our view
-                List<SalesByYearViewModel> data = model.ToList<SalesByYearViewModel>();
-
-                dataReader.Close();
-
-                t.Commit();
-
-                connection.Close();
-
-                return this.View(data);
-            }
-        }
-    }
+    var salesByYear = await _context.SalesByYearDbSet.FromSqlRaw("SELECT * FROM SALESBYYEAR_func(@beginDate, @endDate);", beginDate, endDate).ToListAsync();
     ```
 
-31. We will unpack the contents of this controller.
+5. Run the application again by selecting the green Start button in the Visual Studio toolbar.
 
-    - First, we attach to the existing database connection and prepare to call the stored procedure by defining parameters. Since the stored procedure does not return data directly, we reference a refcursor (cur_OUT in the script), which allows us to extract data row by row (hence the while loop).
-    - We then define and execute a LINQ query, which encapsulates its results in objects of type SalesByYearViewModel.
-    - After this, we close the DataReader (which allows us to pull data from the refcursor), commit the transaction, close the connection, and display the `Home\Index.cshtml` view.
+    ![The Start button is highlighted on the Visual Studio toolbar.](./media/visual-studio-toolbar-start.png "Select Start")
 
-32. Open the file, `SALESBYYEAR.cs`, in the **Models** folder in **Solution ExplorerI**.
+6. Verify the graph is showing correctly on the Northwind Traders dashboard.
 
-    ![SALESBYYEAR.cs is highlighted under the Models folder in the Solution Explorer.](./media/visual-studio-models-salesbyyear.png "Open SALESBYYEAR.cs")
+    ![The Northwind Traders Dashboard is visible in a browser.](./media/northwind-traders-dashboard.png "View the dashboard")
 
-33. Change the types of the following properties:
-
-    - Change the `SUBTOTAL` property from double to decimal.
-    - Change the `YEAR` property from string to int.
-
-    ![The decimal and int property values are highlighted.](./media/visual-studio-models-salesbyyear-updated.png "Change the SUBTOTAL and YEAR properties")
-
-34. Save the file.
-
-35. Open the `SalesByYearViewModel.cs` file from the Models folder in the Solution Explorer.
-
-    ![SalesByYearViewModel.cs is highlighted under the Models folder in the Solution Explorer.](./media/visual-studio-models-salesbyyearviewmodel.png "Open SalesByYearViewModel.cs")
-
-36. Change the type of the `YEAR` property from string to int, then save the file.
-
-    ![The int property value is highlighted.](./media/visual-studio-models-salesbyyearviewmodel-updated.png "Change the YEAR property")
-
-37. Run the solution by selecting the green Start button on the toolbar.
-
-    ![Start is highlighted on the toolbar.](./media/start-iisexpress.png "Select Start")
-
-38. The application should launch locally in Internet Explorer.
-
-    ![Screenshot showing the application final result.](./media/northwind-app-postgre.PNG "Application final result")
-
-### Task 7: Deploy the application to Azure
+### Task 8: Deploy the application to Azure
 
 The built application will be deployed to IIS. The existing publishing profile should be used.
 

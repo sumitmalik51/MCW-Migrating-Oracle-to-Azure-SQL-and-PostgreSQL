@@ -937,11 +937,17 @@ With PostgreSQL, stored procedures cannot return output values without a cursor.
     var salesByYear = await _context.SalesByYearDbSet.FromSqlRaw("SELECT * FROM SALESBYYEAR_func(@beginDate, @endDate);", beginDate, endDate).ToListAsync();
     ```
 
-5. Run the application again by selecting the green Start button in the Visual Studio toolbar.
+5. In `SalesByYear.cs`, update the type of the `OrderID` property to `long`.
+
+    ```csharp
+    public long OrderID { get; set; }
+    ```
+
+6. Run the application again by selecting the green Start button in the Visual Studio toolbar.
 
     ![The Start button is highlighted on the Visual Studio toolbar.](./media/visual-studio-toolbar-start.png "Select Start")
 
-6. Verify the graph is showing correctly on the Northwind Traders dashboard.
+7. Verify the graph is showing correctly on the Northwind Traders dashboard.
 
     ![The Northwind Traders Dashboard is visible in a browser.](./media/northwind-traders-dashboard.png "View the dashboard")
 

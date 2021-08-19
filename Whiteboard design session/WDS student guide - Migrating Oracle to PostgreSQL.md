@@ -9,7 +9,7 @@ Whiteboard design session student guide
 </div>
 
 <div class="MCWHeader3">
-November 2020
+September 2021
 </div>
 
 Information in this document, including URL and other Internet Web site references, is subject to change without notice. Unless otherwise noted, the example companies, organizations, products, domain names, e-mail addresses, logos, people, places, and events depicted herein are fictitious, and no association with any real company, organization, product, domain name, e-mail address, logo, person, place or event is intended or should be inferred. Complying with all applicable copyright laws is the responsibility of the user. Without limiting the rights under copyright, no part of this document may be reproduced, stored in or introduced into a retrieval system, or transmitted in any form or by any means (electronic, mechanical, photocopying, recording, or otherwise), or for any purpose, without the express written permission of Microsoft Corporation.
@@ -66,7 +66,7 @@ World Wide Importers (WWI) has experienced massive growth over the last few year
 
 WWI is investigating ways to improve the performance of their transactional databases without incurring expensive new license fees. They're also concerned with keeping their transactional system available and online for their store. They've noticed that Oracle has been slowing down as their growth has doubled. They realize that they would need to invest in new hardware to achieve this on-premises and, as a result, are looking at this as more of a migration to a new system.
 
-WWI has several external and internal applications that need to migrate with the database. The database is used by an online store application, written in ASP.NET MVC. They also have internal applications that manage their product catalog, written in Oracle Forms. In addition, they have many reports to aid in forecasting, sales reporting, and inventory maintenance. Those reports are a mixture of Power BI, Excel, and Oracle Forms, and hit the Oracle OLTP database directly.
+WWI has several external and internal applications that need to migrate with the database. The database is used by an online store application, written in ASP.NET Core MVC. They also have internal applications that manage their product catalog, written in Oracle Forms. In addition, they have many reports to aid in forecasting, sales reporting, and inventory maintenance. Those reports are a mixture of Power BI, Excel, and Oracle Forms, and hit the Oracle OLTP database directly.
 
 WWI also uses this database to interact with vendors. Several of their vendors require real-time access to their sales data through an API so they can draw warranty information on the date of sale. They do this through a Representational State Transfer (REST) service that is maintained by WWI.
 
@@ -122,7 +122,7 @@ Kathleen Sloan, the CIO of WWI, is looking to decrease their software license fe
 
 ### Infographic for common scenarios
 
-![This common scenario diagram includes the following elements: API App for vendor connections; Web App for Internet Sales Transactions; Oracle Forms App for inventory management; Oracle DB OLTP RAC Server; SSRS 2008 for Reporting of OLTP, Data Warehouse, and Cubes; SSIS 2008 for a Data Warehouse Load; Excel for reporting; SQL Server 2008 R2 Standard for a Data Warehouse; and SSAS2008 for a Data Warehouse. ](media/common-scenarios-oracle-to-postgresql.PNG "Common Scenario diagram")
+![This common scenario diagram includes the following elements: API App for vendor connections; Web App for Internet Sales Transactions; Oracle Forms App for inventory management; Oracle DB OLTP RAC Server; and Power BI and Excel for reporting of OLTP.](media/common-scenarios-oracle-to-postgresql.PNG "Common Scenario diagram")
 
 ## Step 2: Design a proof of concept solution
 
@@ -233,7 +233,7 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 |                                                          |                                                                                                                               |
 | -------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | **Description**                                          | **Links**                                                                                                                     |
-| Migrate Oracle to Azure Database for PostgreSQL          | <https://datamigration.microsoft.com/scenario/oracle-to-azurepostgresql?step=1>                                                                |
+| Migrate Oracle to Azure Database for PostgreSQL          | <https://docs.microsoft.com/azure/postgresql/howto-migrate-from-oracle>                                                                |
 | Azure Database for PostgreSQL features                              | <https://azure.microsoft.com/en-us/services/postgresql/>  |
 | Older Oracle Forms Migration guide                       | <https://technet.microsoft.com/library/bb463141.aspx/> <https://www.microsoft.com/sql-server/sql-license-migration/>          |
 | Azure Database Migration Service Overview                | <https://docs.microsoft.com/azure/dms/dms-overview>                                                                           |

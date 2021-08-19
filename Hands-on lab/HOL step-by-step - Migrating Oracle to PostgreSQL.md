@@ -875,7 +875,7 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
 
    ![Scaffolding controllers and views from model classes.](./media/customer-scaffold-views.png "Scaffolding controllers and views")
 
-15. Repeat steps 11-13, according to the following details:
+15. Repeat steps 12-14, according to the following details:
 
     - **EmployeesController.cs**
       - Based on the **Employee** model class

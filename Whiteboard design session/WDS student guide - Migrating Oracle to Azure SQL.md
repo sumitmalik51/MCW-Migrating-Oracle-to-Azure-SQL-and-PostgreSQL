@@ -273,3 +273,4 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 | Azure Database Migration Service Overview                | <https://docs.microsoft.com/azure/dms/dms-overview>                                                                           |
 | SQL Server database migration to Azure SQL Database      | <https://docs.microsoft.com/en-us/azure/sql-database/sql-database-cloud-migrate>                                              |
 | Differentiating Microsoft's database migration tools     | <https://blogs.msdn.microsoft.com/datamigration/2017/10/13/differentiating-microsofts-database-migration-tools-and-services/> |
+| Migrate your Java applications from Oracle to SQL Server with the help of the Data Access Migration Toolkit | <https://techcommunity.microsoft.com/t5/microsoft-data-migration/migrate-your-java-applications-from-oracle-to-sql-server-with/ba-p/368727>

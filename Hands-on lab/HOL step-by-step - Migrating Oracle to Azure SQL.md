@@ -32,10 +32,9 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
   - [Exercise 1: Setup Oracle 18c Express Edition](#exercise-1-setup-oracle-18c-express-edition)
     - [Task 1: Install Oracle XE](#task-1-install-oracle-xe)
     - [Task 2: Install Oracle Data Access components](#task-2-install-oracle-data-access-components)
-    - [Task 3: Install SQL Server Migration Assistant for Oracle](#task-3-install-sql-server-migration-assistant-for-oracle)
-    - [Task 4: Install SQL Developer Tool](#task-4-install-sql-developer-tool)
-    - [Task 5: Create the Northwind database in Oracle 18c XE](#task-5-create-the-northwind-database-in-oracle-18c-xe)
-    - [Task 6: Configure the Starter Application to use Oracle](#task-6-configure-the-starter-application-to-use-oracle)
+    - [Task 3: Install SQL Developer Tool](#task-3-install-sql-developer-tool)
+    - [Task 4: Create the Northwind database in Oracle 18c XE](#task-4-create-the-northwind-database-in-oracle-18c-xe)
+    - [Task 5: Configure the Starter Application to use Oracle](#task-5-configure-the-starter-application-to-use-oracle)
   - [Exercise 2: Assess the Oracle 18c Database before Migrating to Azure SQL Database](#exercise-2-assess-the-oracle-18c-database-before-migrating-to-azure-sql-database)
     - [Task 1: Update Statistics and Identify Invalid Objects](#task-1-update-statistics-and-identify-invalid-objects)
   - [Exercise 3: Migrate the Oracle database to Azure SQL Database](#exercise-3-migrate-the-oracle-database-to-azure-sql-database)
@@ -122,23 +121,21 @@ In this exercise, you will install Oracle XE on your Lab VM, load a sample datab
 
 6. After signing in, the file will download.
 
-7. Unzip the file, and navigate to the `DISK1` folder.
-
-8. Right-click `setup.exe`, and select **Run as administrator**.
+7. Extract the ZIP file. Right-click `setup.exe`, and select **Run as administrator**.
 
    ![In File Explorer, setup.exe is selected, and Run as administrator is highlighted in the shortcut menu.](./media/windows-file-menu-run-as-administrator.png "Run setup.exe as an administrator")
 
-9. Select **Next** to step through each screen of the installer, accepting the license agreement and default values, until you get to the **Specify Database Passwords** screen.
+8. Select **Next** to step through each screen of the installer, accepting the license agreement and default values, until you get to the **Specify Database Passwords** screen.
 
-10. On the **Oracle Database Information** screen, set the password to **Password.1!!**, and select **Next**.
+9.  On the **Oracle Database Information** screen, set the password to **Password.1!!**, and select **Next**.
 
     ![The above credentials are entered on the Oracle Database Information screen.](./media/oracle-18c-specify-passwords.png "Set the password")
 
-11. Select **Install**. Once the installation completes, take note of the ports assigned.
+10. Select **Install**. Once the installation completes, take note of the ports assigned.
 
     ![Several of the ports being assigned are highlighted on the Summary screen.](./media/oracle-18c-install-summary.png "Note the ports being assigned")
 
-12. Select **Finish** on the final dialog to compete the installation.
+11. Select **Finish** on the final dialog to compete the installation.
 
 ### Task 2: Install Oracle Data Access components
 
@@ -178,35 +175,7 @@ In this exercise, you will install Oracle XE on your Lab VM, load a sample datab
 
 13. On the Finish screen, select **Close**.
 
-### Task 3: Install SQL Server Migration Assistant for Oracle
-
-1. On your Lab VM, download SQL Server Migration Assistant v8.x for Oracle from <https://www.microsoft.com/en-us/download/details.aspx?id=54258>.
-
-2. Select the Download button to download SSMA.
-
-   ![Download is selected and highlighted under Microsoft SQL Server Migration Assistant v8.x for Oracle.](media/ssma-download.png "Download SSMA")
-
-   >**Note**: Download the latest version.
-
-3. Check the box next to **SSMAforOracle_8.x.0.msi**, and select **Next** to begin the download.
-
-   ![SSMAforOracle_8.x.0.msi is selected and highlighted under Choose the download you want.](media/ssma-download-files.png)
-
-4. Run the downloaded installer, and select **Next** on the Welcome screen.
-
-5. Accept the License Agreement, and select **Next**.
-
-6. On the Choose Setup Type screen, select **Typical**, which will move you to the next screen.
-
-   ![Typical is selected and highlighted on the Choose Setup Type screen.](./media/ssma-install-setup-type.png "Select Typical")
-
-7. Select **Install** on the Ready to Install screen.
-
-   ![Install is selected on the Ready to Install screen.](./media/ssma-install-ready-to-install.png "Select Install")
-
-8. Select **Finish** when the installation is complete.
-
-### Task 4: Install SQL Developer Tool
+### Task 3: Install SQL Developer Tool
 
 In this task, you will install Oracle SQL Developer, a common IDE to interact with Oracle databases.
 
@@ -224,7 +193,7 @@ In this task, you will install Oracle SQL Developer, a common IDE to interact wi
 
    >**Note**: If you are prompted to import preferences from a previous installation, select **No**.
 
-### Task 5: Create the Northwind database in Oracle 18c XE
+### Task 4: Create the Northwind database in Oracle 18c XE
 
 WWI has provided you with a copy of their application, including a database script to create their Oracle database. They have asked that you use this as a starting point for migrating their database and application to Azure SQL DB. In this task, you will create a connection to the Oracle database on your Lab VM.
 
@@ -277,7 +246,7 @@ WWI has provided you with a copy of their application, including a database scri
 
     - `6.northwind.oracle.constraints.sql`
 
-### Task 6: Configure the Starter Application to use Oracle
+### Task 5: Configure the Starter Application to use Oracle
 
 In this task, you will add the necessary configuration to the `NorthwindMVC` solution to connect to the Oracle database you created in the previous task.
 

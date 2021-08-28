@@ -833,15 +833,15 @@ In this task, you will install the AdventureWorks database in SQL Server 2008 R2
 
    ![Tools is highlighted on the SSMS menu bar, and Options is highlighted at the bottom.](./media/ssms-tools-options-dialog.png "Select Options")
 
-9. In the Options dialog, expand **Text Editor** in the tree view on the left, then expand **Transact-SQL**, select **General**, then check the box next to **Line numbers**. This will display line numbers in the query editor window, to make finding the lines specified below easier.
+9.  In the Options dialog, expand **Text Editor** in the tree view on the left, then expand **Transact-SQL**, select **General**, then check the box next to **Line numbers**. This will display line numbers in the query editor window, to make finding the lines specified below easier.
 
    ![On the left side of the Options dialog box, Text Editor is highlighted, Transact-SQL is highlighted below that, and General is selected and highlighted below that. On the right, Line numbers is selected and highlighted.](./media/ssms-tools-options-text-editor-tsql-general.png "Display line numbers in the query editor")
 
-10. Select **OK** to close the Options dialog.
+11. Select **OK** to close the Options dialog.
 
-11. In the SSMS query editor for `instawdwdb.sql`, uncomment the `SETVAR` lines (lines 36 and 37) by removing the double hyphen "--" from the beginning of each line.
+12. In the SSMS query editor for `instawdwdb.sql`, uncomment the `SETVAR` lines (lines 36 and 37) by removing the double hyphen "--" from the beginning of each line.
 
-12. Next, edit the file path for each variable so they point to the following (remember to include a trailing backslash ("\\") on each path):
+13. Next, edit the file path for each variable so they point to the following (remember to include a trailing backslash ("\\") on each path):
 
     - SqlSamplesDatabasePath: `C:\AdventureWorksSample\`
 
@@ -849,27 +849,27 @@ In this task, you will install the AdventureWorks database in SQL Server 2008 R2
 
       ![The variables and file paths specified above are highlighted in the SSMS query editor.](./media/ssms-query-editor-instawdwdb.png "Edit the variable file paths")
 
-13. Place SSMS into **SQLCMD mode** by selecting it from the **Query** menu.
+14. Place SSMS into **SQLCMD mode** by selecting it from the **Query** menu.
 
     ![SQLCMD Mode is highlighted in the Query menu.](./media/ssms-query-menu-sqlcmd-mode.png "Select SQLCMD Mode")
 
-14. Execute the script by selecting the **Execute** button on the toolbar in SSMS.
+15. Execute the script by selecting the **Execute** button on the toolbar in SSMS.
 
     ![Execute is highlighted on the SSMS toolbar.](./media/ssms-toolbar-execute.png "Run the script")
 
-15. This will create the `AdventureWorksDW2008R2` database. When the script is done running, you will see output similar to the following in the results pane.
+16. This will create the `AdventureWorksDW2008R2` database. When the script is done running, you will see output similar to the following in the results pane.
 
     ![Output is displayed in the results pane. At this time, we are unable to capture all of the information in the window. Future versions of this course should address this.](./media/ssms-query-instawdwdb-script-output.png "View the script output")
 
-16. Expand **Databases** in Object Explorer, right-click the `AdventureWorksDW2008R2` database, and select **Rename**.
+17. Expand **Databases** in Object Explorer, right-click the `AdventureWorksDW2008R2` database, and select **Rename**.
 
     ![On the left side of Object Explorer, Databases is highlighted, AdventureWorksDW2008R2 is highlighted below that, and Rename is selected and highlighted in the submenu.](./media/ssms-databases-rename.png "Rename in Object Explorer")
 
-17. Set the name of the database to `WideWorldImporters`.
+18. Set the name of the database to `WideWorldImporters`.
 
     ![WideWorldImporters is highlighted under Databases in Object Explorer.](./media/ssms-databases-wideworldimporters.png "Name the database")
 
-18. Close SSMS.
+19. Close SSMS.
 
 ### Task 3: Update SQL Server settings using Configuration Manager
 
@@ -1001,8 +1001,8 @@ After you have reviewed the assessment results and you have ensured the database
 
 6. On the **Select target** tab, enter the following:
 
-   - **Server name**: Enter the server name of the Azure SQL Database you created during the before the hands-on lab exercise.
-     - To find the name of your SQL Database, select the WideWorldImporters SQL Database from your hands-on-lab-SUFFIX resource group in the Azure portal, and then select the **Server name** in the Essentials area of the Overview blade.
+   - **Server name**: Enter the server name of the Azure SQL Database you created. If you deployed the ARM template, it will follow the format `northwind-server-[SUFFIX].database.windows.net`.
+     - To find the name of your SQL Database, select the WideWorldImportersDW SQL Database from your hands-on-lab-SUFFIX resource group in the Azure portal, and then select the **Server name** in the Essentials area of the Overview blade.
 
    ![On the SQL database Overview blade, the Server name is highlighted.](media/azure-sql-database-server-name.png "SQL Database Overview")
 
@@ -1011,7 +1011,7 @@ After you have reviewed the assessment results and you have ensured the database
    - **Password**: Password.1!!
    - **Connection properties**: Check both Encrypt connection and Trust server certificate.
    - Select **Connect**.
-   - Select **WideWorldImporters** from the list of databases.
+   - Select **WideWorldImportersDW** from the list of databases.
 
    ![The Select target tab of the Data Migration Assistant is displayed, with the values specified above entered into the appropriate fields.](media/data-migration-assistant-migration-select-target.png "Data Migration Assistant Select target")
 
@@ -1035,9 +1035,9 @@ After you have reviewed the assessment results and you have ensured the database
 
     ![The SSMS Connect to Server dialog is displayed, with the Azure SQL Database name specified, SQL Server Authentication selected, and the demouser credentials entered.](media/ssms-connect-azure-sql-database.png "Connect to Server")
 
-13. Once connected, expand **Databases**, and expand **WideWorldImporters**, then expand **Tables**, and observe the schema has been created.
+13. Once connected, expand **Databases**, and expand **WideWorldImportersDW**, then expand **Tables**, and observe the schema has been created.
 
-    ![In the SSMS Object Explorer, Databases, WideWorldImporters, and Tables are expanded, showing the tables created by the deploy schema script.](media/ssms-databases-wideworldimporters-tables.png "SSMS Object Explorer")
+    ![In the SSMS Object Explorer, Databases, WideWorldImportersDW, and Tables are expanded, showing the tables created by the deploy schema script.](media/ssms-databases-wideworldimporters-tables.png "SSMS Object Explorer")
 
 ### Task 3: Create a migration project
 
@@ -1091,7 +1091,7 @@ In this task, you create a new migration project for the WideWorldImporters data
    - Select **I know my target details**.
    - **Target server name**: Enter the server name for your Azure SQL Database.
 
-     - To find the name of your SQL Database, select the WideWorldImporters SQL Database from your hands-on-lab-SUFFIX resource group in the Azure portal, and then select the **Server name** in the Essentials area of the Overview blade.
+     - To find the name of your SQL Database, select the WideWorldImportersDW SQL Database from your hands-on-lab-SUFFIX resource group in the Azure portal, and then select the **Server name** in the Essentials area of the Overview blade.
 
        ![On the SQL database Overview blade, the Server name is highlighted.](media/azure-sql-database-server-name.png "SQL Database Overview")
 
@@ -1112,39 +1112,43 @@ In this task, you create a new migration project for the WideWorldImporters data
 
 In this task, you will create a new activity in the Azure Database Migration Service to execute the migration from the on-premises SQL Server 2008 R2 server to Azure SQL Database.
 
-1. On the Azure Database Migration Service blade, select **+New Activity**, and then select **Offline data migration**.
+1. On the Azure Database Migration Service blade, select **+New Activity**, and then select **Data migration**.
 
-   ![On the Azure Database Migration Service blade, +New Activity is highlighted, and the Run migration button is highlighted in the Create new activity dialog.](media/dms-add-new-activity.png "Azure Database Migration Service Add New Activity")
+   ![On the Azure Database Migration Service blade, +New Activity is highlighted, and the Data migration button is highlighted in the Create new activity dialog.](media/dms-add-new-activity.png "Azure Database Migration Service Add New Activity")
 
-2. On the Migration Wizard **Select source** blade, re-enter the demouser password, **Password.1!!**, then select **Next: Select target >>**.
+2. On the Migration Wizard **Select source** blade, re-enter the demouser password, **Password.1!!**, then select **Next: Select databases >>**.
 
    ![The Migration Wizard Select source blade is displayed, with the password value highlighted.](media/dms-migration-activity-source.PNG "Migration Wizard Select source")
 
-3. On the Migration Wizard **Select target** blade, re-enter the demouser password, **Password.1!!**, then select **Next: Map to target databases >>**.
+3. On the Migration Wizard **Select databases** blade, select **WideWorldImporters**. Then, select **Next: Select target >>**.
+
+   ![Select the WideWorldImporters source database.](./media/source-database.png "WideWorldImporters source database")
+
+4. On the Migration Wizard **Select target** blade, re-enter the demouser password, **Password.1!!**, then select **Next: Map to target databases >>**.
 
    ![The Migration Wizard Select target blade is displayed, with the password value highlighted.](media/dms-migration-activity-target.PNG "Migration Wizard Select target")
 
-4. On the Migration Wizard **Map to target databases** blade, confirm that **WideWorldImporters** is checked as the source database, and that it is also the target database on the same line, then select **Next: Configure migration settings >>**.
+5. On the Migration Wizard **Map to target databases** blade, confirm that **WideWorldImporters** is checked as the source database, and that **WideWorldImportersDW** is selected as the target. Then select **Next: Configure migration settings >>**.
 
    ![The Migration Wizard Map to target database blade is displayed, with the WideWorldImporters line highlighted.](media/dms-migration-activity-select-target-db.png "Migration Wizard Map to target databases")
 
-5. On the Migration Wizard **Configure migration settings** blade, expand the WideWorldImporters database, verify all the tables are selected, and select **Next: Summary >>**.
+6. On the Migration Wizard **Configure migration settings** blade, expand the WideWorldImporters database, verify all the tables are selected, and select **Next: Summary >>**.
 
    ![The Migration Wizard Configure migration settings blade is displayed, with the expand arrow for WideWorldImporters highlighted, and all the tables checked.](media/dms-migration-activity-confirm-source-tables.PNG "Migration Wizard Configure migration settings")
 
-6. On the Migration Wizard **Summary** blade, enter the following:
+7. On the Migration Wizard **Summary** blade, enter the following:
 
    - **Activity name**: Enter a name, such as DwMigration.
 
    ![The Migration Wizard summary blade is displayed, DwMigration is entered into the name field, and Validate my database(s) is selected in the Choose validation option blade, with all three validation options selected.](media/dms-migration-activity-start.PNG "Migration Wizard Summary")
 
-7. Select **Start migration**.
+8. Select **Start migration**.
 
-8. Monitor the migration on the status screen that appears. Select the refresh icon in the toolbar to retrieve the latest status.
+9.  Monitor the migration on the status screen that appears. Select the refresh icon in the toolbar to retrieve the latest status.
 
    ![On the Migration job blade, the status shows the job is Running.](media/dms-migration-wizard-status-running.png "Migration with Pending status")
 
-9. When the migration is complete, you will see the status as **Completed**.
+11. When the migration is complete, you will see the status as **Completed**.
 
    ![On the Migration job blade, the status of Completed is highlighted](media/dms-migration-wizard-status-complete.png "Migration with Completed status")
 
@@ -1163,9 +1167,9 @@ In this task, you will use SSMS to verify the database was successfully migrated
 
 2. Select **Connect**.
 
-3. In the Object Explorer, expand Databases, WideWorldImporters, and Tables, then right-click `dbo.DimCustomer`, and choose **Select Top 1000 Rows**.
+3. In the Object Explorer, expand Databases, WideWorldImportersDW, and Tables, then right-click `dbo.DimCustomer`, and choose **Select Top 1000 Rows**.
 
-   ![In SSMS, Databases, WideWorldImporters, and Tables are expanded, and the context menu for dbo.DimCustomer is displayed, with Select Top 1000 Rows highlighted in the menu.](media/ssms-select-top.png "Select Top 100 Rows")
+   ![In SSMS, Databases, WideWorldImportersDW, and Tables are expanded, and the context menu for dbo.DimCustomer is displayed, with Select Top 1000 Rows highlighted in the menu.](media/ssms-select-top.png "Select Top 100 Rows")
 
 4. Observe that the query returns results, showing the data has been migrated from the on-premises SQL Server 2008 R2 database into Azure SQL Database.
 
@@ -1188,7 +1192,7 @@ In this exercise, you will demonstrate value from the upgrade by enabling the Ta
 3. Copy the script below, and paste it into the query window:
 
    ```sql
-   USE [WideWorldImporters]
+   USE [WideWorldImportersDW]
 
    -- Get the Size of the FactInternetSales table
    SELECT
@@ -1212,9 +1216,7 @@ In this exercise, you will demonstrate value from the upgrade by enabling the Ta
 
    ![In the SSMS results pane, the size of the uncompressed FactInternetSales table is highlighted.](media/ssms-query-results-factinternetsales-uncompressed-size.png "Query results")
 
-6. In the Object Explorer, expand Databases, WideWorldImporters, and Tables.
-
-   ![Databases is highlighted in Object Explorer, WideWorldImporters is highlighted below that, and then Tables is highlighted below that.](./media/ssms-object-explorer-tables.png "Select Tables")
+6. In the Object Explorer, expand Databases, WideWorldImportersDW, and Tables.
 
 7. Right-click the `FactInternetSales` table, select the **Storage** context menu, and then select **Manage Compression** from the fly-out menu.
 
@@ -1261,7 +1263,7 @@ In this task, you will create a new table based on the existing `FactResellerSal
 3. Copy the script below, and paste it into the query window:
 
    ```sql
-   USE WideWorldImporters
+   USE WideWorldImportersDW
 
    SELECT *
    INTO ColumnStore_FactResellerSales
@@ -1276,7 +1278,7 @@ In this task, you will create a new table based on the existing `FactResellerSal
 5. Select **New Query** in the toolbar again, and paste the following query into the new query window. The query contains multiple parts; one to get the size of the `ColumnStore_FactResellerSales` table, a second to create a clustered ColumnStore index on the ColumnStore_FactResellerSales table, and then the size query is repeated to get the size after adding the clustered ColumnStore index.
 
    ```sql
-   USE [WideWorldImporters]
+   USE [WideWorldImportersDW]
 
    -- Get the Size of the ColumnStore_FactResellerSales table
    SELECT
@@ -1349,7 +1351,7 @@ In this task, you will create a new table based on the existing `FactResellerSal
 
 13. Select **Execute** from the toolbar to run the query.
 
-14. Statistics IO reports on the amount of logical pages that are read in order to return the query results. Select the **Messages** tab of the Results pane, and compare two numbers, logical reads and lob logical reads. You should see a significant drop in total number of logical reads on the columns store table.
+14. Statistics IO reports on the amount of logical pages that are read in order to return the query results. Select the **Messages** tab of the Results pane, and compare two numbers, logical reads and lob logical reads. You should see a significant drop in total number of logical reads on the column store-indexed table.
 
     ![Various information is highlighted on the Messages tab of the Results pane.](./media/ssms-query-results-messages-statistics-io.png "Compare the information")
 

@@ -8,8 +8,8 @@
         "VMPassword": {
             "value": "Password.1!!"
         },
-        "DeploySqlServer2019": {
-            "value": false 
+        "HomogenousMigrationResources": {
+            "value": true 
         }
     }
 }

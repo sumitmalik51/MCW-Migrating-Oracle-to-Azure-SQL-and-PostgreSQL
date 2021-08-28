@@ -14,7 +14,7 @@
                 "description": "The password for demouser in the Lab VM, SQL Server 2019 VM, and SQL Server 2008 R2 VM."
             }
         },
-        "DeploySqlServer2019": {
+        "HomogenousMigrationResources": {
             "type": "bool"
         },
         "PostgreSQLPassword": {
@@ -37,19 +37,11 @@
         "VMUsername": "demouser",
         "LabVMDiskName": "[concat(variables('LabVMName'), '-OsDisk-', parameters('uniqueSuffix'))]",
 
-        "SqlServerVMName": "SqlServer2019",
+        "SqlServerVMName": "SqlServer2008",
         "SqlServerPublicIPName": "[concat(variables('SqlServerVMName'), '-PublicIP-', parameters('uniqueSuffix'))]",
         "SqlServerNSGName": "[concat(variables('SqlServerVMName'), '-nsg-', parameters('uniqueSuffix'))]",
         "SqlServerNetworkInterfaceName": "[concat(variables('SqlServerVMName'), '-NetworkInterface-', parameters('uniqueSuffix'))]",
         "SqlServerSubnetName": "[concat(variables('SqlServerVMName'), '-Subnet-', parameters('uniqueSuffix'))]",
-
-        "dataDisks": {
-            "createOption": "empty",
-            "caching": "ReadOnly",
-            "writeAcceleratorEnabled": false,
-            "storageAccountType": "Premium_LRS",
-            "diskSizeGB": 1023
-        },
 
         "AzureSQLName": "[toLower(concat('Northwind-Server-', parameters('uniqueSuffix')))]",
         "AzureSQLDBName": "Northwind",
@@ -58,7 +50,11 @@
         "PostgreSQLAdministrator": "solldba",
 
         "AppPlanName": "[concat('northwind-ora2pg-plan-', parameters('uniqueSuffix'))]",
-        "AppName": "[concat('northwind-ora2pg-app-', parameters('uniqueSuffix'))]"
+        "AppName": "[concat('northwind-ora2pg-app-', parameters('uniqueSuffix'))]",
+
+        "AzureSQLDWName": "WideWorldImportersDW",
+
+        "AzureDMSName": "wwi-dms"
     },
     "resources": [
         {
@@ -192,7 +188,7 @@
             },
             "properties": {
                 "hardwareProfile": {
-                    "vmSize": "Standard_D2s_v3"
+                    "vmSize": "Standard_D4s_v3"
                 },
                 "osProfile": {
                     "computerName": "[variables('LabVMName')]",
@@ -229,7 +225,7 @@
         },
 
         {
-            "condition": "[parameters('DeploySqlServer2019')]",
+            "condition": "[parameters('HomogenousMigrationResources')]",
             "type": "Microsoft.Network/publicIpAddresses",
             "apiVersion": "2020-06-01",
             "name": "[variables('SqlServerPublicIPName')]",
@@ -239,7 +235,7 @@
             }
         },
         {
-            "condition": "[parameters('DeploySqlServer2019')]",
+            "condition": "[parameters('HomogenousMigrationResources')]",
             "type": "Microsoft.Network/networkSecurityGroups",
             "apiVersion": "2020-06-01",
             "name": "[variables('SqlServerNSGName')]",
@@ -278,14 +274,15 @@
             }
         },
         {
-            "condition": "[parameters('DeploySqlServer2019')]",
+            "condition": "[parameters('HomogenousMigrationResources')]",
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "2020-06-01",
             "name": "[variables('SqlServerNetworkInterfaceName')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/networkSecurityGroups/', variables('SqlServerNSGName'))]",
-                "[resourceId('Microsoft.Network/publicIpAddresses/', variables('SqlServerPublicIPName'))]"
+                "[resourceId('Microsoft.Network/publicIpAddresses/', variables('SqlServerPublicIPName'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks', variables('LabVMVirtualNetworkName'))]"
             ],
             "properties": {
                 "ipConfigurations": [
@@ -309,7 +306,7 @@
             }
         },
         {
-            "condition": "[parameters('DeploySqlServer2019')]",
+            "condition": "[parameters('HomogenousMigrationResources')]",
             "type": "Microsoft.Compute/virtualMachines",
             "apiVersion": "2020-06-01",
             "name": "[variables('SqlServerVMName')]",
@@ -330,23 +327,20 @@
                     },
                     "imageReference": {
                         "publisher": "MicrosoftSQLServer",
-                        "offer": "sql2019-ws2019",
-                        "sku": "SQLDEV",
+                        "offer": "SQL2008R2SP3-WS2008R2SP1",
+                        "sku": "Standard",
                         "version": "latest"
                     },
-                    "copy": [
+                    "dataDisks": 
+                    [
                         {
-                            "name": "dataDisks",
-                            "count": 2,
-                            "input": {
-                                "lun": "[copyIndex('dataDisks')]",
-                                "createOption": "[variables('dataDisks').createOption]",
-                                "caching": "[if(greaterOrEquals(copyIndex('dataDisks'), 1) ,'None', variables('dataDisks').caching )]",
-                                "writeAcceleratorEnabled": "[variables('dataDisks').writeAcceleratorEnabled]",
-                                "diskSizeGB": "[variables('dataDisks').diskSizeGB]",
-                                "managedDisk": {
-                                    "storageAccountType": "[variables('dataDisks').storageAccountType]"
-                                }
+                            "lun": 0,
+                            "createOption": "empty",
+                            "caching": "ReadOnly",
+                            "writeAcceleratorEnabled": false,
+                            "diskSizeGB": 1023,
+                            "managedDisk": {
+                                "storageAccountType": "Premium_LRS"
                             }
                         }
                     ]
@@ -370,7 +364,7 @@
             }
         },
         {
-            "condition": "[parameters('DeploySqlServer2019')]",
+            "condition": "[parameters('HomogenousMigrationResources')]",
             "type": "Microsoft.SqlVirtualMachine/SqlVirtualMachines",
             "apiVersion": "2017-03-01-preview",
             "name": "[variables('SqlServerVMName')]",
@@ -390,17 +384,20 @@
                         "DefaultFilePath": "F:\\SQLData"
                     },
                     "SQLLogSettings": {
-                        "Luns": [1],
-                        "DefaultFilePath": "G:\\SQLLog"
+                        "LUNs": [0],
+                        "DefaultFilePath": "F:\\SQLLog"
                     },
                     "SQLTempDbSettings": {
-                        "DefaultFilePath": "D:\\SQLTemp"
+                        "LUNs": [0],
+                        "DefaultFilePath": "F:\\SQLTemp"
                     }
                 },
                 "serverConfigurationsManagementSettings": {
                     "sqlConnectivityUpdateSettings": {
                         "connectivityType": "PUBLIC",
-                        "port": 1433
+                        "port": 1433,
+                        "sqlAuthUpdateUserName": "demouser",
+                        "sqlAuthUpdatePassword": "[parameters('VMPassword')]"
                     }
                 }
             }
@@ -441,6 +438,20 @@
                     ],
                     "location": "[resourceGroup().location]",
                     "name": "[variables('AzureSQLDBName')]",
+                    "sku": {
+                        "name": "P1"
+                    },
+                    "properties": {}
+                },
+                {
+                    "condition": "[parameters('HomogenousMigrationResources')]",
+                    "type": "databases",
+                    "apiVersion": "2021-02-01-preview",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Sql/servers', variables('AzureSQLName'))]"
+                    ],
+                    "location": "[resourceGroup().location]",
+                    "name": "[variables('AzureSQLDWName')]",
                     "sku": {
                         "name": "P1"
                     },
@@ -522,6 +533,25 @@
                     "linuxFxVersion": "DOTNETCORE|5.0"
                 },
                 "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('AppPlanName'))]"
+            }
+        },
+
+        {
+            "condition": "[parameters('HomogenousMigrationResources')]",
+            "type": "Microsoft.DataMigration/services",
+            "apiVersion": "2018-07-15-preview",
+            "name": "[variables('AzureDMSName')]",
+            "location": "[resourceGroup().location]",
+            "sku": {
+                "tier": "Standard",
+                "size": "1 vCores",
+                "name": "Standard_1vCores"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', variables('LabVMVirtualNetworkName'))]"
+            ],
+            "properties": {
+                "virtualSubnetId": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('LabVMVirtualNetworkName'), variables('SqlServerSubnetName'))]"
             }
         }
     ],

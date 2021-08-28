@@ -7,7 +7,7 @@ AS
 BEGIN
   OPEN cur_OUT FOR SELECT * FROM Customers WHERE CustomerID = p_customer_id;
 END;
-
+/
 CREATE OR REPLACE
 PROCEDURE CustOrdersOrders(
 	p_customer_id IN varchar2,
@@ -23,7 +23,7 @@ BEGIN
 		WHERE CustomerID = p_customer_id
 		ORDER BY OrderID;
 END;
-
+/
 CREATE OR REPLACE
 PROCEDURE CustOrderHist(
 	p_customer_id IN varchar2,
@@ -39,7 +39,7 @@ BEGIN
       AND OD.ProductID = P.ProductID
     GROUP BY ProductName;
 END;
-
+/
 CREATE OR REPLACE
 PROCEDURE CustOrdersDetails(
 	p_order_id IN number,
@@ -55,7 +55,7 @@ BEGIN
     FROM Products P, Order_Details Od
     WHERE Od.ProductID = P.ProductID and Od.OrderID = p_order_id;
 END;
-
+/
 CREATE OR REPLACE
 PROCEDURE EmployeeSalesByCountry(
 	p_begin_date IN TIMESTAMP,
@@ -76,7 +76,7 @@ BEGIN
 		ON Employees.EmployeeID = Orders.EmployeeID
 		WHERE Orders.ShippedDate Between p_begin_date And p_end_date;
 END;
-
+/
 CREATE OR REPLACE
 PROCEDURE SalesByYear(
 	p_begin_date IN TIMESTAMP,
@@ -92,7 +92,7 @@ BEGIN
     FROM Orders INNER JOIN Order_Subtotals ON Orders.OrderID = Order_Subtotals.OrderID
     WHERE Orders.ShippedDate Between p_begin_date And p_end_date;
 END;
-
+/
 CREATE OR REPLACE
 PROCEDURE SalesByCategory(
 	p_category_name IN varchar2,
@@ -119,7 +119,7 @@ BEGIN
       GROUP BY ProductName
       ORDER BY ProductName;
 END;
-
+/
 CREATE OR REPLACE
 PROCEDURE TenMostExpensiveProducts(
     cur_OUT OUT PKGENTLIB_ARCHITECTURE.CURENTLIB_ARCHITECTURE)

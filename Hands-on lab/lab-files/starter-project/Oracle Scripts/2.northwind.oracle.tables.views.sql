@@ -30,7 +30,6 @@ CREATE TABLE Employees (
 	PRIMARY KEY(EmployeeID),
 	CONSTRAINT FK_Employees_Employees FOREIGN KEY (ReportsTo) 
 		REFERENCES Employees(EmployeeID)
-	--CONSTRAINT CK_Birthdate CHECK (BirthDate < SYSDATE)
 	);
 
 CREATE INDEX EmployeesLastName ON Employees(LastName);
@@ -200,15 +199,49 @@ CREATE TABLE Region(
 	RegionID number NOT NULL ,
 	RegionDescription varchar2 (50) NOT NULL);
 
+ALTER TABLE Region
+ADD CONSTRAINT PK_Region PRIMARY KEY (RegionID);
+
 CREATE TABLE Territories(
 	TerritoryID varchar2 (20) NOT NULL ,
 	TerritoryDescription varchar2 (50) NOT NULL ,
         RegionID number NOT NULL);
 
+ALTER TABLE Territories
+ADD CONSTRAINT PK_Territories PRIMARY KEY (TerritoryID);
+
+ALTER TABLE Territories
+ADD CONSTRAINT FK_Territories_Region FOREIGN KEY (RegionID) 
+	REFERENCES Region (RegionID);
+
 CREATE TABLE EmployeeTerritories(
 	EmployeeID number NOT NULL,
 	TerritoryID varchar2 (20) NOT NULL );
 
+ALTER TABLE EmployeeTerritories
+ADD CONSTRAINT PK_EmployeeTerritories PRIMARY KEY (EmployeeID, TerritoryID);
+
+ALTER TABLE EmployeeTerritories
+ADD CONSTRAINT FK_EmployeeTerr_Employees FOREIGN KEY (EmployeeID)
+	REFERENCES Employees(EmployeeID);
+
+ALTER TABLE EmployeeTerritories	
+ADD CONSTRAINT FK_EmployeeTerr_Territories FOREIGN KEY (TerritoryID)
+	REFERENCES Territories(TerritoryID);
+
+ALTER TABLE CustomerCustomerDemo
+ADD CONSTRAINT PK_CustomerCustomerDemo PRIMARY KEY (CustomerID, CustomerTypeID);
+
+ALTER TABLE CustomerDemographics
+ADD CONSTRAINT PK_CustomerDemographics PRIMARY KEY  (CustomerTypeID);
+
+ALTER TABLE CustomerCustomerDemo
+ADD CONSTRAINT FK_CustomerCustomerDemo FOREIGN KEY (CustomerTypeID) 
+  REFERENCES CustomerDemographics(CustomerTypeID);
+
+ALTER TABLE CustomerCustomerDemo
+ADD CONSTRAINT FK_CustomerCustDemo_Customers FOREIGN KEY (CustomerID) 
+	REFERENCES Customers(CustomerID);
 /* END Tables */
 
 
@@ -232,7 +265,7 @@ CREATE VIEW Current_Product_List AS
 	SELECT ProductID, ProductName
 	FROM Products 
 	WHERE (((Discontinued)=0));
-	--ORDER BY Product_List.ProductName
+
 
 CREATE VIEW Orders_Qry AS
 	SELECT Orders.OrderID, Orders.CustomerID, Orders.EmployeeID, Orders.OrderDate, Orders.RequiredDate, 
@@ -246,14 +279,12 @@ CREATE VIEW Products_Above_Average_Price AS
 	SELECT Products.ProductName, Products.UnitPrice
 	FROM Products
 	WHERE Products.UnitPrice>(SELECT AVG(UnitPrice) From Products);
-	--ORDER BY Products.UnitPrice DESC
 
 CREATE VIEW Products_by_Category AS
 	SELECT Categories.CategoryName, Products.ProductName, Products.QuantityPerUnit, Products.UnitsInStock, Products.Discontinued
 	FROM Categories, Products
 	WHERE Categories.CategoryID = Products.CategoryID
 	 AND Products.Discontinued <> 1;
-	--ORDER BY Categories.CategoryName, Products.ProductName
 
 
 CREATE or REPLACE VIEW Quarterly_Orders AS
@@ -284,7 +315,7 @@ CREATE VIEW Order_Details_Extended AS
 		Order_Details.UnitPrice*Quantity*(1-Discount)/100 * 100 AS ExtendedPrice
 	FROM Products, Order_Details 
 	where Products.ProductID = Order_Details.ProductID;
-	--ORDER BY Order Details.OrderID
+
 
 CREATE VIEW Order_Subtotals AS
 	SELECT Order_Details.OrderID, Sum(Order_Details.UnitPrice*Quantity*(1-Discount)/100*100) AS Subtotal
@@ -316,7 +347,6 @@ create or replace view Sales_by_Category AS
 	and   Categories.CategoryID = Products.CategoryID
 	and   to_date(Orders.OrderDate, 'MM/DD/YYYY') BETWEEN to_date('19970101', 'YYYYMMDD') And to_date('19971231', 'YYYYMMDD')
 	GROUP BY Categories.CategoryID, Categories.CategoryName, Products.ProductName;
-	--ORDER BY Products.ProductName
 
 create or replace view Sales_Totals_by_Amount AS
 	SELECT Order_Subtotals.Subtotal AS SaleAmount, Orders.OrderID, Customers.CompanyName, Orders.ShippedDate
@@ -330,13 +360,11 @@ CREATE VIEW Summary_of_Sales_by_Quarter AS
 	FROM Orders, Order_Subtotals 
 	where Orders.OrderID = Order_Subtotals.OrderID
 	and Orders.ShippedDate IS NOT NULL;
-	--ORDER BY Orders.ShippedDate
 
 CREATE VIEW Summary_of_Sales_by_Year AS
 	SELECT Orders.ShippedDate, Orders.OrderID, Order_Subtotals.Subtotal
 	FROM Orders, Order_Subtotals 
 	where Orders.OrderID = Order_Subtotals.OrderID
 	and Orders.ShippedDate IS NOT NULL;
-	--ORDER BY Orders.ShippedDate
 
 /* END Views */

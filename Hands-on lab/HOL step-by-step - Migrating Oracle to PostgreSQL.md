@@ -38,7 +38,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
     - [Task 1: Update Statistics and Identify Invalid Objects](#task-1-update-statistics-and-identify-invalid-objects)
   - [Exercise 3: Prepare to Migrate the Oracle database to PostgreSQL](#exercise-3-prepare-to-migrate-the-oracle-database-to-postgresql)
     - [Task 1: Install pgAdmin on the LabVM](#task-1-install-pgadmin-on-the-labvm)
-    - [Task 2: Install ora2pg](#task-2-install-ora2pg)
+    - [Task 2: Install the ora2pg utility](#task-2-install-the-ora2pg-utility)
     - [Task 3: Prepare the PostgreSQL instance using pgAdmin](#task-3-prepare-the-postgresql-instance-using-pgadmin)
     - [Task 4: Create an ora2pg project structure](#task-4-create-an-ora2pg-project-structure)
     - [Task 5: Create a migration report](#task-5-create-a-migration-report)
@@ -248,10 +248,6 @@ WWI has provided you with a copy of their application, including a database scri
 
     - `5.northwind.oracle.seed.sql`
 
-      > **Important**: This query can take several minutes to run, so make sure you wait until you see the **Commit complete** message in the output window before executing the next file.
-
-    - `6.northwind.oracle.constraints.sql`
-
 ## Exercise 2: Assess the Oracle 18c Database before Migrating to PostgreSQL
 
 Duration: 15 mins
@@ -260,17 +256,7 @@ In this exercise, you will prepare the existing Oracle database for its migratio
 
 ### Task 1: Update Statistics and Identify Invalid Objects
 
-1. Create a new folder titled `Postgre Scripts` at the `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL\Hands-on lab\lab-files\starter-project` location.
-
-2. Launch SQL Developer. Open the **Northwind** database connection.
-
-3. Create a new SQL file using the **New** button (1). Select **Database Files** (2) and **SQL File** (3). Select **OK** (4). 
-
-    ![Creating a new SQL script in Oracle SQL Developer](./media/creating-new-sql-file-sqldev.png "New SQL file")
-   
-4. Call the new SQL File `update-18c-stats.sql`. Save it in the `Postgre Scripts` directory from earlier.
-
-5. Now, you will populate the new file with the following statements. Run the file as you did when you populated database objects.
+1. Run the following statements in SQL Developer.
 
     ```sql
     -- 18c script
@@ -281,7 +267,7 @@ In this exercise, you will prepare the existing Oracle database for its migratio
 
     >**Note**: This script can take over one minute to run. Ensure that you receive confirmation that that the script has executed successfully.
 
-6. Now, we will utilize a query that lists database objects that are invalid and unsupported by the ora2pg utility. It is recommended to fix any errors and compile the objects before starting the migration process. Create a new file named `show-invalid-objects.sql` and save it in the same directory. Run this query to find all of the invalid objects.
+2. Now, we will utilize a query that lists database objects that are invalid and unsupported by the ora2pg utility. It is recommended to fix any errors and compile the objects before starting the migration process.
 
     ```sql
     SELECT owner, object_type, object_name
@@ -289,7 +275,9 @@ In this exercise, you will prepare the existing Oracle database for its migratio
     WHERE status = 'INVALID';
     ```
 
-    >**Note**: You should not see any invalid objects.
+    >**Note**: You should not see any invalid objects. If you have invalid objects, right-click on the correct folder and compile.
+
+    ![The image shows how a user should fix invalid objects.](media/sql-developer-compile-object.png "Fix invalid objects")
 
 ## Exercise 3: Prepare to Migrate the Oracle database to PostgreSQL
 
@@ -301,7 +289,7 @@ In this exercise, you will configure Azure Database for PostgreSQL and Azure App
 
 PgAdmin greatly simplifies database administration and configuration tasks by providing an intuitive GUI. Hence, we will be using it to create a new application user and test the migration.
 
-1. You will need to navigate to <https://www.pgadmin.org/download/pgadmin-4-windows/> to obtain pgAdmin 4. At the time of writing, **v5.5** is the most recent version. Select the link to the installer, as shown below.
+1. You will need to navigate to <https://www.pgadmin.org/download/pgadmin-4-windows/> to obtain **pgAdmin 4**. At the time of writing, **v5.5** is the most recent version. Select the link to the installer, as shown below.
 
     ![The screenshot shows the correct version of the pgAdmin utility to be installed.](./media/pgadmin-5.5-install.png "pgAdmin 4 v5.5")
 
@@ -313,20 +301,22 @@ PgAdmin greatly simplifies database administration and configuration tasks by pr
 
    ![The screenshot shows pgAdmin in the Windows Search text box.](./media/2020-07-04-12-45-20.png "Find pgAdmin manually in Windows Search bar")
 
-5. PgAdmin will prompt you to set a password to govern access to database credentials. Enter a password. Confirm your choice. For now, our configuration of pgAdmin is complete.
+5. PgAdmin will prompt you to set a password to govern access to database credentials. Enter `oracledemo123`. Confirm your choice. For now, our configuration of pgAdmin is complete.
 
-### Task 2: Install ora2pg
+### Task 2: Install the ora2pg utility
 
 **Ora2pg** is the tool we will use to migrate database objects and data. Microsoft's Data Migration Team has greatly simplified the process of obtaining this tool by providing the **installora2pg.ps1** script. You can download using the link below:
 
  **Download**: <https://raw.githubusercontent.com/microsoft/DataMigrationTeam/master/IP%20and%20Scripts/PostgreSQL%20Migration%20and%20Assessment%20Tools/installora2pg.ps1>.
 
-1. Copy Microsoft's script to the `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL\Hands-on lab\lab-files\starter-project\Postgre Scripts` location.
+1. Copy Microsoft's script content to the `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL\Hands-on lab\lab-files\starter-project\Postgre Scripts` location.
 
     - Press Ctrl+S to save the file from the webpage.
     - In the File Explorer dialog, quote the file name and ensure that the **Save as type** field is set to **All Files**.
 
         ![Ensuring that the installora2pg.ps1 script does not have .txt appended to it by File Explorer.](./media/save-ps-script-properly.PNG "Saving the PowerShell script without a .txt extension")
+
+    >**Note**: Failing to put quotes around file name on save will cause the file to be saved as a text file. It will NOT execute as a PowerShell file.
 
 2. Navigate to the location mentioned above and right-click `installora2pg.ps1`. Then, select **Run with PowerShell**.
 

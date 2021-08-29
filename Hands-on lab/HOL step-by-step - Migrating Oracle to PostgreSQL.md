@@ -322,6 +322,12 @@ PgAdmin greatly simplifies database administration and configuration tasks by pr
 
     ![Screenshot to show process to install ora2pg.](./media/running-ora2pg-install-script.png "Installing ora2pg")
 
+    >**Note:** If you are warned about a PS extension change, accept ALL of the policy changes.
+
+    You should see script executing.
+
+    ![Image shows the initial PowerShell web request executing.](media/orapg-powershell-script-executing.png "PowerShell executing")
+
 3. Install the ora2pg utility dependencies.
 
    - Install Perl. It will take five minutes.

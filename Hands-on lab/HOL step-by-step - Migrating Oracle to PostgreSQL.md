@@ -238,14 +238,6 @@ WWI has provided you with a copy of their application, including a database scri
 
     - `4.northwind.oracle.sps.sql`
 
-      - During the Execute script step for this file, you will need to execute each CREATE OR REPLACE statement independently.
-
-      - Using your mouse, select the first statement, starting with CREATE and going to END. Then, run the selection, as highligted in the image.
-
-      ![The first statement between CREATE and END is highlighted, along with the selection execution button.](./media/sqldeveloper-execute-first-query.png "Select and execute the first statement")
-
-      - Repeat this for each of the remaining CREATE OR REPLACE... END; blocks in the script file (there are 7 more to execute, for 8 total).
-
     - `5.northwind.oracle.seed.sql`
 
 ## Exercise 2: Assess the Oracle 18c Database before Migrating to PostgreSQL
@@ -353,7 +345,7 @@ PgAdmin greatly simplifies database administration and configuration tasks by pr
 
     ![The image shows the folder path to the client and the SDK.](media/extract-sdk-client-validation.png "Correct path to the SDK and Instant Client")
 
-6. Install the Git client and ora2pg client.  
+6. Install the Git client and ora2pg utility.  
     - Return to the PowerShell script.
     - Press any key to terminate the script's execution, if the PS window is still visible.
     - Open Explorer and rename the  `C:\instantclient_12_2` folder to `C:\instantclient`.
@@ -387,10 +379,10 @@ PgAdmin greatly simplifies database administration and configuration tasks by pr
 
     ![Screenshot to show editing the path variables.](./media/selecting-path.png "Selecting the PATH variables")
 
-9.  The **Edit environment variable** box should be displaying.
+9.  The **Edit environment variable** box should be dispdlaying.
 
     - Select **New**.
-    - Enter **C:\instantclient_12_2** (or **C:\instantclient**).
+    - Enter **C:\instantclient**.
     - Repeat this process, but enter **%%PATH%%** instead.
 
     ![Screenshot showing path variable configuration.](./media/path-variable-configuration.png "Path variable configuration")
@@ -450,6 +442,7 @@ Our configuration in pgAdmin is now complete.
 
     ```text
     cd C:\ora2pg
+    rename ora2pg_conf.dist ora2pg.conf.dist
     ```
 
 2. To create a project, we will use the ora2pg command with the --init_project flag. In the example below, our migration project is titled nw_migration.
@@ -476,6 +469,7 @@ Our configuration in pgAdmin is now complete.
     - Select the file to open it. If you are asked to select an application to open the file, select **Notepad**. We will need to collect multiple parameters of the local Oracle database to enter into the configuration file. These parameters are available by entering **lsnrctl status** into the command prompt.
 
     ![Screenshot showing database parameters.](./media/database-parameter.png "Database parameters")
+
 
 5. In the **config\ora2pg.conf** file, replace the old values in the file with the correct information.
 

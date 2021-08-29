@@ -322,9 +322,9 @@ PgAdmin greatly simplifies database administration and configuration tasks by pr
 
     ![Screenshot to show process to install ora2pg.](./media/running-ora2pg-install-script.png "Installing ora2pg")
 
-    >**Note:** If you are warned about a PS extension change, accept ALL of the policy changes.
+    >**Note:** If you are warned about a PS extension policy changes, accept ALL of the policy changes.
 
-    You should see script executing.
+    You should see the script executing.
 
     ![Image shows the initial PowerShell web request executing.](media/orapg-powershell-script-executing.png "PowerShell executing")
 
@@ -349,15 +349,30 @@ PgAdmin greatly simplifies database administration and configuration tasks by pr
 
     ![Screenshot to show the process of installing client and SDK Packages.](./media/installing-basic-instantclient-package.PNG "Client and SDK package downloads")
 
-6. Return to the PowerShell script.
+    Your folder path should show:
 
-    - Press any key to terminate the script's execution.
-    - Launch the script once more.
-    - If the previous steps were successful, the script should be able to locate **oci.dll** under `C:\instantclient_12_2\oci.dll`.
+    ![The image shows the folder path to the client and the SDK.](media/extract-sdk-client-validation.png "Correct path to the SDK and Instant Client")
 
-        >**Note**: The script may throw errors of not being able to find a Git executable at a certain location. This should not impact the installation.
+6. Install the Git client and ora2pg client.  
+    - Return to the PowerShell script.
+    - Press any key to terminate the script's execution, if the PS window is still visible.
+    - Open Explorer and rename the  `C:\instantclient_12_2` folder to `C:\instantclient`.
+    - Launch the script one more time for install path validation purposes.
+    - If the previous steps were successful, the script should be able to locate **oci.dll** under `C:\instantclient\oci.dll`.
 
-        >**Note**: If the script still cannot find `oci.dll`, rename `C:\instantclient_12_2` to `C:\instantclient`.
+        >**Note**: If the script still cannot find `oci.dll`, rename the Instant Client extract folder name to `C:\instantclient` exactly.
+
+    ![The image shows the script expects an exact Instant Client install path.](media/ps-validation-path-instant-client.png "Instant Client install path")
+
+    If the path is correct, you should see the script downloading the Git installer.
+
+    ![The image shows the Git installer downloading.](media/ps-downloading-git-installer.png "Downloading Git installer")
+
+    >**Note**: The script may throw errors of not being able to find a Git executable at a certain location. This should not impact the installation.
+
+    A successful installation should have a PowerShell screen that resembles this:
+
+    ![The image shows a successful Git and ora2pg installation](media/ps-successful-git-ora2pg-installation.png "Git and ora2pg installation")
 
 7. Once ora2pg installs, you will need to configure PATH variables.
 
@@ -372,7 +387,7 @@ PgAdmin greatly simplifies database administration and configuration tasks by pr
 
     ![Screenshot to show editing the path variables.](./media/selecting-path.png "Selecting the PATH variables")
 
-9. The **Edit environment variable** box should be displaying.
+9.  The **Edit environment variable** box should be displaying.
 
     - Select **New**.
     - Enter **C:\instantclient_12_2** (or **C:\instantclient**).

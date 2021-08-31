@@ -37,11 +37,10 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
   - [Exercise 2: Assess the Oracle 18c Database before Migrating to PostgreSQL](#exercise-2-assess-the-oracle-18c-database-before-migrating-to-postgresql)
     - [Task 1: Update Statistics and Identify Invalid Objects](#task-1-update-statistics-and-identify-invalid-objects)
   - [Exercise 3: Prepare to Migrate the Oracle database to PostgreSQL](#exercise-3-prepare-to-migrate-the-oracle-database-to-postgresql)
-    - [Task 1: Install pgAdmin on the LabVM](#task-1-install-pgadmin-on-the-labvm)
-    - [Task 2: Install the ora2pg utility](#task-2-install-the-ora2pg-utility)
-    - [Task 3: Prepare the PostgreSQL instance using pgAdmin](#task-3-prepare-the-postgresql-instance-using-pgadmin)
-    - [Task 4: Create an ora2pg project structure](#task-4-create-an-ora2pg-project-structure)
-    - [Task 5: Create a migration report](#task-5-create-a-migration-report)
+    - [Task 1: Install the ora2pg utility](#task-1-install-the-ora2pg-utility)
+    - [Task 2: Prepare the PostgreSQL instance using pgAdmin](#task-2-prepare-the-postgresql-instance-using-pgadmin)
+    - [Task 3: Create an ora2pg project structure](#task-3-create-an-ora2pg-project-structure)
+    - [Task 4: Create a migration report](#task-4-create-a-migration-report)
   - [Exercise 4: Migrate the Database and Application](#exercise-4-migrate-the-database-and-application)
     - [Task 1: Migrate the basic database table schema using ora2pg](#task-1-migrate-the-basic-database-table-schema-using-ora2pg)
     - [Task 2: Migrate Table Data with ora2pg](#task-2-migrate-table-data-with-ora2pg)
@@ -277,25 +276,7 @@ Duration: 60 minutes
 
 In this exercise, you will configure Azure Database for PostgreSQL and Azure App Service, install and configure ora2pg and pgAdmin, and create an assessment report that outlines the difficulty of the migration process.
 
-### Task 1: Install pgAdmin on the LabVM
-
-PgAdmin greatly simplifies database administration and configuration tasks by providing an intuitive GUI. Hence, we will be using it to create a new application user and test the migration.
-
-1. You will need to navigate to <https://www.pgadmin.org/download/pgadmin-4-windows/> to obtain **pgAdmin 4**. At the time of writing, **v5.5** is the most recent version. Select the link to the installer, as shown below.
-
-    ![The screenshot shows the correct version of the pgAdmin utility to be installed.](./media/pgadmin-5.5-install.png "pgAdmin 4 v5.5")
-
-2. Download the **pgadmin4-5.5-x64.exe** file.
-
-3. Once the installer launches, accept all defaults. Complete the installation steps.
-
-4. To open pgAdmin, use the Windows Search utility. Type `pgAdmin`.
-
-   ![The screenshot shows pgAdmin in the Windows Search text box.](./media/2020-07-04-12-45-20.png "Find pgAdmin manually in Windows Search bar")
-
-5. PgAdmin will prompt you to set a password to govern access to database credentials. Enter `oracledemo123`. Confirm your choice. For now, our configuration of pgAdmin is complete.
-
-### Task 2: Install the ora2pg utility
+### Task 1: Install the ora2pg utility
 
 **Ora2pg** is the tool we will use to migrate database objects and data. Microsoft's Data Migration Team has greatly simplified the process of obtaining this tool by providing the **installora2pg.ps1** script. You can download using the link below:
 
@@ -387,7 +368,7 @@ PgAdmin greatly simplifies database administration and configuration tasks by pr
 
     ![Screenshot showing path variable configuration.](./media/path-variable-configuration.png "Path variable configuration")
 
-### Task 3: Prepare the PostgreSQL instance using pgAdmin
+### Task 2: Prepare the PostgreSQL instance using pgAdmin
 
 In this task, we will create the new application user and create the NW database.
 
@@ -434,7 +415,7 @@ In this task, we will create the new application user and create the NW database
 
 Our configuration in pgAdmin is now complete.
 
-### Task 4: Create an ora2pg project structure
+### Task 3: Create an ora2pg project structure
 
 **Ora2pg** allows database objects to be exported in multiple files so that is simple to organize and review changes. In this task, you will create the project structure that will make it easy to do this.  
 
@@ -501,7 +482,7 @@ Our configuration in pgAdmin is now complete.
 
     ![Window showing populating connection information.](./media/ora2pg-conf-pgsql.PNG "Populating connection information")
 
-### Task 5: Create a migration report
+### Task 4: Create a migration report
 
 The migration report tells us the "man-hours" required to fully migrate to our application and components. The report will provide the user with a relative complexity value. In this task, we will retrieve the migration report for our migration.
 

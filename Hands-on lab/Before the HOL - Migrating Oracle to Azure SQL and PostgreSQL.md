@@ -9,7 +9,7 @@ Before the hands-on lab setup guide
 </div>
 
 <div class="MCWHeader3">
-November 2020
+September 2021
 </div>
 
 Information in this document, including URL and other Internet Web site references, is subject to change without notice. Unless otherwise noted, the example companies, organizations, products, domain names, e-mail addresses, logos, people, places, and events depicted herein are fictitious, and no association with any real company, organization, product, domain name, e-mail address, logo, person, place or event is intended or should be inferred. Complying with all applicable copyright laws is the responsibility of the user. Without limiting the rights under copyright, no part of this document may be reproduced, stored in or introduced into a retrieval system, or transmitted in any form or by any means (electronic, mechanical, photocopying, recording, or otherwise), or for any purpose, without the express written permission of Microsoft Corporation.
@@ -28,15 +28,11 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
   - [Requirements](#requirements)
   - [Before the hands-on lab](#before-the-hands-on-lab)
     - [Task 1: Provision a resource group](#task-1-provision-a-resource-group)
-    - [Task 2: Create lab virtual machine](#task-2-create-lab-virtual-machine)
-    - [Task 3: Connect to the Lab VM](#task-3-connect-to-the-lab-vm)
-    - [Task 4 (Migrate to Azure SQL): Create SQL Server 2017 virtual machine](#task-4-migrate-to-azure-sql-create-sql-server-2017-virtual-machine)
-    - [Task 5 (Migrate to Azure SQL): Create SQL Server 2008 R2 virtual machine](#task-5-migrate-to-azure-sql-create-sql-server-2008-r2-virtual-machine)
-    - [Task 6 (Migrate to Azure SQL): Connect to the SqlServer2008 VM](#task-6-migrate-to-azure-sql-connect-to-the-sqlserver2008-vm)
-    - [Task 7 (Migrate to Azure SQL): Provision Azure SQL Database](#task-7-migrate-to-azure-sql-provision-azure-sql-database)
-    - [Task 8: Register the Microsoft DataMigration resource provider](#task-8-register-the-microsoft-datamigration-resource-provider)
-    - [Task 9 (Migrate to Azure SQL): Create Azure Database Migration Service for SQL Server](#task-9-migrate-to-azure-sql-create-azure-database-migration-service-for-sql-server)
-    - [Task 10 (Migrate to PostgreSQL): Create Azure Database Migration Service for an Oracle to PostgreSQL Migration](#task-10-migrate-to-postgresql-create-azure-database-migration-service-for-an-oracle-to-postgresql-migration)
+    - [Task 2: Register the Microsoft DataMigration resource provider](#task-2-register-the-microsoft-datamigration-resource-provider)
+    - [Task 3: Deploy the Lab ARM Template (TODO)](#task-3-deploy-the-lab-arm-template-todo)
+    - [Task 4: Connect to the Lab VM](#task-4-connect-to-the-lab-vm)
+    - [Task 5 (Migrate to PostgreSQL): Install pgAdmin on the LabVM](#task-5-migrate-to-postgresql-install-pgadmin-on-the-labvm)
+    - [Task 6 (Migrate to Azure SQL Optional Homogenous Migration): Connect to the SqlServer2008 VM](#task-6-migrate-to-azure-sql-optional-homogenous-migration-connect-to-the-sqlserver2008-vm)
 
 # Migrating Oracle to Azure SQL and PostgreSQL before the hands-on lab setup guide
 
@@ -47,7 +43,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 - A virtual machine configured with:
   - Visual Studio 2019 Community (latest release)
 
->**Important**: Complete the task for the workshop path you have chosen. The specific workshop is included in the task name.  Tasks with no workshop name should be completed for either workshop. For example, "Task 4 (Migrate to Azure SQL)" should only be completed for the SQL Server path. "Task 1" should be completed regardless of path.
+>**Important**: Whether you are completing the Oracle to Azure SQL migration path or Oracle to PostgreSQL migration, follow Tasks 1-4. Tasks 5 and 6 are path-specific.
 
 ## Before the hands-on lab
 
@@ -81,60 +77,27 @@ In this task, you will create an Azure resource group for the resources used thr
 
 5. On the Review + Create tab, select **Create** to provision the resource group.
 
-### Task 2: Create lab virtual machine
+### Task 2: Register the Microsoft DataMigration resource provider
 
-In this task, you will provision a virtual machine (VM) in Azure. The VM image used will have Visual Studio Community 2019 installed.
+In this task, you will register the `Microsoft.DataMigration` resource provider with your subscription in Azure.
 
-1. In the [Azure portal](https://portal.azure.com/), select the **Show portal menu** icon and then select **+Create a resource** from the menu.
+1. In the [Azure portal](https://portal.azure.com/), navigate to the Home page and then select **Subscriptions** from the Navigate list found midway down the page.
 
-    ![The Show portal menu icon is highlighted and the portal menu is displayed. Create a resource is highlighted in the portal menu.](media/create-a-resource.png "Create a resource")
+    ![Subscriptions is highlighted in the Navigate menu.](media/azure-navigate-subscriptions.png "Navigate menu")
 
-2. Enter "visual studio 2019" into the Search the Marketplace box and select Visual Studio Latest.
+2. Select the subscription you are using for this hands-on lab from the list, select **Resource providers**, enter "migration" into the filter box, and then select **Register** next to **Microsoft.DataMigration**.
 
-    !["Visual studio 2019" is entered into the Search the Marketplace box. Visual Studio 2019 Latest is highlighted in the results.](./media/create-resource-visual-studio-2019-latest.png "Visual Studio 2019 Latest")
+    ![The Subscription blade is displayed, with Resource providers selected and highlighted under Settings. On the Resource providers blade, migration is entered into the filter box, and Register is highlighted next to Microsoft.DataMigration.](media/azure-portal-subscriptions-resource-providers-register-microsoft-datamigration.png "Resource provider registration")
 
-3. On the Visual Studio 2019 Latest blade, select the Select a software plan drop down list and then select **Visual Studio 2019 Community (latest release) on Windows Server 2019 (x64)** from the list.
+### Task 3: Deploy the Lab ARM Template (TODO)
 
-    ![The Select a software plan drop down list is expanded and Visual Studio 2019 Community (latest release) on Windows Server 2019 (x64) is highlighted in the list.](media/select-a-software-plan-visual-studio.png "Visual Studio")
+This lab uses an ARM template to automate the setup of lab resources. In this task, you will learn how to configure the ARM template.
 
-4. Select **Create** on the Visual Studio 2019 Latest blade.
+1. Select the **Deploy to Azure** button to open the ARM template in the Azure portal.
 
-5. On the Create a virtual machine Basics tab, set the following configuration:
+    [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsaimachi%2FMCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL%2Fseptember-2021-update%2FHands-on%2520lab%2Flab-files%2FARM%2Ftemplate.json)
 
-    - Project Details:
-
-        - **Subscription**: Select the subscription you are using for this hands-on lab.
-        - **Resource Group**: Select the hands-on-lab-SUFFIX resource group from the list of existing resource groups.
-
-    - Instance Details:
-
-        - **Virtual machine name**: Enter LabVM.
-        - **Region**: Select the region you are using for resources in this hands-on lab.
-        - **Availability options**: Select no infrastructure redundancy required.
-        - **Image**: Leave Visual Studio 2019 Community (latest release) on Windows Server 2019 (x64) selected.
-        - **Size**: Accept the default size, Standard D2 v3.
-
-    - Administrator Account:
-
-        - **Username**: demouser
-        - **Password**: Password.1!!
-
-    - Inbound Port Rules:
-
-        - **Public inbound ports**: Choose Allow selected ports.
-        - **Select inbound ports**: Select RDP (3389) in the list.
-
-        ![Screenshot of the Basics tab, with fields set to the previously mentioned settings.](media/lab-virtual-machine-basics-tab.png "Create a virtual machine Basics tab")
-
-6. Select **Review + create**.
-
-7. On the **Review + create** tab, ensure the Validation passed message is displayed, and then select **Create** to provision the virtual machine.
-
-    ![The Review + create tab is displayed, with a Validation passed message.](media/lab-virtual-machine-review-create-tab.png "Create a virtual machine Review + create tab")
-
-8. It may take 10+ minutes for the virtual machine to complete provisioning. You can move on to the next task while waiting for the lab VM to provision.
-
-### Task 3: Connect to the Lab VM
+### Task 4: Connect to the Lab VM
 
 In this task, you will create an RDP connection to your Lab virtual machine (VM) and disable Internet Explorer Enhanced Security Configuration.
 
@@ -165,7 +128,7 @@ In this task, you will create an RDP connection to your Lab virtual machine (VM)
 7. Enter the following credentials when prompted:
 
     - **Username**: demouser
-    - **Password**: Password.1!!
+    - **Password**: The password you provided when provisioning the ARM template resources
 
 8. Select **Yes** to connect, if prompted that the identity of the remote computer cannot be verified.
 
@@ -185,157 +148,25 @@ In this task, you will create an RDP connection to your Lab virtual machine (VM)
 
 12. Close the Server Manager.
 
->**Note**: Tasks 4 through 7 apply to students running the Oracle to Azure SQL lab. Students running the **Migrate to PostgreSQL** option should skip to Task 8.
+### Task 5 (Migrate to PostgreSQL): Install pgAdmin on the LabVM
 
-### Task 4 (Migrate to Azure SQL): Create SQL Server 2017 virtual machine
+PgAdmin greatly simplifies database administration and configuration tasks by providing an intuitive GUI. Hence, we will be using it to create a new application user and test the migration.
 
-In this task, you will provision another virtual machine (VM) in Azure which will host your "on-premises" instance of SQL Server 2017 Enterprise.
+1. You will need to navigate to <https://www.pgadmin.org/download/pgadmin-4-windows/> to obtain **pgAdmin 4**. At the time of writing, **v5.5** is the most recent version. Select the link to the installer, as shown below.
 
-1. In the [Azure portal](https://portal.azure.com/), select the **Show portal menu** icon and then select **+Create a resource** from the menu.
+    ![The screenshot shows the correct version of the pgAdmin utility to be installed.](./media/pgadmin-5.5-install.png "pgAdmin 4 v5.5")
 
-    ![The Show portal menu icon is highlighted and the portal menu is displayed. Create a resource is highlighted in the portal menu.](media/create-a-resource.png "Create a resource")
+2. Download the **pgadmin4-5.5-x64.exe** file.
 
-2. Enter "sql server 2017" into the Search the Marketplace box and select **SQL Server 2017 on Windows Server 2019**.
+3. Once the installer launches, accept all defaults. Complete the installation steps.
 
-    ![+ Create a resource is highlighted on the left side of the Azure portal, and at right, sql server 2017 and SQL Server 2017 on Windows Server 2019 are highlighted.](./media/create-resource-sql-server-2017.png "Azure portal")
+4. To open pgAdmin, use the Windows Search utility. Type `pgAdmin`.
 
-3. On the **SQL Server 2017 on Windows Server 2019** blade, select the Select a software plan drop down, and select **Free SQL Server License: SQL Server 2017 Developer on Windows Server 2019** from the list.
+   ![The screenshot shows pgAdmin in the Windows Search text box.](./media/2020-07-04-12-45-20.png "Find pgAdmin manually in Windows Search bar")
 
-    ![Free SQL Server License: SQL Server 2017 Developer on Windows Server 2019 is selected and highlighted in the Select a software plan drop down list.](media/create-resource-sql-server-2017-software-plan.png "SQL Server 2017 on Windows Server 2019")
+5. PgAdmin will prompt you to set a password to govern access to database credentials. Enter `oracledemo123`. Confirm your choice. For now, our configuration of pgAdmin is complete.
 
-4. Select **Create** on the SQL Server 2017 on Windows Server 2019 blade.
-
-5. On the Create a virtual machine Basics tab, set the following configuration:
-
-    - Project Details:
-
-        - **Subscription**: Select the subscription you are using for this hands-on lab.
-        - **Resource Group**: Select the hands-on-lab-SUFFIX resource group from the list of existing resource groups.
-
-    - Instance Details:
-
-        - **Virtual machine name**: Enter SqlServer2017.
-        - **Region**: Select the region you are using for resources in this hands-on lab.
-        - **Availability options**: Select no infrastructure redundancy required.
-        - **Image**: Leave Free SQL Server License: SQL Server 2017 Developer Windows Server 2019 selected.
-        - **Size**: Accept the default size, Standard DS12 v2.
-
-    - Administrator Account:
-
-        - **Username**: demouser
-        - **Password**: Password.1!!
-
-    - Inbound Port Rules:
-
-        - **Public inbound ports**: Choose Allow selected ports.
-        - **Select inbound ports**: Select RDP (3389) in the list.
-
-        ![Screenshot of the Basics tab, with fields set to the previously mentioned settings.](media/sql-2017-virtual-machine-basics-tab.png "Create a virtual machine Basics tab")
-
-6. Select the **SQL Server settings** tab from the top menu. The default values will be used for Disks, Networking, Management and Advanced, so you don't need to do anything on those tabs.
-
-    ![The SQL Server settings tab is highlighted and selected in the Create a virtual machine configuration tabs list.](media/sql-2017-create-vm-tabs.png "Create a virtual machine configuration tabs")
-
-7. On the **SQL Server settings** tab, set the following properties:
-
-    - Security & Networking:
-
-      - **SQL connectivity**: Select Public (Internet).
-      - **Port**: Leave set to 1433.
-
-      > **Note**: SQL Connectivity is being set to public for this hands-on lab to simplify access during the lab. In a production environment, you would want to limit connectivity to only those IP addresses that require access.
-
-    - SQL Authentication:
-
-      - **SQL Authentication**: Select Enable.
-      - **Login name**: demouser
-      - **Password**: Password.1!!
-
-    ![The previously specified values are entered into the SQL Server Settings blade.](media/sql-server-2017-create-vm-sql-settings.png "SQL Server Settings")
-
-8. Select **Review + create** to review the VM configuration.
-
-    ![The Review + create button is selected on the Create a virtual machine blade.](media/create-a-virtual-machine-review-create.png "Create a virtual machine")
-
-9. On the Review + create tab, ensure the Validation passed message is displayed, and then select **Create** to provision the virtual machine.
-
-    ![The Summary tab is displayed, with a Validation passed message.](media/sql-server-2017-create-vm-summary.png "Create SQL Server VM Summary Tab")
-
-10. It may take 10+ minutes for the virtual machine to complete provisioning. You can move on to the next task while waiting for the SqlServer2017 VM to provision.
-
-### Task 5 (Migrate to Azure SQL): Create SQL Server 2008 R2 virtual machine
-
-In this task, you will provision another virtual machine (VM) in Azure which will host your "on-premises" instance of SQL Server 2008 R2. The VM will use the SQL Server 2008 R2 SP3 Standard on Windows Server 2008 R2 image.
-
->**Note**:  An older version of Windows Server is being used because SQL Server 2008 R2 is not supported on Windows Server 2016.
-
-1. In the [Azure portal](https://portal.azure.com/), select the **Show portal menu** icon and then select **+Create a resource** from the menu.
-
-    ![The Show portal menu icon is highlighted and the portal menu is displayed. Create a resource is highlighted in the portal menu.](media/create-a-resource.png "Create a resource")
-
-2. Enter "SQL Server 2008R2SP3 on Windows Server 2008R2" into the Search the Marketplace box and press Enter.
-
-3. On the **SQL Server 2008 R2 SP3 on Windows Server 2008 R2** blade, select **SQL Server R2 SP3 Standard on Windows Server 2008 R2** for the software plan and then select **Create**.
-
-    ![The SQL Server 2008 R2 SP3 on Windows Server 2008 R2 blade is displayed with the standard edition selected for the software plan, and the Create button highlighted.](media/create-resource-sql-server-2008-r2.png "Create SQL Server 2008 R2 Resource")
-
-4. On the Create a virtual machine Basics tab, set the following configuration:
-
-   - Project Details:
-
-     - **Subscription**: Select the subscription you are using for this hands-on lab.
-     - **Resource Group**: Select the hands-on-lab-SUFFIX resource group from the list of existing resource groups.
-
-   - Instance Details:
-
-     - **Virtual machine name**: Enter SqlServer2008.
-     - **Region**: Select the region you are using for resources in this hands-on lab.
-     - **Availability options**: Select no infrastructure redundancy required.
-     - **Image**: Leave SQL Server 2008 R2 SP3 Standard on Windows Server 2008 R2 selected.
-     - **Size**: Accept the default size, Standard DS11 v2.
-
-   - Administrator Account:
-
-     - **Username**: demouser
-     - **Password**: Password.1!!
-
-   - Inbound Port Rules:
-
-     - **Public inbound ports**: Choose Allow selected ports.
-     - **Select inbound ports**: Select RDP (3389) in the list.
-
-    ![Screenshot of the Basics tab, with fields set to the previously mentioned settings.](media/sql-server-2008-r2-vm-basics-tab.png "Create a virtual machine Basics tab")
-
-5. Select the **SQL Server settings** tab from the top menu. The default values will be used for Disks, Networking, Management and Advanced, so you don't need to do anything on those tabs.
-
-    ![The SQL Server settings tab is highlighted and selected in the Create a virtual machine configuration tabs list.](media/sql-2017-create-vm-tabs.png "Create a virtual machine configuration tabs")
-
-6. On the **SQL Server settings** tab, set the following properties:
-
-   - Security & Networking:
-
-     - **SQL connectivity**: Select Public (Internet).
-     - **Port**: Leave set to 1433.
-
-     > **Note**: SQL Connectivity is being set to public for this hands-on lab to simplify access during the lab. In a production environment, you would want to limit connectivity to only those IP addresses that require access.
-
-   - SQL Authentication:
-
-     - **SQL Authentication**: Select Enable.
-     - **Login name**: demouser
-     - **Password**: Password.1!!
-
-     ![The previously specified values are entered into the SQL Server Settings blade.](media/sql-server-2017-create-vm-sql-settings.png "SQL Server Settings")
-
-7. Select **Review + create** to review the VM configuration.
-
-8. On the **Review + create** tab, ensure the Validation passed message is displayed, and then select **Create** to provision the virtual machine.
-
-    ![The Review + create tab is displayed, with a Validation passed message.](media/sql-server-2008-r2-vm-review-create-tab.png "Create a virtual machine Review + create tab")
-
-9. It may take 10+ minutes for the virtual machine to complete provisioning. You can move on to the next task while waiting for the SqlServer2008 VM to provision.
-
-### Task 6 (Migrate to Azure SQL): Connect to the SqlServer2008 VM
+### Task 6 (Migrate to Azure SQL Optional Homogenous Migration): Connect to the SqlServer2008 VM
 
 In this task, you will create an RDP connection to the SqlServer2008 VM and disable Internet Explorer Enhanced Security Configuration.
 
@@ -366,7 +197,7 @@ In this task, you will create an RDP connection to the SqlServer2008 VM and disa
 7. Enter the following credentials when prompted:
 
     - **Username**: demouser
-    - **Password**: Password.1!!
+    - **Password**: The password you provided when provisioning the ARM template resources
 
 8. Select **Yes** to connect, if prompted that the identity of the remote computer cannot be verified.
 
@@ -385,145 +216,5 @@ In this task, you will create an RDP connection to the SqlServer2008 VM and disa
     ![Internet Explorer Enhanced Security Configuration dialog, with Off highlighted under both Administrators and Users.](media/windows-server-2008-ie-esc.png "Internet Explorer Enhanced Security Configuration dialog")
 
 12. Close the Server Manager.
-
-### Task 7 (Migrate to Azure SQL): Provision Azure SQL Database
-
-In this task, you will create an Azure SQL Database, which will serve as the target database for migration of the on-premises WorldWideImporters database into the cloud. The Premium tier is required to support ColumnStore index creation.
-
-1. In the [Azure portal](https://portal.azure.com/), select the **Show portal menu** icon and then select **+Create a resource** from the menu.
-
-    ![The Show portal menu icon is highlighted and the portal menu is displayed. Create a resource is highlighted in the portal menu.](media/create-a-resource.png "Create a resource")
-
-2. Enter "sql database" into the Search the Marketplace box, select **SQL Database** from the results, and then select **Create**.
-
-    ![+Create a resource is selected in the Azure navigation pane, and "sql database" is entered into the Search the Marketplace box. SQL Database is selected in the results.](media/create-resource-azure-sql-database.png "Create SQL Server")
-
-3. On the SQL Database Basics tab, enter the following:
-
-    - Project Details:
-
-      - **Subscription**: Select the subscription you are using for this hands-on lab.
-      - **Resource Group**: Select the hands-on-lab-SUFFIX resource group from the list of existing resource groups.
-
-    - Database Details:
-
-      - **Database name**: Enter WorldWideImporters.
-      - **Server**: Select Create new, and then on the New server blade, enter the following:
-        - **Server name**: Enter a unique name, such as wwiSUFFIX.
-        - **Server admin login**: demouser
-        - **Password**: Password.1!!
-        - **Location**: Select the location you are using for resources in this hands-on lab.
-        - Select **OK**.
-      - **Want to use SQL elastic pool?**: Select **No**.
-
-      ![The Basic tab with the values specified above entered into the appropriate fields is displayed.](media/azure-sql-database-create-basic-tab.png "Create SQL Database Basic tab")
-
-      - **Compute + storage**: Select **Configure database**.
-
-      ![Configure database is highlighted under Compute + storage.](media/azure-sql-database-create-compute-storage.png "Compute + storage")
-
-    - On the Compute + storage blade, select the **Looking for basic, standard, premium?** link, and then select the **Premium** tab, with 125 DTUs and 500 GB. Keep the default options for **Read scale-out** and making the database zone redundant. Then, select **Apply**.
-
-    ![The Configure pricing tier for SQL Server is displayed, with Premium selected and highlighted.](media/premium-sql-db-config.PNG "SQL Pricing tier configuration")
-
-4. Select **Next: Networking**.
-
-5. On the Networking tab, set the following configuration:
-
-    - **Connectivity method**: Select **Public endpoint**.
-    - **Allow Azure services and resources to access this server**: Select **Yes**.
-    - **Add current client IP address**: Select **No**. If you would like to be able to access the database from your local machine (not required for this lab), you can set this to Yes.
-
-    ![The values specified above are entered into the Networking tab.](media/azure-sql-database-networking-tab.png "Create SQL Database Networking tab")
-
-6. Select **Review + Create**.
-
-7. On the Review + Create tab, select **Create** to provision the Azure SQL Database.
-
-    > **Note**: The [Azure SQL Database firewall](https://docs.microsoft.com/azure/sql-database/sql-database-firewall-configure) prevents external applications and tools from connecting to the server or any database on the server unless a firewall rule is created to open the firewall for the specific IP address. When creating the new server above, the **Allow azure services to access server** setting was allowed, which allows any services using an Azure IP address to access this server and databases, so there is no need to create a specific firewall rule for this hands-on lab. To access the SQL server from an on-premises computer or application, you need to [create a server level firewall rule](https://docs.microsoft.com/azure/sql-database/sql-database-get-started-portal#create-a-server-level-firewall-rule) to allow the specific IP addresses to access the server.
-
-### Task 8: Register the Microsoft DataMigration resource provider
-
-In this task, you will register the `Microsoft.DataMigration` resource provider with your subscription in Azure.
-
-1. In the [Azure portal](https://portal.azure.com/), navigate to the Home page and then select **Subscriptions** from the Navigate list found midway down the page.
-
-    ![Subscriptions is highlighted in the Navigate menu.](media/azure-navigate-subscriptions.png "Navigate menu")
-
-2. Select the subscription you are using for this hands-on lab from the list, select **Resource providers**, enter "migration" into the filter box, and then select **Register** next to **Microsoft.DataMigration**.
-
-    ![The Subscription blade is displayed, with Resource providers selected and highlighted under Settings. On the Resource providers blade, migration is entered into the filter box, and Register is highlighted next to Microsoft.DataMigration.](media/azure-portal-subscriptions-resource-providers-register-microsoft-datamigration.png "Resource provider registration")
-
-### Task 9 (Migrate to Azure SQL): Create Azure Database Migration Service for SQL Server
-
-In this task, you will provision an instance of the Azure Database Migration Service (DMS).
-
-1. In the [Azure portal](https://portal.azure.com/), select the **Show portal menu** icon and then select **+Create a resource** from the menu.
-
-    ![The Show portal menu icon is highlighted and the portal menu is displayed. Create a resource is highlighted in the portal menu.](media/create-a-resource.png "Create a resource")
-
-2. Enter "database migration" into the Search the Marketplace box, select **Azure Database Migration Service** from the results, and select **Create**.
-
-    !["Database migration" is entered into the Search the Marketplace box. Azure Database Migration Service is selected in the results.](media/create-resource-azure-database-migration-service.png "Create Azure Database Migration Service")
-
-3. On the Create Migration Service blade, enter the following:
-
-    - **Subscription**: Select the subscription you are using for this hands-on lab.
-    - **Resource Group**: Select the hands-on-lab-SUFFIX resource group from the list of existing resource groups.
-    - **Migration service name**: Enter **wwi-dms-SUFFIX**.
-    - **Location**: Select the location you are using for resources in this hands-on lab.
-    - **Pricing tier**: Select Standard: 1 vCores.
-
-    > **Note**: If you see the message `Your subscription doesn't have proper access to Microsoft.DataMigration`, refresh the browser window before proceeding. If the message persists, verify you successfully registered the resource provider, and then you can safely ignore this message.
-
-   ![The Create Migration Service blade is displayed, with the values specified above entered into the appropriate fields.](media/create-migration-service.png "Create Migration Service")
-
-4. Select **Next: Networking**.
-
-5. On the Network tab, select the **hands-on-lab-SUFFIX-vnet/default** virtual network. This will place the DMS instance into the same VNet as your SQL Server and Lab VMs.
-
-    ![The hands-on-lab-SUFFIX-vnet/default is selected in the list of available virtual networks.](media/create-migration-service-networking-tab.png "Create migration service")
-
-6. Select **Review + create**.
-  
-7. Select **Create**.
-
->**Note**: It can take 15 minutes to deploy the Azure Data Migration Service.
-
-### Task 10 (Migrate to PostgreSQL): Create Azure Database Migration Service for an Oracle to PostgreSQL Migration
-
-In this task, you will provision an instance of the Azure Database Migration Service (DMS) for use with an *online* Oracle to PostgreSQL migration. This requires that we implement the **Premium** tier.
-
-1. In the [Azure portal](https://portal.azure.com/), select the **Show portal menu** icon and then select **+Create a resource** from the menu.
-
-    ![The Show portal menu icon is highlighted and the portal menu is displayed. Create a resource is highlighted in the portal menu.](media/create-a-resource.png "Create a resource")
-
-2. Enter "database migration" into the Search the Marketplace box, select **Azure Database Migration Service** from the results, and select **Create**.
-
-    !["Database migration" is entered into the Search the Marketplace box. Azure Database Migration Service is selected in the results.](media/create-resource-azure-database-migration-service.png "Create Azure Database Migration Service")
-
-3. On the Create Migration Service blade, enter the following:
-
-    - **Subscription**: Select the subscription you are using for this hands-on lab.
-    - **Resource Group**: Select the hands-on-lab-SUFFIX resource group from the list of existing resource groups.
-    - **Migration service name**: Enter **wwi-dms-SUFFIX**.
-    - **Location**: Select the location you are using for resources in this hands-on lab.
-    - **Pricing tier**: Select Premium: 4 vCores (you will need to select *Configure tier* to view this option).
-
-    > **Note**: If you see the message `Your subscription doesn't have proper access to Microsoft.DataMigration`, refresh the browser window before proceeding. If the message persists, verify you successfully registered the resource provider, and then you can safely ignore this message.
-
-   ![The Create Migration Service blade is displayed, with the values specified above entered into the appropriate fields.](media/create-premium-migration-service.png "Create Migration Service")
-
-4. Select **Next: Networking**.
-
-5. On the Network tab, select the **hands-on-lab-SUFFIX-vnet/default** virtual network. This will place the DMS instance into the same VNet as your SQL Server and Lab VMs.
-
-    ![The hands-on-lab-SUFFIX-vnet/default is selected in the list of available virtual networks.](media/create-migration-service-networking-tab.png "Create migration service")
-
-6. Select **Review + create**.
-  
-7. Select **Create**.
-
->**Note**: It can take 15 minutes to deploy the Azure Data Migration Service.
 
 You should follow all steps provided *before* performing the Hands-on lab.

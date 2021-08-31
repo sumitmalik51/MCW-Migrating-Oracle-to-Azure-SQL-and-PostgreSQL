@@ -458,11 +458,11 @@ _High-level architecture_
 
 1. Without getting into the details (they are addressed in the following sections), diagram your initial vision for handling the top-level requirements for data loading, data preparation, storage, high availability, application migration, and reporting. You will refine this diagram as you proceed.
 
-   After speaking with its support team at Microsoft, WWI decided that Azure SQL Database would be the right choice for the Oracle OLTP replacement. They decided to load data and schema using the SQL Server Migration Assistant, and migrate their Oracle Forms application to Microsoft ASP.NET Core. They are very concerned about how to do this and what method to use. They are leaning towards a total rewrite to ASP.NET Core. They would like the POC to include this. The POC should demonstrate that AlwaysOn Availability Groups provide them the reliability and performance they expected Oracle to deliver for them. They would also like to migrate their data warehouse to Azure SQL Database, allowing them to continue to grow the amount of data stored there more easily in the future.
+   After speaking with its support team at Microsoft, WWI decided that Azure SQL Database would be the right choice for the Oracle OLTP replacement. They decided to load data and schema using the SQL Server Migration Assistant, and migrate their Oracle Forms application to Microsoft ASP.NET Core. They are very concerned about how to do this and what method to use. They are leaning towards a total rewrite to ASP.NET Core. They would like the POC to include this. The POC should demonstrate that Azure SQL Database provides them the reliability and performance they expected Oracle to deliver for them. They would also like to migrate their data warehouse to Azure SQL Database, allowing them to continue to grow the amount of data stored there more easily in the future.
 
    The solution they've decided on, at a high level, appears as follows:
 
-   ![This solution diagram is divided into Microsoft Azure and on-premises. Microsoft Azure includes SQL Server 2017 in a VM as an AlwaysOn Secondary, and Azure SQL Stretch Database to extend the audit table to Azure. On-premises includes the following elements: API App for vendor connections; Web App for Internet Sales Transactions; ASP.NET Core App for inventory management; SQL Server 2017 OLTP for AlwaysOn and JSON store; SSRS 2017 for Reporting of OLTP, Data Warehouse, and Cubes; SSIS 2017 for a Data Warehouse Load; Excel for reporting; SQL Server 2017 Enterprise for a Data Warehouse; and SSAS 2017 for a Data Warehouse.](./media/preferred-solution-architecture.png "Preferred Solution diagram")
+   ![This solution diagram is divided into Microsoft Azure and on-premises. Microsoft Azure includes two Azure SQL Database instances and the Azure Data Factory SSIS Integration Runtime to execute SSIS packages hosted in Azure Files. It also includes Azure Analysis Services, Power BI, and SSRS on an Azure VM as a lift-and-shift alternative to Power BI for their reporting needs. On-premises includes the following elements: API App for vendor connections; Web App for Internet Sales Transactions; ASP.NET Core App for inventory management; and Excel for reporting.](./media/new-suggested-architecture.png "Preferred Solution diagram")
 
    **Diagram of possible architecture:**
 
@@ -494,7 +494,12 @@ _High-level architecture_
 
    - An upgraded data warehouse using Azure Database Migration Service, including:
 
-     - Upgraded SSIS, SSAS, and SSRS projects.
+     - Migrating SSIS packages to Azure
+       - Host SSIS packages in Azure Files, Azure SQL Managed Instance, or Azure SQL Database
+       - With Azure SQL Managed Instance, SSIS packages in the SSIS catalog database can be executed through native support for SQL Server Agent jobs
+       - Alternatively, use the Azure Data Factory SSIS Integration Runtime to execute SSIS packages stored in the SSIS catalog database (in Azure SQL Database) or Azure Files
+     - Migrating SSAS to Azure Analysis Services or SQL Server on an Azure VM
+     - Migrating SSRS to Power BI or SSRS on an Azure VM
 
    - Testing repointing some of the Excel worksheets to a new test data warehouse.
 
@@ -572,13 +577,15 @@ _Data warehouse and reporting_
 
 2. What must change about the way WWI loads its data warehouse?
 
-   We need to identify all the extract, transform, and load (ETL) packages that load data from Oracle to SQL Server. We will upgrade all the connection strings to load the data warehouse from the new SQL Server OLTP database to the Azure SQL Database data warehouse. We will have to change all the data source connections to Azure SQL Database. If collation is different, we will need to address that with data conversion tasks in the data flow.
+   We need to identify all SSIS ETL packages that load data from Oracle to SQL Server 2008 R2. Those SSIS packages will then be executed using the Azure-SSIS integration runtime in Azure Data Factory. Tools to support this deployment include SQL Server Data Tools (SSDT) and SQL Server Management Studio (SSMS). 
+   
+   If the stakeholder does not want to migrate to a PaaS platform, it is possible to run SSIS packages on an Azure SQL VM. However, even this approach offers cost benefits for existing licenses, flexible hardware configuration (scalability), and automated backups and patching. Learn more about this technique [here.](https://techcommunity.microsoft.com/t5/sql-server-integration-services/running-ssis-on-azure-vm-iaas-do-more-with-less-money/ba-p/388328)
 
 3. What components do they need to use to upgrade the SQL Server 2008 R2 data warehouse to Azure SQL Database or SQL Server 2019 Enterprise?
 
    We must account for SQL Server security, SQL Server agent jobs, and external applications that might be hitting the engine and SSAS.
 
-   SSRS, SSAS, and SSIS will need to be upgraded and redeployed. All developers who are using BI tools will need to upgrade to the latest versions of SQL Server Management Studio (SSMS) and SQL Server Data Tools (SSDT).
+   SSRS, SSAS, and SSIS must be deployed to Azure VMs or the PaaS equivalents of these products. Depending on the migration time frame and complexity of the on-premises solution, WWI can determine the appropriate option.
 
 4. Identify the significant milestones of delivering an upgrade to Azure SQL Database or SQL Server 2019 Enterprise.
 
@@ -625,7 +632,7 @@ _Data warehouse and reporting_
 
 7. What are the post-upgrade steps we should consider in the POC? How would this address their concerns?
 
-   The Data Migration Assistant report, which is exported to a CSV file, should be reviewed for post-migration tasks identified by the Data Migration Assistant.
+   The Data Migration Assistant, used in homogenous SQL Server to Azure SQL Database migrations, generates a report which is exported to a CSV file. It should be reviewed for post-migration tasks identified by the Data Migration Assistant.
 
    After the upgrade, they need to implement Transparent Data Encryption quickly. This might complicate their populating test servers because a certificate and password are necessary to move the database to a new server.
 
@@ -700,7 +707,7 @@ _Azure SQL Database POC_
 
 2. Can we have two proofs-of-concept that demonstrate both migrations?
 
-   Two proof-of-concepts are possible and easy to do. The application architecture might be quite a bit different if we choose to use Platform as a Service (PaaS). The online sales application and web services would migrate to Azure App Service. SSRS would have to migrate to a Virtual Machine (unless we use the SSRS Azure alpha release). The data warehouse can move to the cloud to take advantage of its scalability, security, and performance advantages. If it stays on-premises, then data movement from the Azure SQL OLTP database to the on-premises SQL Server 2019 Enterprise data warehouse would need to be addressed. Again, ExpressRoute might be needed.
+   Two proof-of-concepts are possible and easy to do. The application architecture might be quite a bit different if we choose to use Platform as a Service (PaaS). The online sales application and web services would migrate to Azure App Service. SSRS would have to migrate to a Virtual Machine using the [new Virtual Machine SSRS image](https://techcommunity.microsoft.com/t5/sql-server/azure-sql-vm-automatic-registration-and-reporting-services/ba-p/1783947) (unless we migrate to Power BI with the [RDL Migration tool](https://github.com/microsoft/RdlMigration)). The data warehouse can move to the cloud to take advantage of its scalability, security, and performance advantages. If it stays on-premises, then data movement from the Azure SQL OLTP database to the on-premises SQL Server 2019 Enterprise data warehouse would need to be addressed. Again, ExpressRoute might be needed.
 
 3. Do we need to rewrite all our applications for Azure SQL Database?
 
@@ -712,9 +719,11 @@ _Azure SQL Database POC_
 
 4. Do we need to rewrite all our reports for Azure SQL Database?
 
-   The SSRS reports should migrate over with just a change to the connectionString. The data sets might need SQL refreshed for T-SQL instead of PL/SQL.
+   By migrating SSRS to a VM, WWI can easily migrate their existing reports. VM images are currently available for SQL Server 2019 Reporting Services and SQL Server 2016 Reporting Services.
 
    If the Excel reports use simple queries to views or stored procedures, then changing the connectionString might work with them, also. If not, then the queries that drive the spreadsheets will need to be rewritten. The SQL Server Migration Tool can also convert specific, individual queries from PL/SQL to T-SQL.
+
+   Users of Excel 2016 and above can query Azure Analysis Services tabular models easily.
 
 5. Will our security migrate over from Oracle to Azure SQL Database? How do we handle security in the new database?
 
@@ -750,21 +759,23 @@ _Azure SQL Database POC_
 
     Thought needs to be given to upgrading the database storage engine, SQL Server Analysis Services, SQL Server Reporting Services, and SQL Server Integration Services. SSRS and SSIS have been completely redone since SQL Server 2008, with new interfaces and new engines. SSAS multidimensional also has a new engine with a tabular engine. Thought needs to be given if it will be implemented.
 
-    Moreover, Azure has introduced cloud-based platforms to support WWI's BI needs. For example, Power BI may serve as a substitute for SSRS on a VM, and Azure Analysis Services may serve as a substitute for SSAS. However, WWI may not be ready to migrate its entire BI stack.
+    Moreover, Azure has introduced cloud-based platforms to support WWI's BI needs. For example, Power BI may serve as a substitute for SSRS on a VM, and Azure Analysis Services may serve as a substitute for SSAS. If WWI is using multidimensional cubes for its data model, it cannot migrate to Azure Analysis Services. In that case, using a [pre-configured, engine-only virtual machine image](https://techcommunity.microsoft.com/t5/sql-server/announcing-azure-marketplace-images-for-sql-server-analysis/ba-p/1851793) is possible.  
 
 12. When we upgrade the data warehouse, how will we keep all our connected dependencies updated?
 
-    If we don't change the server name, our job is much easier. We might not even need to modify the connectionStrings. We can keep the server name the same by either doing an in-place upgrade or by migrating to a new server and then changing the name of the new server to a new name. If we migrate to a new server, we will need to migrate security logins and permissions, along with the database. We'll also need to script the SQL Server Agent jobs over to the new server.
+    If we don't change the server name, our job is much easier. We might not even need to modify the connectionStrings. We can keep the server name the same by either doing an in-place upgrade or by migrating to a new server and then changing the name of the new server to a new name. If we migrate to a new server, we will need to migrate security logins and permissions, along with the database. Note that migrating SQL Server Agent jobs requires Azure SQL Managed Instance, which is not addressed in the PoC. However, Azure Data Factory can orchestrate common data manipulation tasks on a schedule.
 
 13. What will happen with SSIS, SSRS, and SQL Server Analysis Services (SSAS)?
 
-    Once the server is upgraded, we should redeploy the SSIS, SSAS, and SSRS projects after changing the connectionStrings. If we use project connectionStrings, this will be much easier. All external connections should be tested thoroughly.
+    As mentioned previously, SSIS can run locally, natively in Azure SQL Managed Instance through Agent jobs, and in Azure Data Factory through the SSIS integration runtime. SSRS can run locally, in an Azure VM, or be migrated to Power BI. WWI can explore which reports it wants to migrate to Power BI, and which reports it wants to migrate to SSRS on a VM. Lastly, SSAS can run locally, on an Azure VM, or in Azure Analysis Services. Again, WWI must consider whether it uses multidimensional cubes in its solution.
+    
+    If we keep SSIS, SSAS, and SSRS running on-premises, we should redeploy the SSIS, SSAS, and SSRS projects after changing the connectionStrings. If we use project connectionStrings, this will be much easier. All external connections should be tested thoroughly.
 
-    If we use Database Migration Assistant, SSIS packages will upgrade during the process and will migrate over to the new server.
+    If we use Database Migration Assistant for a homogenous migration, SSIS packages will upgrade during the process and will migrate over to the new server.
 
-14. How will security and SQL Agent jobs migrate?
+14. How will security and SQL Agent jobs migrate for a homogenous migration?
 
-    If we use Database Migration Assistant, security and the SQL Server Agent Jobs will migrate over to the new server.
+    If we use Database Migration Assistant, security and the SQL Server Agent Jobs will migrate over to the new server. SQL Server Agent Jobs are only supported in Azure SQL Managed Instance.
 
 ## Customer quote (to be read back to the attendees at the end)
 

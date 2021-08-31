@@ -38,9 +38,8 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
   - [Exercise 2: Assess the Oracle 18c Database before Migrating to Azure SQL Database](#exercise-2-assess-the-oracle-18c-database-before-migrating-to-azure-sql-database)
     - [Task 1: Update Statistics and Identify Invalid Objects](#task-1-update-statistics-and-identify-invalid-objects)
   - [Exercise 3: Migrate the Oracle database to Azure SQL Database](#exercise-3-migrate-the-oracle-database-to-azure-sql-database)
-    - [Task 1: Prepare to load SSMA](#task-1-prepare-to-load-ssma)
-    - [Task 2: Migrate the Oracle database to Azure SQL Database using SSMA](#task-2-migrate-the-oracle-database-to-azure-sql-database-using-ssma)
-    - [Task 3: Additional SSMA Usage Details](#task-3-additional-ssma-usage-details)
+    - [Task 1: Migrate the Oracle database to Azure SQL Database using SSMA](#task-1-migrate-the-oracle-database-to-azure-sql-database-using-ssma)
+    - [Task 2: Additional SSMA Usage Details](#task-2-additional-ssma-usage-details)
   - [Exercise 4: Migrate the Application](#exercise-4-migrate-the-application)
     - [Task 1: Create new Entity Models against Azure SQL Database and Scaffold Views](#task-1-create-new-entity-models-against-azure-sql-database-and-scaffold-views)
     - [Task 2: Ensure Application Compatibility with the Stored Procedure](#task-2-ensure-application-compatibility-with-the-stored-procedure)
@@ -321,29 +320,7 @@ Duration: 30 minutes
 
 In this exercise, you will migrate the Oracle database to Azure SQL DB using SSMA.
 
-### Task 1: Prepare to load SSMA
-
-1. You may need to download the latest version of .NET Framework to load the SQL Server Migration Assistance for Oracle tool. Select [this](https://dotnet.microsoft.com/download/dotnet-framework/net48) link to install .NET Framework 4.8.
-
-   >**Note**: If you are prompted to relaunch **RdAgent**, select **No**. This will require you to restart the VM after the .NET Framework installation.
-
-   ![.NET Framework 4.8 install dialog in LabVM.](./media/net-framework-install.png ".NET Framework 4.8 installation dialog")
-
-2. Navigate to `C:\Windows\Microsoft.NET\Framework64\v4.0.30319\Config` in File Explorer. Right-click `machine.config` and select **Open with > Notepad**.
-
-3. Once the `machine.config` file opens in Notepad, remove the reference to `oracle.manageddataaccess.client` below the `configSections` node.
-
-4. Below `DbProviderFactories`, remove the reference to the managed Oracle connector.
-
-   ![Remove reference to the Managed Oracle provider in the system-wide machine.config file.](./media/dbproviderfactory-odpnet-reference.png "Removing reference to Managed Oracle provider")
-
-5. Lastly, remove the reference to the `oracle.manageddataaccess.client` node in the `configuration` root node.
-
-   ![Remove Oracle managed client configuration details from machine.config.](./media/remove-manageddata-reference.png "Remove managed client configuration")
-
-6. Save the file. Close notepad.
-
-### Task 2: Migrate the Oracle database to Azure SQL Database using SSMA
+### Task 1: Migrate the Oracle database to Azure SQL Database using SSMA
 
 1. On your LabVM, launch **Microsoft SQL Server Migration Assistant for Oracle** from the Start Menu.
 
@@ -493,7 +470,7 @@ In this exercise, you will migrate the Oracle database to Azure SQL DB using SSM
 
 32. Select **Close** on the migration report.
 
-### Task 3: Additional SSMA Usage Details
+### Task 2: Additional SSMA Usage Details
 
 This lab explores a relatively simple migration. This Task will provide additional considerations that you can refer to as you attempt more complex migrations.
 

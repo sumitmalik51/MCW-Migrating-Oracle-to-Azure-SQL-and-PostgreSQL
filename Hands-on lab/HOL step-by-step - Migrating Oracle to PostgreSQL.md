@@ -543,7 +543,10 @@ Exercise 3 covered planning and assessment steps.  To start the database migrati
 4. Reopen the command prompt in the `C:\ora2pg\nw_migration` directory.
 
     - Enter the following command to run the **NW-psql.sql** file to create tables in the **NW** database.
-    - Enter your database's DNS name as the value passed to the -h flag.
+    - [Server Name] - Enter your Azure PostgreSQL database's DNS name as the value passed to the -h flag. You can find this Server name in the Azure PostgreSQL overview.
+
+    ![The image shows the Azure PostgreSQL overview information. The Server name is circled.](media/azure-database-psql-overview.png "PostgreSQL Server Name")
+
     - If the connection is successful, you will be asked to enter your password.
     - Then, the command prompt should show a sequence of **CREATE TABLE** statements.
 
@@ -551,7 +554,13 @@ Exercise 3 covered planning and assessment steps.  To start the database migrati
     psql -U NW@[Server Name] -h [Server Name].postgres.database.azure.com -d NW < schema\tables\NW-psql.sql
     ```
 
+    ![The image shows the create table statements being executed.](media/psql-create-table-results.png "PSQL Create Table Statements")
+
     >**Note**: If you receive an error like "could not find a 'psql' to execute", use the entire path to the executable in the command (`"C:\Program Files\pgAdmin 4\v5\runtime\psql"`)
+
+    - Navigate to pgAdmin. Refresh the database objects.  Verify the tables exist in pgAdmin.
+  
+    ![The image shows the newly created tables in the pgAdmin tool.](media/view-tables-in-pgadmin.png "View tables in pgAdmin")
 
 ### Task 2: Migrate Table Data with ora2pg
 

@@ -494,9 +494,15 @@ The migration report tells us the "man-hours" required to fully migrate to our a
     ora2pg -c config\ora2pg.conf -t SHOW_REPORT --estimate_cost --dump_as_html > reports\6-23-report.html
     ```
 
+    ![The image shows the objects included in the report.](media/report-created.png "Objects Exported")
+
     >**Note**: The report displays information for the provided schema--in our case, we placed schema information in `config\ora2pg.conf` before executing the command.
 
     ![Screenshot showing the Report Schema.](./media/report-schema.PNG "Report schema")
+
+    >**Note:** The invalid objects count was zero. Also, if the utility assessed database objects, they were listed in the report details.
+
+    ![The image shows an example ora2pg assessment report.](media/report-details.png "Assess Report")
 
     Of particular interest is the migration level. In our case, it is B-5, which implicates code rewriting, since there are multiple stored procedures which must be altered.
 

@@ -576,7 +576,7 @@ In this Task, we will use the ora2pg utility to migrate table data to the Postgr
 
     You should see the following once the command completes. Notice how all 3,308 rows are accounted for.
 
-    >**Note:** **It may take up to 5 minutes for the export to start**.  If you get authentication errors, double check your ora2pg config file PG_DSN, PG_USER, and PG_PWD parameters. NW must be in upper case. Case matters.
+    >**Note:** **It may take up to 5 minutes for the export to start**.  If you get authentication errors, double check your ora2pg config file PG_DSN, PG_USER, and PG_PWD parameters. NW must be in upper case. Capitalization matters.
 
     ![ora2pg exports all rows in the source Oracle instance.](./media/ora2pg-data-scan.png "All rows exported to SQL files")
 
@@ -611,7 +611,7 @@ We migrated the data **before the constraints were applied** to reduce the time 
 
 4. Navigate to pgAdmin and **Refresh the tables** in the left panel. Verify the indexes and constraints have been applied.
 
-   ![](media/pgadmin-verify-index-constraints-applied.png)
+   ![The image shows the indexes for the employees table in pgAdmin.](media/pgadmin-verify-index-constraints-applied.png "Verify indexes in pgAdmin")
 
 5. Before migrating views in the next task, let's verify that table data has been properly migrated. Open **pgAdmin** and connect to the database as the NW user. To use **Query Tool**, select **Query Tool** under the **Tools** dropdown.
 
@@ -646,13 +646,17 @@ Views are not referenced by the sample application, but we are including this ta
 1. Navigate to the  `C:\ora2pg\nw_migration\schema\views` directory, where we will run ora2pg and psql.
 
     ```cmd
-    cd schema\views
+    cd c:\ora2pg\nw_migration\schema\views
     ora2pg -c ..\..\config\ora2pg.conf -t VIEW -o NW-views.sql
     ```
 
     >**Note**: Views are exported into individual files. The file specified in the command (NW-views.sql) references the individual files.
 
-2. Before we invoke NW-views.sql, we will need to make changes to four files. This is because our application uses a to_date() function that is not supported in PostgreSQL. We will need to replace the command in the code with the equivalent DATE() function in PostgreSQL. First, in **SALES_TOTALS_BY_AMOUNT_NW-views.sql**, replace the existing last line:
+    ![The image shows the Oracle views exported to SQL files in Explorer.](media/valid-view-export.png "View SQL Statements")
+
+2. Before we invoke NW-views.sql, we will need to make changes to four files. This is because our application uses a **to_date() function that is not supported in PostgreSQL**. We will need to replace the command in the code with the equivalent **DATE()** function in PostgreSQL.
+
+3. Open **SALES_TOTALS_BY_AMOUNT_NW-views.sql** and replace the existing last line:
 
     ![Screenshot showing the function that needs to replaced for sales totals by amounts.](./media/sales-totals-amount-view-old.png "to_date function")
 
@@ -660,41 +664,23 @@ Views are not referenced by the sample application, but we are including this ta
 
     ![Screenshot showing the new view for Sales Total Amounts.](./media/sales-totals-amount-view-new.png "Sales Totals amounts new view")
 
-3. In **QUARTERLY_ORDERS_NW-views.sql**, replace the existing last line:
-
-    ![Screenshot showing the old view for Quarterly Orders.](./media/quarterly-orders-view-old.png "Quarterly orders old view")
-
-    with this:
-
-    ![Screenshot showing new view for quarterly orders.](./media/quarterly-orders-view-new.png "New view quarterly orders")
+4. Open the **QUARTERLY_ORDERS_NW-views.sql** and replace the **to_date()** function with **DATE()** function. Remember, the DATE() function does NOT have the same parameters.
 
     >**Note**: The other two applications of the `to_date()` function in that file are acceptable, as seen below.
 
     ![Testing to_date() function from pgAdmin.](./media/to-date-demo.png "to_date() sample")
 
-4. In **PRODUCT_SALES_FOR_1997_NW-views.sql**, replace the line before the last:
+5. Open the **PRODUCT_SALES_FOR_1997_NW-views.sql** and replace the **to_date()** function with **DATE()** function.
 
-    ![Screenshot showing the old view for product sales.](./media/product-sales-1997-view-old.png "Old view product sales")
+6. Open the **SALES_BY_CATEGORY_NW-views.sql** and replace the **to_date()** function with **DATE()** function.
 
-    with this:
-
-    ![Screenshot showing new view for product sales 1997.](./media/product-sales-1997-view-new.png "New view product sales")
-
-5. Finally, in **SALES_BY_CATEGORY_NW-views.sql**, replace the line before the last:
-
-    ![Screenshot showing the old view for sales by category.](./media/sales-by-category-view-old.png "Old view sales by category")
-
-    with this:
-
-    ![Screenshot showing the new view for sales by category.](./media/sales-by-category-view-new.png "New view sales by category")
-
-6. Now that all modifications are complete, run the NW-views.sql file in psql:
+7. Now that all modifications are complete, run the NW-views.sql file in psql:
 
     ```cmd
     psql -U NW@[DB Name] -h [DB Name].postgres.database.azure.com -d NW < NW-views.sql
     ```
 
-7. With that, we have migrated views.
+8. With that, we have migrated views.
 
     - Navigate to the **Query Editor** and test these migrated views.
     - Utilize the query below, which will show data where **productsales** is greater than 5000. You can envision how this would be useful in an organization to identify successful items in a given year (1997).
@@ -705,7 +691,7 @@ Views are not referenced by the sample application, but we are including this ta
     WHERE productsales > 5000;
     ```
 
-8. When the query is executed, you should see the following result set, with 42 rows. This shows that we have successfully migrated the views.
+9. When the query is executed, you should see the following result set, with 42 rows. This shows that we have successfully migrated the views.
 
     ![Result set from query involving the product_sales_for_1997 view.](./media/1997-view-result-set.PNG "Result set")
 
@@ -713,9 +699,9 @@ Let's migrate stored procedures next.
 
 ### Task 5: Migrate the Stored Procedure
 
-Our application utilizes a single stored procedure, so we must be able to migrate it. To do this, we will be using the **orafce** extension utility, which provides functions that are compatible with Oracle code. We will then call the procedure and view its results using a refcursor.
+Our application utilizes a single stored procedure, so we must be able to migrate it. To do this, we will be using the **orafce extension utility**, which provides functions that are compatible with Oracle code. We will then call the procedure and view its results using a refcursor.
 
-1. Open `C:\ora2pg\nw_migration\config\ora2pg.conf`. There is a directive titled `PLSQL_PGSQL`. Uncomment it. This is necessary for the stored procedure migration.
+1. Open `C:\ora2pg\nw_migration\config\ora2pg.conf`. There is a directive titled `PLSQL_PGSQL`. Uncomment it and set the value to `1`. This is necessary for the stored procedure migration.
 
     ```txt
     # Enable PLSQL to PLPSQL conversion. This is a work in progress, feel
@@ -727,6 +713,7 @@ Our application utilizes a single stored procedure, so we must be able to migrat
 2. Only one stored procedure, **NW.SALESBYYEAR**, is in use by the application. So, we will export this stored procedure from the Oracle database for analysis. Run the command below in `C:\ora2pg\nw_migration\schema\procedures`.
 
     ```cmd
+    cd C:\ora2pg\nw_migration\schema\procedures
     ora2pg -c ..\..\config\ora2pg.conf -t PROCEDURE -a SALESBYYEAR -o NW-proc.sql
     ```
 
@@ -744,11 +731,15 @@ Our application utilizes a single stored procedure, so we must be able to migrat
 
     ![Screenshot showing new SP parameter list.](./media/proc-param-list-new.png "New parameter list")
 
+    Save your edits.
+
 5. A useful PostgreSQL extension that facilitates greater compatibility with Oracle database objects is **orafce**, which is provided with Azure Database for PostgreSQL. To enable it, navigate to pgAdmin, enter your master password, and connect to your PostgreSQL instance. Then, enter the following command into the query editor and execute it:
 
     ```sql
     CREATE EXTENSION orafce;
     ```
+    
+    ![The image shows the create extension command in pgAdmin executed.](media/pgadmin-create-extension.png "pgAdmin create extension")
 
 6. Now, you will need to execute the **NW-proc.sql** file against the PostgreSQL instance.
 
@@ -802,6 +793,7 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
     Install-Package Npgsql.EntityFrameworkCore.PostgreSQL
     ```
 
+
 6. Enter the following command in the Package Manager console to produce the models. The `-Force` flag eliminates the need to manually clear the `Data` directory.
 
     ```powershell
@@ -810,7 +802,11 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
 
     >**Note**: This command will reverse-engineer more tables than are actually needed. The `-Tables` flag, referencing schema-qualified table names, provides a more accurate approach.
 
+    ![The image shows the entity objects created by the executed command.](media/view-reverse-engineer-table-results.png "Reverse engineered table objects")
+
 7. Attempt to build the solution to identify errors.
+
+    ![The image shows Visual Studio menu. Build Solution menu item highlighted.](media/visual-studio-build-solution.png "Build Solution")
 
     ![Errors in the solution.](./media/solution-errors.png "Solution errors")
 
@@ -875,7 +871,7 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
     - **SuppliersController.cs**
       - Based on the **Supplier** model class
 
-16. Navigate to **Startup.cs**. Ensure that PostgreSQL is configured as the correct provider and the appropriate connection string is referenced.
+16. Navigate to **Startup.cs**. Ensure that PostgreSQL is configured as the correct provider and the appropriate connection string is referenced in the **ConfigureServices** method.
 
    ```csharp
    services.AddDbContext<DataContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PostgreSqlConnectionString")));
@@ -913,7 +909,7 @@ With PostgreSQL, stored procedures cannot return output values without a cursor.
 
     ![Creating the SALESBYYEAR_func function in pgAdmin.](./media/sales-by-year-func.png "Creating new function SALESBYYEAR_func")
 
-3. Comment out the code under the Oracle comment. First, select the lines for the Oracle code, then select the Comment button in the toolbar.
+3. In the Visual Studio solution, navigate to the **HomeController**. Comment out the code under the Oracle comment. First, select the lines for the Oracle code, then select the Comment button in the toolbar.
 
    ![The code under the Oracle comment is highlighted and labeled 1, and the Comment button in the toolbar is highlighted and labeled 2.](./media/visual-studio-home-controller-comment-out-oracle-lines.png "Comment out code")
 

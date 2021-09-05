@@ -551,6 +551,7 @@ Exercise 3 covered planning and assessment steps.  To start the database migrati
     - Then, the command prompt should show a sequence of **CREATE TABLE** statements.
 
     ```cmd
+    cd C:\ora2pg\nw_migration
     psql -U NW@[Server Name] -h [Server Name].postgres.database.azure.com -d NW < schema\tables\NW-psql.sql
     ```
 
@@ -569,10 +570,13 @@ In this Task, we will use the ora2pg utility to migrate table data to the Postgr
 1. Navigate to `C:\ora2pg\nw_migration\data` in command prompt and enter the following command.
 
     ```cmd
+    cd C:\ora2pg\nw_migration\data
     ora2pg -t COPY -o data.sql -c ..\config\ora2pg.conf
     ```
 
     You should see the following once the command completes. Notice how all 3,308 rows are accounted for.
+
+    >**Note:** **It may take up to 5 minutes for the export to start**.  If you get authentication errors, double check your ora2pg config file PG_DSN, PG_USER, and PG_PWD parameters. NW must be in upper case. Case matters.
 
     ![ora2pg exports all rows in the source Oracle instance.](./media/ora2pg-data-scan.png "All rows exported to SQL files")
 
@@ -584,11 +588,12 @@ In this Task, we will use the ora2pg utility to migrate table data to the Postgr
 
 ### Task 3: Finishing the table schema migration
 
-We migrated the data before the constraints to reduce the time required to copy data into the tables. In addition, if foreign keys were present on the target tables, data migration would fail. So, in this task, we will add constraints, foreign keys, and indexes to the target tables. This task assumes that you are in the `C:\ora2pg\nw_migration` directory in command prompt.
+We migrated the data **before the constraints were applied** to reduce the time required to copy data into the tables. In addition, if foreign keys were present on the target tables, data migration would fail and take longer to import. So, in this task, we will add constraints, foreign keys, and indexes to the target tables. This task assumes that you are in the `C:\ora2pg\nw_migration` directory in command prompt.
 
 1. First, layer on constraints (not foreign keys):
 
     ```cmd
+    cd C:\ora2pg\nw_migration
     psql -U NW@[Server Name] -h [Server Name].postgres.database.azure.com -d NW < schema\tables\CONSTRAINTS_NW-psql.sql
     ```
 
@@ -604,13 +609,17 @@ We migrated the data before the constraints to reduce the time required to copy 
     psql -U NW@[Server Name] -h [Server Name].postgres.database.azure.com -d NW < schema\tables\INDEXES_NW-psql.sql
     ```
 
-4. Before migrating views in the next task, let's verify that table data has been properly migrated. Open **pgAdmin** and connect to the database as the NW user. To use **Query Tool**, select **Query Tool** under the **Tools** dropdown.
+4. Navigate to pgAdmin and **Refresh the tables** in the left panel. Verify the indexes and constraints have been applied.
+
+   ![](media/pgadmin-verify-index-constraints-applied.png)
+
+5. Before migrating views in the next task, let's verify that table data has been properly migrated. Open **pgAdmin** and connect to the database as the NW user. To use **Query Tool**, select **Query Tool** under the **Tools** dropdown.
 
     ![Screenshot showing entering the query tool.](./media/entering-query-tool.png "Query Tool highlighted")
 
     >**Note**: You will need to select the **NW** database before accessing the Query Tool.
 
-5. Enter the following query into the editor:
+6. Enter the following query into the editor:
 
     ```sql
     SELECT CONCAT(firstname, ' ', lastname) as name,
@@ -620,11 +629,11 @@ We migrated the data before the constraints to reduce the time required to copy 
      JOIN territories t ON et.territoryid = t.territoryid;
     ```
 
-6. Now, execute the query by selecting the **execution** button on the toolbar.
+7. Now, execute the query by selecting the **execution** button on the toolbar.
 
     ![Screenshot showing running of the query.](./media/running-query.png "Execution button")
 
-7. If you were successful, you should see an output similar to the following. The result set should have 49 rows. It is available under the **Data Output** tab.
+8. If you were successful, you should see an output similar to the following. The result set should have 49 rows. It is available under the **Data Output** tab.
 
     ![Screenshot showing Result set from the select query.](./media/select-query-result-set.PNG "Query result")
 

@@ -567,7 +567,11 @@ Exercise 3 covered planning and assessment steps.  To start the database migrati
 
 In this Task, we will use the ora2pg utility to migrate table data to the PostgreSQL instance, now that we have created the table schema on the landing zone.
 
-1. Navigate to `C:\ora2pg\nw_migration\data` in command prompt and enter the following command.
+1. Open Explorer and navigate to `C:\ora2pg\nw_migration\config`. Edit the **ora2pg.conf** file. Update the PG_DSN, PG_USER, and PG_PWD parameters with the correct values.
+
+![The image shows the PG server parameters to connect to Azure PostgreSQL.](media/ora2pg-setup-psql-config.png "Update the PG config")
+
+2. Navigate to `C:\ora2pg\nw_migration\data` in command prompt and enter the following command.
 
     ```cmd
     cd C:\ora2pg\nw_migration\data
@@ -579,12 +583,6 @@ In this Task, we will use the ora2pg utility to migrate table data to the Postgr
     >**Note:** **It may take up to 5 minutes for the export to start**.  If you get authentication errors, double check your ora2pg config file PG_DSN, PG_USER, and PG_PWD parameters. NW must be in upper case. Capitalization matters.
 
     ![ora2pg exports all rows in the source Oracle instance.](./media/ora2pg-data-scan.png "All rows exported to SQL files")
-
-2. In the `data` subdirectory, notice how there are SQL files for all tables and one primary SQL file, titled `data.sql`. Use the following command in command prompt to export data to the PostgreSQL instance.
-
-    ```cmd
-    psql -U NW@[SERVER NAME] -h [SERVER NAME].postgres.database.azure.com -d NW < data.sql
-    ```
 
 ### Task 3: Finishing the table schema migration
 
@@ -871,12 +869,13 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
     - **SuppliersController.cs**
       - Based on the **Supplier** model class
 
-16. Navigate to **Startup.cs**. Ensure that PostgreSQL is configured as the correct provider and the appropriate connection string is referenced in the **ConfigureServices** method.
+16. Navigate to **Startup.cs**. Ensure that PostgreSQL is configured as the correct provider and the appropriate connection string is referenced in the **ConfigureServices** method. 
 
    ```csharp
    services.AddDbContext<DataContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PostgreSqlConnectionString")));
    ```
 
+17. Remove the reference to the Oracle connection ConfigureServices method.
 ### Task 7: Update the Dashboard Stored Procedure Call
 
 With PostgreSQL, stored procedures cannot return output values without a cursor. This Task details how to write a function to replicate the same logic. Functions can return result sets directly, without a cursor.
@@ -913,7 +912,14 @@ With PostgreSQL, stored procedures cannot return output values without a cursor.
 
    ![The code under the Oracle comment is highlighted and labeled 1, and the Comment button in the toolbar is highlighted and labeled 2.](./media/visual-studio-home-controller-comment-out-oracle-lines.png "Comment out code")
 
-4. Below the commented Oracle code and before the LINQ query, add the following:
+4. In the HomeController.cs, add the following `using` references:
+
+    ```csharp
+    using NpgsqlTypes;
+    using Npgsql;
+    ```
+
+5. Below the commented Oracle code and before the LINQ query, add the following:
 
     ```csharp
     var beginDate = new NpgsqlParameter { ParameterName = "beginDate", NpgsqlDbType = NpgsqlDbType.Timestamp, Direction = ParameterDirection.Input, Value = new NpgsqlDateTime(DateTime.Parse("Jan 1, 1996")) };
@@ -922,17 +928,17 @@ With PostgreSQL, stored procedures cannot return output values without a cursor.
     var salesByYear = await _context.SalesByYearDbSet.FromSqlRaw("SELECT * FROM SALESBYYEAR_func(@beginDate, @endDate);", beginDate, endDate).ToListAsync();
     ```
 
-5. In `SalesByYear.cs`, update the type of the `OrderID` property to `long`.
+6. Navigate `Models` folder in the Visual Studio Solution.  In the `SalesByYear.cs` class, update the type of the `OrderID` property to `long`.
 
     ```csharp
     public long OrderID { get; set; }
     ```
 
-6. Run the application again by selecting the green Start button in the Visual Studio toolbar.
+7. Run the application again by selecting the green Start button in the Visual Studio toolbar.
 
     ![The Start button is highlighted on the Visual Studio toolbar.](./media/visual-studio-toolbar-start.png "Select Start")
 
-7. Verify the graph is showing correctly on the Northwind Traders dashboard.
+8. Verify the graph is showing correctly on the Northwind Traders dashboard.
 
     ![The Northwind Traders Dashboard is visible in a browser.](./media/northwind-traders-dashboard.png "View the dashboard")
 

@@ -122,7 +122,7 @@ Kathleen Sloan, the CIO of WWI, is looking to decrease their software license fe
 
 ### Infographic for common scenarios
 
-![This common scenario diagram includes the following elements: API App for vendor connections; Web App for Internet Sales Transactions; Oracle Forms App for inventory management; Oracle DB OLTP RAC Server; and Power BI and Excel for reporting of OLTP.](media/common-scenarios-oracle-to-postgresql.PNG "Common Scenario diagram")
+![This common scenario diagram includes the following elements: API App for vendor connections; Web App for Internet Sales Transactions; Oracle Forms App for inventory management; Oracle DB OLTP RAC Server; and Power BI and Excel for reporting of OLTP.](media/common-scenarios-oracle-to-postgresql.png "Common Scenario diagram")
 
 ## Step 2: Design a proof of concept solution
 

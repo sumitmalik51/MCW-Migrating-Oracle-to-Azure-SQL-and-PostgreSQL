@@ -567,7 +567,7 @@ Exercise 3 covered planning and assessment steps.  To start the database migrati
 
 In this Task, we will use the ora2pg utility to migrate table data to the PostgreSQL instance, now that we have created the table schema on the landing zone.
 
-1. Open Explorer and navigate to `C:\ora2pg\nw_migration\config`. Edit the **ora2pg.conf** file. Update the PG_DSN, PG_USER, and PG_PWD parameters with the correct values.
+1. Open Explorer and navigate to `C:\ora2pg\nw_migration\config`. Edit the **ora2pg.conf** file. Make sure the PG_DSN, PG_USER, and PG_PWD parameters have the correct values.
 
 ![The image shows the PG server parameters to connect to Azure PostgreSQL.](media/ora2pg-setup-psql-config.png "Update the PG config")
 
@@ -875,7 +875,7 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
    services.AddDbContext<DataContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PostgreSqlConnectionString")));
    ```
 
-17. Remove the reference to the Oracle connection ConfigureServices method.
+17. Remove the reference to the Oracle connection in ConfigureServices method.
 ### Task 7: Update the Dashboard Stored Procedure Call
 
 With PostgreSQL, stored procedures cannot return output values without a cursor. This Task details how to write a function to replicate the same logic. Functions can return result sets directly, without a cursor.

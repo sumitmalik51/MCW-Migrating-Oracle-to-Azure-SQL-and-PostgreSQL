@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "uniqueSuffix": {
-            "value": "skm"
+            "value": "smr"
         },
         "VMPassword": {
             "value": "Password.1!!"

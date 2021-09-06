@@ -36,19 +36,20 @@
     "variables": {
         "LabVMName": "LabVM",
         "LabVMStorageName": "[toLower(concat(variables('LabVMName'), 'storage', toLower(parameters('uniqueSuffix'))))]",
-        "LabVMPublicIPName": "[concat(variables('LabVMName'), '-PublicIP-', parameters('uniqueSuffix'))]",
-        "LabVMNSGName": "[concat(variables('LabVMName'), '-nsg-', parameters('uniqueSuffix'))]",
-        "LabVMVirtualNetworkName": "[concat(variables('LabVMName'), '-VirtualNetwork-', parameters('uniqueSuffix'))]",
-        "LabVMSubnetName": "[concat(variables('LabVMName'), '-Subnet-', parameters('uniqueSuffix'))]",
-        "LabVMNetworkInterfaceName": "[concat(variables('LabVMName'), '-NetworkInterface-', parameters('uniqueSuffix'))]",
+        "LabVMPublicIPName": "[concat(variables('LabVMName'), '-PublicIP')]",
+        "LabVMNSGName": "[concat(variables('LabVMName'), '-nsg')]",
+        "LabVMVirtualNetworkName": "[concat(variables('LabVMName'), '-VirtualNetwork')]",
+        "LabVMSubnetName": "[concat(variables('LabVMName'), '-Subnet')]",
+        "LabVMNetworkInterfaceName": "[concat(variables('LabVMName'), '-NetworkInterface')]",
         "VMUsername": "demouser",
-        "LabVMDiskName": "[concat(variables('LabVMName'), '-OsDisk-', parameters('uniqueSuffix'))]",
+        "LabVMDiskName": "[concat(variables('LabVMName'), '-OsDisk')]",
 
         "SqlServerVMName": "SqlServer2008",
-        "SqlServerPublicIPName": "[concat(variables('SqlServerVMName'), '-PublicIP-', parameters('uniqueSuffix'))]",
-        "SqlServerNSGName": "[concat(variables('SqlServerVMName'), '-nsg-', parameters('uniqueSuffix'))]",
-        "SqlServerNetworkInterfaceName": "[concat(variables('SqlServerVMName'), '-NetworkInterface-', parameters('uniqueSuffix'))]",
-        "SqlServerSubnetName": "[concat(variables('SqlServerVMName'), '-Subnet-', parameters('uniqueSuffix'))]",
+        "SqlServerPublicIPName": "[concat(variables('SqlServerVMName'), '-PublicIP')]",
+        "SqlServerNSGName": "[concat(variables('SqlServerVMName'), '-nsg')]",
+        "SqlServerNetworkInterfaceName": "[concat(variables('SqlServerVMName'), '-NetworkInterface')]",
+        "SqlServerSubnetName": "[concat(variables('SqlServerVMName'), '-Subnet')]",
+        "SqlServerDiskName": "[concat(variables('SqlServerVMName'), '-OsDisk')]",
 
         "AzureSQLName": "[toLower(concat('Northwind-Server-', parameters('uniqueSuffix')))]",
         "AzureSQLDBName": "Northwind",
@@ -56,7 +57,7 @@
         "PostgreSQLName": "[toLower(concat('Northwind-Ora2Pg-', parameters('uniqueSuffix')))]",
         "PostgreSQLAdministrator": "solldba",
 
-        "AppPlanName": "[concat('northwind-ora2pg-plan-', parameters('uniqueSuffix'))]",
+        "AppPlanName": "northwind-ora2pg-plan",
         "AppName": "[concat('northwind-ora2pg-app-', parameters('uniqueSuffix'))]",
 
         "AzureSQLAdministrator": "demouser",
@@ -329,6 +330,7 @@
                 },
                 "storageProfile": {
                     "osDisk": {
+                        "name": "[variables('SqlServerDiskName')]",
                         "createOption": "fromImage",
                         "managedDisk": {
                             "storageAccountType": "Premium_LRS"
@@ -488,7 +490,7 @@
                 "administratorLoginPassword": "[parameters('PostgreSQLPassword')]",
                 "storageProfile": {
                     "storageAutogrow": "Disabled",
-                    "storageMB": 100000
+                    "storageMB": 102400
                 }
             },
             "resources": [

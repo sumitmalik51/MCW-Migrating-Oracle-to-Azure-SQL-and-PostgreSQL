@@ -21,7 +21,14 @@
             "type": "securestring",
             "defaultValue": "[parameters('VMPassword')]",
             "metadata": {
-                "description": "PostgreSQL administrator user password. Defaults to the same password for the Lab VM and Azure SQL DB instance."
+                "description": "PostgreSQL administrator user password. Defaults to the same password for the lab Virtual Machines."
+            }
+        },
+        "AzureSQLPassword": {
+            "type": "securestring",
+            "defaultValue": "[parameters('VMPassword')]",
+            "metadata": {
+                "description": "Azure SQL administrator user password. Defaults to the same password for the lab Virtual Machines."
             }
         }
     },
@@ -52,6 +59,8 @@
         "AppPlanName": "[concat('northwind-ora2pg-plan-', parameters('uniqueSuffix'))]",
         "AppName": "[concat('northwind-ora2pg-app-', parameters('uniqueSuffix'))]",
 
+        "AzureSQLAdministrator": "demouser",
+        
         "AzureSQLDWName": "WideWorldImportersDW",
 
         "AzureDMSName": "wwi-dms"
@@ -412,8 +421,8 @@
                 "displayName": "[variables('AzureSQLName')]"
             },
             "properties": {
-                "administratorLogin": "[variables('VMUsername')]",
-                "administratorLoginPassword": "[parameters('VMPassword')]"
+                "administratorLogin": "[variables('AzureSQLAdministrator')]",
+                "administratorLoginPassword": "[parameters('AzureSQLPassword')]"
             },
             "resources": [
                 {
@@ -478,7 +487,8 @@
                 "administratorLogin": "[variables('PostgreSQLAdministrator')]",
                 "administratorLoginPassword": "[parameters('PostgreSQLPassword')]",
                 "storageProfile": {
-                    "storageAutogrow": "Disabled"
+                    "storageAutogrow": "Disabled",
+                    "storageMB": 100000
                 }
             },
             "resources": [

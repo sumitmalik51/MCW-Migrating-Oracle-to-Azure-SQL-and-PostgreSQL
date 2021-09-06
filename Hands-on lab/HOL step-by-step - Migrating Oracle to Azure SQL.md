@@ -81,9 +81,11 @@ WWI’s CIO would like a POC of a data warehouse move and proof that the new tec
 
 Below is a diagram of the solution architecture you build in this lab. Please study this carefully, so you understand the whole of the solution as you are working on the various components.
 
-![This solution diagram is divided into Microsoft Azure and On-premises. Microsoft Azure includes SQL Server 2017 in a VM as an Always On Secondary, and Azure SQL Stretch Database to extend the audit table to Azure. On-premises includes the following elements: API App for vendor connections; Web App for Internet Sales Transactions; ASP.NET Core App for inventory management; SQL Server 2017 OLTP for Always On and JSON store; SSRS 2017 for Reporting of OLTP, Data Warehouse, and Cubes; SSIS 2017 for a Data Warehouse Load; Excel for reporting; SQL Server 2017 Enterprise for a Data Warehouse; and SSAS 2017 for a Data Warehouse. ](./media/preferred-solution-architecture.png "Preferred Solution diagram")
+![This solution diagram is divided into Microsoft Azure and on-premises. Microsoft Azure includes two Azure SQL Database instances and the Azure Data Factory SSIS Integration Runtime to execute SSIS packages hosted in Azure Files. It also includes Azure Analysis Services, Power BI, and SSRS on an Azure VM as a lift-and-shift alternative to Power BI for their reporting needs. On-premises includes the following elements: API App for vendor connections; Web App for Internet Sales Transactions; ASP.NET Core App for inventory management; and Excel for reporting.](./media/new-suggested-architecture.png "Preferred Solution diagram")
 
-The solution begins with using the Microsoft Data Migration Assistant to assess what potentials issues might exist for upgrading the database to SQL Server 2017 or Azure SQL Database. After correcting any problems, the SQL Server 2008 database is migrated to Azure SQL Database, using the Azure Database Migration Service. Two features of Azure SQL Database, Table Compression and ColumnStore Index, will be applied to demonstrate value and performance improvements from the upgrade. For the ColumnStore Index, a new table based on the existing FactResellerSales table will be created, and a ColumnStore index applied. Next, the Oracle XE database supporting the application will be migrated to an on-premises SQL Server 2017 Enterprise instance using SQL Server Migration Assistant (SSMA) 7.x for Oracle. Once the Oracle database has been migrated, the Northwind MVC application will be updated, so it targets SQL Server 2017 instead of Oracle. The entity models are updated against SQL Server, and code updates are made to use the new Entity Framework context based on SQL Server. Corrections to stored procedures are made due to differences in how stored procedures are accessed in Oracle versus SQL Server. Azure SQL Stretch Database will be used to extend the audit log table to Azure, helping to prevent the recurrence of a system crash caused by the audit log table filling up.
+The Oracle XE database supporting the application will be migrated to an Azure SQL Database instance using SQL Server Migration Assistant (SSMA) 8.x for Oracle. Once the Oracle database has been migrated, the Northwind MVC application will be updated, so it targets Azure SQL Database instead of Oracle. The entity models are updated against Azure SQL Database, new controllers and views are scaffolded, and code updates are made to use the new Entity Framework Core context. Corrections to stored procedures are made due to differences in how stored procedures are accessed in Oracle PL/SQL versus T-SQL.
+
+For the homogenous migration, the solution begins with using the Microsoft Data Migration Assistant to assess what potential issues might exist for upgrading the database to Azure SQL Database. After correcting any problems, the SQL Server 2008 R2 database is migrated to Azure SQL Database using the Azure Database Migration Service. Two features of Azure SQL Database, Table Compression and ColumnStore Index, will be applied to demonstrate value and performance improvements from the upgrade. For the ColumnStore Index, a new table based on the existing FactResellerSales table will be created, and a ColumnStore index applied. 
 
 ## Requirements
 
@@ -1053,13 +1055,13 @@ In this task, you create a new migration project for the WideWorldImporters data
    - **Password**: Password.1!!
    - **Connection properties**: Check both Encrypt connection and Trust server certificate.
 
-   ![The Migration Wizard Select source blade is displayed, with the values specified above entered into the appropriate fields.](media/dms-source-sql-server.PNG "Migration Wizard Select source")
+   ![The Migration Wizard Select source blade is displayed, with the values specified above entered into the appropriate fields.](media/dms-source-sql-server.png "Migration Wizard Select source")
 
 6. Select **Next: Select databases >>**.
 
 7. On the Migration Wizard **Select databases** blade, select WideWorldImporters.
 
-   ![The Migration Wizard Select databases blade is displayed, with the WideWorldImporters database selected.](media/dms-select-source-db.PNG "Migration Wizard Select databases")
+   ![The Migration Wizard Select databases blade is displayed, with the WideWorldImporters database selected.](media/dms-select-source-db.png "Migration Wizard Select databases")
 
 8. Select **Next: Select target >>**.
 
@@ -1077,13 +1079,13 @@ In this task, you create a new migration project for the WideWorldImporters data
    - **Password**: Password.1!!
    - **Connection properties**: Check Encrypt connection.
 
-   ![The Migration Wizard Select target blade is displayed, with the values specified above entered into the appropriate fields.](media/dms-select-target-db.PNG "Migration Wizard Select target")
+   ![The Migration Wizard Select target blade is displayed, with the values specified above entered into the appropriate fields.](media/dms-select-target-db.png "Migration Wizard Select target")
 
 10. Select **Next: Summary >>**.
 
 11. On the Migration Wizard Summary blade, review the Project summary, then select **Save project**.
 
-    ![The Migration Wizard summary blade is displayed.](media/dms-migration-project-summary.PNG "Migration Wizard summary")
+    ![The Migration Wizard summary blade is displayed.](media/dms-migration-project-summary.png "Migration Wizard summary")
 
 ### Task 4: Run the migration
 
@@ -1095,7 +1097,7 @@ In this task, you will create a new activity in the Azure Database Migration Ser
 
 2. On the Migration Wizard **Select source** blade, re-enter the demouser password, **Password.1!!**, then select **Next: Select databases >>**.
 
-   ![The Migration Wizard Select source blade is displayed, with the password value highlighted.](media/dms-migration-activity-source.PNG "Migration Wizard Select source")
+   ![The Migration Wizard Select source blade is displayed, with the password value highlighted.](media/dms-migration-activity-source.png "Migration Wizard Select source")
 
 3. On the Migration Wizard **Select databases** blade, select **WideWorldImporters**. Then, select **Next: Select target >>**.
 
@@ -1103,7 +1105,7 @@ In this task, you will create a new activity in the Azure Database Migration Ser
 
 4. On the Migration Wizard **Select target** blade, re-enter the demouser password, **Password.1!!**, then select **Next: Map to target databases >>**.
 
-   ![The Migration Wizard Select target blade is displayed, with the password value highlighted.](media/dms-migration-activity-target.PNG "Migration Wizard Select target")
+   ![The Migration Wizard Select target blade is displayed, with the password value highlighted.](media/dms-migration-activity-target.png "Migration Wizard Select target")
 
 5. On the Migration Wizard **Map to target databases** blade, confirm that **WideWorldImporters** is checked as the source database, and that **WideWorldImportersDW** is selected as the target. Then select **Next: Configure migration settings >>**.
 
@@ -1111,13 +1113,13 @@ In this task, you will create a new activity in the Azure Database Migration Ser
 
 6. On the Migration Wizard **Configure migration settings** blade, expand the WideWorldImporters database, verify all the tables are selected, and select **Next: Summary >>**.
 
-   ![The Migration Wizard Configure migration settings blade is displayed, with the expand arrow for WideWorldImporters highlighted, and all the tables checked.](media/dms-migration-activity-confirm-source-tables.PNG "Migration Wizard Configure migration settings")
+   ![The Migration Wizard Configure migration settings blade is displayed, with the expand arrow for WideWorldImporters highlighted, and all the tables checked.](media/dms-migration-activity-confirm-source-tables.png "Migration Wizard Configure migration settings")
 
 7. On the Migration Wizard **Summary** blade, enter the following:
 
    - **Activity name**: Enter a name, such as DwMigration.
 
-   ![The Migration Wizard summary blade is displayed, DwMigration is entered into the name field, and Validate my database(s) is selected in the Choose validation option blade, with all three validation options selected.](media/dms-migration-activity-start.PNG "Migration Wizard Summary")
+   ![The Migration Wizard summary blade is displayed, DwMigration is entered into the name field, and Validate my database(s) is selected in the Choose validation option blade, with all three validation options selected.](media/dms-migration-activity-start.png "Migration Wizard Summary")
 
 8. Select **Start migration**.
 

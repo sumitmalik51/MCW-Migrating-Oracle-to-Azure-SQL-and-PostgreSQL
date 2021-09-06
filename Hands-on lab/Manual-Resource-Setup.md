@@ -459,7 +459,7 @@ If you are completing the PostgreSQL migration lab, in this Task, you will prepa
 
 2. There are four deployment options. For our simple transactional application, we will be utilizing a single server for our database.
 
-    ![Screenshot of choosing the correct single server option.](./media/single-server-selection.PNG "Single server")
+    ![Screenshot of choosing the correct single server option.](./media/single-server-selection.png "Single server")
 
 3. Create a new Azure Database for PostgreSQL resource. Use the following configuration values:
 
@@ -484,11 +484,11 @@ In this task, we will be modifying the PostgreSQL instance to fit our needs.
 
 1. Storage Auto-growth is a feature in which Azure will add more storage automatically when required. We do not need it for our purposes so we will need to disable it. To do this, locate the PostgreSQL instance you created. Under the **Settings** tab, select **Pricing tier**.
 
-    ![Changing the pricing tier in PostGre SQL instance.](./media/changing-tier.PNG "Pricing tier")
+    ![Changing the pricing tier in PostGre SQL instance.](./media/changing-tier.png "Pricing tier")
 
 2. Find the **Storage Auto-growth** switch, and disable the feature. Select **OK** at the bottom of the page to save your change.
 
-    ![Disabling storage auto-growth feature.](./media/disabling-auto-grow.PNG  "Storage auto-growth toggled to no")
+    ![Disabling storage auto-growth feature.](./media/disabling-auto-grow.png  "Storage auto-growth toggled to no")
 
 3. Now, we need to implement firewall rules for the PostgreSQL database so we can access it. Locate the **Connection security** selector under the **Settings** tab.
 

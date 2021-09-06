@@ -29,7 +29,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
   - [Before the hands-on lab](#before-the-hands-on-lab)
     - [Task 1: Provision a resource group](#task-1-provision-a-resource-group)
     - [Task 2: Register the Microsoft DataMigration resource provider](#task-2-register-the-microsoft-datamigration-resource-provider)
-    - [Task 3: Deploy the Lab ARM Template (TODO)](#task-3-deploy-the-lab-arm-template-todo)
+    - [Task 3: Deploy the Lab ARM Template](#task-3-deploy-the-lab-arm-template)
     - [Task 4: Connect to the Lab VM](#task-4-connect-to-the-lab-vm)
     - [Task 5 (Migrate to PostgreSQL): Install pgAdmin on the LabVM](#task-5-migrate-to-postgresql-install-pgadmin-on-the-labvm)
     - [Task 6 (Migrate to Azure SQL Optional Homogenous Migration): Connect to the SqlServer2008 VM](#task-6-migrate-to-azure-sql-optional-homogenous-migration-connect-to-the-sqlserver2008-vm)
@@ -89,13 +89,30 @@ In this task, you will register the `Microsoft.DataMigration` resource provider 
 
     ![The Subscription blade is displayed, with Resource providers selected and highlighted under Settings. On the Resource providers blade, migration is entered into the filter box, and Register is highlighted next to Microsoft.DataMigration.](media/azure-portal-subscriptions-resource-providers-register-microsoft-datamigration.png "Resource provider registration")
 
-### Task 3: Deploy the Lab ARM Template (TODO)
+### Task 3: Deploy the Lab ARM Template 
 
 This lab uses an ARM template to automate the setup of lab resources. In this task, you will learn how to configure the ARM template.
 
 1. Select the **Deploy to Azure** button to open the ARM template in the Azure portal.
 
     [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsaimachi%2FMCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL%2Fseptember-2021-update%2FHands-on%2520lab%2Flab-files%2FARM%2Ftemplate.json)
+
+2. Before you deploy the ARM template, you need to provide multiple parameters.
+
+   - **Subscription**: Select the Azure subscription you are using to complete the lab
+   - **Resource group**: Select the hands-on-lab-SUFFIX resource group you created earlier
+   - **Region**: This will auto-populate depending on the region you created your resource group in
+   - **Unique Suffix**: Since certain Azure resources require globally-unique names, provide a short suffix that does not end with a number or hyphen
+   - **VM Password**: This will be used for the Lab VM, and if you are completing the optional homogenous migration, the SQL Server 2008 R2 VM
+   - **Homogenous Migration Resources**: If you are completing the optional homogenous migration, select `true` from the dropdown. Otherwise, accept the default value of `false`
+   - **Postgre SQL Password**: This is the administrator password for the PostgreSQL instance. If you don't provide a value, it will just be the `VM Password` you provided
+   - **Azure SQL Password**: This is the administrator password for the Azure SQL Database instance. Again, it will default to the `VM Password` value
+
+    ![Deploy the ARM template with the parameters shown above.](./media/arm-template-deploy.png "ARM template deployment parameters")
+
+3. Select **Review + create**. Let validation pass.
+
+4. Select **Create**. It should take 10-20 minutes to deploy, depending on whether you deploy the optional homogenous migration resources.
 
 ### Task 4: Connect to the Lab VM
 

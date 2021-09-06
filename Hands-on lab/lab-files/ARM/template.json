@@ -11,10 +11,11 @@
         "VMPassword": {
             "type": "SecureString",
             "metadata": {
-                "description": "The password for demouser in the Lab VM, SQL Server 2019 VM, and SQL Server 2008 R2 VM."
+                "description": "The password for demouser in the Lab VM and SQL Server 2008 R2 VM."
             }
         },
         "HomogenousMigrationResources": {
+            "defaultValue": false,
             "type": "bool"
         },
         "PostgreSQLPassword": {

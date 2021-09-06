@@ -24,7 +24,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 
 **Contents**
 
-- [Migrating Oracle to Azure SQL and PostgreSQL before the hands-on lab setup guide](#migratingoracletoazuresql-andpostgresql-before-the-hands-on-lab-setup-guide)
+- [Migrating Oracle to Azure SQL and PostgreSQL before the hands-on lab setup guide (manual steps)](#migratingoracletoazuresql-andpostgresql-before-the-hands-on-lab-setup-guide-manual-steps)
   - [Requirements](#requirements)
   - [Before the hands-on lab](#before-the-hands-on-lab)
     - [Task 1: Provision a resource group](#task-1-provision-a-resource-group)
@@ -37,8 +37,11 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
     - [Task 8 (Migrate to Azure SQL Optional Homogenous Migration): Create an Azure SQL Database for the Data Warehouse](#task-8-migrate-to-azure-sql-optional-homogenous-migration-create-an-azure-sql-database-for-the-data-warehouse)
     - [Task 9 (Migrate to Azure SQL Optional Homogenous Migration): Register the Microsoft DataMigration resource provider](#task-9-migrate-to-azure-sql-optional-homogenous-migration-register-the-microsoft-datamigration-resource-provider)
     - [Task 10 (Migrate to Azure SQL Optional Homogenous Migration): Create Azure Database Migration Service for SQL Server](#task-10-migrate-to-azure-sql-optional-homogenous-migration-create-azure-database-migration-service-for-sql-server)
+    - [Task 11 (Migrate to PostgreSQL): Provision Azure Database for PostgreSQL](#task-11-migrate-to-postgresql-provision-azure-database-for-postgresql)
+    - [Task 12 (Migrate to PostgreSQL): Configure the Azure Database for PostgreSQL Instance](#task-12-migrate-to-postgresql-configure-the-azure-database-for-postgresql-instance)
+    - [Task 13 (Migrate to PostgreSQL): Create an App Service Instance](#task-13-migrate-to-postgresql-create-an-app-service-instance)
 
-# Migrating Oracle to Azure SQL and PostgreSQL before the hands-on lab setup guide
+# Migrating Oracle to Azure SQL and PostgreSQL before the hands-on lab setup guide (manual steps)
 
 ## Requirements
 
@@ -190,8 +193,6 @@ In this task, you will create an RDP connection to your Lab virtual machine (VM)
     ![Screenshot of the Internet Explorer Enhanced Security Configuration dialog box, with Administrators set to Off.](./media/internet-explorer-enhanced-security-configuration-dialog.png "Internet Explorer Enhanced Security Configuration dialog box")
 
 12. Close the Server Manager.
-
->**Note**: Tasks 4 through 7 apply to students running the Oracle to Azure SQL lab. Students running the **Migrate to PostgreSQL** option should skip to Task 8.
 
 ### Task 4 (Migrate to PostgreSQL): Install pgAdmin on the LabVM
 
@@ -447,5 +448,89 @@ In this task, you will provision an instance of the Azure Database Migration Ser
 7. Select **Create**.
 
 >**Note**: It can take 15 minutes to deploy the Azure Data Migration Service.
+
+### Task 11 (Migrate to PostgreSQL): Provision Azure Database for PostgreSQL
+
+If you are completing the PostgreSQL migration lab, in this Task, you will prepare the landing zone.
+
+1. Navigate to the **New** page accessed by selecting **+ Create a resource**. Then, navigate to **Databases** under the **Azure Marketplace** section. Select **Azure Database for PostgreSQL**.
+
+    ![Navigating Azure Marketplace to Azure Database for Postgre SQL, which has been highlighted.](./media/creating-new-postgresql-db.png "Azure Database for Postgre SQL")
+
+2. There are four deployment options. For our simple transactional application, we will be utilizing a single server for our database.
+
+    ![Screenshot of choosing the correct single server option.](./media/single-server-selection.PNG "Single server")
+
+3. Create a new Azure Database for PostgreSQL resource. Use the following configuration values:
+
+   - **Resource group**: Same as the other lab resources
+   - **Server name**: Enter a unique server name, such as `northwind-ora2pg-SUFFIX`
+   - **Data source**: Select `None`
+   - **Location** Select the same region as your other lab resources
+   - **Version**: 11
+   - **Compute + storage**: `General Purpose (4 vCores, 100 GB storage)`
+   - **Administrator username**: `solldba`
+   - **Password**: Provide a secure password
+
+    Select the **Review + create** button once you are ready.
+
+    ![Configuring the instance details.](./media/postgresql-provision-parameters.png "Project Details window with pertinent details")
+
+4. Select **Create** to start the deployment. Once the deployment completes, we will move on to configuring the instance.
+
+### Task 12 (Migrate to PostgreSQL): Configure the Azure Database for PostgreSQL Instance
+
+In this task, we will be modifying the PostgreSQL instance to fit our needs.
+
+1. Storage Auto-growth is a feature in which Azure will add more storage automatically when required. We do not need it for our purposes so we will need to disable it. To do this, locate the PostgreSQL instance you created. Under the **Settings** tab, select **Pricing tier**.
+
+    ![Changing the pricing tier in PostGre SQL instance.](./media/changing-tier.PNG "Pricing tier")
+
+2. Find the **Storage Auto-growth** switch, and disable the feature. Select **OK** at the bottom of the page to save your change.
+
+    ![Disabling storage auto-growth feature.](./media/disabling-auto-grow.PNG  "Storage auto-growth toggled to no")
+
+3. Now, we need to implement firewall rules for the PostgreSQL database so we can access it. Locate the **Connection security** selector under the **Settings** tab.
+
+    ![Configuring the Connection Security settings for the database.](./media/entering-connection-settings.png "Connection security highlighted")
+
+4. We will add a network access rule. Since we are storing insecure test data, select **Allow access to Azure services**. This means that all public IP addresses associated with Azure have network access to the PostgreSQL instance, even if they are located in other subscriptions or tenants.
+
+    ![Allow Azure resources access to the PostgreSQL instance.](./media/allow-azure-services-network-access.png "Grant Azure resources PostgreSQL network access")
+
+    >**Note**: Do not use this type of rule for databases with sensitive data or in a production environment. You are allowing access from any Azure IP address.
+
+### Task 13 (Migrate to PostgreSQL): Create an App Service Instance
+
+As part of the PostgreSQL lab, you will host the modified application in Azure App Service. You will provision a Web App and an App Service Plan in this Task.
+
+1. At the **New** page, navigate to **Web** under **Azure Marketplace**. Select **Web App**.
+
+    ![Navigating to the Web App option on Azure Marketplace.](./media/creating-web-app.png "Web app option highlighted on Marketplace")
+
+2. Configure the following details for the App Service instance.
+
+    - **Subscription**: Use the lab Azure subscription
+    - **Resource Group**: Select the hands-on-lab-SUFFIX resource group
+    - **Name**: Use `northwind-ora2pg-app-SUFFIX`
+    - **Publish**: Select `Code`
+    - **Runtime stack**: Select `.NET 5`
+    - **Operating system**: Select `Linux`
+    - **Region**: If available, choose the region that you are using for the lab resources
+
+    ![Configure the App Service instance with the parameters listed above.](./media/app-service-details.png "App Service instance parameters")
+
+3. Scroll to the **App Service Plan** section.
+
+    - **Linux Plan (REGION)**: Select **Create new**
+      - Enter a unique name for the App Service Plan, like `northwind-ora2pg-plan-SUFFIX`
+    - **Sku and size**: Select **Change size**. Select **Standard S1**.
+      - Note that you may need to expand the **Production** pricing tiers to locate Standard S1
+
+        ![Select the Standard S1 pricing tier in the Spec Picker.](./media/standard-pricing-tier.png "Select the Standard S1 pricing tier")
+
+    ![Finalized App Service Plan details.](./media/plan-details.png "App Service Plan details")
+
+4. Select **Review + create**. Once validation passes, select **Create**.
 
 You should follow all steps provided *before* performing the Hands-on lab.

@@ -30,11 +30,8 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
   - [Solution architecture](#solution-architecture)
   - [Requirements](#requirements)
   - [Exercise 1: Setup Oracle 18c Express Edition](#exercise-1-setup-oracle-18c-express-edition)
-    - [Task 1: Install Oracle XE](#task-1-install-oracle-xe)
-    - [Task 2: Install Oracle Data Access components](#task-2-install-oracle-data-access-components)
-    - [Task 3: Install SQL Developer Tool](#task-3-install-sql-developer-tool)
-    - [Task 4: Create the Northwind database in Oracle 18c XE](#task-4-create-the-northwind-database-in-oracle-18c-xe)
-    - [Task 5: Configure the Starter Application to use Oracle](#task-5-configure-the-starter-application-to-use-oracle)
+    - [Task 1: Create the Northwind database in Oracle 18c XE](#task-1-create-the-northwind-database-in-oracle-18c-xe)
+    - [Task 2: Configure the Starter Application to use Oracle](#task-2-configure-the-starter-application-to-use-oracle)
   - [Exercise 2: Assess the Oracle 18c Database before Migrating to Azure SQL Database](#exercise-2-assess-the-oracle-18c-database-before-migrating-to-azure-sql-database)
     - [Task 1: Update Statistics and Identify Invalid Objects](#task-1-update-statistics-and-identify-invalid-objects)
   - [Exercise 3: Migrate the Oracle database to Azure SQL Database](#exercise-3-migrate-the-oracle-database-to-azure-sql-database)
@@ -97,104 +94,9 @@ For the homogenous migration, the solution begins with using the Microsoft Data 
 
 Duration: 45 minutes
 
-In this exercise, you will install Oracle XE on your Lab VM, load a sample database supporting an application, and then migrate the database to the Azure SQL DB instance.
+In this exercise, you will load a sample database supporting the application. Ensure that you installed Oracle XE, Oracle Data Access Components, and Oracle SQL Developer, as detailed in the Before the Hands-on Lab documents.
 
-### Task 1: Install Oracle XE
-
-1. Connect to your Lab VM, as you did in Task 5 of the [Before the Hands-on Lab](./Before%20the%20HOL%20-%20Migrating%20Oracle%20to%20Azure%20SQL%20and%20PostgreSQL.md#task-5-connect-to-the-lab-vm) exercise.
-
-   - **Username**: demouser
-   - **Password**: Password.1!!
-
-2. In a web browser on your Lab VM, navigate to <https://www.oracle.com/database/technologies/xe-downloads.html>.
-
-3. On the Oracle Database XE Downloads page, select **Oracle Database 18c Express Edition for Windows x64** download link.
-
-   ![Accept the license agreement and Oracle Database 18c Express Edition for Windows x64 are highlighted under Oracle Database Express Edition 18c.](./media/18c-oracle-download.png "Oracle 18c download")
-
-4. Accept the license agreement, when prompted, and then select **Download OracleXE184_Win64.zip**. You might need to select the **Oracle License Agreement** link and scroll to the bottom of the agreement to enable the checkbox.
-
-   ![The license agreement checkbox is checked on the license agreement dialog.](media/download-oracle-xe.png "Download Oracle XE")
-
-5. Sign in with your Oracle account to complete the download. If you don't already have a free Oracle account, you will need to create one.
-
-   ![This is a screenshot of the Sign in screen.](./media/oracle-sign-in.png "Sign in to complete the download")
-
-6. After signing in, the file will download.
-
-7. Extract the ZIP file. Right-click `setup.exe`, and select **Run as administrator**.
-
-   ![In File Explorer, setup.exe is selected, and Run as administrator is highlighted in the shortcut menu.](./media/windows-file-menu-run-as-administrator.png "Run setup.exe as an administrator")
-
-8. Select **Next** to step through each screen of the installer, accepting the license agreement and default values, until you get to the **Specify Database Passwords** screen.
-
-9.  On the **Oracle Database Information** screen, set the password to **Password.1!!**, and select **Next**.
-
-    ![The above credentials are entered on the Oracle Database Information screen.](./media/oracle-18c-specify-passwords.png "Set the password")
-
-10. Select **Install**. Once the installation completes, take note of the ports assigned.
-
-    ![Several of the ports being assigned are highlighted on the Summary screen.](./media/oracle-18c-install-summary.png "Note the ports being assigned")
-
-11. Select **Finish** on the final dialog to compete the installation.
-
-### Task 2: Install Oracle Data Access components
-
-1. On your Lab VM, navigate to <http://www.oracle.com/technetwork/database/windows/downloads/index-090165.html>.
-
-2. On the 64-bit Oracle Data Access Components (ODAC) Downloads page, scroll down and locate the **64-bit ODAC 12.2c Release 1 (12.2.0.1.1) for Windows x64** section, and then select the **ODAC122011_x64.zip** link.
-
-   ![Accept the license agreement and ODAC122010_x64.zip are highlighted on the 64-bit Oracle Data Access Components (ODAC) Downloads screen.](./media/oracle-odac-download.png "64-bit Oracle Data Access Components (ODAC) Downloads screen")
-
-3. Accept the license agreement, and then select **Download ODAC122011_x64.zip**.
-
-   ![The Oracle license agreement dialog is displayed for downloading the Oracle Data Access Components.](media/oracle-odac-license-dialog.png "Download ODAC")
-
-4. When the download completes, extract the contents of the ZIP file to a local drive.
-
-5. Navigate to the folder containing the extracted ZIP file, and right-click `setup.exe`, then select **Run as administrator** to begin the installation.
-
-6. Select **Next** to accept the default language, English, on the first screen.
-
-7. On the Specify Oracle Home User screen, accept the default, Use Windows Built-in Account, and select **Next**.
-
-8. Accept the default installation locations, and select **Next**.
-
-9. On the **Available Product Components**, uncheck **Oracle Data Access Components Documentation for Visual Studio**, and select **Next**.
-
-   ![Oracle Data Access Components Documentation for Visual Studio is cleared on the Available Product Components screen, and Next is selected at the bottom.](./media/oracle-odac-install-product-components.png "Clear Oracle Data Access Components Documentation for Visual Studio")
-
-10. On the ODP.NET screen, check the box for **Configure ODP.NET and/or Oracle Providers for ASP.NET at machine-wide level**, and select **Next**.
-
-    ![Configure ODP.NET and/or Oracle Providers for ASP.NET at machine-wide level is selected on the ODP.NET screen, and Next is selected at the bottom.](./media/oracle-odac-install-odp-net.png "Select Configure ODP.NET and/or Oracle Providers for ASP.NET at machine-wide level")
-
-11. If the Next button is disabled on the Perform Prerequisite Checks screen, check the **Ignore All** box, and then select **Next**. This screen will be skipped by the installer if no missing prerequisites are found.
-
-    ![The Ignore All box is cleared on highlighted on the Perform Prerequisite Checks screen, and Next is selected at the bottom.](./media/oracle-odac-install-prerequisite-checks.png "Perform Prerequisite Checks")
-
-12. On the Summary screen, select **Install**.
-
-13. On the Finish screen, select **Close**.
-
-### Task 3: Install SQL Developer Tool
-
-In this task, you will install Oracle SQL Developer, a common IDE to interact with Oracle databases.
-
-1. On your Lab VM, open a web browser and navigate to <https://www.oracle.com/tools/downloads/sqldev-downloads.html>.
-
-2. Scroll down on the page and download **Windows 64-bit with JDK 8 included**.
-
-   ![The Download button is highlighted for the Oracle SQL Developer download.](./media/sqldeveloper-download.png "SQL Developer with JDK 8 selection")
-
-3. Accept the license terms. Extract the files to `C:\Tools`.
-
-4. Navigate to `C:\Tools\sqldeveloper`. Select and run the executable file. Ensure that SQL Developer loads.
-
-   ![Launch SQL Developer from the extracted file path.](./media/sqldeveloper-executable.png "Launching SQL Developer executable")
-
-   >**Note**: If you are prompted to import preferences from a previous installation, select **No**.
-
-### Task 4: Create the Northwind database in Oracle 18c XE
+### Task 1: Create the Northwind database in Oracle 18c XE
 
 WWI has provided you with a copy of their application, including a database script to create their Oracle database. They have asked that you use this as a starting point for migrating their database and application to Azure SQL DB. In this task, you will create a connection to the Oracle database on your Lab VM.
 
@@ -251,7 +153,7 @@ WWI has provided you with a copy of their application, including a database scri
 
     ![Presenting the tables and views generated by the Oracle scripts.](./media/views-table-validation.png "Oracle tables and views")
 
-### Task 5: Configure the Starter Application to use Oracle
+### Task 2: Configure the Starter Application to use Oracle
 
 In this task, you will add the necessary configuration to the `NorthwindMVC` solution to connect to the Oracle database you created in the previous task.
 

@@ -28,11 +28,15 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
   - [Requirements](#requirements)
   - [Before the hands-on lab](#before-the-hands-on-lab)
     - [Task 1: Provision a resource group](#task-1-provision-a-resource-group)
-    - [Task 2: Register the Microsoft DataMigration resource provider](#task-2-register-the-microsoft-datamigration-resource-provider)
+    - [Task 2 (Migrate to Azure SQL Optional Homogenous Migration): Register the Microsoft DataMigration resource provider](#task-2-migrate-to-azure-sql-optional-homogenous-migration-register-the-microsoft-datamigration-resource-provider)
     - [Task 3: Deploy the Lab ARM Template](#task-3-deploy-the-lab-arm-template)
     - [Task 4: Connect to the Lab VM](#task-4-connect-to-the-lab-vm)
-    - [Task 5 (Migrate to PostgreSQL): Install pgAdmin on the LabVM](#task-5-migrate-to-postgresql-install-pgadmin-on-the-labvm)
-    - [Task 6 (Migrate to Azure SQL Optional Homogenous Migration): Connect to the SqlServer2008 VM](#task-6-migrate-to-azure-sql-optional-homogenous-migration-connect-to-the-sqlserver2008-vm)
+    - [Task 5: Install Oracle XE](#task-5-install-oracle-xe)
+    - [Task 6: Install Oracle Data Access components](#task-6-install-oracle-data-access-components)
+    - [Task 7: Install SQL Developer Tool](#task-7-install-sql-developer-tool)
+    - [Task 8 (Migrate to PostgreSQL): Install pgAdmin on the LabVM](#task-8-migrate-to-postgresql-install-pgadmin-on-the-labvm)
+    - [Task 9 (Migrate to PostgreSQL): Install the ora2pg utility](#task-9-migrate-to-postgresql-install-the-ora2pg-utility)
+    - [Task 10 (Migrate to Azure SQL Optional Homogenous Migration): Connect to the SqlServer2008 VM](#task-10-migrate-to-azure-sql-optional-homogenous-migration-connect-to-the-sqlserver2008-vm)
 
 # Migrating Oracle to Azure SQL and PostgreSQL before the hands-on lab setup guide
 
@@ -77,9 +81,9 @@ In this task, you will create an Azure resource group for the resources used thr
 
 5. On the Review + Create tab, select **Create** to provision the resource group.
 
-### Task 2: Register the Microsoft DataMigration resource provider
+### Task 2 (Migrate to Azure SQL Optional Homogenous Migration): Register the Microsoft DataMigration resource provider
 
-In this task, you will register the `Microsoft.DataMigration` resource provider with your subscription in Azure.
+In this task, you will register the `Microsoft.DataMigration` resource provider with your subscription in Azure. Azure Database Migration Service is used for the optional homogenous data migration.
 
 1. In the [Azure portal](https://portal.azure.com/), navigate to the Home page and then select **Subscriptions** from the Navigate list found midway down the page.
 
@@ -104,7 +108,7 @@ This lab uses an ARM template to automate the setup of lab resources. In this ta
    - **Region**: This will auto-populate depending on the region you created your resource group in
    - **Unique Suffix**: Since certain Azure resources require globally-unique names, provide a short suffix that does not end with a number or hyphen
    - **VM Password**: This will be used for the Lab VM, and if you are completing the optional homogenous migration, the SQL Server 2008 R2 VM
-   - **Homogenous Migration Resources**: If you are completing the optional homogenous migration, select `true` from the dropdown. Otherwise, accept the default value of `false`
+   - **Homogenous Migration Resources**: If you are completing the optional homogenous migration, select `true` from the dropdown. Otherwise, accept the default value of `false`. If you select `true`, the template assumes that you already enabled the `Microsoft.DataMigration` resource provider
    - **Postgre SQL Password**: This is the administrator password for the PostgreSQL instance. If you don't provide a value, it will just be the `VM Password` you provided
    - **Azure SQL Password**: This is the administrator password for the Azure SQL Database instance. Again, it will default to the `VM Password` value
 
@@ -165,7 +169,101 @@ In this task, you will create an RDP connection to your Lab virtual machine (VM)
 
 12. Close the Server Manager.
 
-### Task 5 (Migrate to PostgreSQL): Install pgAdmin on the LabVM
+### Task 5: Install Oracle XE
+
+If you want to complete the Oracle to PostgreSQL or Oracle to Azure SQL Database labs, you need to complete this step to install the Express Edition (XE) of Oracle database.
+
+The same applies for Tasks 6 and 7.
+
+1. In a web browser on your Lab VM, navigate to <https://www.oracle.com/database/technologies/xe-downloads.html>.
+
+2. On the Oracle Database XE Downloads page, select **Oracle Database 18c Express Edition for Windows x64** download link.
+
+   ![Accept the license agreement and Oracle Database 18c Express Edition for Windows x64 are highlighted under Oracle Database Express Edition 18c.](./media/18c-oracle-download.png "Oracle 18c download")
+
+3. Accept the license agreement, when prompted, and then select **Download OracleXE184_Win64.zip**. You might need to select the **Oracle License Agreement** link and scroll to the bottom of the agreement to enable the checkbox.
+
+   ![The license agreement checkbox is checked on the license agreement dialog.](media/download-oracle-xe.png "Download Oracle XE")
+
+4. Sign in with your Oracle account to complete the download. If you don't already have a free Oracle account, you will need to create one.
+
+   ![This is a screenshot of the Sign in screen.](./media/oracle-sign-in.png "Sign in to complete the download")
+
+5. After signing in, the file will download.
+
+6. Extract the ZIP file. Right-click `setup.exe`, and select **Run as administrator**.
+
+   ![In File Explorer, setup.exe is selected, and Run as administrator is highlighted in the shortcut menu.](./media/windows-file-menu-run-as-administrator.png "Run setup.exe as an administrator")
+
+7. Select **Next** to step through each screen of the installer, accepting the license agreement and default values, until you get to the **Specify Database Passwords** screen.
+
+8.  On the **Oracle Database Information** screen, set the password to **Password.1!!**, and select **Next**.
+
+    ![The above credentials are entered on the Oracle Database Information screen.](./media/oracle-18c-specify-passwords.png "Set the password")
+
+9.  Select **Install**. Once the installation completes, take note of the ports assigned.
+
+    ![Several of the ports being assigned are highlighted on the Summary screen.](./media/oracle-18c-install-summary.png "Note the ports being assigned")
+
+10. Select **Finish** on the final dialog to compete the installation.
+
+### Task 6: Install Oracle Data Access components
+
+1. On your Lab VM, navigate to <http://www.oracle.com/technetwork/database/windows/downloads/index-090165.html>.
+
+2. On the 64-bit Oracle Data Access Components (ODAC) Downloads page, scroll down and locate the **64-bit ODAC 12.2c Release 1 (12.2.0.1.1) for Windows x64** section, and then select the **ODAC122011_x64.zip** link.
+
+   ![Accept the license agreement and ODAC122010_x64.zip are highlighted on the 64-bit Oracle Data Access Components (ODAC) Downloads screen.](./media/oracle-odac-download.png "64-bit Oracle Data Access Components (ODAC) Downloads screen")
+
+3. Accept the license agreement, and then select **Download ODAC122011_x64.zip**.
+
+   ![The Oracle license agreement dialog is displayed for downloading the Oracle Data Access Components.](media/oracle-odac-license-dialog.png "Download ODAC")
+
+4. When the download completes, extract the contents of the ZIP file to a local drive.
+
+5. Navigate to the folder containing the extracted ZIP file, and right-click `setup.exe`, then select **Run as administrator** to begin the installation.
+
+6. Select **Next** to accept the default language, English, on the first screen.
+
+7. On the Specify Oracle Home User screen, accept the default, Use Windows Built-in Account, and select **Next**.
+
+8. Accept the default installation locations, and select **Next**.
+
+9. On the **Available Product Components**, uncheck **Oracle Data Access Components Documentation for Visual Studio**, and select **Next**.
+
+   ![Oracle Data Access Components Documentation for Visual Studio is cleared on the Available Product Components screen, and Next is selected at the bottom.](./media/oracle-odac-install-product-components.png "Clear Oracle Data Access Components Documentation for Visual Studio")
+
+10. On the ODP.NET screen, check the box for **Configure ODP.NET and/or Oracle Providers for ASP.NET at machine-wide level**, and select **Next**.
+
+    ![Configure ODP.NET and/or Oracle Providers for ASP.NET at machine-wide level is selected on the ODP.NET screen, and Next is selected at the bottom.](./media/oracle-odac-install-odp-net.png "Select Configure ODP.NET and/or Oracle Providers for ASP.NET at machine-wide level")
+
+11. If the Next button is disabled on the Perform Prerequisite Checks screen, check the **Ignore All** box, and then select **Next**. This screen will be skipped by the installer if no missing prerequisites are found.
+
+    ![The Ignore All box is cleared on highlighted on the Perform Prerequisite Checks screen, and Next is selected at the bottom.](./media/oracle-odac-install-prerequisite-checks.png "Perform Prerequisite Checks")
+
+12. On the Summary screen, select **Install**.
+
+13. On the Finish screen, select **Close**.
+
+### Task 7: Install SQL Developer Tool
+
+In this task, you will install Oracle SQL Developer, a common IDE to interact with Oracle databases.
+
+1. On your Lab VM, open a web browser and navigate to <https://www.oracle.com/tools/downloads/sqldev-downloads.html>.
+
+2. Scroll down on the page and download **Windows 64-bit with JDK 8 included**.
+
+   ![The Download button is highlighted for the Oracle SQL Developer download.](./media/sqldeveloper-download.png "SQL Developer with JDK 8 selection")
+
+3. Accept the license terms. Extract the files to `C:\Tools`.
+
+4. Navigate to `C:\Tools\sqldeveloper`. Select and run the executable file. Ensure that SQL Developer loads.
+
+   ![Launch SQL Developer from the extracted file path.](./media/sqldeveloper-executable.png "Launching SQL Developer executable")
+
+   >**Note**: If you are prompted to import preferences from a previous installation, select **No**.
+
+### Task 8 (Migrate to PostgreSQL): Install pgAdmin on the LabVM
 
 PgAdmin greatly simplifies database administration and configuration tasks by providing an intuitive GUI. Hence, we will be using it to create a new application user and test the migration.
 
@@ -183,7 +281,99 @@ PgAdmin greatly simplifies database administration and configuration tasks by pr
 
 5. PgAdmin will prompt you to set a password to govern access to database credentials. Enter `oracledemo123`. Confirm your choice. For now, our configuration of pgAdmin is complete.
 
-### Task 6 (Migrate to Azure SQL Optional Homogenous Migration): Connect to the SqlServer2008 VM
+### Task 9 (Migrate to PostgreSQL): Install the ora2pg utility
+
+**Ora2pg** is the tool we will use to migrate database objects and data. Microsoft's Data Migration Team has greatly simplified the process of obtaining this tool by providing the **installora2pg.ps1** script. You can download using the link below:
+
+ **Download**: <https://raw.githubusercontent.com/microsoft/DataMigrationTeam/master/IP%20and%20Scripts/PostgreSQL%20Migration%20and%20Assessment%20Tools/installora2pg.ps1>.
+
+1. Copy Microsoft's script content to the `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL\Hands-on lab\lab-files\starter-project\Postgre Scripts` location.
+
+    - Press Ctrl+S to save the file from the webpage.
+    - In the File Explorer dialog, quote the file name and ensure that the **Save as type** field is set to **All Files**.
+
+        ![Ensuring that the installora2pg.ps1 script does not have .txt appended to it by File Explorer.](./media/save-ps-script-properly.png "Saving the PowerShell script without a .txt extension")
+
+    >**Note**: Failing to put quotes around file name on save will cause the file to be saved as a text file. It will NOT execute as a PowerShell file.
+
+2. Navigate to the location mentioned above and right-click `installora2pg.ps1`. Then, select **Run with PowerShell**.
+
+    ![Screenshot to show process to install ora2pg.](./media/running-ora2pg-install-script.png "Installing ora2pg")
+
+    >**Note:** If you are warned about a PS extension policy changes, accept ALL of the policy changes.
+
+    You should see the script executing.
+
+    ![Image shows the initial PowerShell web request executing.](media/orapg-powershell-script-executing.png "PowerShell executing")
+
+3. Install the ora2pg utility dependencies.
+
+   - Install Perl. It will take five minutes.
+   - Install the Oracle client library and SDK. To do this, you will first need to navigate to [Oracle Downloads](https://www.oracle.com/database/technologies/instant-client/winx64-64-downloads.html). Then, scroll to **Version 12.2.X**. Select the installer for the **Basic Package**.
+   - Download the zip file.
+
+    ![Screenshot to show downloading the basic package.](./media/basic-package.png "Basic package download")
+
+4. On the same Oracle link as above under the **version** section, locate the **SDK Package** installer under the **Development and Runtime - optional packages** section. Keep the zipped file in the Downloads directory.
+
+    ![Screenshot to show the SDK Package download.](./media/sdk-package.png "SDK package download")
+
+5. Navigate to the directory where the zipped instant client packages reside.
+
+    - For the basic package, right-click it, and select **Extract All...**.
+    - When prompted to choose the destination directory, navigate to the `C:\` location.
+    - Select **Extract**.
+    - Repeat this process for the zipped SDK.
+
+    ![Screenshot to show the process of installing client and SDK Packages.](./media/installing-basic-instantclient-package.png "Client and SDK package downloads")
+
+    Your folder path should show:
+
+    ![The image shows the folder path to the client and the SDK.](media/extract-sdk-client-validation.png "Correct path to the SDK and Instant Client")
+
+6. Install the Git client and ora2pg utility.  
+    - Return to the PowerShell script.
+    - Press any key to terminate the script's execution, if the PS window is still visible.
+    - Open Explorer and rename the  `C:\instantclient_12_2` folder to `C:\instantclient`.
+    - Launch the script one more time for install path validation purposes.
+    - If the previous steps were successful, the script should be able to locate **oci.dll** under `C:\instantclient\oci.dll`.
+
+        >**Note**: If the script still cannot find `oci.dll`, rename the Instant Client extract folder name to `C:\instantclient` exactly.
+
+    ![The image shows the script expects an exact Instant Client install path.](media/ps-validation-path-instant-client.png "Instant Client install path")
+
+    If the path is correct, you should see the script downloading the Git installer.
+
+    ![The image shows the Git installer downloading.](media/ps-downloading-git-installer.png "Downloading Git installer")
+
+    >**Note**: The script may throw errors of not being able to find a Git executable at a certain location. This should not impact the installation.
+
+    A successful installation should have a PowerShell screen that resembles this:
+
+    ![The image shows a successful Git and ora2pg installation](media/ps-successful-git-ora2pg-installation.png "Git and ora2pg installation")
+
+7. Once ora2pg installs, you will need to configure PATH variables.
+
+    - Search for **View advanced system settings** in Windows.
+    - Select the result, and the **System Properties** dialog box should open.
+    - By default, the **Advanced** tab should be showing, but if not, navigate to it.
+    - Then, select **Environment Variables...**.
+
+    ![Screenshot showing process to enter environment labels.](./media/enter-environment-variables.png "Environment Variables selected")
+
+8. Under **System variables**, select **Path**. Select **Edit...**.
+
+    ![Screenshot to show editing the path variables.](./media/selecting-path.png "Selecting the PATH variables")
+
+9. The **Edit environment variable** box should be dispdlaying.
+
+    - Select **New**.
+    - Enter **C:\instantclient**.
+    - Repeat this process, but enter **%%PATH%%** instead.
+
+    ![Screenshot showing path variable configuration.](./media/path-variable-configuration.png "Path variable configuration")
+
+### Task 10 (Migrate to Azure SQL Optional Homogenous Migration): Connect to the SqlServer2008 VM
 
 In this task, you will create an RDP connection to the SqlServer2008 VM and disable Internet Explorer Enhanced Security Configuration.
 

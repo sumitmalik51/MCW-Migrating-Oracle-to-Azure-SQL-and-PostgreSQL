@@ -14,10 +14,6 @@
                 "description": "The password for demouser in the Lab VM and SQL Server 2008 R2 VM."
             }
         },
-        "HomogenousMigrationResources": {
-            "defaultValue": false,
-            "type": "bool"
-        },
         "PostgreSQLPassword": {
             "type": "securestring",
             "defaultValue": "[parameters('VMPassword')]",
@@ -123,7 +119,8 @@
             "apiVersion": "2019-11-01",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[resourceId('Microsoft.Network/networkSecurityGroups', variables('LabVMNSGName'))]"
+                "[resourceId('Microsoft.Network/networkSecurityGroups', variables('LabVMNSGName'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', variables('SqlServerNSGName'))]"
             ],
             "tags": {
                 "displayName": "[variables('LabVMVirtualNetworkName')]"
@@ -149,7 +146,7 @@
                         "properties": {
                             "addressPrefix": "10.0.1.0/24",
                             "networkSecurityGroup": {
-                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('SqlServerNSGName'))]" 
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('SqlServerNSGName'))]"
                             }
                         }
                     }
@@ -236,7 +233,6 @@
         },
 
         {
-            "condition": "[parameters('HomogenousMigrationResources')]",
             "type": "Microsoft.Network/publicIpAddresses",
             "apiVersion": "2020-06-01",
             "name": "[variables('SqlServerPublicIPName')]",
@@ -246,7 +242,6 @@
             }
         },
         {
-            "condition": "[parameters('HomogenousMigrationResources')]",
             "type": "Microsoft.Network/networkSecurityGroups",
             "apiVersion": "2020-06-01",
             "name": "[variables('SqlServerNSGName')]",
@@ -285,7 +280,6 @@
             }
         },
         {
-            "condition": "[parameters('HomogenousMigrationResources')]",
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "2020-06-01",
             "name": "[variables('SqlServerNetworkInterfaceName')]",
@@ -317,7 +311,6 @@
             }
         },
         {
-            "condition": "[parameters('HomogenousMigrationResources')]",
             "type": "Microsoft.Compute/virtualMachines",
             "apiVersion": "2020-06-01",
             "name": "[variables('SqlServerVMName')]",
@@ -376,7 +369,6 @@
             }
         },
         {
-            "condition": "[parameters('HomogenousMigrationResources')]",
             "type": "Microsoft.SqlVirtualMachine/SqlVirtualMachines",
             "apiVersion": "2017-03-01-preview",
             "name": "[variables('SqlServerVMName')]",
@@ -456,7 +448,6 @@
                     "properties": {}
                 },
                 {
-                    "condition": "[parameters('HomogenousMigrationResources')]",
                     "type": "databases",
                     "apiVersion": "2021-02-01-preview",
                     "dependsOn": [
@@ -550,7 +541,6 @@
         },
 
         {
-            "condition": "[parameters('HomogenousMigrationResources')]",
             "type": "Microsoft.DataMigration/services",
             "apiVersion": "2018-07-15-preview",
             "name": "[variables('AzureDMSName')]",

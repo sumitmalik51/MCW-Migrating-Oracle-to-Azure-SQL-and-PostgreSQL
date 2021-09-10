@@ -3,13 +3,10 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "uniqueSuffix": {
-            "value": "smr"
+            "value": "att"
         },
         "VMPassword": {
             "value": "Password.1!!"
-        },
-        "HomogenousMigrationResources": {
-            "value": true 
         }
     }
 }

@@ -108,11 +108,10 @@ This lab uses an ARM template to automate the setup of lab resources. In this ta
    - **Region**: This will auto-populate depending on the region you created your resource group in
    - **Unique Suffix**: Since certain Azure resources require globally-unique names, provide a short suffix that does not end with a number or hyphen
    - **VM Password**: This will be used for the Lab VM, and if you are completing the optional homogenous migration, the SQL Server 2008 R2 VM
-   - **Homogenous Migration Resources**: If you are completing the optional homogenous migration, select `true` from the dropdown. Otherwise, accept the default value of `false`. If you select `true`, the template assumes that you already enabled the `Microsoft.DataMigration` resource provider
    - **Postgre SQL Password**: This is the administrator password for the PostgreSQL instance. If you don't provide a value, it will just be the `VM Password` you provided
    - **Azure SQL Password**: This is the administrator password for the Azure SQL Database instance. Again, it will default to the `VM Password` value
 
-    ![Deploy the ARM template with the parameters shown above.](./media/arm-template-deploy.png "ARM template deployment parameters")
+    ![Deploy the ARM template with the parameters shown above.](./media/no-optional-resource-deployment-arm.png "ARM template deployment parameters")
 
 3. Select **Review + create**. Let validation pass.
 

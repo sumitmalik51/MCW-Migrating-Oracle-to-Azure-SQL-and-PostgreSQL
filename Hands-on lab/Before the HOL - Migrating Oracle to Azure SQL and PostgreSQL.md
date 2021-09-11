@@ -37,6 +37,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
     - [Task 8 (Migrate to PostgreSQL): Install pgAdmin on the LabVM](#task-8-migrate-to-postgresql-install-pgadmin-on-the-labvm)
     - [Task 9 (Migrate to PostgreSQL): Install the ora2pg utility](#task-9-migrate-to-postgresql-install-the-ora2pg-utility)
     - [Task 10 (Migrate to Azure SQL Optional Homogenous Migration): Connect to the SqlServer2008 VM](#task-10-migrate-to-azure-sql-optional-homogenous-migration-connect-to-the-sqlserver2008-vm)
+    - [Task 11 (Migrate to Azure SQL): Install SQL Server Migration Assistant for Oracle](#task-11-migrate-to-azure-sql-install-sql-server-migration-assistant-for-oracle)
 
 # Migrating Oracle to Azure SQL and PostgreSQL before the hands-on lab setup guide
 
@@ -422,5 +423,33 @@ In this task, you will create an RDP connection to the SqlServer2008 VM and disa
     ![Internet Explorer Enhanced Security Configuration dialog, with Off highlighted under both Administrators and Users.](media/windows-server-2008-ie-esc.png "Internet Explorer Enhanced Security Configuration dialog")
 
 12. Close the Server Manager.
+
+### Task 11 (Migrate to Azure SQL): Install SQL Server Migration Assistant for Oracle
+
+In the Oracle to Azure SQL migration lab, we will use the SQL Server Migration Assistant for Oracle to complete the schema and data migration.
+
+1. Navigate to the [SSMA download site](https://www.microsoft.com/download/details.aspx?id=54258). Select **Download**.
+
+    ![View the SSMA download page.](./media/ssma-download.png "SSMA download page")
+
+2. You will then be prompted to select the SSMA installation package you need. Select `SSMAforOracle_8.x.msi`. Then, select **Next**.
+
+    ![Select the latest SSMA installation package.](./media/ssma-download-files.png "Latest SSMA installation package")
+
+3. Once the installer finishes downloading, launch it. The launch page for SSMA 8.x will open. Select **Next**.
+
+    ![View the Setup start screen.](./media/ssma-installer-welcome.png "SSMA installer start screen")
+
+4. Accept the license agreement. Select **Next**.
+
+5. On the **Choose Setup Type** window, select **Typical**.
+
+    ![Select the Typical install type in the SSMA MSI installer.](./media/ssma-install-setup-type.png "Typical install type")
+
+6. On the **Ready to Install** window, accept the defaults. Then, select **Install**.
+
+    ![Accept defaults for telemetry usage and version updates.](./media/ssma-install-ready-to-install.png "Accept defaults")
+
+7. Wait for the installation to complete.
 
 You should follow all steps provided *before* performing the Hands-on lab.

@@ -28,7 +28,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
   - [Requirements](#requirements)
   - [Before the hands-on lab](#before-the-hands-on-lab)
     - [Task 1: Provision a resource group](#task-1-provision-a-resource-group)
-    - [Task 2 (Migrate to Azure SQL Optional Homogenous Migration): Register the Microsoft DataMigration resource provider](#task-2-migrate-to-azure-sql-optional-homogenous-migration-register-the-microsoft-datamigration-resource-provider)
+    - [Task 2: Register the Microsoft DataMigration resource provider](#task-2-register-the-microsoft-datamigration-resource-provider)
     - [Task 3: Deploy the Lab ARM Template](#task-3-deploy-the-lab-arm-template)
     - [Task 4: Connect to the Lab VM](#task-4-connect-to-the-lab-vm)
     - [Task 5: Install Oracle XE](#task-5-install-oracle-xe)
@@ -48,7 +48,13 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 - A virtual machine configured with:
   - Visual Studio 2019 Community (latest release)
 
->**Important**: Whether you are completing the Oracle to Azure SQL migration path or Oracle to PostgreSQL migration, follow Tasks 1-4. Tasks 5 and 6 are path-specific.
+In this lab, there are three major migration paths:
+
+  - Migrating Oracle to Azure SQL
+  - Migrating SQL Server 2008 R2 Data Warehouse to Azure SQL (*homogenous* migration)
+  - Migrating Oracle to Azure Database for PostgreSQL
+
+Irrespective of which path(s) you complete, follow Tasks 1-7. After that, the Task titles indicate which migration paths they are intended for.
 
 ## Before the hands-on lab
 
@@ -56,7 +62,7 @@ Duration: 45 minutes
 
 In the Before the hands-on lab exercise, you will set up your environment for use in the rest of the hands-on lab. You should follow all the steps provided in the Before the hands-on lab section to prepare your environment **before attending** the hands-on lab. Failure to do so will significantly impact your ability to complete the lab within the time allowed.
 
-> **Important**: Most Azure resources require unique names. Throughout this lab you will see the word “SUFFIX” as part of resource names. You should replace this with your Microsoft alias, initials, or another value to ensure the resource is uniquely named.
+> **Important**: Most Azure resources require unique names. Throughout this lab, you will see the word “SUFFIX” as part of resource names. You should replace this with your Microsoft alias, initials, or another value to ensure the resource is uniquely named.
 
 ### Task 1: Provision a resource group
 
@@ -64,11 +70,11 @@ In this task, you will create an Azure resource group for the resources used thr
 
 1. In the [Azure portal](https://portal.azure.com), select **Resource groups** from the Azure services list.
 
-    ![Resource groups is highlighted in the Azure services list.](media/azure-services-resource-groups.png "Azure services")
+    ![Resource groups are highlighted in the Azure services list.](media/azure-services-resource-groups.png "Azure services")
 
 2. On the Resource groups blade, select **+Add**.
 
-    ![+Add is highlighted in the toolbar on Resource groups blade.t](media/resource-groups-add.png "Resource groups")
+    ![+Add is highlighted in the toolbar on the Resource groups blade.](media/resource-groups-add.png "Resource groups")
 
 3. Enter the following in the Create an empty resource group blade:
 
@@ -82,13 +88,13 @@ In this task, you will create an Azure resource group for the resources used thr
 
 5. On the Review + Create tab, select **Create** to provision the resource group.
 
-### Task 2 (Migrate to Azure SQL Optional Homogenous Migration): Register the Microsoft DataMigration resource provider
+### Task 2: Register the Microsoft DataMigration resource provider
 
 In this task, you will register the `Microsoft.DataMigration` resource provider with your subscription in Azure. Azure Database Migration Service is used for the optional homogenous data migration.
 
 1. In the [Azure portal](https://portal.azure.com/), navigate to the Home page and then select **Subscriptions** from the Navigate list found midway down the page.
 
-    ![Subscriptions is highlighted in the Navigate menu.](media/azure-navigate-subscriptions.png "Navigate menu")
+    ![Subscriptions are highlighted in the Navigate menu.](media/azure-navigate-subscriptions.png "Navigate menu")
 
 2. Select the subscription you are using for this hands-on lab from the list, select **Resource providers**, enter "migration" into the filter box, and then select **Register** next to **Microsoft.DataMigration**.
 
@@ -107,7 +113,7 @@ This lab uses an ARM template to automate the setup of lab resources. In this ta
    - **Subscription**: Select the Azure subscription you are using to complete the lab
    - **Resource group**: Select the hands-on-lab-SUFFIX resource group you created earlier
    - **Region**: This will auto-populate depending on the region you created your resource group in
-   - **Unique Suffix**: Since certain Azure resources require globally-unique names, provide a short suffix that does not end with a number or hyphen
+   - **Unique Suffix**: Since certain Azure resources require globally unique names, provide a short suffix that does not end with a number or hyphen
    - **VM Password**: This will be used for the Lab VM, and if you are completing the optional homogenous migration, the SQL Server 2008 R2 VM
    - **Postgre SQL Password**: This is the administrator password for the PostgreSQL instance. If you don't provide a value, it will just be the `VM Password` you provided
    - **Azure SQL Password**: This is the administrator password for the Azure SQL Database instance. Again, it will default to the `VM Password` value
@@ -124,7 +130,7 @@ In this task, you will create an RDP connection to your Lab virtual machine (VM)
 
 1. In the [Azure portal](https://portal.azure.com), select **Resource groups** from the Azure services list.
 
-    ![Resource groups is highlighted in the Azure services list.](media/azure-services-resource-groups.png "Azure services")
+    ![Resource groups are highlighted in the Azure services list.](media/azure-services-resource-groups.png "Azure services")
 
 2. On the Resource groups blade, enter your resource group name (hands-on-lab-SUFFIX) into the filter box, and select it from the list.
 
@@ -132,7 +138,7 @@ In this task, you will create an RDP connection to your Lab virtual machine (VM)
 
 3. In the list of resources for your resource group, select the LabVM Virtual Machine.
 
-    ![The list of resources in the hands-on-lab-SUFFIX resource group are displayed, and LabVM is highlighted.](./media/resource-group-resources-labvm.png "LabVM in resource group list")
+    ![The list of resources in the hands-on-lab-SUFFIX resource group is displayed, and LabVM is highlighted.](./media/resource-group-resources-labvm.png "LabVM in resource group list")
 
 4. On your Lab VM blade, select **Connect** from the top menu.
 
@@ -173,7 +179,7 @@ In this task, you will create an RDP connection to your Lab virtual machine (VM)
 
 If you want to complete the Oracle to PostgreSQL or Oracle to Azure SQL Database labs, you need to complete this step to install the Express Edition (XE) of Oracle database.
 
-The same applies for Tasks 6 and 7.
+The same applies to Tasks 6 and 7.
 
 1. In a web browser on your Lab VM, navigate to <https://www.oracle.com/database/technologies/xe-downloads.html>.
 
@@ -187,7 +193,7 @@ The same applies for Tasks 6 and 7.
 
 4. Sign in with your Oracle account to complete the download. If you don't already have a free Oracle account, you will need to create one.
 
-   ![This is a screenshot of the Sign in screen.](./media/oracle-sign-in.png "Sign in to complete the download")
+   ![This is a screenshot of the Sign-in screen.](./media/oracle-sign-in.png "Sign in to complete the download")
 
 5. After signing in, the file will download.
 
@@ -205,7 +211,7 @@ The same applies for Tasks 6 and 7.
 
     ![Several of the ports being assigned are highlighted on the Summary screen.](./media/oracle-18c-install-summary.png "Note the ports being assigned")
 
-10. Select **Finish** on the final dialog to compete the installation.
+10. Select **Finish** on the final dialog to complete the installation.
 
 ### Task 6: Install Oracle Data Access components
 
@@ -294,13 +300,13 @@ PgAdmin greatly simplifies database administration and configuration tasks by pr
 
         ![Ensuring that the installora2pg.ps1 script does not have .txt appended to it by File Explorer.](./media/save-ps-script-properly.png "Saving the PowerShell script without a .txt extension")
 
-    >**Note**: Failing to put quotes around file name on save will cause the file to be saved as a text file. It will NOT execute as a PowerShell file.
+    >**Note**: Failing to put quotes around filename on save will cause the file to be saved as a text file. It will NOT execute as a PowerShell file.
 
 2. Navigate to the location mentioned above and right-click `installora2pg.ps1`. Then, select **Run with PowerShell**.
 
-    ![Screenshot to show process to install ora2pg.](./media/running-ora2pg-install-script.png "Installing ora2pg")
+    ![Screenshot to show the process to install ora2pg.](./media/running-ora2pg-install-script.png "Installing ora2pg")
 
-    >**Note:** If you are warned about a PS extension policy changes, accept ALL of the policy changes.
+    >**Note:** If you are warned about a PS execution policy change, accept ALL of the policy changes.
 
     You should see the script executing.
 
@@ -379,15 +385,15 @@ In this task, you will create an RDP connection to the SqlServer2008 VM and disa
 
 1. In the [Azure portal](https://portal.azure.com), select **Resource groups** from the Azure services list.
 
-    ![Resource groups is highlighted in the Azure services list.](media/azure-services-resource-groups.png "Azure services")
+    ![Resource groups are highlighted in the Azure services list.](media/azure-services-resource-groups.png "Azure services")
 
 2. On the Resource groups blade, enter your resource group name (hands-on-lab-SUFFIX) into the filter box, and select it from the list.
 
-    ![Resource groups is selected in the Azure navigation pane, "hands" is entered into the filter box, and the "hands-on-lab-SUFFIX" resource group is highlighted.](./media/resource-groups.png "Resource groups list")
+    ![Resource groups are selected in the Azure navigation pane, "hands" is entered into the filter box, and the "hands-on-lab-SUFFIX" resource group is highlighted.](./media/resource-groups.png "Resource groups list")
 
 3. In the list of resources for your resource group, select the SqlServer2008 Virtual Machine.
 
-    ![The list of resources in the hands-on-lab-SUFFIX resource group are displayed, and SqlServer2008 is highlighted.](media/resource-group-resources-sqlserver2008r2.png "SqlServer2008 VM in resource group list")
+    ![The list of resources in the hands-on-lab-SUFFIX resource group is displayed, and SqlServer2008 is highlighted.](media/resource-group-resources-sqlserver2008r2.png "SqlServer2008 VM in resource group list")
 
 4. On the SqlServer2008 blade in the [Azure portal](https://portal.azure.com), select **Overview** from the left-hand menu, and then select **Connect** from the top menu.
 
@@ -410,9 +416,9 @@ In this task, you will create an RDP connection to the SqlServer2008 VM and disa
 
     ![In the Remote Desktop Connection dialog box, a warning states that the identity of the remote computer cannot be verified, and asks if you want to continue anyway. At the bottom, the Yes button is circled.](./media/remote-desktop-connection-identity-verification-sqlserver2008r2.png "Remote Desktop Connection dialog")
 
-9. Once logged in, launch the **Server Manager**. This should open automatically, but you can access it via the task bar or Start menu if it does not.
+9. Once logged in, launch the **Server Manager**. This should open automatically, but you can access it via the taskbar or Start menu if it does not.
 
-    ![The Server Manager tile is circled in the Start Menu's Administrative Tools menu, and in the task bar.](media/windows-server2008r2-start-menu.png "Windows Server 2008 R2 Start Menu")
+    ![The Server Manager tile is circled in the Start Menu's Administrative Tools menu and the taskbar.](media/windows-server2008r2-start-menu.png "Windows Server 2008 R2 Start Menu")
 
 10. In Server Manager, select **Configure IE ESC** in the Security Information section of the Server Summary.
 

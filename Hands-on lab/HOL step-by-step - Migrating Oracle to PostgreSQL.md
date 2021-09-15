@@ -64,7 +64,7 @@ Wide World Importers (WWI) has experienced significant growth in the last few ye
 
 The WWI CIO has learned of the many benefits that Azure Database for PostgreSQL provides, including AD support, simple pricing, high performance, and high availability. She is also excited about the many similarities between PL/SQL and PL/pgSQL, since that will reduce the migration effort significantly.
 
-WWI's CIO would like a POC of an OLTP database move and proof that the new technology will make her company's operations faster, cheaper, and more efficient. 
+WWI's CIO would like a POC of an OLTP database migration and proof that the new technology will make her company's operations faster, cheaper, and more efficient. 
 
 ## Solution architecture
 
@@ -192,7 +192,7 @@ In this exercise, you will prepare the existing Oracle database for its migratio
     EXECUTE DBMS_STATS.GATHER_DICTIONARY_STATS;
     ```
 
-    >**Note**: This script can take over one minute to run. Ensure that you receive confirmation that that the script has executed successfully.
+    >**Note**: This script can take over one minute to run. Ensure that you receive confirmation that the script has executed successfully.
 
 2. Now, we will utilize a query that lists database objects that are invalid and unsupported by the ora2pg utility. It is recommended to fix any errors and compile the objects before starting the migration process.
 
@@ -348,7 +348,7 @@ The migration report tells us the "man-hours" required to fully migrate to our a
 
     ![The image shows an example ora2pg assessment report.](media/report-details.png "Assess Report")
 
-    Of particular interest is the migration level. In our case, it is B-5, which implicates code rewriting, since there are multiple stored procedures which must be altered.
+    Of particular interest is the migration level. In our case, it is B-5, which implicates code rewriting, since there are multiple stored procedures that must be altered.
 
     ![Screenshot showing the Migration level description.](./media/report-migration-level.png "Migration level")
 
@@ -360,7 +360,7 @@ In this exercise, we will begin the migration of the database and the applicatio
 
 ### Task 1: Migrate the basic database table schema using ora2pg
 
-In this task, we will migrate the database table schema, using ora2pg and psql, which is a command-line utility that makes it easy to run SQL files against the database.
+In this task, we will migrate the database table schema using ora2pg and `psql`, a command-line utility that makes it easy to run SQL files against the database.
 
 Exercise 3 covered planning and assessment steps.  To start the database migration, DDL statements must be created for all valid Oracle objects.
 
@@ -424,7 +424,7 @@ In this Task, we will use the ora2pg utility to migrate table data to the Postgr
 
     You should see the following once the command completes. Notice how all 3,308 rows are accounted for.
 
-    >**Note:** **It may take up to 5 minutes for the export to start**.  If you get authentication errors, double check your ora2pg config file PG_DSN, PG_USER, and PG_PWD parameters. NW must be in upper case. Capitalization matters.
+    >**Note:** **It may take up to 5 minutes for the export to start**.  If you get authentication errors, double-check your ora2pg config file PG_DSN, PG_USER, and PG_PWD parameters. NW must be in upper case. Capitalization matters.
 
     ![ora2pg exports all rows in the source Oracle instance.](./media/ora2pg-data-scan.png "All rows exported to SQL files")
 
@@ -500,7 +500,7 @@ Views are not referenced by the sample application, but we are including this ta
 
 3. Open **SALES_TOTALS_BY_AMOUNT_NW-views.sql** and replace the existing last line:
 
-    ![Screenshot showing the function that needs to replaced for sales totals by amounts.](./media/sales-totals-amount-view-old.png "to_date function")
+    ![Screenshot showing the function that needs to be replaced for sales totals by amounts.](./media/sales-totals-amount-view-old.png "to_date function")
 
     with this:
 
@@ -541,7 +541,7 @@ Let's migrate stored procedures next.
 
 ### Task 5: Migrate the Stored Procedure
 
-Our application utilizes a single stored procedure, so we must be able to migrate it. To do this, we will be using the **orafce extension utility**, which provides functions that are compatible with Oracle code. We will then call the procedure and view its results using a refcursor.
+Our application utilizes a single stored procedure, so we must be able to migrate it. To do this, we will be using the **orafce** extension, which provides functions that are compatible with Oracle code. We will then call the procedure and view its results using a refcursor.
 
 1. Open `C:\ora2pg\nw_migration\config\ora2pg.conf`. There is a directive titled `PLSQL_PGSQL`. Uncomment it and set the value to `1`. This is necessary for the stored procedure migration.
 
@@ -642,17 +642,17 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
     Scaffold-DbContext Name=ConnectionStrings:PostgreSqlConnectionString Npgsql.EntityFrameworkCore.PostgreSQL -OutputDir Data -Context DataContext -Schemas public -Force
     ```
 
-    >**Note**: This command will reverse-engineer more tables than are actually needed. The `-Tables` flag, referencing schema-qualified table names, provides a more accurate approach.
+    >**Note**: This command will reverse-engineer more tables than are needed. The `-Tables` flag, referencing schema-qualified table names, provides a more accurate approach.
 
     ![The image shows the entity objects created by the executed command.](media/view-reverse-engineer-table-results.png "Reverse engineered table objects")
 
 7. Attempt to build the solution to identify errors.
 
-    ![The image shows Visual Studio menu. Build Solution menu item highlighted.](media/visual-studio-build-solution.png "Build Solution")
+    ![The image shows the Visual Studio menu. Build Solution menu item highlighted.](media/visual-studio-build-solution.png "Build Solution")
 
     ![Errors in the solution.](./media/solution-errors.png "Solution errors")
 
-8. Expand the **Views** folder. Delete the following folders, each of which contain five views:
+8. Expand the **Views** folder. Delete the following folders, each of which contains five views:
 
    - **Customers**
    - **Employees**
@@ -791,7 +791,7 @@ With PostgreSQL, stored procedures cannot return output values without a cursor.
     var salesByYear = await _context.SalesByYearDbSet.FromSqlRaw("SELECT * FROM SALESBYYEAR_func(@beginDate, @endDate);", beginDate, endDate).ToListAsync();
     ```
 
-6. Navigate `Models` folder in the Visual Studio Solution.  In the `SalesByYear.cs` class, update the type of the `OrderID` property to `long`.
+6. Navigate to the `Models` folder in the Visual Studio Solution. In the `SalesByYear.cs` class, update the type of the `OrderID` property to `long`.
 
     ```csharp
     public long OrderID { get; set; }

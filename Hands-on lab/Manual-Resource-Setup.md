@@ -67,9 +67,9 @@ Irrespective of which path(s) you complete, follow Tasks 1-3. After that, the Ta
 
 Duration: 45 minutes
 
-In the Before the hands-on lab exercise, you will set up your environment for use in the rest of the hands-on lab. You should follow all the steps provided in the Before the hands-on lab section to prepare your environment **before attending** the hands-on lab. Failure to do so will significantly impact your ability to complete the lab within the time allowed.
+In the Before the Hands-on Lab Manual Resource Setup document, you will set up your environment for use in the rest of the hands-on lab. Note that we recommend the standard Before the Hands-on Lab document, as the ARM template facilitates a simpler, automated deployment. You should follow all the steps provided to prepare your environment **before attending** the hands-on lab. Failure to do so will significantly impact your ability to complete the lab within the time allowed.
 
-> **Important**: Most Azure resources require unique names. Throughout this lab you will see the word “SUFFIX” as part of resource names. You should replace this with your Microsoft alias, initials, or another value to ensure the resource is uniquely named.
+> **Important**: Most Azure resources require unique names. Throughout this lab, you will see the word “SUFFIX” as part of resource names. You should replace this with your Microsoft alias, initials, or another value to ensure the resource is uniquely named.
 
 ### Task 1: Provision a resource group
 
@@ -77,11 +77,11 @@ In this task, you will create an Azure resource group for the resources used thr
 
 1. In the [Azure portal](https://portal.azure.com), select **Resource groups** from the Azure services list.
 
-    ![Resource groups is highlighted in the Azure services list.](media/azure-services-resource-groups.png "Azure services")
+    ![Resource groups are highlighted in the Azure services list.](media/azure-services-resource-groups.png "Azure services")
 
 2. On the Resource groups blade, select **+Add**.
 
-    ![+Add is highlighted in the toolbar on Resource groups blade.t](media/resource-groups-add.png "Resource groups")
+    ![+Add is highlighted in the toolbar on the Resource groups blade.](media/resource-groups-add.png "Resource groups")
 
 3. Enter the following in the Create an empty resource group blade:
 
@@ -107,9 +107,9 @@ In this task, you will provision a virtual machine (VM) in Azure. The VM image u
 
     !["Visual studio 2019" is entered into the Search the Marketplace box. Visual Studio 2019 Latest is highlighted in the results.](./media/create-resource-visual-studio-2019-latest.png "Visual Studio 2019 Latest")
 
-3. On the Visual Studio 2019 Latest blade, select the Select a software plan drop down list and then select **Visual Studio 2019 Community (latest release) on Windows Server 2019 (x64)** from the list.
+3. On the Visual Studio 2019 Latest blade, select the Select a software plan drop-down list and then select **Visual Studio 2019 Community (latest release) on Windows Server 2019 (x64)** from the list.
 
-    ![The Select a software plan drop down list is expanded and Visual Studio 2019 Community (latest release) on Windows Server 2019 (x64) is highlighted in the list.](media/select-a-software-plan-visual-studio.png "Visual Studio")
+    ![The Select a software plan drop-down list is expanded and Visual Studio 2019 Community (latest release) on Windows Server 2019 (x64) is highlighted in the list.](media/select-a-software-plan-visual-studio.png "Visual Studio")
 
 4. Select **Create** on the Visual Studio 2019 Latest blade.
 
@@ -154,15 +154,15 @@ In this task, you will create an RDP connection to your Lab virtual machine (VM)
 
 1. In the [Azure portal](https://portal.azure.com), select **Resource groups** from the Azure services list.
 
-    ![Resource groups is highlighted in the Azure services list.](media/azure-services-resource-groups.png "Azure services")
+    ![Resource groups are highlighted in the Azure services list.](media/azure-services-resource-groups.png "Azure services")
 
 2. On the Resource groups blade, enter your resource group name (hands-on-lab-SUFFIX) into the filter box, and select it from the list.
 
-    ![Resource groups is selected in the Azure navigation pane, "hands" is entered into the filter box, and the "hands-on-lab-SUFFIX" resource group is highlighted.](./media/resource-groups.png "Resource groups list")
+    ![Resource groups are selected in the Azure navigation pane, "hands" is entered into the filter box, and the "hands-on-lab-SUFFIX" resource group is highlighted.](./media/resource-groups.png "Resource groups list")
 
 3. In the list of resources for your resource group, select the LabVM Virtual Machine.
 
-    ![The list of resources in the hands-on-lab-SUFFIX resource group are displayed, and LabVM is highlighted.](./media/resource-group-resources-labvm.png "LabVM in resource group list")
+    ![The list of resources in the hands-on-lab-SUFFIX resource group is displayed, and LabVM is highlighted.](./media/resource-group-resources-labvm.png "LabVM in resource group list")
 
 4. On your Lab VM blade, select **Connect** from the top menu.
 
@@ -235,7 +235,7 @@ The same applies for Tasks 5 and 6.
 
     ![Several of the ports being assigned are highlighted on the Summary screen.](./media/oracle-18c-install-summary.png "Note the ports being assigned")
 
-10. Select **Finish** on the final dialog to compete the installation.
+10. Select **Finish** on the final dialog to complete the installation.
 
 ### Task 5: Install Oracle Data Access components
 
@@ -352,13 +352,13 @@ PgAdmin greatly simplifies database administration and configuration tasks by pr
 
         ![Ensuring that the installora2pg.ps1 script does not have .txt appended to it by File Explorer.](./media/save-ps-script-properly.png "Saving the PowerShell script without a .txt extension")
 
-    >**Note**: Failing to put quotes around file name on save will cause the file to be saved as a text file. It will NOT execute as a PowerShell file.
+    >**Note**: Failing to put quotes around filename on save will cause the file to be saved as a text file. It will NOT execute as a PowerShell file.
 
 2. Navigate to the location mentioned above and right-click `installora2pg.ps1`. Then, select **Run with PowerShell**.
 
     ![Screenshot to show process to install ora2pg.](./media/running-ora2pg-install-script.png "Installing ora2pg")
 
-    >**Note:** If you are warned about a PS extension policy changes, accept ALL of the policy changes.
+    >**Note:** If you are warned about a PS execution policy change, accept ALL of the policy changes.
 
     You should see the script executing.
 
@@ -423,7 +423,7 @@ PgAdmin greatly simplifies database administration and configuration tasks by pr
 
     ![Screenshot to show editing the path variables.](./media/selecting-path.png "Selecting the PATH variables")
 
-9. The **Edit environment variable** box should be dispdlaying.
+9. The **Edit environment variable** box should be displaying.
 
     - Select **New**.
     - Enter **C:\instantclient**.
@@ -474,7 +474,7 @@ In this task, you will provision another virtual machine (VM) in Azure which wil
 
     ![Screenshot of the Basics tab, with fields set to the previously mentioned settings.](media/sql-server-2008-r2-vm-basics-tab.png "Create a virtual machine Basics tab")
 
-5. Select the **SQL Server settings** tab from the top menu. The default values will be used for Disks, Networking, Management and Advanced, so you don't need to do anything on those tabs.
+5. Select the **SQL Server settings** tab from the top menu. The default values will be used for Disks, Networking, Management, and Advanced, so you don't need to do anything on those tabs.
 
     ![The SQL Server settings tab is highlighted and selected in the Create a virtual machine configuration tabs list.](media/sql-2017-create-vm-tabs.png "Create a virtual machine configuration tabs")
 
@@ -509,15 +509,15 @@ In this task, you will create an RDP connection to the SqlServer2008 VM and disa
 
 1. In the [Azure portal](https://portal.azure.com), select **Resource groups** from the Azure services list.
 
-    ![Resource groups is highlighted in the Azure services list.](media/azure-services-resource-groups.png "Azure services")
+    ![Resource groups are highlighted in the Azure services list.](media/azure-services-resource-groups.png "Azure services")
 
 2. On the Resource groups blade, enter your resource group name (hands-on-lab-SUFFIX) into the filter box, and select it from the list.
 
-    ![Resource groups is selected in the Azure navigation pane, "hands" is entered into the filter box, and the "hands-on-lab-SUFFIX" resource group is highlighted.](./media/resource-groups.png "Resource groups list")
+    ![Resource groups are selected in the Azure navigation pane, "hands" is entered into the filter box, and the "hands-on-lab-SUFFIX" resource group is highlighted.](./media/resource-groups.png "Resource groups list")
 
 3. In the list of resources for your resource group, select the SqlServer2008 Virtual Machine.
 
-    ![The list of resources in the hands-on-lab-SUFFIX resource group are displayed, and SqlServer2008 is highlighted.](media/resource-group-resources-sqlserver2008r2.png "SqlServer2008 VM in resource group list")
+    ![The list of resources in the hands-on-lab-SUFFIX resource group is displayed, and SqlServer2008 is highlighted.](media/resource-group-resources-sqlserver2008r2.png "SqlServer2008 VM in resource group list")
 
 4. On the SqlServer2008 blade in the [Azure portal](https://portal.azure.com), select **Overview** from the left-hand menu, and then select **Connect** from the top menu.
 
@@ -540,9 +540,9 @@ In this task, you will create an RDP connection to the SqlServer2008 VM and disa
 
     ![In the Remote Desktop Connection dialog box, a warning states that the identity of the remote computer cannot be verified, and asks if you want to continue anyway. At the bottom, the Yes button is circled.](./media/remote-desktop-connection-identity-verification-sqlserver2008r2.png "Remote Desktop Connection dialog")
 
-9. Once logged in, launch the **Server Manager**. This should open automatically, but you can access it via the task bar or Start menu if it does not.
+9. Once logged in, launch the **Server Manager**. This should open automatically, but you can access it via the taskbar or Start menu if it does not.
 
-    ![The Server Manager tile is circled in the Start Menu's Administrative Tools menu, and in the task bar.](media/windows-server2008r2-start-menu.png "Windows Server 2008 R2 Start Menu")
+    ![The Server Manager tile is circled in the Start Menu's Administrative Tools menu, and in the taskbar.](media/windows-server2008r2-start-menu.png "Windows Server 2008 R2 Start Menu")
 
 10. In Server Manager, select **Configure IE ESC** in the Security Information section of the Server Summary.
 
@@ -608,7 +608,7 @@ In this task, you will create an Azure SQL Database, which will serve as the tar
 
 7. On the Review + Create tab, select **Create** to provision the Azure SQL Database.
 
-    > **Note**: The [Azure SQL Database firewall](https://docs.microsoft.com/azure/sql-database/sql-database-firewall-configure) prevents external applications and tools from connecting to the server or any database on the server unless a firewall rule is created to open the firewall for the specific IP address. When creating the new server above, the **Allow azure services to access server** setting was allowed, which allows any services using an Azure IP address to access this server and databases, so there is no need to create a specific firewall rule for this hands-on lab. To access the SQL server from an on-premises computer or application, you need to [create a server level firewall rule](https://docs.microsoft.com/azure/sql-database/sql-database-get-started-portal#create-a-server-level-firewall-rule) to allow the specific IP addresses to access the server.
+    > **Note**: The [Azure SQL Database firewall](https://docs.microsoft.com/azure/sql-database/sql-database-firewall-configure) prevents external applications and tools from connecting to the server or any database on the server unless a firewall rule is created to open the firewall for the specific IP address. When creating the new server above, the **Allow azure services to access server** setting was allowed, which allows any services using an Azure IP address to access this server and databases, so there is no need to create a specific firewall rule for this hands-on lab. To access the SQL server from an on-premises computer or application, you need to [create a server-level firewall rule](https://docs.microsoft.com/azure/sql-database/sql-database-get-started-portal#create-a-server-level-firewall-rule) to allow the specific IP addresses to access the server.
 
 ### Task 13 (Migrate to Azure SQL Optional Homogenous Migration): Create an Azure SQL Database for the Data Warehouse
 
@@ -626,7 +626,7 @@ In this task, you will register the `Microsoft.DataMigration` resource provider 
 
 1. In the [Azure portal](https://portal.azure.com/), navigate to the Home page and then select **Subscriptions** from the Navigate list found midway down the page.
 
-    ![Subscriptions is highlighted in the Navigate menu.](media/azure-navigate-subscriptions.png "Navigate menu")
+    ![Subscriptions are highlighted in the Navigate menu.](media/azure-navigate-subscriptions.png "Navigate menu")
 
 2. Select the subscription you are using for this hands-on lab from the list, select **Resource providers**, enter "migration" into the filter box, and then select **Register** next to **Microsoft.DataMigration**.
 
@@ -723,7 +723,7 @@ In this task, we will be modifying the PostgreSQL instance to fit our needs.
 
 As part of the PostgreSQL lab, you will host the modified application in Azure App Service. You will provision a Web App and an App Service Plan in this Task.
 
-1. At the **New** page, navigate to **Web** under **Azure Marketplace**. Select **Web App**.
+1. On the **New** page, navigate to **Web** under **Azure Marketplace**. Select **Web App**.
 
     ![Navigating to the Web App option on Azure Marketplace.](./media/creating-web-app.png "Web app option highlighted on Marketplace")
 

@@ -110,7 +110,7 @@ WWI has provided you with a copy of their application, including a database scri
 
    - **Name**: Northwind
    - **Username**: system
-   - **Password**: Password.1!!
+   - **Password**: Password set in the ARM template
    - Keep the **Details** at their defaults
 
    ![Northwind connection in SQL Developer.](./media/new-oracle-connection-sqldeveloper.png "Northwind connection")
@@ -153,13 +153,21 @@ WWI has provided you with a copy of their application, including a database scri
 
 In this task, you will add the necessary configuration to the `NorthwindMVC` solution to connect to the Oracle database you created in the previous task.
 
-1. In Visual Studio on your LabVM, select **Build** from the menu, then select **Build Solution**.
+1. On your LabVM, navigate to `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL\Hands-on lab\lab-files\starter-project`. Launch `NorthwindMVC.sln`.
+
+   ![Launch NorthwindMVC.sln from the downloaded lab files.](./media/launch-northwind-solution.png "NorthwindMVC Visual Studio 2019 Solution")
+
+2. If you are prompted to choose a particular version of Visual Studio, select **Visual Studio 2019** and continue.
+
+3. As this is your first time opening Visual Studio 2019 on the LabVM, you will be prompted to enter the email address of your Visual Studio account. Enter it and proceed to the following steps.
+
+4. In Visual Studio on your LabVM, select **Build** from the menu, then select **Build Solution**.
 
    ![Build Solution is highlighted in the Build menu in Visual Studio.](./media/visual-studio-menu-build-build-solution.png "Select Build Solution")
 
-2. Open the `appsettings.json` file in the `NorthwindMVC` project by double-clicking the file in the Solution Explorer, on the right-hand side in Visual Studio.
+5. Open the `appsettings.json` file in the `NorthwindMVC` project by double-clicking the file in the Solution Explorer, on the right-hand side in Visual Studio.
 
-3. In the `appsettings.json` file, locate the `ConnectionStrings` section, and verify the connection string named **OracleConnectionString** matches the values you have used in this hands-on lab:
+6. In the `appsettings.json` file, locate the `ConnectionStrings` section, and verify the connection string named **OracleConnectionString** matches the values you have used in this hands-on lab:
 
    ```xml
    DATA SOURCE=localhost:1521/XE;PASSWORD=oracledemo123;USER ID=NW
@@ -171,15 +179,15 @@ In this task, you will add the necessary configuration to the `NorthwindMVC` sol
    }
    ```
 
-4. Run the solution by selecting the green **Start** button on the Visual Studio toolbar.
+7. Run the solution by selecting the green **Start** button on the Visual Studio toolbar.
 
    ![Start is selected on the toolbar.](./media/visual-studio-toolbar-start.png "Run the solution")
 
-5. You should see the Northwind Traders Dashboard load in your browser.
+8. You should see the Northwind Traders Dashboard load in your browser.
 
    ![The Northwind Traders Dashboard is visible in a browser.](./media/northwind-traders-dashboard.png "View the dashboard")
 
-6. Close the browser to stop debugging the application, and return to Visual Studio.
+9.  Close the browser to stop debugging the application, and return to Visual Studio.
 
 ## Exercise 2: Assess the Oracle 18c Database before Migrating to Azure SQL Database
 
@@ -527,6 +535,16 @@ In this exercise, you will modify the `NorthwindMVC` application so it targets A
 
    ![Add MVC Controller with Views, using Entity Framework.](./media/add-mvc-with-ef.png "MVC Controller with Views, using Entity Framework")
 
+   If you receive an error that package restore fails, you need to update the NuGet packages. To do this, first select **Tools** (1), **NuGet Package Manager** (2), and **Manage NuGet Packages for Solution...** (3).
+
+   ![Open the Manage NuGet Packages for Solution window.](./media/manage-solution-nuget-packages.png "Opening the solution NuGet Package Manager interface")
+
+   Now, navigate to the **Updates** tab (1). Click the **Select all packages** button (2). Lastly, select **Update** (3).
+
+   ![Select and update all NuGet packages in the Solution.](./media/update-nuget-packages-for-solution.png "Updating Solution NuGet packages")
+
+   Once this step completes, restart Visual Studio 2019.
+
 13. In the **ADD MVC Controller with views, using Entity Framework** dialog box, provide the following details. Then, select **Add**. Visual Studio will build the project.
 
     - **Model class**: Select `Customer`
@@ -698,7 +716,7 @@ In this task, you will create an RDP connection to the SqlServer2008 VM.
 6. Enter the following credentials when prompted:
 
    - **Username**: demouser
-   - **Password**: Password.1!!
+   - **Password**: Password set in the ARM template
 
 7. Select **Yes** to connect, if prompted that the identity of the remote computer cannot be verified.
 
@@ -784,7 +802,7 @@ In this task, you will update the SQL Server service accounts and other settings
 
    ![SQL Server Services is highlighted on the left side of SQL Server Configuration Manager.](media/sql-server-configuration-manager-sql-server-services.png "Select SQL Server Services")
 
-3. In the SQL Server (MSSQLSERVER) Properties dialog, change **Log on as** to use the demouser account, by entering **demouser** into the Account Name box, then entering the password, **Password.1!!**, into the Password and Confirm password boxes.
+3. In the SQL Server (MSSQLSERVER) Properties dialog, change **Log on as** to use the demouser account, by entering **demouser** into the Account Name box, then entering the password set in the ARM template into the Password and Confirm password boxes.
 
    ![The above credentials are highlighted in the SQL Server (MSSQLSERVER) Properties dialog box.](media/sql-server-2008-configuration-manager-sql-server-mssqlserver-properties.png "Enter demouser credentials")
 
@@ -899,7 +917,7 @@ After you have reviewed the assessment results and you have ensured the database
 
    - **Authentication type**: Select SQL Server Authentication.
    - **Username**: demouser
-   - **Password**: Password.1!!
+   - **Password**: Password set in the ARM template
    - **Connection properties**: Check both Encrypt connection and Trust server certificate.
    - Select **Connect**.
    - Select **WideWorldImportersDW** from the list of databases.
@@ -934,7 +952,9 @@ After you have reviewed the assessment results and you have ensured the database
 
 In this task, you create a new migration project for the WideWorldImporters database.
 
-1. Navigate to the Azure Database Migration Service in the [Azure portal](https://portal.azure.com).
+1. Navigate to the Azure Database Migration Service in the [Azure portal](https://portal.azure.com). It is easiest to locate your instance of Database Migration Service from the hands-on-lab-SUFFIX resource group.
+
+   ![Locate the wwi-dms instance of Azure Database Migration Service from the hands-on-lab-SUFFIX resource group.](./media/locate-wwi-dms-in-rg.png "Locating wwi-dms using search filters in the hands-on-lab-SUFFIX resource group")
 
 2. On the Azure Database Migration Service blade, select **+New Migration Project**.
 
@@ -964,7 +984,7 @@ In this task, you create a new migration project for the WideWorldImporters data
 
    - **Authentication type**: Select SQL Authentication.
    - **Username**: demouser
-   - **Password**: Password.1!!
+   - **Password**: Password set in the ARM template
    - **Connection properties**: Check both Encrypt connection and Trust server certificate.
 
    ![The Migration Wizard Select source blade is displayed, with the values specified above entered into the appropriate fields.](media/dms-source-sql-server.png "Migration Wizard Select source")
@@ -977,7 +997,7 @@ In this task, you create a new migration project for the WideWorldImporters data
 
 8. Select **Next: Select target >>**.
 
-9. On the Migration Wizard **Select target** blade, enter the following:
+9.  On the Migration Wizard **Select target** blade, enter the following:
 
    - Select **I know my target details**.
    - **Target server name**: Enter the server name for your Azure SQL Database.
@@ -988,14 +1008,14 @@ In this task, you create a new migration project for the WideWorldImporters data
 
    - **Authentication type**: Select SQL Authentication.
    - **Username**: demouser
-   - **Password**: Password.1!!
+   - **Password**: Password set in the ARM template
    - **Connection properties**: Check Encrypt connection.
 
    ![The Migration Wizard Select target blade is displayed, with the values specified above entered into the appropriate fields.](media/dms-select-target-db.png "Migration Wizard Select target")
 
-10. Select **Next: Summary >>**.
+11. Select **Next: Summary >>**.
 
-11. On the Migration Wizard Summary blade, review the Project summary, then select **Save project**.
+12. On the Migration Wizard Summary blade, review the Project summary, then select **Save project**.
 
     ![The Migration Wizard summary blade is displayed.](media/dms-migration-project-summary.png "Migration Wizard summary")
 
@@ -1007,7 +1027,7 @@ In this task, you will create a new activity in the Azure Database Migration Ser
 
    ![On the Azure Database Migration Service blade, +New Activity is highlighted, and the Data migration button is highlighted in the Create new activity dialog.](media/dms-add-new-activity.png "Azure Database Migration Service Add New Activity")
 
-2. On the Migration Wizard **Select source** blade, re-enter the demouser password, **Password.1!!**, then select **Next: Select databases >>**.
+2. On the Migration Wizard **Select source** blade, re-enter the demouser password and then select **Next: Select databases >>**.
 
    ![The Migration Wizard Select source blade is displayed, with the password value highlighted.](media/dms-migration-activity-source.png "Migration Wizard Select source")
 
@@ -1015,7 +1035,7 @@ In this task, you will create a new activity in the Azure Database Migration Ser
 
    ![Select the WideWorldImporters source database.](./media/source-database.png "WideWorldImporters source database")
 
-4. On the Migration Wizard **Select target** blade, re-enter the demouser password, **Password.1!!**, then select **Next: Map to target databases >>**.
+4. On the Migration Wizard **Select target** blade, re-enter the demouser password and then select **Next: Map to target databases >>**.
 
    ![The Migration Wizard Select target blade is displayed, with the password value highlighted.](media/dms-migration-activity-target.png "Migration Wizard Select target")
 
@@ -1052,7 +1072,7 @@ In this task, you will use SSMS to verify the database was successfully migrated
    - **Server name**: Enter the server name of your Azure SQL Database.
    - **Authentication**: Select SQL Server Authentication.
    - **Login**: demouser
-   - **Password**: Password.1!!
+   - **Password**: Password set in the ARM template
 
    ![The SSMS Connect to Server dialog is displayed, with the Azure SQL Database name specified, SQL Server Authentication selected, and the demouser credentials entered.](media/ssms-connect-azure-sql-database.png "Connect to Server")
 
@@ -1204,8 +1224,6 @@ In this task, you will create a new table based on the existing `FactResellerSal
    ```
 
 6. Select **Execute** on the toolbar to run the query.
-
-   >**Note**: You will need to be in SQLCMD mode for all these queries to execute.
 
 7. In the query results, observe the `Size_MB` value of the table before and after the creation of the clustered ColumnStore index. The first value is the size before the index was created, and the second value is the size after the ColumnStore index was created.
 

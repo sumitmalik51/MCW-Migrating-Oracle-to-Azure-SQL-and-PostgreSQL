@@ -104,7 +104,7 @@ WWI has provided you with a copy of their application, including a database scri
 
    - **Name**: Northwind
    - **Username**: system
-   - **Password**: Password.1!!
+   - **Password**: Password set in the ARM template
    - Keep the **Details** at their defaults
 
    ![Northwind connection in SQL Developer.](./media/new-oracle-connection-sqldeveloper.png "Northwind connection")
@@ -147,13 +147,21 @@ WWI has provided you with a copy of their application, including a database scri
 
 In this task, you will add the necessary configuration to the `NorthwindMVC` solution to connect to the Oracle database you created in the previous task.
 
-1. In Visual Studio on your LabVM, select **Build** from the menu, then select **Build Solution**.
+1. On your LabVM, navigate to `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL\Hands-on lab\lab-files\starter-project`. Launch `NorthwindMVC.sln`.
+
+   ![Launch NorthwindMVC.sln from the downloaded lab files.](./media/launch-northwind-solution.png "NorthwindMVC Visual Studio 2019 Solution")
+
+2. If you are prompted to choose a particular version of Visual Studio, select **Visual Studio 2019** and continue.
+
+3. As this is your first time opening Visual Studio 2019 on the LabVM, you will be prompted to enter the email address of your Visual Studio account. Enter it and proceed to the following steps.
+
+4. In Visual Studio on your LabVM, select **Build** from the menu, then select **Build Solution**.
 
    ![Build Solution is highlighted in the Build menu in Visual Studio.](./media/visual-studio-menu-build-build-solution.png "Select Build Solution")
 
-2. Open the `appsettings.json` file in the `NorthwindMVC` project by double-clicking the file in the Solution Explorer, on the right-hand side in Visual Studio.
+5. Open the `appsettings.json` file in the `NorthwindMVC` project by double-clicking the file in the Solution Explorer, on the right-hand side in Visual Studio.
 
-3. In the `appsettings.json` file, locate the `ConnectionStrings` section, and verify the connection string named **OracleConnectionString** matches the values you have used in this hands-on lab:
+6. In the `appsettings.json` file, locate the `ConnectionStrings` section, and verify the connection string named **OracleConnectionString** matches the values you have used in this hands-on lab:
 
    ```xml
    DATA SOURCE=localhost:1521/XE;PASSWORD=oracledemo123;USER ID=NW
@@ -165,15 +173,15 @@ In this task, you will add the necessary configuration to the `NorthwindMVC` sol
    }
    ```
 
-4. Run the solution by selecting the green **Start** button on the Visual Studio toolbar.
+7. Run the solution by selecting the green **Start** button on the Visual Studio toolbar.
 
    ![Start is selected on the toolbar.](./media/visual-studio-toolbar-start.png "Run the solution")
 
-5. You should see the Northwind Traders Dashboard load in your browser.
+8. You should see the Northwind Traders Dashboard load in your browser.
 
    ![The Northwind Traders Dashboard is visible in a browser.](./media/northwind-traders-dashboard.png "View the dashboard")
 
-6. Close the browser to stop debugging the application, and return to Visual Studio.
+9. Close the browser to stop debugging the application, and return to Visual Studio.
 
 ## Exercise 2: Assess the Oracle 18c Database before Migrating to PostgreSQL
 
@@ -704,7 +712,17 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
 
 13. Select **MVC Controller with views, using Entity Framework**. Then, select **Add**.
 
-   ![Add MVC Controller with Views, using Entity Framework.](./media/add-mvc-with-ef.png "MVC Controller with Views, using Entity Framework")
+    ![Add MVC Controller with Views, using Entity Framework.](./media/add-mvc-with-ef.png "MVC Controller with Views, using Entity Framework")
+
+    If you receive an error that package restore fails, you need to update the NuGet packages. To do this, first select **Tools** (1), **NuGet Package Manager** (2), and **Manage NuGet Packages for Solution...** (3).
+
+    ![Open the Manage NuGet Packages for Solution window.](./media/manage-solution-nuget-packages.png "Opening the solution NuGet Package Manager interface")
+
+    Now, navigate to the **Updates** tab (1). Click the **Select all packages** button (2). Lastly, select **Update** (3).
+
+    ![Select and update all NuGet packages in the Solution.](./media/update-nuget-packages-for-solution.png "Updating Solution NuGet packages")
+
+    Once this step completes, restart Visual Studio 2019.
 
 14. In the **ADD MVC Controller with views, using Entity Framework** dialog box, provide the following details. Then, select **Add**. Visual Studio will build the project.
 

@@ -38,13 +38,14 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
     - [Task 9 (Migrate to PostgreSQL): Install the ora2pg utility](#task-9-migrate-to-postgresql-install-the-ora2pg-utility)
     - [Task 10 (Migrate to Azure SQL Optional Homogenous Migration): Create SQL Server 2008 R2 virtual machine](#task-10-migrate-to-azure-sql-optional-homogenous-migration-create-sql-server-2008-r2-virtual-machine)
     - [Task 11 (Migrate to Azure SQL Optional Homogenous Migration): Connect to the SqlServer2008 VM](#task-11-migrate-to-azure-sql-optional-homogenous-migration-connect-to-the-sqlserver2008-vm)
-    - [Task 12 (Migrate to Azure SQL): Provision Azure SQL Database](#task-12-migrate-to-azure-sql-provision-azure-sql-database)
-    - [Task 13 (Migrate to Azure SQL Optional Homogenous Migration): Create an Azure SQL Database for the Data Warehouse](#task-13-migrate-to-azure-sql-optional-homogenous-migration-create-an-azure-sql-database-for-the-data-warehouse)
-    - [Task 14 (Migrate to Azure SQL Optional Homogenous Migration): Register the Microsoft DataMigration resource provider](#task-14-migrate-to-azure-sql-optional-homogenous-migration-register-the-microsoft-datamigration-resource-provider)
-    - [Task 15 (Migrate to Azure SQL Optional Homogenous Migration): Create Azure Database Migration Service for SQL Server](#task-15-migrate-to-azure-sql-optional-homogenous-migration-create-azure-database-migration-service-for-sql-server)
-    - [Task 16 (Migrate to PostgreSQL): Provision Azure Database for PostgreSQL](#task-16-migrate-to-postgresql-provision-azure-database-for-postgresql)
-    - [Task 17 (Migrate to PostgreSQL): Configure the Azure Database for PostgreSQL Instance](#task-17-migrate-to-postgresql-configure-the-azure-database-for-postgresql-instance)
-    - [Task 18 (Migrate to PostgreSQL): Create an App Service Instance](#task-18-migrate-to-postgresql-create-an-app-service-instance)
+    - [Task 12 (Migrate to Azure SQL Optional Homogenous Migration): Install Data Migration Assistant on the SQL Server 2008 VM](#task-12-migrate-to-azure-sql-optional-homogenous-migration-install-data-migration-assistant-on-the-sql-server-2008-vm)
+    - [Task 13 (Migrate to Azure SQL): Provision Azure SQL Database](#task-13-migrate-to-azure-sql-provision-azure-sql-database)
+    - [Task 14 (Migrate to Azure SQL Optional Homogenous Migration): Create an Azure SQL Database for the Data Warehouse](#task-14-migrate-to-azure-sql-optional-homogenous-migration-create-an-azure-sql-database-for-the-data-warehouse)
+    - [Task 15 (Migrate to Azure SQL Optional Homogenous Migration): Register the Microsoft DataMigration resource provider](#task-15-migrate-to-azure-sql-optional-homogenous-migration-register-the-microsoft-datamigration-resource-provider)
+    - [Task 16 (Migrate to Azure SQL Optional Homogenous Migration): Create Azure Database Migration Service for SQL Server](#task-16-migrate-to-azure-sql-optional-homogenous-migration-create-azure-database-migration-service-for-sql-server)
+    - [Task 17 (Migrate to PostgreSQL): Provision Azure Database for PostgreSQL](#task-17-migrate-to-postgresql-provision-azure-database-for-postgresql)
+    - [Task 18 (Migrate to PostgreSQL): Configure the Azure Database for PostgreSQL Instance](#task-18-migrate-to-postgresql-configure-the-azure-database-for-postgresql-instance)
+    - [Task 19 (Migrate to PostgreSQL): Create an App Service Instance](#task-19-migrate-to-postgresql-create-an-app-service-instance)
 
 # Migrating Oracle to Azure SQL and PostgreSQL before the hands-on lab setup guide (manual steps)
 
@@ -554,7 +555,23 @@ In this task, you will create an RDP connection to the SqlServer2008 VM and disa
 
 12. Close the Server Manager.
 
-### Task 12 (Migrate to Azure SQL): Provision Azure SQL Database
+### Task 12 (Migrate to Azure SQL Optional Homogenous Migration): Install Data Migration Assistant on the SQL Server 2008 VM
+
+In the optional homogenous migration, you will use the Data Migration Assistant to assess the SQL Server 2008 R2 instance for incompatibilities with Azure SQL Database and then migrate the database schema using the tool.
+
+1. On the SqlServer2008 VM, install the .NET Framework 4.8 Runtime, a requirement for Data Migration Assistant to run. Locate the downloader [here.](https://dotnet.microsoft.com/download/dotnet-framework/net48) Restart the system.
+
+2. Download the [Data Migration Assistant v5.x](https://www.microsoft.com/download/confirmation.aspx?id=53595) and run the downloaded installer.
+
+3. Select **Next** on each of the screens, accepting the license terms and privacy policy in the process.
+
+4. Select **Install** on the Privacy Policy screen to begin the installation.
+
+5. On the final screen, optionally check the **Launch Microsoft Data Migration Assistant** check box, and select **Finish**.
+
+   ![Launch Microsoft Data Migration Assistant is selected and highlighted at the bottom of the Microsoft Data Migration Assistant Setup dialog box.](./media/data-migration-assistant-setup-finish.png "Run the Microsoft Data Migration Assistant")
+
+### Task 13 (Migrate to Azure SQL): Provision Azure SQL Database
 
 In this task, you will create an Azure SQL Database, which will serve as the target database for migration of the on-premises Oracle database into the cloud. This is for the OLTP database migration.
 
@@ -610,7 +627,7 @@ In this task, you will create an Azure SQL Database, which will serve as the tar
 
     > **Note**: The [Azure SQL Database firewall](https://docs.microsoft.com/azure/sql-database/sql-database-firewall-configure) prevents external applications and tools from connecting to the server or any database on the server unless a firewall rule is created to open the firewall for the specific IP address. When creating the new server above, the **Allow azure services to access server** setting was allowed, which allows any services using an Azure IP address to access this server and databases, so there is no need to create a specific firewall rule for this hands-on lab. To access the SQL server from an on-premises computer or application, you need to [create a server-level firewall rule](https://docs.microsoft.com/azure/sql-database/sql-database-get-started-portal#create-a-server-level-firewall-rule) to allow the specific IP addresses to access the server.
 
-### Task 13 (Migrate to Azure SQL Optional Homogenous Migration): Create an Azure SQL Database for the Data Warehouse
+### Task 14 (Migrate to Azure SQL Optional Homogenous Migration): Create an Azure SQL Database for the Data Warehouse
 
 If you are completing the optional homogenous migration, complete this task to create the landing zone for the Data Warehouse migration.
 
@@ -620,7 +637,7 @@ If you are completing the optional homogenous migration, complete this task to c
 
 An Azure SQL Database *server* is just a management entity, akin to how multiple SQL Server databases reside on an individual SQL Server instance.
 
-### Task 14 (Migrate to Azure SQL Optional Homogenous Migration): Register the Microsoft DataMigration resource provider
+### Task 15 (Migrate to Azure SQL Optional Homogenous Migration): Register the Microsoft DataMigration resource provider
 
 In this task, you will register the `Microsoft.DataMigration` resource provider with your subscription in Azure.
 
@@ -632,7 +649,7 @@ In this task, you will register the `Microsoft.DataMigration` resource provider 
 
     ![The Subscription blade is displayed, with Resource providers selected and highlighted under Settings. On the Resource providers blade, migration is entered into the filter box, and Register is highlighted next to Microsoft.DataMigration.](media/azure-portal-subscriptions-resource-providers-register-microsoft-datamigration.png "Resource provider registration")
 
-### Task 15 (Migrate to Azure SQL Optional Homogenous Migration): Create Azure Database Migration Service for SQL Server
+### Task 16 (Migrate to Azure SQL Optional Homogenous Migration): Create Azure Database Migration Service for SQL Server
 
 In this task, you will provision an instance of the Azure Database Migration Service (DMS).
 
@@ -668,7 +685,7 @@ In this task, you will provision an instance of the Azure Database Migration Ser
 
 >**Note**: It can take 15 minutes to deploy the Azure Data Migration Service.
 
-### Task 16 (Migrate to PostgreSQL): Provision Azure Database for PostgreSQL
+### Task 17 (Migrate to PostgreSQL): Provision Azure Database for PostgreSQL
 
 If you are completing the PostgreSQL migration lab, in this Task, you will prepare the landing zone.
 
@@ -697,7 +714,7 @@ If you are completing the PostgreSQL migration lab, in this Task, you will prepa
 
 4. Select **Create** to start the deployment. Once the deployment completes, we will move on to configuring the instance.
 
-### Task 17 (Migrate to PostgreSQL): Configure the Azure Database for PostgreSQL Instance
+### Task 18 (Migrate to PostgreSQL): Configure the Azure Database for PostgreSQL Instance
 
 In this task, we will be modifying the PostgreSQL instance to fit our needs.
 
@@ -719,7 +736,7 @@ In this task, we will be modifying the PostgreSQL instance to fit our needs.
 
     >**Note**: Do not use this type of rule for databases with sensitive data or in a production environment. You are allowing access from any Azure IP address.
 
-### Task 18 (Migrate to PostgreSQL): Create an App Service Instance
+### Task 19 (Migrate to PostgreSQL): Create an App Service Instance
 
 As part of the PostgreSQL lab, you will host the modified application in Azure App Service. You will provision a Web App and an App Service Plan in this Task.
 

@@ -37,7 +37,8 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
     - [Task 8 (Migrate to PostgreSQL): Install pgAdmin on the LabVM](#task-8-migrate-to-postgresql-install-pgadmin-on-the-labvm)
     - [Task 9 (Migrate to PostgreSQL): Install the ora2pg utility](#task-9-migrate-to-postgresql-install-the-ora2pg-utility)
     - [Task 10 (Migrate to Azure SQL Optional Homogenous Migration): Connect to the SqlServer2008 VM](#task-10-migrate-to-azure-sql-optional-homogenous-migration-connect-to-the-sqlserver2008-vm)
-    - [Task 11 (Migrate to Azure SQL): Install SQL Server Migration Assistant for Oracle](#task-11-migrate-to-azure-sql-install-sql-server-migration-assistant-for-oracle)
+    - [Task 11 (Migrate to Azure SQL Optional Homogenous Migration): Install Data Migration Assistant on the SQL Server 2008 VM](#task-11-migrate-to-azure-sql-optional-homogenous-migration-install-data-migration-assistant-on-the-sql-server-2008-vm)
+    - [Task 12 (Migrate to Azure SQL): Install SQL Server Migration Assistant for Oracle on LabVM](#task-12-migrate-to-azure-sql-install-sql-server-migration-assistant-for-oracle-on-labvm)
 
 # Migrating Oracle to Azure SQL and PostgreSQL before the hands-on lab setup guide
 
@@ -430,11 +431,27 @@ In this task, you will create an RDP connection to the SqlServer2008 VM and disa
 
 12. Close the Server Manager.
 
-### Task 11 (Migrate to Azure SQL): Install SQL Server Migration Assistant for Oracle
+### Task 11 (Migrate to Azure SQL Optional Homogenous Migration): Install Data Migration Assistant on the SQL Server 2008 VM
+
+In the optional homogenous migration, you will use the Data Migration Assistant to assess the SQL Server 2008 R2 instance for incompatibilities with Azure SQL Database and then migrate the database schema using the tool.
+
+1. On the SqlServer2008 VM, install the .NET Framework 4.8 Runtime, a requirement for Data Migration Assistant to run. Locate the downloader [here.](https://dotnet.microsoft.com/download/dotnet-framework/net48) Restart the system.
+
+2. Download the [Data Migration Assistant v5.x](https://www.microsoft.com/download/confirmation.aspx?id=53595) and run the downloaded installer.
+
+3. Select **Next** on each of the screens, accepting the license terms and privacy policy in the process.
+
+4. Select **Install** on the Privacy Policy screen to begin the installation.
+
+5. On the final screen, optionally check the **Launch Microsoft Data Migration Assistant** check box, and select **Finish**.
+
+   ![Launch Microsoft Data Migration Assistant is selected and highlighted at the bottom of the Microsoft Data Migration Assistant Setup dialog box.](./media/data-migration-assistant-setup-finish.png "Run the Microsoft Data Migration Assistant")
+
+### Task 12 (Migrate to Azure SQL): Install SQL Server Migration Assistant for Oracle on LabVM
 
 In the Oracle to Azure SQL migration lab, we will use the SQL Server Migration Assistant for Oracle to complete the schema and data migration.
 
-1. Navigate to the [SSMA download site](https://www.microsoft.com/download/details.aspx?id=54258). Select **Download**.
+1. Navigate to the [SSMA download site](https://www.microsoft.com/download/details.aspx?id=54258) on LabVM. Select **Download**.
 
     ![View the SSMA download page.](./media/ssma-download.png "SSMA download page")
 

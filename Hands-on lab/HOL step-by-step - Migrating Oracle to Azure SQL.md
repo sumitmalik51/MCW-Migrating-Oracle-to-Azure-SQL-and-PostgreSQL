@@ -60,19 +60,17 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 
 ## Abstract and learning objectives
 
-In this hands-on lab, you implement a proof of concept (POC) for conducting a site analysis for a customer to compare cost, performance, and level of effort required to migrate from Oracle to SQL Server. You evaluate the dependent applications and reports that need to be updated and come up with a migration plan. Also, you help the customer take advantage of new SQL Server features to improve performance and resiliency and perform a migration from an old version of SQL Server to Azure SQL Database.
+In this hands-on lab, you implement a proof of concept (POC) for conducting a site analysis for a customer to compare cost, performance, and level of effort required to migrate from Oracle to Azure SQL Database. You evaluate the dependent applications and reports that need to be updated and come up with a migration plan. Also, you help the customer take advantage of new features to improve performance and resiliency.
+
+Optionally, you can also pursue a migration of a SQL Server 2008 R2 instance to Azure SQL Database for the customer's data warehouse. Again, you will leverage advanced features of Azure SQL Database to satisfy the customer's compliance and performance needs.
 
 At the end of this hands-on lab, you will be better able to design and build a database migration plan and implement any required application changes associated with changing database technologies.
 
 ## Overview
 
-Wide World Importers (WWI) has experienced significant growth in the last few years. In addition to predictable growth, they’ve had a substantial amount of growth in the data they store in their data warehouse. Their data warehouse is starting to show its age, slowing down during extract, transform, and load (ETL) operations and during critical queries. The data warehouse is running on SQL Server 2008 R2 Standard Edition.
+Wide World Importers (WWI) has experienced significant growth in the last few years. As a result, the Oracle OLTP database that powers their vendor integrations and inventory and sales applications has proved inadequate. The CIO has read about the performance and security enhancements of Azure SQL Database. Before committing to an Azure migration, the CIO would like a PoC of the OLTP database migration and the necessary modifications to the ASP.NET Core inventory app.
 
-The WWI CIO has recently read about new performance enhancements of Azure SQL Database and SQL Server 2017. She is excited about the potential performance improvements related to clustered ColumnStore indexes. She is also hoping that table compression can improve performance and backup times.
-
-WWI is concerned about upgrading its database to Azure SQL Database or SQL Server 2017. The data warehouse has been successful for a long time. As it has grown, it has filled with data, stored procedures, views, and security. WWI wants assurance that if it moves its data store, it won’t run into any incompatibilities with the storage engine of Azure SQL Database or SQL Server 2017.
-
-WWI’s CIO would like a POC of a data warehouse move and proof that the new technology can help ETL and query performance.
+In addition to predictable growth, they’ve had a substantial amount of growth in the data they store in their data warehouse. Their data warehouse is starting to show its age, slowing down during extract, transform, and load (ETL) operations and during critical queries. The data warehouse is running on SQL Server 2008 R2 Standard Edition. The CIO is excited about the potential performance improvements offered by Azure SQL Database, such as clustered ColumnStore indexes. She is also hoping that table compression can improve performance and backup times.
 
 ## Solution architecture
 
@@ -94,7 +92,7 @@ For the homogenous migration, the solution begins with using the Microsoft Data 
 
 Duration: 45 minutes
 
-In this exercise, you will load a sample database supporting the application. Ensure that you installed Oracle XE, Oracle Data Access Components, and Oracle SQL Developer, as detailed in the Before the Hands-on Lab documents.
+In this exercise, you will load a sample database supporting the application. Ensure that you installed Oracle XE, Oracle Data Access Components, and Oracle SQL Developer, as detailed in the [Before the Hands-on Lab document](Before%20the%20HOL%20-%20Migrating%20Oracle%20to%20Azure%20SQL%20and%20PostgreSQL.md).
 
 ### Task 1: Create the Northwind database in Oracle 18c XE
 
@@ -129,7 +127,7 @@ WWI has provided you with a copy of their application, including a database scri
 
    ![Script output of the second Northwind database script.](./media/northwind-script-2-output.png "SQL Developer output pane")
 
-9. Repeat steps 7 - 8, replacing the file name in step 26 with each of the following:
+9. Repeat steps 7 - 8, replacing the file name in step 7 with each of the following:
 
     - `3.northwind.oracle.packages.sql`
 
@@ -824,23 +822,13 @@ Wide World Importers would like a Proof of Concept (POC) that moves their data w
 
 Wide World Importers would like an assessment to see what potential issues they would have to address in moving their database to Azure SQL Database.
 
-1. On the SqlServer2008 VM, install the .NET Framework 4.8 Runtime, a requirement for Data Migration Assistant to run. Locate the downloader [here.](https://dotnet.microsoft.com/download/dotnet-framework/net48) Restart the system.
+1. In the SQL Server 2008 instance, launch the Data Migration Assistant.
 
-2. Download the [Data Migration Assistant v5.x](https://www.microsoft.com/download/confirmation.aspx?id=53595) and run the downloaded installer.
-
-3. Select **Next** on each of the screens, accepting the license terms and privacy policy in the process.
-
-4. Select **Install** on the Privacy Policy screen to begin the installation.
-
-5. On the final screen, check the **Launch Microsoft Data Migration Assistant** check box, and select **Finish**.
-
-   ![Launch Microsoft Data Migration Assistant is selected and highlighted at the bottom of the Microsoft Data Migration Assistant Setup dialog box.](./media/data-migration-assistant-setup-finish.png "Run the Microsoft Data Migration Assistant")
-
-6. In the Data Migration Assistant window, select the New **(+)** icon in the left-hand menu.
+2. In the Data Migration Assistant window, select the New **(+)** icon in the left-hand menu.
 
    ![+ New is selected and highlighted in the Data Migration Assistant window.](./media/data-migration-assistant-new-project.png "Select + New")
 
-7. In the New project dialog, enter the following:
+3. In the New project dialog, enter the following:
 
    - **Project type**: Select Assessment.
    - **Project name**: Enter Assessment.
@@ -852,25 +840,25 @@ Wide World Importers would like an assessment to see what potential issues they 
 
    - Select **Create**.
 
-8. On the **Options** tab, ensure the **Check database compatibility** and **Check feature parity** report types are checked, and select **Next**.
+4. On the **Options** tab, ensure the **Check database compatibility** and **Check feature parity** report types are checked, and select **Next**.
 
    ![Check database compatibility and Check feature parity are selected and highlighted on the Options screen.](./media/data-migration-assistant-options.png "Select the report types")
 
-9. In the **Connect to a server** dialog on the **Select sources** tab, enter `SQLSERVER2008` into the Server name box, and **uncheck Encrypt connection**, then select **Connect**.
+5. In the **Connect to a server** dialog on the **Select sources** tab, enter `SQLSERVER2008` into the Server name box, and **uncheck Encrypt connection**, then select **Connect**.
 
    ![In the Connect to a server dialog box, SQLSERVER2008 is highlighted in the Server name box, and Encrypt connection is unchecked and highlighted below that in the Connect to a server dialog box.](./media/data-migration-assistant-select-sources-sqlserver2008.png "Enter information in the Connect to a server dialog box")
 
-10. In the **Add sources** dialog that appears, check the box next to **WideWorldImporters**, and select **Add**.
+6. In the **Add sources** dialog that appears, check the box next to **WideWorldImporters**, and select **Add**.
 
    ![WideWorldImporters is selected and highlighted under SQLSERVER2008 in the Add sources dialog box.](./media/data-migration-assistant-select-sources-sqlserver2008-wideworldimporters.png "Select WideWorldImporters")
 
-11. Select **Start Assessment**.
+7. Select **Start Assessment**.
 
-12. Review the Assessment results, selecting both **SQL Server feature parity** and **Compatibility issues** options and viewing the reports.
+8. Review the Assessment results, selecting both **SQL Server feature parity** and **Compatibility issues** options and viewing the reports.
 
     ![Various information is selected on the Review results screen.](./media/data-migration-assistant-review-results-sqlserver2008-wideworldimporters.png "Review the Assessment results")
 
-13. You now have a list of the issues WWI will need to consider in upgrading their database to Azure SQL Database. Notice the assessment includes recommendations on the potential resolutions to issues. You can select **Export Assessment** on the top toolbar to save the report as a JSON file, if desired.
+9. You now have a list of the issues WWI will need to consider in upgrading their database to Azure SQL Database. Notice the assessment includes recommendations on the potential resolutions to issues. You can select **Export Assessment** on the top toolbar to save the report as a JSON file, if desired.
 
 ### Task 2: Migrate the database schema
 

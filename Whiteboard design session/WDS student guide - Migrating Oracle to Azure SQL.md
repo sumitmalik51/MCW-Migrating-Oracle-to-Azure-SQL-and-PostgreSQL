@@ -108,7 +108,7 @@ Kathleen Sloan, the CIO of WWI, is looking to decrease their software license fe
 
 ### Customer objections
 
-1. Do we need to upgrade to on-premises SQL Server first or go can we go straight to Azure?
+1. Do we need to upgrade to on-premises SQL Server first or can we go straight to Azure?
 
 2. Can we have two proof of concepts that demonstrate both migrations?
 

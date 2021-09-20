@@ -237,7 +237,7 @@ Kathleen Sloan, the CIO of WWI, is looking to decrease their software license fe
 
 ### Customer objections
 
-1. Do we need to upgrade to on-premises SQL Server first or go can we go straight to Azure?
+1. Do we need to upgrade to on-premises SQL Server first or can we go straight to Azure?
 
 2. Can we have two proof of concepts that demonstrate both migrations?
 
@@ -517,7 +517,7 @@ _High-level architecture_
 
    Azure SQL Database supports two purchase models: vCore and DTU. The vCore model provides precise control over compute, memory, and storage resources, making it ideal for on-premises migrations. The DTU model provides three simplified tiers: Basic, Standard, and Premium. 
 
-   With the DTU model, organizations are eligible for the *Azure Hybrid Benefit*, which allows them to exchange their existing SQL Server licenses to save 30% or more on their Azure SQL Database workloads. A more precise estimate can be generated using [Microsoft's savings calculator](https://azure.microsoft.com/pricing/hybrid-benefit/#calculator).
+   With the vCore model, organizations are eligible for the *Azure Hybrid Benefit*, which allows them to exchange their existing SQL Server licenses to save 30% or more on their Azure SQL Database workloads. A more precise estimate can be generated using [Microsoft's savings calculator](https://azure.microsoft.com/pricing/hybrid-benefit/#calculator).
 
    Lastly, to reduce compute costs, WWI can opt for reserved capacity. Capacity is reserved for 1-3 years, and the pricing benefit is applied transparently by the Azure platform.  
    
@@ -560,6 +560,8 @@ _Application changes_
    The Oracle Forms application needs to be completely rewritten. There is guidance from Microsoft on how to do that to Visual Basic.NET. There are third-party tools that will attempt to automatically rebuild an Oracle Forms application to Windows Presentation Foundation (WPF) and Model-View-ViewModel (MVVM). You can also rewrite this by hand into any technology the client would like.
 
    Oracle Forms applications cannot be easily cloud-hosted. This application would eventually need to be rewritten if they'd like new experiences like a mobile experience, a tablet application, or hosted in Microsoft Azure.
+
+   Microsoft's Power Platform (specifically Power Apps) allows business users to develop apps that reference the organization's data sources and perform standard CRUD operations against those data sources. This technology supports over 100 low-code connectors. Power Apps, along with the low-code automation tool Power Automate, can help WWI modernize its existing solution.
 
 3. What will you do about the vendor touchpoints? How will you recommend they store the JSON data?
 
@@ -660,6 +662,8 @@ _High Availability and Audit Table_
 
    With Azure SQL Database, as it is a PaaS offering, scaling compute and storage with minimal downtime is simple. However, it is not automatic. Microsoft provides [scripts](https://docs.microsoft.com/azure/azure-sql/database/scripts/monitor-and-scale-database-powershell) to automate this process. Multiple databases can take advantage of the *elastic pool* offering, which supports dynamic resource allocation for the databases in the pool.
 
+   With Azure SQL Database, Microsoft offers the Hyperscale tier. Azure SQL Hyperscale separates compute nodes and storage nodes, meaning that storage can be scaled easily to accommodate for growing audit tables. Learn more about this technology [here.](https://devblogs.microsoft.com/azure-sql/autoscaling-with-azure-sql-hyperscale/)
+
 2. What are the SQL Server options for high availability?
 
    SQL Server provides several options for creating high availability for a server or database. High-availability options include the following:
@@ -670,7 +674,7 @@ _High Availability and Audit Table_
    - Replication
    - Scalable shared databases
 
-   With Azure SQL Database, it is easy to incorporate *failover groups* into your solution, for both individual databases and elastic pools. Failover groups also support secure networking capabilities.
+   With Azure SQL Database, it is easy to incorporate *failover groups* into your solution, for both individual databases and elastic pools. Failover groups also support secure networking capabilities. Moreover, to provide high availability (SLA of 99.99%), Microsoft provides two built-in availability model categories (*Standard* and *Premium*). The used model depends on the database tier.
 
 _Azure SQL Database POC_
 
@@ -688,6 +692,8 @@ _Azure SQL Database POC_
 
    In addition, they would gain the benefit of simplifying future software upgrades. Some of their products would upgrade and offer new features with minimal effort on their part.
 
+   Through Azure Arc Data Services, Azure extends the control plane for Azure SQL Managed Instance to on-premises hardware. If WWI chose this option as part of a hybrid cloud adoption, they retain control over when to deploy updates and to manage their Arc Data Services through standard Azure tools (like the CLI).
+
 3. Are there any questions we need to answer before we can begin a POC directly to Microsoft Azure?
 
    - What is network connectivity like between on-premises and the cloud?
@@ -697,7 +703,7 @@ _Azure SQL Database POC_
 
 ## Checklist of preferred objection handling
 
-1. Do we need to upgrade to on-premises SQL Server first or go can we go straight to Azure?
+1. Do we need to upgrade to on-premises SQL Server first or can we go straight to Azure?
 
    This is a joint business and technical decision. Azure SQL Database or SQL Server on Azure VMs will offer all the features they've stated that they need. There is a migration path to both.
 
@@ -743,7 +749,7 @@ _Azure SQL Database POC_
 
    For an on-premises SQL Server installation, Microsoft offers license assistance programs for current Oracle users, which can include free licenses to current Oracle customers. They can also subsidize the cost of the migration process. SQL Server licensing also includes all available features in the Enterprise Edition with no additional cost for each feature implemented.
 
-   With an Azure SQL Database migration, as mentioned previously, reserved capacity and hybrid benefit are useful techniques to reduce pricing, particularly for SQL Server to Azure SQL Database migrations (like the Data Warehouse). Purchasing Azure SQL Database through the DTU model provides the most consistent budgeting.
+   With an Azure SQL Database migration, as mentioned previously, reserved capacity and hybrid benefit are useful techniques to reduce pricing, particularly for SQL Server to Azure SQL Database migrations (like the Data Warehouse). Purchasing Azure SQL Database through the vCore model provides the most consistent budgeting.
 
 9. Are there any Oracle features required by WWI for which SQL Server has no equivalent?
 
@@ -759,7 +765,9 @@ _Azure SQL Database POC_
 
     Thought needs to be given to upgrading the database storage engine, SQL Server Analysis Services, SQL Server Reporting Services, and SQL Server Integration Services. SSRS and SSIS have been completely redone since SQL Server 2008, with new interfaces and new engines. SSAS multidimensional also has a new engine with a tabular engine. Thought needs to be given if it will be implemented.
 
-    Moreover, Azure has introduced cloud-based platforms to support WWI's BI needs. For example, Power BI may serve as a substitute for SSRS on a VM, and Azure Analysis Services may serve as a substitute for SSAS. If WWI is using multidimensional cubes for its data model, it cannot migrate to Azure Analysis Services. In that case, using a [pre-configured, engine-only virtual machine image](https://techcommunity.microsoft.com/t5/sql-server/announcing-azure-marketplace-images-for-sql-server-analysis/ba-p/1851793) is possible.  
+    Moreover, Azure has introduced cloud-based platforms to support WWI's BI needs. For example, Power BI may serve as a substitute for SSRS on a VM, and Azure Analysis Services may serve as a substitute for SSAS. If WWI is using multidimensional cubes for its data model, it cannot migrate to Azure Analysis Services. In that case, using a [pre-configured, engine-only virtual machine image](https://techcommunity.microsoft.com/t5/sql-server/announcing-azure-marketplace-images-for-sql-server-analysis/ba-p/1851793) is possible.
+
+    If network latency becomes a challenge (accessing the migrated database from on-premises resources), WWI can adopt ExpressRoute. However, if WWI is constrained by other industry factors, such as data sovereignty (no Azure regions located in the country of operation), they can adopt Azure Arc Data Services to run SQL Managed Instance on on-premises hardware.  
 
 12. When we upgrade the data warehouse, how will we keep all our connected dependencies updated?
 

@@ -553,7 +553,7 @@ _Application changes_
 
    If they didn't use an ORM, then much of the data-layer code will need to be rewritten. If this code is consolidated, and only plain old CLR objects (POCOs) are being handed back using the repository pattern, then we might be able to replace the entire tier with Entity Framework or another ORM. If there has been bleeding between the layers, then this process might be significantly more difficult. The entire storefront application would need to be refactored and tested eventually. For the POC, they are looking to switch the connection string, test several pages related to an order, and get a good idea on the work that would be necessary to get that to work.
 
-   The [Microsoft Data Access Migration Toolkit](https://marketplace.visualstudio.com/items?itemName=ms-databasemigration.data-access-migration-toolkit) is a Visual Studio Code extension to help developers modify Java data access code for Oracle to ensure compatibility with SQL Server.
+   The [Microsoft Data Access Migration Toolkit](https://marketplace.visualstudio.com/items?itemName=ms-databasemigration.data-access-migration-toolkit) is a Visual Studio Code extension to help developers modify Java and .NET data access code for Oracle to ensure compatibility with SQL Server.
 
 2. How would you migrate the Oracle Forms applications? How would you define success? Are there any technologies the customer needs to know?
 
@@ -721,7 +721,7 @@ _Azure SQL Database POC_
 
    If the existing ASP.NET Core MVC application that runs their storefront uses Entity Framework Core or another object-relational mapping (ORM) tool, then migration of that application is trivial. It's possible that we could repoint the connectionString, re-run the unit tests, and the application will just work. Blockers might be if Entity Framework Core is using Stored Procedures in Oracle. Those will need to be tested after we run the SQL Server Migration Assistant.
 
-   For Java applications that utilize Oracle databases, Microsoft provides the [Data Access Migration Toolkit](https://marketplace.visualstudio.com/items?itemName=ms-databasemigration.data-access-migration-toolkit), a Visual Studio Code extension. It helps developers understand the code changes they must make to target a new relational database. WWI can keep this in mind for future migrations.
+   For Java and .NET applications that utilize Oracle databases, Microsoft provides the [Data Access Migration Toolkit](https://marketplace.visualstudio.com/items?itemName=ms-databasemigration.data-access-migration-toolkit), a Visual Studio Code extension. It helps developers understand the code changes they must make to target a new relational database. WWI can keep this in mind for future migrations.
 
 4. Do we need to rewrite all our reports for Azure SQL Database?
 

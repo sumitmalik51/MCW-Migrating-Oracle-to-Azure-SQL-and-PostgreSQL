@@ -5,7 +5,7 @@ Migrating Oracle to Azure SQL and PostgreSQL
 </div>
 
 <div class="MCWHeader2">
-Before the hands-on lab setup guide
+Before the hands-on lab Manual Resource setup guide
 </div>
 
 <div class="MCWHeader3">

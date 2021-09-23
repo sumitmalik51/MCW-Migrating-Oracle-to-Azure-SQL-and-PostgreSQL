@@ -107,7 +107,7 @@ This lab uses an ARM template to automate the setup of lab resources. In this ta
 
 1. Select the **Deploy to Azure** button to open the ARM template in the Azure portal.
 
-    [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsaimachi%2FMCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL%2Fseptember-2021-update%2FHands-on%2520lab%2Flab-files%2FARM%2Ftemplate.json)
+    [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmicrosoft%2FMCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL%2Fmaster%2FHands-on%2520lab%2Flab-files%2FARM%2Ftemplate.json)
 
 2. Before you deploy the ARM template, you need to provide multiple parameters.
 

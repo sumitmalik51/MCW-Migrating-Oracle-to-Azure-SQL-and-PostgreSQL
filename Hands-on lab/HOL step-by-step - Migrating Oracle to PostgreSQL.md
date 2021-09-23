@@ -92,7 +92,7 @@ In this exercise, you will load a sample database supporting the application. En
 
 WWI has provided you with a copy of their application, including a database script to create their Oracle database. They have asked that you use this as a starting point for migrating their database and application to Azure SQL DB. In this task, you will create a connection to the Oracle database on your Lab VM.
 
-1. In a web browser on LabVM, download a copy of the [Migrating Oracle to  Azure SQL and PostgreSQL upgrade and migration MCW repo](https://github.com/saimachi/MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL/archive/refs/heads/september-2021-update.zip).
+1. In a web browser on LabVM, download a copy of the [Migrating Oracle to  Azure SQL and PostgreSQL upgrade and migration MCW repo](https://github.com/microsoft/MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL/archive/refs/heads/master.zip).
 
 2. Unzip the contents to **C:\handsonlab**.
 

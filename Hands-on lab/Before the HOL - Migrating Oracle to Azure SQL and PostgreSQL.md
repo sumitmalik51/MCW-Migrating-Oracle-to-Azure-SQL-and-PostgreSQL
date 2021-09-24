@@ -18,7 +18,7 @@ Microsoft may have patents, patent applications, trademarks, copyrights, or othe
 
 The names of manufacturers, products, or URLs are provided for informational purposes only and Microsoft makes no representations and warranties, either expressed, implied, or statutory, regarding these manufacturers or the use of the products with any Microsoft technologies. The inclusion of a manufacturer or product does not imply endorsement of Microsoft of the manufacturer or product. Links may be provided to third party sites. Such sites are not under the control of Microsoft and Microsoft is not responsible for the contents of any linked site or any link contained in a linked site, or any changes or updates to such sites. Microsoft is not responsible for webcasting or any other form of transmission received from any linked site. Microsoft is providing these links to you only as a convenience, and the inclusion of any link does not imply endorsement of Microsoft of the site or the products contained therein.
 
-© 2019 Microsoft Corporation. All rights reserved.
+© 2021 Microsoft Corporation. All rights reserved.
 
 Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/intellectualproperty/Trademarks/Usage/General.aspx> are trademarks of the Microsoft group of companies. All other trademarks are property of their respective owners.
 
@@ -55,7 +55,7 @@ In this lab, there are three major migration paths:
   - Migrating SQL Server 2008 R2 Data Warehouse to Azure SQL (*homogenous* migration)
   - Migrating Oracle to Azure Database for PostgreSQL
 
-Irrespective of which path(s) you complete, follow Tasks 1-7. After that, the Task titles indicate which migration paths they are intended for.
+Regardless of which path(s) you complete, follow Tasks 1-7. After that, the Task titles indicate which migration paths they are intended for.
 
 ## Before the hands-on lab
 
@@ -372,7 +372,7 @@ PgAdmin greatly simplifies database administration and configuration tasks by pr
 
     ![Screenshot to show editing the path variables.](./media/selecting-path.png "Selecting the PATH variables")
 
-9. The **Edit environment variable** box should be dispdlaying.
+9. The **Edit environment variable** box should be displaying.
 
     - Select **New**.
     - Enter **C:\instantclient**.

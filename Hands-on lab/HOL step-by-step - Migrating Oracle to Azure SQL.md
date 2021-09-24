@@ -380,7 +380,7 @@ In this exercise, you will migrate the Oracle database to Azure SQL DB using SSM
       - **Server name**: Follows the format `northwind-server-[SUFFIX].database.windows.net`
       - **Authentication**: SQL Server Authentication
         - **Username**: `demouser`
-        - **Password**: Use the value you provided to the ARM template
+        - **Password**: Use the value you provided to the ARM template.
 
 31. Select **Connect**.
 
@@ -402,10 +402,10 @@ This lab explores a relatively simple migration. This Task will provide addition
 
 2. To help you resolve errors during your migrations, utilize SSMA's comprehensive logs. Follow the steps below to access them.
    
-   - Select **Tools** in the upper left-hand corner of SSMA 
-   - Select **Global Settings**
-   - Select the **Logging** tab on the **Global Settings** window
-   - Observe the **Log file path**
+   - Select **Tools** in the upper left-hand corner of SSMA. 
+   - Select **Global Settings**.
+   - Select the **Logging** tab on the **Global Settings** window.
+   - Observe the **Log file path**.
 
    ![Locating the log file path in SSMA.](./media/ssma-log-file-location.png "SSMA log file path")
 
@@ -461,8 +461,8 @@ In this exercise, you will modify the `NorthwindMVC` application so it targets A
 
 2. Add a connection string called `AzureSqlConnectionString`. Ensure that it correctly references the remote Azure SQL Database credentials.
 
-   - Replace the value of `Server` with your Azure SQL Database DNS name
-   - Verify the value of `Password` is set
+   - Replace the value of `Server` with your Azure SQL Database DNS name.
+   - Verify the value of `Password` is set.
 
    ```json
    "ConnectionStrings": {
@@ -557,10 +557,10 @@ In this exercise, you will modify the `NorthwindMVC` application so it targets A
 
 13. In the **ADD MVC Controller with views, using Entity Framework** dialog box, provide the following details. Then, select **Add**. Visual Studio will build the project.
 
-    - **Model class**: Select `Customer`
-    - **Data context class**: Select `DataContext`
-    - Select all three checkboxes below **Views**
-    - **Controller name**: Keep it set to `CustomersController`
+    - **Model class**: Select `Customer`.
+    - **Data context class**: Select `DataContext`.
+    - Select all three checkboxes below **Views**.
+    - **Controller name**: Keep it set to `CustomersController`.
 
    ![Scaffolding controllers and views from model classes.](./media/customer-scaffold-views.png "Scaffolding controllers and views")
 
@@ -656,10 +656,10 @@ In this exercise, you will modify the `NorthwindMVC` application so it targets A
 17. On the Add Connection dialog, enter the following:
 
     - **Data source**: Leave Microsoft SQL Server (SqlClient).
-    - **Server name**: Enter the DNS name of the Azure SQL DB instance
+    - **Server name**: Enter the DNS name of the Azure SQL DB instance.
     - **Authentication**: Select SQL Server Authentication.
-    - **Username**: demouser
-    - **Password**: Provide the password you configured for `demouser`
+    - **Username**: demouser.
+    - **Password**: Provide the password you configured for `demouser`.
     - **Connect to a database**: Choose Select or enter a database name, and enter Northwind.
     - Select **Test Connection** to verify your settings are correct, and select **OK** to close the successful connection dialog.
 
@@ -746,7 +746,7 @@ In this task, you will install the AdventureWorks database in SQL Server 2008 R2
 
 4. Open **Microsoft SQL Server Management Studio 17** (SSMS) on the SqlServer2008 VM. It can be found under Start->All Programs->Microsoft SQL Server Tools 17.
 
-5. Connect to the **SQLSERVER2008** database, if you are not already connected. In the Connect to Server dialog, leave Authentication set to **Windows Authentication**, and select **Connect**.
+5. Connect to the **SQLSERVER2008** database if you are not already connected. In the Connect to Server dialog, leave Authentication set to **Windows Authentication**, and select **Connect**.
 
    ![Connect to Server dialog, with SQLSERVER2008 specified as the Server name and Authentication set to Windows Authentication.](media/sql-server-connection-sqlserver2008.png "Connect to Server")
 

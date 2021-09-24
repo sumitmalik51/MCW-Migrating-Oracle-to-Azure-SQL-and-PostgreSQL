@@ -13,3 +13,5 @@
 
 [HOL step-by-step - Migrating Oracle to PostgreSQL.html](https://cloudworkshop.blob.core.windows.net/data-platform-migration-upgrade/Hands-on%20lab/HOL%20step-by-step%20-%20Migrating%20Oracle%20to%20PostgreSQL.html)
 
+[Manual-Resource-Setup.html](https://cloudworkshop.blob.core.windows.net/data-platform-migration-upgrade/Hands-on%20lab/Manual-Resource-Setup.html)
+

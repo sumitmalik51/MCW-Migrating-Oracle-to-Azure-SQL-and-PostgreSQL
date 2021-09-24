@@ -18,7 +18,7 @@ Microsoft may have patents, patent applications, trademarks, copyrights, or othe
 
 The names of manufacturers, products, or URLs are provided for informational purposes only and Microsoft makes no representations and warranties, either expressed, implied, or statutory, regarding these manufacturers or the use of the products with any Microsoft technologies. The inclusion of a manufacturer or product does not imply endorsement of Microsoft of the manufacturer or product. Links may be provided to third-party sites. Such sites are not under the control of Microsoft and Microsoft is not responsible for the contents of any linked site or any link contained in a linked site, or any changes or updates to such sites. Microsoft is not responsible for webcasting or any other form of transmission received from any linked site. Microsoft is providing these links to you only as a convenience, and the inclusion of any link does not imply endorsement of Microsoft of the site or the products contained therein.
 
-© 2020 Microsoft Corporation. All rights reserved.
+© 2021 Microsoft Corporation. All rights reserved.
 
 Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/intellectualproperty/Trademarks/Usage/General.aspx> are trademarks of the Microsoft group of companies. All other trademarks are property of their respective owners.
 
@@ -185,7 +185,7 @@ In this task, you will add the necessary configuration to the `NorthwindMVC` sol
 
 ## Exercise 2: Assess the Oracle 18c Database before Migrating to PostgreSQL
 
-Duration: 15 mins
+Duration: 15 minutes
 
 In this exercise, you will prepare the existing Oracle database for its migration to PostgreSQL. Preparation involves two main steps. The first step is to update the database statistics. Statistics about the database become outdated as data volumes and activity change over time. Second, you will need to identify invalid objects in the Oracle database. The migration utility will not migrate invalid objects.
 
@@ -597,7 +597,7 @@ Our application utilizes a single stored procedure, so we must be able to migrat
     psql -U NW@[Server Name] -h [Server Name].postgres.database.azure.com -d NW < NW-proc.sql
     ```
 
-7. Execute the following statements. Note that pgAdmin requires that each statement is executed independently.
+7. Execute the following statements. Note that pgAdmin requires that each statement be executed independently.
 
     ```sql
     BEGIN;
@@ -618,9 +618,9 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
 
 2. Add a connection string called `PostgreSqlConnectionString`. Ensure that it correctly references the remote Azure Database for PostgreSQL credentials.
 
-   - Replace the value of `Server` with your Azure Database for PostgreSQL DNS name
-   - Substitute the `Server Name`
-   - Verify the value of `Password` is set
+   - Replace the value of `Server` with your Azure Database for PostgreSQL DNS name.
+   - Substitute the `Server Name`.
+   - Verify the value of `Password` is set.
 
    ```json
    "ConnectionStrings": {
@@ -726,10 +726,10 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
 
 14. In the **ADD MVC Controller with views, using Entity Framework** dialog box, provide the following details. Then, select **Add**. Visual Studio will build the project.
 
-    - **Model class**: Select `Customer`
-    - **Data context class**: Select `DataContext`
-    - Select all three checkboxes below **Views**
-    - **Controller name**: Keep it set to `CustomersController`
+    - **Model class**: Select `Customer`.
+    - **Data context class**: Select `DataContext`.
+    - Select all three checkboxes below **Views**.
+    - **Controller name**: Keep this set to `CustomersController`.
 
    ![Scaffolding controllers and views from model classes.](./media/customer-scaffold-views.png "Scaffolding controllers and views")
 
@@ -831,9 +831,9 @@ As part of the PoC, the finished app will be hosted on Azure App Service. In thi
 
 2. Below **Connection strings**, select **+ New connection string**. In the **Add/Edit connection string** window, provide the following:
 
-    - **Name**: Use `PostgreSqlConnectionString`
-    - **Value**: Use the connection string from the `appsettings.json` file
-    - **Type**: Select `Custom` (with ASP.NET Core, it is not possible to use the `PostgreSQL` connection string type)
+    - **Name**: Use `PostgreSqlConnectionString`.
+    - **Value**: Use the connection string from the `appsettings.json` file.
+    - **Type**: Select `Custom` (with ASP.NET Core, it is not possible to use the `PostgreSQL` connection string type).
 
     ![Adding a PostgreSQL connection string to the App Service configuration page.](./media/add-new-connection-string.png "PostgreSQL connection string in App Service")
 
@@ -869,7 +869,7 @@ As part of the PoC, the finished app will be hosted on Azure App Service. In thi
 
 ## After the hands-on lab
 
-Duration: 10 mins
+Duration: 10 minutes
 
 In this exercise, you will delete any Azure resources that were created in support of the lab. You should follow all steps provided after attending the Hands-on lab to ensure your account does not continue to be charged for lab resources.
 

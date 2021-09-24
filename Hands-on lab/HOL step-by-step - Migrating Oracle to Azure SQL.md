@@ -191,7 +191,7 @@ In this task, you will add the necessary configuration to the `NorthwindMVC` sol
 
 ## Exercise 2: Assess the Oracle 18c Database before Migrating to Azure SQL Database
 
-Duration: 15 mins
+Duration: 15 minutes
 
 In this exercise, you will prepare the existing Oracle database for its migration to Azure SQL DB. Preparation involves two main steps. The first step is to update the database statistics. Statistics about the database become outdated as data volumes and activity change over time. Second, you will need to identify invalid objects in the Oracle database to minimize disturbances to the migration.
 
@@ -1278,7 +1278,7 @@ In this task, you will create a new table based on the existing `FactResellerSal
 
 ## After the hands-on lab
 
-Duration: 10 mins
+Duration: 10 minutes
 
 In this exercise, you will delete any Azure resources that were created in support of the lab. You should follow all steps provided after attending the Hands-on lab to ensure your account does not continue to be charged for lab resources.
 

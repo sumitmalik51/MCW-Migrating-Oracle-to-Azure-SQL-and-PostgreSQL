@@ -1,150 +1,120 @@
-﻿@model NorthwindMVC.Data.EMPLOYEE
+﻿@model NorthwindMVC.Data.Employee
 
 @{
-    ViewBag.Title = "Employee Details";
+    ViewData["Title"] = "Employee Details";
 }
 
+<h1>Details</h1>
+
 <div>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.EMPLOYEE1.LASTNAME)
+    <h4>Employee</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Lastname)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EMPLOYEE1.LASTNAME)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Lastname)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LASTNAME)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Firstname)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LASTNAME)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Firstname)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FIRSTNAME)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FIRSTNAME)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Title)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TITLE)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Titleofcourtesy)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TITLE)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Titleofcourtesy)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TITLEOFCOURTESY)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Birthdate)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TITLEOFCOURTESY)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Birthdate)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.BIRTHDATE)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Hiredate)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.BIRTHDATE)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Hiredate)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.HIREDATE)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Address)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.HIREDATE)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Address)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ADDRESS)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.City)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ADDRESS)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.City)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CITY)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Region)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CITY)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Region)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.REGION)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Postalcode)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.REGION)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Postalcode)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.POSTALCODE)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Country)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.POSTALCODE)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Country)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.COUNTRY)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Homephone)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.COUNTRY)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Homephone)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.HOMEPHONE)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Extension)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.HOMEPHONE)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Extension)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EXTENSION)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Photo)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EXTENSION)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Photo)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PHOTO)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Notes)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PHOTO)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Notes)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.NOTES)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Photopath)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.NOTES)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Photopath)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PHOTOPATH)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ReportstoNavigation)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PHOTOPATH)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ReportstoNavigation.Firstname)
         </dd>
-
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.EMPLOYEEID }, new { @class = "btn btn-default" })
-    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
-</p>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Employeeid">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

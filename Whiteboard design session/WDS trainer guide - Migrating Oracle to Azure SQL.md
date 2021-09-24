@@ -9,7 +9,7 @@ Whiteboard design session trainer guide
 </div>
 
 <div class="MCWHeader3">
-November 2020
+September 2021
 </div>
 
 Information in this document, including URL and other Internet Web site references, is subject to change without notice. Unless otherwise noted, the example companies, organizations, products, domain names, e-mail addresses, logos, people, places, and events depicted herein are fictitious, and no association with any real company, organization, product, domain name, e-mail address, logo, person, place or event is intended or should be inferred. Complying with all applicable copyright laws is the responsibility of the user. Without limiting the rights under copyright, no part of this document may be reproduced, stored in or introduced into a retrieval system, or transmitted in any form or by any means (electronic, mechanical, photocopying, recording, or otherwise), or for any purpose, without the express written permission of Microsoft Corporation.
@@ -18,7 +18,7 @@ Microsoft may have patents, patent applications, trademarks, copyrights, or othe
 
 The names of manufacturers, products, or URLs are provided for informational purposes only and Microsoft makes no representations and warranties, either expressed, implied, or statutory, regarding these manufacturers or the use of the products with any Microsoft technologies. The inclusion of a manufacturer or product does not imply endorsement of Microsoft of the manufacturer or product. Links may be provided to third party sites. Such sites are not under the control of Microsoft and Microsoft is not responsible for the contents of any linked site or any link contained in a linked site, or any changes or updates to such sites. Microsoft is not responsible for webcasting or any other form of transmission received from any linked site. Microsoft is providing these links to you only as a convenience, and the inclusion of any link does not imply endorsement of Microsoft of the site or the products contained therein.
 
-© 2020 Microsoft Corporation. All rights reserved.
+© 2021 Microsoft Corporation. All rights reserved.
 
 Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/intellectualproperty/Trademarks/Usage/General.aspx> are trademarks of the Microsoft group of companies. All other trademarks are property of their respective owners.
 
@@ -169,7 +169,7 @@ When participants are doing activities, you can **look ahead to refresh your mem
 
 ## Abstract
 
-In this whiteboard design session, you work with a group to design a proof of concept (POC) for conducting a site analysis for a customer to compare cost, performance, and level of effort required to migrate from Oracle to SQL Server. You evaluate the dependent applications and reports that need to be updated and come up with a migration plan. Also, you review ways to help the customer take advantage of new SQL Server features to improve performance and resiliency, as well as explore ways to migrate from an old version of SQL Server to the latest version and consider the impact of migrating from on-premises to the cloud.
+In this whiteboard design session, you work with a group to design a proof of concept (POC) for conducting a site analysis for a customer to compare cost, performance, and level of effort required to migrate from Oracle to Azure SQL Database. You evaluate the dependent applications and reports that need to be updated and come up with a migration plan. Also, you review ways to help the customer take advantage of new Azure SQL Database features to improve performance and resiliency, as well as explore ways to migrate from an old version of SQL Server to the latest version and consider the impact of migrating from on-premises to the cloud.
 
 At the end of this whiteboard design session, you will be better able to design a database migration plan and implementation.
 
@@ -191,11 +191,11 @@ Directions: With all participants in the session, the facilitator/SME presents a
 
 ### Customer situation
 
-Wide World Importers (WWI) has experienced massive growth over the last few years. That growth has resulted in a tremendous influx of new data they need to maintain their business. This data has become increasingly expensive to store in an Oracle relational database management system (RDBMS). Oracle upgrades are tedious and costly projects. Business stakeholders have tired of the process and have requested a proof of concept (POC) for replacing Oracle with Microsoft SQL Server.
+Wide World Importers (WWI) has experienced massive growth over the last few years. That growth has resulted in a tremendous influx of new data they need to maintain their business. This data has become increasingly expensive to store in an Oracle relational database management system (RDBMS). Oracle upgrades are tedious and costly projects. Business stakeholders have tired of the process and have requested a proof of concept (POC) for replacing Oracle with Azure SQL Database.
 
 WWI is investigating ways to improve the performance of their transactional databases without incurring expensive new license fees. They're also concerned with keeping their transactional system available and online for their store. They've noticed that Oracle has been slowing down as their growth has doubled. They realize that they would need to invest in new hardware to achieve this on-premises and, as a result, are looking at this as more of a migration to a new system.
 
-WWI has several external and internal applications that need to migrate with the database. The database is used by an online store application, written in ASP.NET MVC. They also have internal applications that manage their product catalog, written in Oracle Forms. Also, they have many reports to aid in forecasting, sales reporting, and inventory maintenance. Those reports are a mixture of SQL Server Reporting Services (SSRS), Excel, and Oracle Forms and hit the Oracle OLTP database directly.
+WWI has several external and internal applications that need to migrate with the database. The database is used by an online store application, written in ASP.NET Core MVC. They also have internal applications that manage their product catalog, written in Oracle Forms. Also, they have many reports to aid in forecasting, sales reporting, and inventory maintenance. Those reports are a mixture of SQL Server Reporting Services (SSRS), Excel, and Oracle Forms and hit the Oracle OLTP database directly.
 
 WWI also uses this database to interact with vendors. Several of their vendors require real-time access to their sales data through an API so they can draw warranty information on the date of sale. They do this through a Representational State Transfer (REST) service that is maintained by WWI.
 
@@ -207,19 +207,19 @@ WWI also has a new requirement. They have an existing web service that interacts
 
 Also, they had a significant outage last year because one of their audit tables ran out of space. They had to wait many hours to resolve the issue while their IT department scrambled to make space on an already overloaded Storage Area Network (SAN). They would like a full briefing on how to monitor that situation, so it doesn't happen again, and possible remedies if it does happen again. They would also like high availability to be built into the project plan and are wondering what additional fees that would incur.
 
-Kathleen Sloan, the CIO of WWI, is looking to decrease their software license fees, take advantage of a modern data warehouse, and provide a strong vision of availability for the future that can handle their momentous growth. She is sold on SQL Server, but her Oracle DBAs keep telling her that migration to SQL Server is simply impossible. They cite that they have never done it before. They say it's hard to find tools that make it possible. The Oracle DBAs say that SQL Server is not as high performing as Oracle, does not have great high availability like Oracle Real Application Clusters (RAC), and doesn't have a replacement for Oracle Forms. She's tired of hearing "no" whenever the topic is brought up and would love to prove them wrong. She is also exploring the cloud and is wondering if she can make a direct migration to a cloud database or if she must stay on-premises because of her requirements. She has seen SQL Server make tremendous gains in features over the last several versions, particularly in business intelligence. Her data warehouse has slowed down as the data has increased. On the one hand, this is because the data warehouse SQL Server has gotten very popular, but it's still considered a negative in her mind. She's concerned about the upgrade path because of all the dependencies on the data warehouse in her organization.
+Kathleen Sloan, the CIO of WWI, is looking to decrease their software license fees, take advantage of a modern data warehouse, and provide a strong vision of availability for the future that can handle their momentous growth. She is sold on SQL Server, and cloud Azure SQL Database, but her Oracle DBAs keep telling her that migration to SQL Server is simply impossible. They cite that they have never done it before. They say it's hard to find tools that make it possible. The Oracle DBAs say that SQL Server is not as high performing as Oracle, does not have great high availability like Oracle Real Application Clusters (RAC), and doesn't have a replacement for Oracle Forms. She's tired of hearing "no" whenever the topic is brought up and would love to prove them wrong. She is also exploring the cloud and is wondering if she can make a direct migration to a cloud database or if she must stay on-premises because of her requirements. She has seen SQL Server make tremendous gains in features over the last several versions, particularly in business intelligence. Her data warehouse has slowed down as the data has increased. On the one hand, this is because the data warehouse SQL Server has gotten very popular, but it's still considered a negative in her mind. She's concerned about the upgrade path because of all the dependencies on the data warehouse in her organization.
 
 ### Customer needs
 
-1. Wants to migrate an existing Oracle database to SQL Server 2017 on-premises, SQL Server 2017 on an Azure VM, or Azure SQL Database.
+1. Wants to migrate an existing Oracle database to SQL Server 2019 on-premises, SQL Server 2019 in an Azure VM, or Azure SQL Database.
 
-2. Needs to know what's involved in migrating the external sales application to SQL Server.
+2. Needs to know what's involved in migrating the external sales application to Azure SQL Database.
 
 3. Wants a better understanding of what to do with the internal Oracle Forms application.
 
 4. Has multiple touchpoints with external vendors and wants to know what needs to change with those web services.
 
-5. Wants to upgrade their existing data warehouse from SQL Server 2008 R2 Standard Edition to Azure SQL Database or SQL Server 2017 Enterprise Edition to take advantage of some new features:
+5. Wants to upgrade their existing data warehouse from SQL Server 2008 R2 Standard Edition to Azure SQL Database or SQL Server 2019 Enterprise Edition to take advantage of some new features:
 
    - They want Transparent Data Encryption (TDE), so they pass audits when asked if they encrypt data at rest.
    - They want compression for some of their large fact tables.
@@ -237,15 +237,15 @@ Kathleen Sloan, the CIO of WWI, is looking to decrease their software license fe
 
 ### Customer objections
 
-1. Do we need to upgrade to on-premises SQL Server first or go can we go straight to Azure?
+1. Do we need to upgrade to on-premises SQL Server first or can we go straight to Azure?
 
 2. Can we have two proof of concepts that demonstrate both migrations?
 
-3. Do we need to rewrite all our applications for SQL Server?
+3. Do we need to rewrite all our applications for SQL Server or Azure SQL Database?
 
-4. Do we need to rewrite all our reports for SQL Server?
+4. Do we need to rewrite all our reports for SQL Server or Azure SQL Database?
 
-5. Will our security migrate over from Oracle to SQL Server? How do we handle security in the new database?
+5. Will our security migrate over from Oracle? How do we handle security in the new database?
 
 6. Do we need to invest in a JSON storage system for the JSON data we're storing from our vendor's web service?
 
@@ -253,11 +253,11 @@ Kathleen Sloan, the CIO of WWI, is looking to decrease their software license fe
 
 8. If we take advantage of new features, will our license costs keep ratcheting up and up? Will we have a dependable way of budgeting for this project?
 
-9. Are there any Oracle features required by WWI for which SQL Server has no equivalent?
+9. Are there any Oracle features required by WWI for which SQL Server or Azure offerings have no equivalent?
 
 10. Do we need to tell all our vendors that we're changing databases, so their integrations work?
 
-11. What might prevent us from upgrading our data warehouse to Azure SQL Database or SQL Server 2017 Enterprise?
+11. What might prevent us from upgrading our data warehouse to Azure SQL Database or SQL Server 2019 Enterprise?
 
 12. When we upgrade the data warehouse, how will we keep all our connected dependencies updated?
 
@@ -295,17 +295,17 @@ _High-level architecture_
 
 2. What should be included in the POC?
 
-3. How will SQL Server save them on licensing costs?
+3. How will SQL Server and Azure SQL Database save them on licensing costs?
 
 _Schema and data movement_
 
-1. How would you recommend that WWI move their data and schema into SQL Server? What services would you suggest and what are the specific steps they would need to take to prepare the data, to transfer the data, and where would the loaded data land?
+1. How would you recommend that WWI move their data and schema into Azure SQL Database? What services would you suggest and what are the specific steps they would need to take to prepare the data, to transfer the data, and where would the loaded data land?
 
 2. Update your diagram with the data loading process with the steps you identified.
 
 _Application changes_
 
-1. What product would you recommend to WWI to migrate their storefront MVC application to the new SQL Server database?
+1. What product would you recommend to WWI to migrate their storefront MVC application to the new database?
 
 2. How would you migrate the Oracle Forms applications? How would you define success? Are there any technologies the customer needs to know?
 
@@ -317,9 +317,9 @@ _Data warehouse and reporting_
 
 2. What must change about the way WWI loads its data warehouse?
 
-3. What components do they need to use to upgrade the SQL Server 2008 R2 data warehouse to Azure SQL Database or SQL Server 2017 Enterprise?
+3. What components do they need to use to upgrade the SQL Server 2008 R2 data warehouse to Azure SQL Database or SQL Server 2019 Enterprise?
 
-4. Identify the significant milestones of delivering an upgrade to Azure SQL Database or SQL Server 2017 Enterprise.
+4. Identify the significant milestones of delivering an upgrade to Azure SQL Database or SQL Server 2019 Enterprise.
 
 5. Are there any tools or processes that would make this easier? How does Azure Database Migration Service (DMS) compare to other Microsoft database migration tools, such as Database Migration Assistant (DMA) or SQL Server Migration Assistant (SSMA)?
 
@@ -367,7 +367,7 @@ Directions:
 
 1. Pair with another table.
 
-2. One table is the Microsoft team ,and the other table is the customer.
+2. One table is the Microsoft team and the other table is the customer.
 
 3. The Microsoft team presents its proposed solution to the customer.
 
@@ -402,6 +402,7 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 | Azure Database Migration Service Overview                | <https://docs.microsoft.com/azure/dms/dms-overview>                                                                           |
 | SQL Server database migration to Azure SQL Database      | <https://docs.microsoft.com/en-us/azure/sql-database/sql-database-cloud-migrate>                                              |
 | Differentiating Microsoft's database migration tools     | <https://blogs.msdn.microsoft.com/datamigration/2017/10/13/differentiating-microsofts-database-migration-tools-and-services/> |
+| Migrate your Java applications from Oracle to SQL Server with the help of the Data Access Migration Toolkit | <https://techcommunity.microsoft.com/t5/microsoft-data-migration/migrate-your-java-applications-from-oracle-to-sql-server-with/ba-p/368727>
 
 # Migrating Oracle to Azure SQL whiteboard design session trainer guide
 
@@ -457,21 +458,21 @@ _High-level architecture_
 
 1. Without getting into the details (they are addressed in the following sections), diagram your initial vision for handling the top-level requirements for data loading, data preparation, storage, high availability, application migration, and reporting. You will refine this diagram as you proceed.
 
-   After speaking with its support team at Microsoft, WWI decided that SQL Server 2017 on-premises would be the right choice for the Oracle OLTP replacement. They decided to load data and schema using the SQL Server Migration Assistant, and migrate their Oracle Forms application to Microsoft ASP.NET Core. They are very concerned about how to do this and what method to use. They are leaning towards a total rewrite to ASP.NET Core. They would like the POC to include this. The POC should demonstrate that AlwaysOn Availability Groups provide them the reliability and performance they expected Oracle to deliver for them. They would also like to migrate their data warehouse to Azure SQL Database, allowing them to continue to grow the amount of data stored there more easily in the future.
+   After speaking with its support team at Microsoft, WWI decided that Azure SQL Database would be the right choice for the Oracle OLTP replacement. They decided to load data and schema using the SQL Server Migration Assistant, and migrate their Oracle Forms application to Microsoft ASP.NET Core. They are very concerned about how to do this and what method to use. They are leaning towards a total rewrite to ASP.NET Core. They would like the POC to include this. The POC should demonstrate that Azure SQL Database provides them the reliability and performance they expected Oracle to deliver for them. They would also like to migrate their data warehouse to Azure SQL Database, allowing them to continue to grow the amount of data stored there more easily in the future.
 
    The solution they've decided on, at a high level, appears as follows:
 
-   ![This solution diagram is divided into Microsoft Azure and on-premises. Microsoft Azure includes SQL Server 2017 in a VM as an AlwaysOn Secondary, and Azure SQL Stretch Database to extend the audit table to Azure. On-premises includes the following elements: API App for vendor connections; Web App for Internet Sales Transactions; ASP.NET Core App for inventory management; SQL Server 2017 OLTP for AlwaysOn and JSON store; SSRS 2017 for Reporting of OLTP, Data Warehouse, and Cubes; SSIS 2017 for a Data Warehouse Load; Excel for reporting; SQL Server 2017 Enterprise for a Data Warehouse; and SSAS 2017 for a Data Warehouse.](./media/preferred-solution-architecture.png "Preferred Solution diagram")
+   ![This solution diagram is divided into Microsoft Azure and on-premises. Microsoft Azure includes two Azure SQL Database instances and the Azure Data Factory SSIS Integration Runtime to execute SSIS packages hosted in Azure Files. It also includes Azure Analysis Services, Power BI, and SSRS on an Azure VM as a lift-and-shift alternative to Power BI for their reporting needs. On-premises includes the following elements: API App for vendor connections; Web App for Internet Sales Transactions; ASP.NET Core App for inventory management; and Excel for reporting.](./media/new-suggested-architecture.png "Preferred Solution diagram")
 
    **Diagram of possible architecture:**
 
-   ![The possible architecture includes: Web App for Internet Sales Transactions; two SQL Servers (2009 R2 Standard and 2017 Enterprise) that are data warehouses and that are connected; Excel for reporting; An Oracle DB OLTP RAC server that is connected to a SQL Server 2017 OLTP always on and JSON store; and an Oracle Forms App and ASP.NET Core App for inventory management, and that are connected. A second box lists Upgrade, Change Connection Strings, Rewrite DataSets for OLTP, and Redeploy. Three icons display for SSIS 2008 data warehouse load, SSRS 2008 for Reporting of OLTP, Data warehouse, and cubes, and SSAS 2008 data warehouse.](media/possible-architecture.png "Possible architecture")
+   ![The possible architecture includes: Web App for Internet Sales Transactions; two SQL Servers (2008 R2 Standard and Azure SQL Database) that are data warehouses and that are connected; Excel for reporting; An Oracle DB OLTP RAC server that is connected to an Azure SQL Database OLTP database and JSON store; and an Oracle Forms App and ASP.NET Core App for inventory management, and that are connected. A second box lists Upgrade, Change Connection Strings, Rewrite DataSets for OLTP, and Redeploy. Three icons display for SSIS 2008 data warehouse load, SSRS 2008 for Reporting of OLTP, Data warehouse, and cubes, and SSAS 2008 data warehouse.](media/updated-possible-architecture.png "Possible architecture")
 
-   **Diagram of how moving pieces will change during the Oracle to SQL Server migration, and SQL Server 2017 Upgrade for the data warehouse:**
+   **Diagram of how moving pieces will change during the data warehouse SQL Server 2008 R2 to Azure SQL Database Migration**
 
-   ![Upgrade the data warehouse, with a SQL Server 2008 R2 Standard and an arrow labeled "Database Migration Assistant (DMA)," that points to an Azure SQL Database.](media/upgrade-the-data-warehouse.png "Data warehouse upgrade")
+   ![Upgrade the data warehouse, with a SQL Server 2008 R2 Standard and an arrow labeled "Azure Database Migration Service," that points to an Azure SQL Database.](media/upgrade-the-data-warehouse.png "Data warehouse upgrade")
 
-   ![Migrate from Oracle, with an Oracle icon and an arrow labeled "SQL Server Migration Assistant (SSMA)" that points to a SQL Server.](media/migrate-from-oracle.png "Migrate from Oracle")
+   ![Migrate from Oracle, with an Oracle icon and an arrow labeled "SQL Server Migration Assistant (SSMA)" that points to an Azure SQL Database.](media/migrate-from-oracle-updated.png "Migrate from Oracle")
 
    **Products that can be used to migrate specific products:**
 
@@ -481,42 +482,46 @@ _High-level architecture_
 
    ![The Possible disaster recovery solution diagram has an On-premises Network, which includes a Domain Controller, and a WSFC Cluster, made up of a Primary Replica that has Synchronous Commit with a Secondary Replica, and a File Share Witness. The Primary Replica has asynchronous Commit with a cloud-based secondary replica. The secondary replica uses a VPN tunnel to communicate with the On-premise network](media/dr-solution.png "Possible disaster recovery solution diagram")
 
-   **Diagram of an example Oracle Forms migration to VB.NET windows application (not WPF):**
-
-   This diagram shows some of the components that might be in an Oracle Forms project, including menus, control blocks, and a PL/SQL module and the corresponding projects that can be chosen for those components. It's not necessary to understand all components of Oracle Forms, only to know that it's possible to rewrite the application while maintaining a similar structure if desired.
-
-   ![This is a diagram of an Example Oracle Forms migration to VB.NET windows application. On the left, the Oracle Forms Application includes an Oracle server, an Oracle module (Data block and control block), and Oracle Forms (menu module, PL/SQL library module, and object library module). On the right, a VB.NET Windows Application includes a VB.NET Windows Application project, which encompasses a menu, and WinForm (Databound Controls, and non-databound controls). In addition, below the project are two separate VB.NET Class Library Projects. The Oracle Forms PL/SQL Library module points to one, and the Object library module points to the other. The Oracle Menu Module points to VB.NET Menu, the Oracle Control block points to Non-databound controls, and the Oracle Data block passes through a DataSet/ DataReader / Command to the Databound controls. Between the two columns a SQL Server with ADO.NET connects through DataSet / DataReader / Command to VB.NET Class Library Project.](media/oracle-forms-migration.png "Example Oracle Forms migration to VB.NET windows application")
-
 2. What should be included in the PoC?
 
    For the POC we should include the following:
 
-   - An MVC app that changes connectionString from Oracle to SQL Server in Entity Framework.
+   - An MVC app that changes connectionString from Oracle to Azure SQL Database in Entity Framework Core.
 
    - A basic form that mirrors what's in the Oracle Forms application.
 
-   - The current Oracle database migrated to SQL Server 2017 Enterprise in a test environment.
+   - The current Oracle database migrated to Azure SQL Database in a test environment.
 
    - An upgraded data warehouse using Azure Database Migration Service, including:
 
-     - Upgraded SSIS, SSAS, and SSRS projects.
+     - Migrating SSIS packages to Azure
+       - Host SSIS packages in Azure Files, Azure SQL Managed Instance, or Azure SQL Database
+       - With Azure SQL Managed Instance, SSIS packages in the SSIS catalog database can be executed through native support for SQL Server Agent jobs
+       - Alternatively, use the Azure Data Factory SSIS Integration Runtime to execute SSIS packages stored in the SSIS catalog database (in Azure SQL Database) or Azure Files
+     - Migrating SSAS to Azure Analysis Services or SQL Server on an Azure VM
+     - Migrating SSRS to Power BI or SSRS on an Azure VM
 
    - Testing repointing some of the Excel worksheets to a new test data warehouse.
 
-   - Implement new features in the new OLTP SQL Server database including:
+   - Implement new features in the new OLTP Azure SQL Database including:
 
      - JSON Data Store
-     - SQL Server Stretch Database
-     - AlwaysOn Availability Groups
+     - Failover groups
 
    - Implement new features in the new Azure SQL Database data warehouse features:
      - Table Compression
      - Transparent Data Encryption
      - Clustered ColumnStore Indexing
 
-3. How will SQL Server save them on licensing costs?
+3. How will Azure SQL Database save them on licensing costs?
 
-   Microsoft offers license assistance programs for current Oracle users, which can include free licenses to current Oracle customers. They can also subsidize the cost of the migration process.
+   Azure SQL Database supports two purchase models: vCore and DTU. The vCore model provides precise control over compute, memory, and storage resources, making it ideal for on-premises migrations. The DTU model provides three simplified tiers: Basic, Standard, and Premium. 
+
+   With the vCore model, organizations are eligible for the *Azure Hybrid Benefit*, which allows them to exchange their existing SQL Server licenses to save 30% or more on their Azure SQL Database workloads. A more precise estimate can be generated using [Microsoft's savings calculator](https://azure.microsoft.com/pricing/hybrid-benefit/#calculator).
+
+   Lastly, to reduce compute costs, WWI can opt for reserved capacity. Capacity is reserved for 1-3 years, and the pricing benefit is applied transparently by the Azure platform.  
+   
+   As for an Oracle to on-premises SQL Server migration, Microsoft offers license assistance programs for current Oracle users, which can include free licenses to current Oracle customers. They can also subsidize the cost of the migration process.
 
    Also, SQL Server tends to be about 25% of the licensing costs of Oracle. Oracle charges for individual features, such as Oracle RAC. Microsoft SQL Server only has two real pricing tiers, Standard Edition and Enterprise Edition. With SQL Server 2017 Consistent Programming Surface Area, SQL Server licensing has gotten even more straightforward, while Oracle's licensing is still getting more complicated. Now there are many Enterprise features of SQL Server that have pushed down to Standard Edition, including ColumnStore indexing. This should improve performance without significantly increasing costs. SQL Server also offers free licenses for pre-deployment environments, including development and test environments. Oracle charges for these licenses.
 
@@ -528,9 +533,9 @@ _High-level architecture_
 
 _Schema and data movement_
 
-1. How would you recommend that WWI move their data and schema into SQL Server? What services would you suggest and what are the specific steps they would need to take to prepare the data, to transfer the data, and where would the loaded data land?
+1. How would you recommend that WWI move their data and schema into Azure SQL Database? What services would you suggest and what are the specific steps they would need to take to prepare the data, to transfer the data, and where would the loaded data land?
 
-   SQL Server Migration Assistant (SSMA) was explicitly created and supported by Microsoft to help Oracle customers move their schema and data over to Microsoft SQL Server. First, you create a new project. Then you connect to the Oracle source database. Then connect to the SQL Server destination database. Map Oracle schemas to SQL Server schemas. Then you can load the Oracle schemas into the SQL Server schemas. Before synchronizing the objects into the SQL Server database, the SSMA for Oracle assemblies must be marked as trusted assemblies so that the synchronization can complete successfully. Once that is completed, synchronize all the objects. Lastly, you can move all the data into SQL Server.
+   SQL Server Migration Assistant (SSMA) was explicitly created and supported by Microsoft to help Oracle customers move their schema and data over to Microsoft SQL Server or Azure SQL Database. First, you create a new project. Then you connect to the Oracle source database. Then connect to the SQL Server or Azure SQL destination database. Map the Oracle schemas to the target database. Before synchronizing the objects into a SQL Server database, the SSMA for Oracle assemblies must be marked as trusted assemblies so that the synchronization can complete successfully. However, this step is unnecessary for Azure SQL Database migrations. Once that is completed, synchronize all the objects. Lastly, you can move all the data into SQL Server or Azure SQL Database.
 
    You can also use SSMA to create scripts that you can modify by hand if you're more comfortable looking at the objects one at a time.
 
@@ -542,11 +547,13 @@ _Schema and data movement_
 
 _Application changes_
 
-1. What product would you recommend to WWI to migrate their storefront MVC application to the new SQL Server database?
+1. What product would you recommend to WWI to migrate their storefront MVC application to the new Azure SQL Database?
 
-   A specific product might not be needed, but you might evaluate whether they are using an object relational mapping (ORM) tool or not. If they are using Entity Framework, Dapper, or nHibernate, then the application should migrate much more easily.
+   A specific product might not be needed, but you might evaluate whether they are using an object relational mapping (ORM) tool or not. If they are using Entity Framework (Core), Dapper, or nHibernate, then the application should migrate much more easily.
 
    If they didn't use an ORM, then much of the data-layer code will need to be rewritten. If this code is consolidated, and only plain old CLR objects (POCOs) are being handed back using the repository pattern, then we might be able to replace the entire tier with Entity Framework or another ORM. If there has been bleeding between the layers, then this process might be significantly more difficult. The entire storefront application would need to be refactored and tested eventually. For the POC, they are looking to switch the connection string, test several pages related to an order, and get a good idea on the work that would be necessary to get that to work.
+
+   The [Microsoft Data Access Migration Toolkit](https://marketplace.visualstudio.com/items?itemName=ms-databasemigration.data-access-migration-toolkit) is a Visual Studio Code extension to help developers modify Java and .NET data access code for Oracle to ensure compatibility with SQL Server.
 
 2. How would you migrate the Oracle Forms applications? How would you define success? Are there any technologies the customer needs to know?
 
@@ -554,13 +561,13 @@ _Application changes_
 
    Oracle Forms applications cannot be easily cloud-hosted. This application would eventually need to be rewritten if they'd like new experiences like a mobile experience, a tablet application, or hosted in Microsoft Azure.
 
+   Microsoft's Power Platform (specifically Power Apps) allows business users to develop apps that reference the organization's data sources and perform standard CRUD operations against those data sources. This technology supports over 100 low-code connectors. Power Apps, along with the low-code automation tool Power Automate, can help WWI modernize its existing solution.
+
 3. What will you do about the vendor touchpoints? How will you recommend they store the JSON data?
 
    The REST services need to be approached the same way the MVC storefront application is approached. If they've used an ORM, then we can repoint the connectionStrings and redeploy.
 
-   JSON data can be stored in a `varchar` field in SQL Server and managed through the JSON functions of SQL Server 2017. They can be queried and indexed through the JSON features, also.
-
-   The REST services need to be approached the same way the MVC storefront application is approached. If they've used an ORM, then it is likely we can repoint the connectionStrings and redeploy.
+   JSON data can be stored in an `nvarchar` field in Azure SQL Database or SQL Server and managed through JSON functions. They can be queried and indexed through the JSON features, also.
 
 _Data warehouse and reporting_
 
@@ -572,15 +579,17 @@ _Data warehouse and reporting_
 
 2. What must change about the way WWI loads its data warehouse?
 
-   We need to identify all the extract, transform, and load (ETL) packages that load data from Oracle to SQL Server. We will upgrade all the connection strings to load the data warehouse from the new SQL Server OLTP database to the Azure SQL Database data warehouse. We will have to change all the data source connections to Azure SQL Database. If collation is different, we will need to address that with data conversion tasks in the data flow.
+   We need to identify all SSIS ETL packages that load data from Oracle to SQL Server 2008 R2. Those SSIS packages will then be executed using the Azure-SSIS integration runtime in Azure Data Factory. Tools to support this deployment include SQL Server Data Tools (SSDT) and SQL Server Management Studio (SSMS). 
+   
+   If the stakeholder does not want to migrate to a PaaS platform, it is possible to run SSIS packages on an Azure SQL VM. However, even this approach offers cost benefits for existing licenses, flexible hardware configuration (scalability), and automated backups and patching. Learn more about this technique [here.](https://techcommunity.microsoft.com/t5/sql-server-integration-services/running-ssis-on-azure-vm-iaas-do-more-with-less-money/ba-p/388328)
 
-3. What components do they need to use to upgrade the SQL Server 2008 R2 data warehouse to Azure SQL Database or SQL Server 2017 Enterprise?
+3. What components do they need to use to upgrade the SQL Server 2008 R2 data warehouse to Azure SQL Database or SQL Server 2019 Enterprise?
 
    We must account for SQL Server security, SQL Server agent jobs, and external applications that might be hitting the engine and SSAS.
 
-   SSRS, SSAS, and SSIS will need to be upgraded and redeployed. All developers who are using BI tools will need to upgrade to the latest versions of SQL Server Management Studio (SSMS) and SQL Server Data Tools (SSDT).
+   SSRS, SSAS, and SSIS must be deployed to Azure VMs or the PaaS equivalents of these products. Depending on the migration time frame and complexity of the on-premises solution, WWI can determine the appropriate option.
 
-4. Identify the significant milestones of delivering an upgrade to Azure SQL Database or SQL Server 2017 Enterprise.
+4. Identify the significant milestones of delivering an upgrade to Azure SQL Database or SQL Server 2019 Enterprise.
 
    A proper upgrade plan might look something like this:
 
@@ -605,7 +614,7 @@ _Data warehouse and reporting_
 
    Microsoft's Data Migration Assistant can be used to upgrade the SQL Server data warehouse. That tool can not only upgrade the data and schema in the database, but the SSIS database (if there is one), SQL Logins, SQL Agent Jobs, and SSIS packages.
 
-   SQL Server Migration Assistant supports complete migration from Oracle, MySQL, SAP, ASE, DB2, and Access to SQL Server 2008+ and Azure SQL Database. This allows users to convert a database schema to a Microsoft SQL Server schema, upload the schema, and then migrate data to the target SQL Server.
+   SQL Server Migration Assistant supports complete migration from Oracle, MySQL, SAP, ASE, DB2, and Access to SQL Server 2008+ and Azure SQL Database. This allows users to convert a database schema to a Microsoft SQL Server schema, upload the schema, and then migrate data to the target instance.
 
    When doing the assessment, WWI can choose which Compatibility Level they want to target- so they don't need to jump all the way forward to the very latest level right away. This can help reduce the number of blocking issues they need to address manually before starting the migration.
 
@@ -621,9 +630,11 @@ _Data warehouse and reporting_
    - Pick the subsequent validation.
    - Perform a manual switch-over of your production environment to the new cloud-based database.
 
+   Note that *online* database migrations, which have minimal downtime, also incorporate a cutover phase to validate the Change Data Capture functionality. 
+
 7. What are the post-upgrade steps we should consider in the POC? How would this address their concerns?
 
-   The Data Migration Assistant report, which is exported to a CSV file, should be reviewed for post-migration tasks identified by the Data Migration Assistant.
+   The Data Migration Assistant, used in homogenous SQL Server to Azure SQL Database migrations, generates a report which is exported to a CSV file. It should be reviewed for post-migration tasks identified by the Data Migration Assistant.
 
    After the upgrade, they need to implement Transparent Data Encryption quickly. This might complicate their populating test servers because a certificate and password are necessary to move the database to a new server.
 
@@ -649,6 +660,10 @@ _High Availability and Audit Table_
    - Use table partitions and move a newer partition to a new drive.
    - Archive older records temporarily while we implement a longer-term solution.
 
+   With Azure SQL Database, as it is a PaaS offering, scaling compute and storage with minimal downtime is simple. However, it is not automatic. Microsoft provides [scripts](https://docs.microsoft.com/azure/azure-sql/database/scripts/monitor-and-scale-database-powershell) to automate this process. Multiple databases can take advantage of the *elastic pool* offering, which supports dynamic resource allocation for the databases in the pool.
+
+   With Azure SQL Database, Microsoft offers the Hyperscale tier. Azure SQL Hyperscale separates compute nodes and storage nodes, meaning that storage can be scaled easily to accommodate for growing audit tables. Learn more about this technology [here.](https://devblogs.microsoft.com/azure-sql/autoscaling-with-azure-sql-hyperscale/)
+
 2. What are the SQL Server options for high availability?
 
    SQL Server provides several options for creating high availability for a server or database. High-availability options include the following:
@@ -658,6 +673,8 @@ _High Availability and Audit Table_
    - Log shipping
    - Replication
    - Scalable shared databases
+
+   With Azure SQL Database, it is easy to incorporate *failover groups* into your solution, for both individual databases and elastic pools. Failover groups also support secure networking capabilities. Moreover, to provide high availability (SLA of 99.99%), Microsoft provides two built-in availability model categories (*Standard* and *Premium*). The used model depends on the database tier.
 
 _Azure SQL Database POC_
 
@@ -673,7 +690,9 @@ _Azure SQL Database POC_
 
    If the applications are already cloud-born, or they have many external applications needing access, then this would not affect latency while removing the burden from WWI of maintaining the connectivity with all their integration partners.
 
-   In addition, they would gain the benefit of simplifying future software upgrades, so the current investment in new hardware was necessary. Some of their products would upgrade and offer new features with minimal effort on their part.
+   In addition, they would gain the benefit of simplifying future software upgrades. Some of their products would upgrade and offer new features with minimal effort on their part.
+
+   Through Azure Arc Data Services, Azure extends the control plane for Azure SQL Managed Instance to on-premises hardware. If WWI chose this option as part of a hybrid cloud adoption, they retain control over when to deploy updates and to manage their Arc Data Services through standard Azure tools (like the CLI).
 
 3. Are there any questions we need to answer before we can begin a POC directly to Microsoft Azure?
 
@@ -684,7 +703,7 @@ _Azure SQL Database POC_
 
 ## Checklist of preferred objection handling
 
-1. Do we need to upgrade to on-premises SQL Server first or go can we go straight to Azure?
+1. Do we need to upgrade to on-premises SQL Server first or can we go straight to Azure?
 
    This is a joint business and technical decision. Azure SQL Database or SQL Server on Azure VMs will offer all the features they've stated that they need. There is a migration path to both.
 
@@ -694,66 +713,80 @@ _Azure SQL Database POC_
 
 2. Can we have two proofs-of-concept that demonstrate both migrations?
 
-   Two proof-of-concepts are possible and easy to do. The application architecture might be quite a bit different if we choose to use Platform as a Service (PaaS). The online sales application and web services would migrate to Azure Websites. SSRS would have to migrate to a Virtual Machine (unless we use the SSRS Azure alpha release). The data warehouse likely can't move to the cloud without a significant investment. If it stays on-premises, then data movement from the new Azure OLTP database to the on-premises SQL Server 2017 Enterprise data warehouse would need to be addressed. Again, ExpressRoute might be needed.
+   Two proof-of-concepts are possible and easy to do. The application architecture might be quite a bit different if we choose to use Platform as a Service (PaaS). The online sales application and web services would migrate to Azure App Service. SSRS would have to migrate to a Virtual Machine using the [new Virtual Machine SSRS image](https://techcommunity.microsoft.com/t5/sql-server/azure-sql-vm-automatic-registration-and-reporting-services/ba-p/1783947) (unless we migrate to Power BI with the [RDL Migration tool](https://github.com/microsoft/RdlMigration)). The data warehouse can move to the cloud to take advantage of its scalability, security, and performance advantages. If it stays on-premises, then data movement from the Azure SQL OLTP database to the on-premises SQL Server 2019 Enterprise data warehouse would need to be addressed. Again, ExpressRoute might be needed.
 
-3. Do we need to rewrite all our applications for SQL Server?
+3. Do we need to rewrite all our applications for Azure SQL Database?
 
    The Oracle Forms application would have to be rewritten to ASP.NET Core or ASP.NET MVC. There are migration tools available to help from third-parties if they choose to migrate to ASP.NET MVC. Otherwise, the rewrite effort will need to be planned and implemented. For the POC, show a basic CRUD data entry form to show how the project would be structured. Use Entity Framework if appropriate to make the CRUD migration easier.
 
-   If the existing ASP.NET MVC application that runs their storefront uses Entity Framework or another object-relational mapping (ORM) tool, then migration of that application is trivial. It's possible that we could repoint the connectionString, re-run the unit tests, and the application will just work. Blockers might be if Entity Framework is using Stored Procedures in Oracle. Those will need to be tested after we run the SQL Server Migration Assistant.
+   If the existing ASP.NET Core MVC application that runs their storefront uses Entity Framework Core or another object-relational mapping (ORM) tool, then migration of that application is trivial. It's possible that we could repoint the connectionString, re-run the unit tests, and the application will just work. Blockers might be if Entity Framework Core is using Stored Procedures in Oracle. Those will need to be tested after we run the SQL Server Migration Assistant.
 
-4. Do we need to rewrite all our reports for SQL Server?
+   For Java and .NET applications that utilize Oracle databases, Microsoft provides the [Data Access Migration Toolkit](https://marketplace.visualstudio.com/items?itemName=ms-databasemigration.data-access-migration-toolkit), a Visual Studio Code extension. It helps developers understand the code changes they must make to target a new relational database. WWI can keep this in mind for future migrations.
 
-   The SSRS reports should migrate over with just a change to the connectionString. The data sets might need SQL refreshed for T-SQL instead of PL/SQL.
+4. Do we need to rewrite all our reports for Azure SQL Database?
+
+   By migrating SSRS to a VM, WWI can easily migrate their existing reports. VM images are currently available for SQL Server 2019 Reporting Services and SQL Server 2016 Reporting Services.
 
    If the Excel reports use simple queries to views or stored procedures, then changing the connectionString might work with them, also. If not, then the queries that drive the spreadsheets will need to be rewritten. The SQL Server Migration Tool can also convert specific, individual queries from PL/SQL to T-SQL.
 
-5. Will our security migrate over from Oracle to SQL Server? How do we handle security in the new database?
+   Users of Excel 2016 and above can query Azure Analysis Services tabular models easily.
+
+5. Will our security migrate over from Oracle to Azure SQL Database? How do we handle security in the new database?
 
    Security roles, users, and permissions will need to be recreated. Schema can be mapped and migrated over to the new server.
 
 6. Do we need to invest in a JSON storage system for the JSON data we're storing from our vendor's web service?
 
-   JSON data can be stored in SQL Server as a `varchar` field. It can be queried and indexed using JSON keywords in T-SQL. It can be queried and flattened to be used in an SSRS report of bad data that didn't parse when we processed it with the web service (a customer concern they mentioned having previously).
+   JSON data can be stored in SQL Server or Azure SQL Database as an `nvarchar` field. It can be queried and indexed using JSON keywords in T-SQL. It can be queried and flattened to be used in an SSRS report of bad data that didn't parse when we processed it with the web service (a customer concern they mentioned having previously).
 
-7. What will we do if our audit logs fill up again? Will SQL Server crash the same way Oracle did?
+7. What will we do if our audit logs fill up again? Will on-premises SQL Server crash the same way Oracle did?
 
    We can use SQL Server Stretch Database to extend the audit table to Azure. We can also partition big tables and put the new partition on a different drive that doesn't have space problems.
 
+   However, as the Oracle OLTP database is migrated to Azure SQL Database, the solution can take advantage of fast scaling and Azure's plethora of management tools, like Log Analytics Workspaces.
+
 8. If we take advantage of new features, will our license costs keep ratcheting up and up? Will we have a dependable way of budgeting for this project?
 
-   Microsoft offers license assistance programs for current Oracle users, which can include free licenses to current Oracle customers. They can also subsidize the cost of the migration process. SQL Server licensing also includes all available features in the Enterprise Edition with no additional cost for each feature implemented.
+   For an on-premises SQL Server installation, Microsoft offers license assistance programs for current Oracle users, which can include free licenses to current Oracle customers. They can also subsidize the cost of the migration process. SQL Server licensing also includes all available features in the Enterprise Edition with no additional cost for each feature implemented.
+
+   With an Azure SQL Database migration, as mentioned previously, reserved capacity and hybrid benefit are useful techniques to reduce pricing, particularly for SQL Server to Azure SQL Database migrations (like the Data Warehouse). Purchasing Azure SQL Database through the vCore model provides the most consistent budgeting.
 
 9. Are there any Oracle features required by WWI for which SQL Server has no equivalent?
 
    Nothing in the customer requirements is exclusive to an Oracle ecosystem. Oracle Forms is unique to Oracle, but Microsoft offers several replacement technologies, including LightSwitch, SharePoint Forms, Power Apps, ASP.NET MVC, WPF Forms, and ASP.NET Core applications.
 
-   The customer might implement Oracle RAC, but AlwaysOn Availability Groups are easier to implement, cheaper, and have lower hardware requirements.
+   The customer might implement Oracle RAC, but AlwaysOn Availability Groups for on-premises or hybrid deployments are easier to implement, cheaper, and have lower hardware requirements.
 
 10. Do we need to tell all our vendors that we're changing databases, so their integrations work?
 
     As long as we test and refactor the web services they use, they shouldn't know that you switched your back-end data store.
 
-11. What might prevent us from upgrading our data warehouse to Azure SQL Database or SQL Server 2017 Enterprise?
+11. What might prevent us from upgrading our data warehouse to Azure SQL Database or SQL Server 2019 Enterprise?
 
     Thought needs to be given to upgrading the database storage engine, SQL Server Analysis Services, SQL Server Reporting Services, and SQL Server Integration Services. SSRS and SSIS have been completely redone since SQL Server 2008, with new interfaces and new engines. SSAS multidimensional also has a new engine with a tabular engine. Thought needs to be given if it will be implemented.
 
+    Moreover, Azure has introduced cloud-based platforms to support WWI's BI needs. For example, Power BI may serve as a substitute for SSRS on a VM, and Azure Analysis Services may serve as a substitute for SSAS. If WWI is using multidimensional cubes for its data model, it cannot migrate to Azure Analysis Services. In that case, using a [pre-configured, engine-only virtual machine image](https://techcommunity.microsoft.com/t5/sql-server/announcing-azure-marketplace-images-for-sql-server-analysis/ba-p/1851793) is possible.
+
+    If network latency becomes a challenge (accessing the migrated database from on-premises resources), WWI can adopt ExpressRoute. However, if WWI is constrained by other industry factors, such as data sovereignty (no Azure regions located in the country of operation), they can adopt Azure Arc Data Services to run SQL Managed Instance on on-premises hardware.  
+
 12. When we upgrade the data warehouse, how will we keep all our connected dependencies updated?
 
-    If we don't change the server name, our job is much easier. We might not even need to modify the connectionStrings. We can keep the server name the same by either doing an in-place upgrade or by migrating to a new server and then changing the name of the new server to a new name. If we migrate to a new server, we will need to migrate security logins and permissions, along with the database. We'll also need to script the SQL Server Agent jobs over to the new server.
+    If we don't change the server name, our job is much easier. We might not even need to modify the connectionStrings. We can keep the server name the same by either doing an in-place upgrade or by migrating to a new server and then changing the name of the new server to a new name. If we migrate to a new server, we will need to migrate security logins and permissions, along with the database. Note that migrating SQL Server Agent jobs requires Azure SQL Managed Instance, which is not addressed in the PoC. However, Azure Data Factory can orchestrate common data manipulation tasks on a schedule.
 
 13. What will happen with SSIS, SSRS, and SQL Server Analysis Services (SSAS)?
 
-    Once the server is upgraded, we should redeploy the SSIS, SSAS, and SSRS projects after changing the connectionStrings. If we use project connectionStrings, this will be much easier. All external connections should be tested thoroughly.
+    As mentioned previously, SSIS can run locally, natively in Azure SQL Managed Instance through Agent jobs, and in Azure Data Factory through the SSIS integration runtime. SSRS can run locally, in an Azure VM, or be migrated to Power BI. WWI can explore which reports it wants to migrate to Power BI, and which reports it wants to migrate to SSRS on a VM. Lastly, SSAS can run locally, on an Azure VM, or in Azure Analysis Services. Again, WWI must consider whether it uses multidimensional cubes in its solution.
+    
+    If we keep SSIS, SSAS, and SSRS running on-premises, we should redeploy the SSIS, SSAS, and SSRS projects after changing the connectionStrings. If we use project connectionStrings, this will be much easier. All external connections should be tested thoroughly.
 
-    If we use Database Migration Assistant, SSIS packages will upgrade during the process and will migrate over to the new server.
+    If we use Database Migration Assistant for a homogenous migration, SSIS packages will upgrade during the process and will migrate over to the new server.
 
-14. How will security and SQL Agent jobs migrate?
+14. How will security and SQL Agent jobs migrate for a homogenous migration?
 
-    If we use Database Migration Assistant, security and the SQL Server Agent Jobs will migrate over to the new server.
+    If we use Database Migration Assistant, security and the SQL Server Agent Jobs will migrate over to the new server. SQL Server Agent Jobs are only supported in Azure SQL Managed Instance.
 
 ## Customer quote (to be read back to the attendees at the end)
 
-"We are excited that a SQL Server environment will help our organization grow and prosper for many years into the future."
+"We are excited that an Azure SQL Database environment will help our organization grow and prosper for many years into the future."
 
 Kathleen Sloan, CIO of Wide World Importers

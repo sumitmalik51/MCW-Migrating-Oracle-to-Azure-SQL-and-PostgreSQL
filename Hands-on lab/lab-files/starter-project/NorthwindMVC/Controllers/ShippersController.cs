@@ -1,138 +1,152 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Web.Mvc;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using NorthwindMVC.Data;
 
 namespace NorthwindMVC.Controllers
 {
     public class ShippersController : Controller
     {
-        private DataContext db = new DataContext();
+        private readonly DataContext _context;
+
+        public ShippersController(DataContext context)
+        {
+            _context = context;
+        }
 
         // GET: Shippers
-        public ActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return this.View(this.db.SHIPPERS.ToList());
+            return View(await _context.Shippers.ToListAsync());
         }
 
         // GET: Shippers/Details/5
-        public ActionResult Details(decimal id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return NotFound();
             }
 
-            var sHIPPER = this.db.SHIPPERS.Find(id);
-
-            if (sHIPPER == null)
+            var shipper = await _context.Shippers
+                .FirstOrDefaultAsync(m => m.Shipperid == id);
+            if (shipper == null)
             {
-                return this.HttpNotFound();
+                return NotFound();
             }
 
-            return this.View(sHIPPER);
+            return View(shipper);
         }
 
         // GET: Shippers/Create
-        public ActionResult Create()
+        public IActionResult Create()
         {
-            return this.View();
+            return View();
         }
 
         // POST: Shippers/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "SHIPPERID,COMPANYNAME,PHONE")] SHIPPER sHIPPER)
+        public async Task<IActionResult> Create([Bind("Shipperid,Companyname,Phone")] Shipper shipper)
         {
             if (ModelState.IsValid)
             {
-                this.db.SHIPPERS.Add(sHIPPER);
-                this.db.SaveChanges();
-
-                return this.RedirectToAction("Index");
+                _context.Add(shipper);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-
-            return this.View(sHIPPER);
+            return View(shipper);
         }
 
         // GET: Shippers/Edit/5
-        public ActionResult Edit(decimal id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return NotFound();
             }
 
-            var sHIPPER = this.db.SHIPPERS.Find(id);
-
-            if (sHIPPER == null)
+            var shipper = await _context.Shippers.FindAsync(id);
+            if (shipper == null)
             {
-                return this.HttpNotFound();
+                return NotFound();
             }
-
-            return this.View(sHIPPER);
+            return View(shipper);
         }
 
         // POST: Shippers/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "SHIPPERID,COMPANYNAME,PHONE")] SHIPPER sHIPPER)
+        public async Task<IActionResult> Edit(int id, [Bind("Shipperid,Companyname,Phone")] Shipper shipper)
         {
-            if (ModelState.IsValid)
+            if (id != shipper.Shipperid)
             {
-                this.db.Entry(sHIPPER).State = EntityState.Modified;
-                this.db.SaveChanges();
-
-                return this.RedirectToAction("Index");
+                return NotFound();
             }
 
-            return this.View(sHIPPER);
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(shipper);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ShipperExists(shipper.Shipperid))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(shipper);
         }
 
         // GET: Shippers/Delete/5
-        public ActionResult Delete(decimal id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return NotFound();
             }
 
-            var sHIPPER = this.db.SHIPPERS.Find(id);
-
-            if (sHIPPER == null)
+            var shipper = await _context.Shippers
+                .FirstOrDefaultAsync(m => m.Shipperid == id);
+            if (shipper == null)
             {
-                return this.HttpNotFound();
+                return NotFound();
             }
 
-            return this.View(sHIPPER);
+            return View(shipper);
         }
 
         // POST: Shippers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(decimal id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var sHIPPER = this.db.SHIPPERS.Find(id);
-
-            this.db.SHIPPERS.Remove(sHIPPER);
-            this.db.SaveChanges();
-
-            return this.RedirectToAction("Index");
+            var shipper = await _context.Shippers.FindAsync(id);
+            _context.Shippers.Remove(shipper);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
-        protected override void Dispose(bool disposing)
+        private bool ShipperExists(int id)
         {
-            if (disposing)
-            {
-                this.db.Dispose();
-            }
-
-            base.Dispose(disposing);
+            return _context.Shippers.Any(e => e.Shipperid == id);
         }
     }
 }

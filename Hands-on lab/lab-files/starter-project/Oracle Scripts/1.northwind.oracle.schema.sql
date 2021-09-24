@@ -1,6 +1,10 @@
 -- 1. Run to drop schema
 --drop user NW cascade;
 
+-- Fix for user creation in a containerized database
+
+ALTER SESSION SET "_ORACLE_SCRIPT"=true;
+
 -- 2. Run to create user and schema 
 CREATE USER NW IDENTIFIED BY Password
   DEFAULT TABLESPACE users

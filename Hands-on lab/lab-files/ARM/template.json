@@ -1,0 +1,562 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "uniqueSuffix": {
+            "type": "string",
+            "metadata": {
+                "description": "Suffix added to all resource names to make them unique."
+            }
+        },
+        "VMPassword": {
+            "type": "SecureString",
+            "metadata": {
+                "description": "The password for demouser in the Lab VM and SQL Server 2008 R2 VM."
+            }
+        },
+        "PostgreSQLPassword": {
+            "type": "securestring",
+            "defaultValue": "[parameters('VMPassword')]",
+            "metadata": {
+                "description": "PostgreSQL administrator user password. Defaults to the same password for the lab Virtual Machines."
+            }
+        },
+        "AzureSQLPassword": {
+            "type": "securestring",
+            "defaultValue": "[parameters('VMPassword')]",
+            "metadata": {
+                "description": "Azure SQL administrator user password. Defaults to the same password for the lab Virtual Machines."
+            }
+        }
+    },
+    "functions": [],
+    "variables": {
+        "LabVMName": "LabVM",
+        "LabVMStorageName": "[toLower(concat(variables('LabVMName'), 'storage', toLower(parameters('uniqueSuffix'))))]",
+        "LabVMPublicIPName": "[concat(variables('LabVMName'), '-PublicIP')]",
+        "LabVMNSGName": "[concat(variables('LabVMName'), '-nsg')]",
+        "LabVMVirtualNetworkName": "[concat(variables('LabVMName'), '-VirtualNetwork')]",
+        "LabVMSubnetName": "[concat(variables('LabVMName'), '-Subnet')]",
+        "LabVMNetworkInterfaceName": "[concat(variables('LabVMName'), '-NetworkInterface')]",
+        "VMUsername": "demouser",
+        "LabVMDiskName": "[concat(variables('LabVMName'), '-OsDisk')]",
+
+        "SqlServerVMName": "SqlServer2008",
+        "SqlServerPublicIPName": "[concat(variables('SqlServerVMName'), '-PublicIP')]",
+        "SqlServerNSGName": "[concat(variables('SqlServerVMName'), '-nsg')]",
+        "SqlServerNetworkInterfaceName": "[concat(variables('SqlServerVMName'), '-NetworkInterface')]",
+        "SqlServerSubnetName": "[concat(variables('SqlServerVMName'), '-Subnet')]",
+        "SqlServerDiskName": "[concat(variables('SqlServerVMName'), '-OsDisk')]",
+
+        "AzureSQLName": "[toLower(concat('Northwind-Server-', parameters('uniqueSuffix')))]",
+        "AzureSQLDBName": "Northwind",
+
+        "PostgreSQLName": "[toLower(concat('Northwind-Ora2Pg-', parameters('uniqueSuffix')))]",
+        "PostgreSQLAdministrator": "solldba",
+
+        "AppPlanName": "northwind-ora2pg-plan",
+        "AppName": "[concat('northwind-ora2pg-app-', parameters('uniqueSuffix'))]",
+
+        "AzureSQLAdministrator": "demouser",
+        
+        "AzureSQLDWName": "WideWorldImportersDW",
+
+        "AzureDMSName": "wwi-dms"
+    },
+    "resources": [
+        {
+            "name": "[variables('LabVMStorageName')]",
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2019-06-01",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "displayName": "[concat(variables('LabVMStorageName'), ' Storage Account')]"
+            },
+            "sku": {
+                "name": "Standard_LRS"
+            },
+            "kind": "Storage"
+        },
+        {
+            "name": "[variables('LabVMPublicIPName')]",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "apiVersion": "2019-11-01",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "displayName": "[concat(variables('LabVMPublicIPName'), ' PublicIPAddress')]"
+            },
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic"
+            }
+        },
+        {
+            "name": "[variables('LabVMNSGName')]",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2018-08-01",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "RDP",
+                        "properties": {
+                            "description": "Allows RDP traffic.",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "3389",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 100,
+                            "direction": "Inbound"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "[variables('LabVMVirtualNetworkName')]",
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2019-11-01",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', variables('LabVMNSGName'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', variables('SqlServerNSGName'))]"
+            ],
+            "tags": {
+                "displayName": "[variables('LabVMVirtualNetworkName')]"
+            },
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "10.0.0.0/16"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[variables('LabVMSubnetName')]",
+                        "properties": {
+                            "addressPrefix": "10.0.0.0/24",
+                            "networkSecurityGroup": {
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('LabVMNSGName'))]"
+                            }
+                        }
+                    },
+                    {
+                        "name": "[variables('SqlServerSubnetName')]",
+                        "properties": {
+                            "addressPrefix": "10.0.1.0/24",
+                            "networkSecurityGroup": {
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('SqlServerNSGName'))]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "[variables('LabVMNetworkInterfaceName')]",
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2019-11-01",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', variableS('LabVMPublicIPName'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks', variables('LabVMVirtualNetworkName'))]"
+            ],
+            "tags": {
+                "displayName": "[concat(variables('LabVMName'), ' Network Interface')]"
+            },
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "DynamicIP",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('LabVMPublicIPName'))]"
+                            },
+                            "subnet": {
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('LabVMVirtualNetworkName'), variables('LabVMSubnetName'))]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "[variables('LabVMName')]",
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2019-07-01",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', variables('LabVMStorageName'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces', variables('LabVMNetworkInterfaceName'))]"
+            ],
+            "tags": {
+                "displayName": "[variables('LabVMName')]"
+            },
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_D4s_v3"
+                },
+                "osProfile": {
+                    "computerName": "[variables('LabVMName')]",
+                    "adminUsername": "[variables('VMUsername')]",
+                    "adminPassword": "[parameters('VMPassword')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftVisualStudio",
+                        "offer": "visualstudio2019latest",
+                        "sku": "vs-2019-comm-latest-ws2019",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "name": "[variables('LabVMDiskName')]",
+                        "caching": "ReadWrite",
+                        "createOption": "FromImage"
+                    }
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('LabVMNetworkInterfaceName'))]"
+                        }
+                    ]
+                },
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": true,
+                        "storageUri": "[reference(resourceId('Microsoft.Storage/storageAccounts/', variables('LabVMStorageName'))).primaryEndpoints.blob]"
+                    }
+                }
+            }
+        },
+
+        {
+            "type": "Microsoft.Network/publicIpAddresses",
+            "apiVersion": "2020-06-01",
+            "name": "[variables('SqlServerPublicIPName')]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "publicIpAllocationMethod": "Dynamic"
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2020-06-01",
+            "name": "[variables('SqlServerNSGName')]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "RDP",
+                        "properties": {
+                            "description": "Allows RDP traffic.",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "3389",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 100,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "SqlServer",
+                        "properties": {
+                            "description": "Allows SQL Server traffic.",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "1433",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 200,
+                            "direction": "Inbound"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2020-06-01",
+            "name": "[variables('SqlServerNetworkInterfaceName')]",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups/', variables('SqlServerNSGName'))]",
+                "[resourceId('Microsoft.Network/publicIpAddresses/', variables('SqlServerPublicIPName'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks', variables('LabVMVirtualNetworkName'))]"
+            ],
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "DynamicIP",
+                        "properties": {
+                            "subnet": {
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('LabVMVirtualNetworkName'), variables('SqlServerSubnetName'))]"
+                            },
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIpAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIpAddresses', variables('SqlServerPublicIPName'))]"
+                            }
+                        }
+                    }
+                ],
+                "enableAcceleratedNetworking": true,
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('SqlServerNSGName'))]"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2020-06-01",
+            "name": "[variables('SqlServerVMName')]",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkInterfaces/', variables('SqlServerNetworkInterfaceName'))]"
+            ],
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_D4s_v3"
+                },
+                "storageProfile": {
+                    "osDisk": {
+                        "name": "[variables('SqlServerDiskName')]",
+                        "createOption": "fromImage",
+                        "managedDisk": {
+                            "storageAccountType": "Premium_LRS"
+                        }
+                    },
+                    "imageReference": {
+                        "publisher": "MicrosoftSQLServer",
+                        "offer": "SQL2008R2SP3-WS2008R2SP1",
+                        "sku": "Standard",
+                        "version": "latest"
+                    },
+                    "dataDisks": 
+                    [
+                        {
+                            "lun": 0,
+                            "createOption": "empty",
+                            "caching": "ReadOnly",
+                            "writeAcceleratorEnabled": false,
+                            "diskSizeGB": 1023,
+                            "managedDisk": {
+                                "storageAccountType": "Premium_LRS"
+                            }
+                        }
+                    ]
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('SqlServerNetworkInterfaceName'))]"
+                        }
+                    ]
+                },
+                "osProfile": {
+                    "computerName": "[variables('SqlServerVMName')]",
+                    "adminUsername": "[variables('VMUsername')]",
+                    "adminPassword": "[parameters('VMPassword')]",
+                    "windowsConfiguration": {
+                        "enableAutomaticUpdates": true,
+                        "provisionVmAgent": true
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.SqlVirtualMachine/SqlVirtualMachines",
+            "apiVersion": "2017-03-01-preview",
+            "name": "[variables('SqlServerVMName')]",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', variables('SqlServerVMName'))]"
+            ],
+            "properties": {
+                "virtualMachineResourceId": "[resourceId('Microsoft.Compute/virtualMachines', variables('SqlServerVMName'))]",
+                "sqlManagement": "Full",
+                "SqlServerLicenseType": "PAYG",
+                "StorageConfigurationSettings": {
+                    "DiskConfigurationType": "NEW",
+                    "StorageWorkloadType": "General",
+                    "SQLDataSettings": {
+                        "LUNs": [0],
+                        "DefaultFilePath": "F:\\SQLData"
+                    },
+                    "SQLLogSettings": {
+                        "LUNs": [0],
+                        "DefaultFilePath": "F:\\SQLLog"
+                    },
+                    "SQLTempDbSettings": {
+                        "LUNs": [0],
+                        "DefaultFilePath": "F:\\SQLTemp"
+                    }
+                },
+                "serverConfigurationsManagementSettings": {
+                    "sqlConnectivityUpdateSettings": {
+                        "connectivityType": "PUBLIC",
+                        "port": 1433,
+                        "sqlAuthUpdateUserName": "demouser",
+                        "sqlAuthUpdatePassword": "[parameters('VMPassword')]"
+                    }
+                }
+            }
+        },
+
+        {
+            "name": "[variables('AzureSQLName')]",
+            "type": "Microsoft.Sql/servers",
+            "apiVersion": "2021-02-01-preview",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "displayName": "[variables('AzureSQLName')]"
+            },
+            "properties": {
+                "administratorLogin": "[variables('AzureSQLAdministrator')]",
+                "administratorLoginPassword": "[parameters('AzureSQLPassword')]"
+            },
+            "resources": [
+                {
+                    "type": "firewallRules",
+                    "apiVersion": "2021-02-01-preview",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Sql/servers', variables('AzureSQLName'))]"
+                    ],
+                    "location": "[resourceGroup().location]",
+                    "name": "AllowAllWindowsAzureIps",
+                    "properties": {
+                        "startIpAddress": "0.0.0.0",
+                        "endIpAddress": "0.0.0.0"
+                    }
+                },
+                {
+
+                    "type": "databases",
+                    "apiVersion": "2021-02-01-preview",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Sql/servers', variables('AzureSQLName'))]"
+                    ],
+                    "location": "[resourceGroup().location]",
+                    "name": "[variables('AzureSQLDBName')]",
+                    "sku": {
+                        "name": "P1"
+                    },
+                    "properties": {}
+                },
+                {
+                    "type": "databases",
+                    "apiVersion": "2021-02-01-preview",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Sql/servers', variables('AzureSQLName'))]"
+                    ],
+                    "location": "[resourceGroup().location]",
+                    "name": "[variables('AzureSQLDWName')]",
+                    "sku": {
+                        "name": "P1"
+                    },
+                    "properties": {}
+                }
+            ]
+        },
+
+        {
+            "type": "Microsoft.DBForPostgreSQL/servers",
+            "apiVersion": "2017-12-01",
+            "location": "[resourceGroup().location]",
+            "name": "[variables('PostgreSQLName')]",
+            "sku": {
+                "name": "GP_Gen5_4",
+                "tier": "GeneralPurpose",
+                "capacity": 4
+            },
+            "properties": {
+                "version": "11",
+                "sslEnforcement": "Disabled",
+                "publicNetworkAccess": "Enabled",
+                "createMode": "Default",
+                "administratorLogin": "[variables('PostgreSQLAdministrator')]",
+                "administratorLoginPassword": "[parameters('PostgreSQLPassword')]",
+                "storageProfile": {
+                    "storageAutogrow": "Disabled",
+                    "storageMB": 102400
+                }
+            },
+            "resources": [
+                {
+                    "type": "firewallRules",
+                    "apiVersion": "2017-12-01",
+                    "name": "AllowAzureIPs",
+                    "properties": {
+                        "startIpAddress": "0.0.0.0",
+                        "endIpAddress": "0.0.0.0"
+                    },
+                    "dependsOn": [
+                        "[resourceId('Microsoft.DBForPostgreSQL/servers', variables('PostgreSQLName'))]"
+                    ]
+                },
+                {
+                    "type": "databases",
+                    "apiVersion": "2017-12-01",
+                    "name": "NW",
+                    "properties": {},
+                    "dependsOn": [
+                        "[resourceId('Microsoft.DBForPostgreSQL/servers', variables('PostgreSQLName'))]"
+                    ]
+                }
+            ]
+        },
+
+        {
+            "type": "Microsoft.Web/serverfarms",
+            "name": "[variables('AppPlanName')]",
+            "apiVersion": "2020-06-01",
+            "location": "[resourceGroup().location]",
+            "sku": {
+                "tier": "Standard",
+                "name": "S1"
+            },
+            "kind": "linux",
+            "properties": {
+                "reserved": true
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2020-12-01",
+            "name": "[variables('AppName')]",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', variables('AppPlanName'))]"
+            ],
+            "properties": {
+                "siteConfig": {
+                    "linuxFxVersion": "DOTNETCORE|5.0"
+                },
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('AppPlanName'))]"
+            }
+        },
+
+        {
+            "type": "Microsoft.DataMigration/services",
+            "apiVersion": "2018-07-15-preview",
+            "name": "[variables('AzureDMSName')]",
+            "location": "[resourceGroup().location]",
+            "sku": {
+                "tier": "Standard",
+                "size": "1 vCores",
+                "name": "Standard_1vCores"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', variables('LabVMVirtualNetworkName'))]"
+            ],
+            "properties": {
+                "virtualSubnetId": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('LabVMVirtualNetworkName'), variables('SqlServerSubnetName'))]"
+            }
+        }
+    ],
+    "outputs": {}
+}

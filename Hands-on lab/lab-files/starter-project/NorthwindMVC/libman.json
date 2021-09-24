@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "flot@4.2.2",
+      "destination": "wwwroot/lib/flot/"
+    },
+    {
+      "library": "Chart.js@3.5.0",
+      "destination": "wwwroot/lib/Chart.js/"
+    }
+  ]
+}

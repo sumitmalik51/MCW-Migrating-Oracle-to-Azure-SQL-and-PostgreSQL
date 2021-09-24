@@ -10,7 +10,7 @@ Whiteboard design session trainer guide
 </div>
 
 <div class="MCWHeader3">
-November 2020
+September 2021
 </div>
 
 Information in this document, including URL and other Internet Web site references, is subject to change without notice. Unless otherwise noted, the example companies, organizations, products, domain names, e-mail addresses, logos, people, places, and events depicted herein are fictitious, and no association with any real company, organization, product, domain name, e-mail address, logo, person, place or event is intended or should be inferred. Complying with all applicable copyright laws is the responsibility of the user. Without limiting the rights under copyright, no part of this document may be reproduced, stored in or introduced into a retrieval system, or transmitted in any form or by any means (electronic, mechanical, photocopying, recording, or otherwise), or for any purpose, without the express written permission of Microsoft Corporation.
@@ -19,7 +19,7 @@ Microsoft may have patents, patent applications, trademarks, copyrights, or othe
 
 The names of manufacturers, products, or URLs are provided for informational purposes only and Microsoft makes no representations and warranties, either expressed, implied, or statutory, regarding these manufacturers or the use of the products with any Microsoft technologies. The inclusion of a manufacturer or product does not imply endorsement of Microsoft of the manufacturer or product. Links may be provided to third party sites. Such sites are not under the control of Microsoft and Microsoft is not responsible for the contents of any linked site or any link contained in a linked site, or any changes or updates to such sites. Microsoft is not responsible for webcasting or any other form of transmission received from any linked site. Microsoft is providing these links to you only as a convenience, and the inclusion of any link does not imply endorsement of Microsoft of the site or the products contained therein.
 
-© 2020 Microsoft Corporation. All rights reserved.
+© 2021 Microsoft Corporation. All rights reserved.
 
 Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/intellectualproperty/Trademarks/Usage/General.aspx> are trademarks of the Microsoft group of companies. All other trademarks are property of their respective owners.
 
@@ -196,7 +196,7 @@ World Wide Importers (WWI) has experienced massive growth over the last few year
 
 WWI is investigating ways to improve the performance of their transactional databases without incurring expensive new license fees. They're also concerned with keeping their transactional system available and online for their store. They've noticed that Oracle has been slowing down as their growth has doubled. They realize that they would need to invest in new hardware to achieve this on-premises and, as a result, are looking at this as more of a migration to a new system.
 
-WWI has several external and internal applications that need to migrate with the database. The database is used by an online store application, written in ASP.NET MVC. They also have internal applications that manage their product catalog, written in Oracle Forms. In addition, they have many reports to aid in forecasting, sales reporting, and inventory maintenance. Those reports are a mixture of Power BI, Excel, and Oracle Forms, and hit the Oracle OLTP database directly.
+WWI has several external and internal applications that need to migrate with the database. The database is used by an online store application, written in ASP.NET Core MVC. They also have internal applications that manage their product catalog, written in Oracle Forms. In addition, they have many reports to aid in forecasting, sales reporting, and inventory maintenance. Those reports are a mixture of Power BI, Excel, and Oracle Forms, and hit the Oracle OLTP database directly.
 
 WWI also uses this database to interact with vendors. Several of their vendors require real-time access to their sales data through an API so they can draw warranty information on the date of sale. They do this through a Representational State Transfer (REST) service that is maintained by WWI.
 
@@ -252,7 +252,7 @@ Kathleen Sloan, the CIO of WWI, is looking to decrease their software license fe
 
 ### Infographic for common scenarios
 
-![This common scenario diagram includes the following elements: API App for vendor connections; Web App for Internet Sales Transactions; Oracle Forms App for inventory management; Oracle DB OLTP RAC Server; and Power BI and Excel for reporting of OLTP.](media/common-scenarios-oracle-to-postgresql.PNG "Common Scenario diagram")
+![This common scenario diagram includes the following elements: API App for vendor connections; Web App for Internet Sales Transactions; Oracle Forms App for inventory management; Oracle DB OLTP RAC Server; and Power BI and Excel for reporting of OLTP.](media/common-scenarios-oracle-to-postgresql.png "Common Scenario diagram")
 
 ## Step 2: Design a proof of concept solution
 
@@ -363,7 +363,7 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 |                                                          |                                                                                                                               |
 | -------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | **Description**                                          | **Links**                                                                                                                     |
-| Migrate Oracle to Azure Database for PostgreSQL          | <https://datamigration.microsoft.com/scenario/oracle-to-azurepostgresql?step=1>                                                                |
+| Migrate Oracle to Azure Database for PostgreSQL          | <https://docs.microsoft.com/azure/postgresql/howto-migrate-from-oracle>                                                                |
 | Azure Database for PostgreSQL features                              | <https://azure.microsoft.com/en-us/services/postgresql/>  |
 | Older Oracle Forms Migration guide                       | <https://technet.microsoft.com/library/bb463141.aspx/> <https://www.microsoft.com/sql-server/sql-license-migration/>          |
 | Azure Database Migration Service Overview                | <https://docs.microsoft.com/azure/dms/dms-overview>                                                                           |
@@ -423,33 +423,27 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 
 1. Without getting into the details (they are addressed in the following sections), diagram your initial vision for handling the top-level requirements for data loading, data preparation, storage, high availability, application migration, and reporting. You will refine this diagram as you proceed.
 
-    After speaking with its support team at Microsoft, WWI decided that Azure Database for PostgreSQL would be the right choice for the Oracle OLTP replacement. They decided to load schemas using **ora2pg**, data with **Azure Database Migration Service**, and migrate their Oracle Forms application using Microsoft ASP.NET Core. They are very concerned about how to do this and what method to use. They are leaning towards a total rewrite to ASP.NET Core. They would like the POC to include this. The POC should demonstrate that Azure Database for PostgreSQL - Hyperscale (Citus) will provide them the reliability and performance they expected Oracle to deliver for them.
+    After speaking with its support team at Microsoft, WWI decided that Azure Database for PostgreSQL would be the right choice for the Oracle OLTP replacement. They decided to load schema and data using **ora2pg** and migrate their Oracle Forms application using Microsoft ASP.NET Core. They are very concerned about how to do this and what method to use. They are leaning towards a total rewrite to ASP.NET Core. They would like the POC to include this. The POC should demonstrate that Azure Database for PostgreSQL will provide them the reliability and performance they expected Oracle to deliver for them.
 
     The solution they've decided on, at a high level, appears as follows: 
 
-    ![This solution diagram is divided into Microsoft Azure and on-premises. Azure Database for PostgreSQL - Hyperscale (Citus) serves as the primary OLTP database cluster with support for the efficient analysis of JSON data. Citus supports high availability, which entails pairing two instances to serve as a single node. When one of the instances fails, the other instance--which is kept up to date--is substituted automatically. Logs generated by PostgreSQL's standard logging tools and pgAudit will be stored in Azure Monitor, a tool which allows the analysis of logging data. As for on-premises components, the API app for vendor connections, the Web App for Internet Sales Transactions, and the ASP.NET Core App for inventory management reside locally. BI developers will continue to use Excel and Power BI for reporting.](./media/preferred-solution-architecture-oracle-to-postgres.PNG "Preferred Solution diagram")
+    ![This solution diagram is divided into Microsoft Azure and on-premises. Azure Database for PostgreSQL serves as the primary OLTP database with support for the efficient analysis of JSON data. It is also possible to use the Hyperscale (Citus) offering. Citus supports high availability, which entails pairing two instances to serve as a single node. When one of the instances fails, the other instance--which is kept up to date--is substituted automatically. Logs generated by PostgreSQL's standard logging tools and pgAudit will be stored in Azure Monitor, a tool which allows the analysis of logging data. As for on-premises components, the API app for vendor connections, the Web App for Internet Sales Transactions, and the ASP.NET Core App for inventory management reside locally. BI developers will continue to use Excel and Power BI for reporting.](./media/preferred-solution-architecture-oracle-to-postgres-updated.png "Preferred Solution diagram")
 
     **Diagram of possible architecture:**
 
-    ![The possible architecture includes: Web App for Internet Sales Transactions; the Oracle RAC server connected to Azure Database for PostgreSQL - Hyperscale (Citus) with JSON storage capabilities; and an Oracle Forms App and ASP.NET Core App for inventory management, that are connected. For Excel reporting, the connection string will be changed, and PL/SQL will be rewritten to PL/pgSQL. Power BI will continue to use Direct Query to overcome dataset size limits, the dataset connection string will be rewritten, and Power Query expressions modified accordingly.](media/possible-architecture-oracle-to-postgres.PNG "Possible architecture")
+    ![The possible architecture includes: Web App for Internet Sales Transactions; the Oracle RAC server connected to Azure Database for PostgreSQL with JSON storage capabilities; and an Oracle Forms App and ASP.NET Core App for inventory management, that are connected. For Excel reporting, the connection string will be changed, and PL/SQL will be rewritten to PL/pgSQL. Power BI will continue to use Direct Query to overcome dataset size limits, the dataset connection string will be rewritten, and Power Query expressions modified accordingly.](media/possible-architecture-oracle-to-postgres-updated.png "Possible architecture")
 
     **Diagram of how moving pieces will change during the Oracle to Azure Database for PostgreSQL migration:**
 
-    ![Migrate from Oracle, with an Oracle icon and an arrow labeled "ora2pg (schema), Azure Database Migration Service (data)" that points to Azure Database for PostgreSQL.](./media/oracle-to-postgre.PNG "Migrate from Oracle")
+    ![Migrate from Oracle, with an Oracle icon and an arrow labeled "ora2pg (schema and data)" that points to Azure Database for PostgreSQL.](./media/oracle-to-postgre-updated.png "Migrate from Oracle")
 
     **Products that can be used to migrate specific products:**
 
     ![Products that can be used with Azure Database Migration Service are: SQL Server, Oracle, MySQL, PostgreSQL, mongoDB, and AWS and GCP products.](media/azure-dms-compatibility.png "Azure Database Migration Service (DMS)")
 
-    **Diagram of possible disaster recovery solution feature Hyperscale (Citus) High Availability:**
+    **Diagram of possible disaster recovery solution:**
 
-    ![With Hyperscale (Citus), two PostgreSQL instances can comprise a single cluster node. The secondary instance is kept updated through synchronous replication, meaning that data loss is very unlikely.](./media/citus-ha.PNG "Possible disaster recovery solution diagram")
-
-    **Diagram of an example Oracle Forms migration to VB.NET windows application (not WPF):**
-
-    This diagram shows some of the components that might be in an Oracle Forms project, including menus, control blocks, and a PL/SQL module and the corresponding projects that can be chosen for those components. It's not necessary to understand all components of Oracle Forms; it is most important to know only that it's possible to rewrite the application while maintaining a similar structure, if desired.
-
-    ![This is a diagram of an Example Oracle Forms migration to VB.NET windows application. On the left, the Oracle Forms Application includes an Oracle server, an Oracle module (Data block and control block), and Oracle Forms (menu module, PL/SQL library module, and object library module). On the right, a VB.NET Windows Application includes a VB.NET Windows Application project, which encompasses a menu, and WinForm (Databound Controls, and non-databound controls). In addition, below the project are two separate VB.NET Class Library Projects. The Oracle Forms PL/SQL Library module points to one, and the Object library module points to the other. The Oracle Menu Module points to VB.NET Menu, the Oracle Control block points to Non-databound controls, and the Oracle Data block passes through a DataSet/ DataReader / Command to the Databound controls. Between the two columns a SQL Server with ADO.NET connects through DataSet / DataReader / Command to VB.NET Class Library Project.](media/oracle-forms-migration.png "Example Oracle Forms migration to VB.NET windows application")
+    ![With Azure Database for PostgreSQL Single Server, asynchronous physical replication keeps a read replica (located in a separate region) in sync with a primary read/write replica.](./media/single-server-ha.png "Possible disaster recovery solution diagram")
 
 2. What should be included in the POC?
 
@@ -468,13 +462,16 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
     - Implement new features in the new OLTP PostgreSQL database including:
         - JSON Data Store
         - Audit Logs sent to Azure Monitor
-        - Hyperscale (Citus)
+  
+    - Understand the horizontal scaling functionality of the Hyperscale (Citus) offering and its use cases
 
 3. How will Azure Database for PostgreSQL save them on licensing costs?
 
-    Pricing for Azure Database for PostgreSQL, irrespective of whether it's being used in single-server or Hyperscale (Citus) mode, depends on the amount of resources provisioned for node(s). Billing for compute is conducted by the hour, while storage and backups have a fixed price every month. If you reserve compute resources for a one or three year period, you will receive discounted prices on compute resources. These same rules apply with Hyperscale (Citus), since you specify the resources for your worker nodes and the coordinator node, to which your applications connect. However, unless you exceed the storage capacity of a given node, you will not be charged for backups. 
+    Pricing for Azure Database for PostgreSQL, irrespective of whether it's being used in single-server or Hyperscale (Citus) mode, depends on the amount of resources provisioned for node(s). Billing for compute is conducted by the hour, while storage and backups have a fixed price every month. If you reserve compute resources for a one or three year period, you will receive discounted prices on compute resources. These same rules apply with Hyperscale (Citus), since you specify the resources for your worker nodes and the coordinator node, to which your applications connect. However, unless you exceed the storage capacity of a given node, you will not be charged for backups. The Hyperscale (Citus) offering provides an entry-level *Basic* tier that uses just one node. When the user is ready, they can scale to a *Standard* tier instance with at least two worker nodes and one coordinator node. The API is the exact same between the two tiers.  
 
-    Azure Database for PostgreSQL leverages PostgreSQL Community edition. Nonetheless, using PostgreSQL 11 (the latest supported version of PostgreSQL in Azure) offers an excellent set of free extensions, including **pgAudit**, which provides auditing functionality. This is in contrast with Oracle, which charges for individual features, like RAC. 
+    Azure Database for PostgreSQL leverages PostgreSQL Community edition. Nonetheless, using PostgreSQL 11 (the latest supported version of PostgreSQL in Azure for the Single Server product) offers an excellent set of free extensions, including **pgAudit**, which provides auditing functionality. This is in contrast with Oracle, which charges for individual features, like RAC.
+
+    **Note**: To leverage more recent PostgreSQL versions, namely 12 and 13, consider the [Flexible Server (preview) and Hyperscale (Citus) offerings.](https://docs.microsoft.com/azure/postgresql/concepts-version-policy) 
 
     The PostgreSQL community provides an excellent resource to troubleshoot issues. Nonetheless, a wide variety of experienced companies are available to provide support in every geographic region. On the other hand, Oracle upgrades need Oracle consultants, meaning they take longer, and the consultants charge higher rates. Overall maintenance costs are much higher. These soft changes add to the overall cost of ownership for Oracle environments. 
 
@@ -484,11 +481,15 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 
 1. How would you recommend that WWI move their data and schema into PostgreSQL? What services would you suggest and what are the specific steps they would need to take to prepare the data, to transfer the data, and where would the loaded data land?
 
-    Ora2pg is a powerful open-source tool that converts an Oracle database schema into a PostgreSQL-compatible one. It provides assessment tools, allowing developers to get a sense of the amount of time that the migration will take. It also can directly copy data into the target database. While these features are excellent, performing an online migration requires that developers run a query against each table in the source individually to identify changes made following the initial migration, and then migrate the changes. So, Microsoft developed the Azure Database Migration Service (DMS) to address the issues present with online database migration.
+    Ora2pg is a powerful open-source tool that converts an Oracle database schema into a PostgreSQL-compatible one. It provides assessment tools, allowing developers to get a sense of the amount of time that the migration will take. It also can directly copy data into the target database. Note that online migrations, in which the source database processes transactions during the migration procedure, require additional *data sync* complexity. Migration teams can use key columns or creation/modification date columns to facilitate this process. The image below from the Microsoft documentation outlines a basic migration architecture with ora2pg. Secure, reliable networking between the source, VM, and target can be accomplished through ExpressRoute or VPN.
+
+    ![Sample Oracle to Azure Database for PostgreSQL migration with ora2pg. An Azure VM runs the ora2pg tool.](./media/ora2pg-migration-architecture.png "Sample Oracle to Azure Database for PostgreSQL migration setup")
+
+    Note that for on-premises PostgreSQL to Azure Database for PostgreSQL migrations, Azure Database Migration Service can be used. 
 
     >**Note**: Using DMS requires that you enable the Microsoft.DataMigration resource provider for your subscription.
 
-    DMS, when created with the Premium tier, simplifies Oracle to PostgreSQL online migrations. You have the option to create a PostgreSQL-compatible table schema using ora2pg, or allow DMS to copy the Oracle schema, modify it for PostgreSQL, and construct objects in the target itself. Note that the latter only migrates table schemas - you are still responsible for migrating other objects. With either of these workflows, you first create a new project, connect to the source Oracle database, and connect to the target PostgreSQL database. If you choose to create the target tables before using DMS, you will map source tables to target tables. Otherwise, you will simply map the source and target databases. Then, you will run the migration. The migration will automatically apply changes made to the source database during the migration (this is called incremental data sync). 
+    DMS, when created with the Premium tier, simplifies on-premises PostgreSQL to Azure Database for PostgreSQL online migrations. The setup steps include creating the schema on the target Azure database (such as by using the `pg_dump` utility) and enabling logical replication on the source. DMS will automatically apply changes made to the source database during the migration to the target. 
 
 2. Update your diagram for the data loading process with the steps you identified.
 
@@ -500,7 +501,7 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 
     A specific product might not be needed, but you might evaluate whether they are using an object relational mapping (ORM) tool or not. If they are using Entity Framework, Dapper, or nHibernate, then the application can be migrated much more easily.
 
-    If they didn't use an ORM, then much of the data-layer code will need to be rewritten. If this code is consolidated, and only plain old CLR objects (POCOs) are being handed back using the repository pattern, then we might be able to replace the entire tier with Entity Framework or another ORM. If there has been bleeding between the layers, then this process might be significantly more difficult. The entire storefront application would need to be refactored and tested eventually. For the POC, they are looking to switch the connection string, test several pages related to an order, and get a good idea on the work that would be necessary to get that to work.
+    If they didn't use an ORM, then much of the data-layer code will need to be rewritten. If this code is consolidated, and only plain old CLR objects (POCOs) are being handed back using the repository pattern, then we might be able to replace the entire tier with Entity Framework (Core) or another ORM. If there has been bleeding between the layers, then this process might be significantly more difficult. The entire storefront application would need to be refactored and tested eventually. For the POC, they are looking to switch the connection string, test several pages related to an order, and get a good idea on the work that would be necessary to get that to work.
 
 2. How would you migrate the Oracle Forms applications? How would you define success? Are there any technologies the customer needs to know?
 
@@ -512,7 +513,7 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 
     The REST services need to be approached the same way the MVC storefront application is approached. If they've used an ORM, then we can repoint the connectionStrings and redeploy.
 
-    JSON data should be stored in the `JSONB` field of PostgreSQL. While PostgreSQL also offers the `JSON` type, the `JSONB` field allows columns storing JSON data to be indexed. In addition, powerful JSON operators simplify complex tasks such as retrieving all JSON data that contains a particular key-value pair.
+    JSON data should be stored using the `JSONB` type of PostgreSQL. While PostgreSQL also offers the `JSON` type, the `JSONB` type allows columns storing JSON data to be indexed. In addition, powerful JSON operators simplify complex tasks such as retrieving all JSON data that contains a particular key-value pair.
 
 *Reporting*
 
@@ -526,24 +527,26 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 
 1. If our solution were PostgreSQL, what could WWI have done with the audit table when it filled up?
 
-    PostgreSQL's logging tools and pgAudit export events in .log files. Azure Database for PostgreSQL has the ability to export these files as JSON for storage in Azure Monitor. Log files are created hourly or once their contents reach 100 MB in size. In Azure Monitor, logs can be analyzed, visualized, and used in more ways.
+    PostgreSQL's logging tools and pgAudit export events in .log files. Azure Database for PostgreSQL has the ability to export these files as JSON for storage in Azure Monitor. Log files are created hourly or once their contents reach 100 MB in size. In Azure Monitor, logs can be analyzed and visualized through Kusto Query Language (KQL) queries.
 
     Alternatively, if this feature is not enabled, Azure Database for PostgreSQL stores logs in a 1 GB area. If this area becomes fully populated, the oldest files in the region will be deleted. Otherwise, logs will be deleted once their retention period ends, which by default is 3 days.
 
 2. What are the PostgreSQL options for high availability?
 
-    PostgreSQL provides several options for creating high availability for a server or database. High-availability options include the following:
+    PostgreSQL provides several options for creating high availability for a server or database. High-availability options in Azure include the following:
 
-    - Hyperscale (Citus) clusters two instances to serve as a single node with automatic failover (no data loss)
-    - Hyperscale (Citus) shards databases, and each shard is stored in multiple locations throughout the cluster
     - Replication options
+      - With Single Server, a configured read-only instance can be promoted to read/write capacity 
+    - Hyperscale (Citus) also supports HA
+      - Hyperscale (Citus) can cluster two instances to serve as a single node with automatic failover (no data loss)
+      - Hyperscale (Citus) shards databases, and each shard is stored in multiple locations throughout the cluster
     - Log shipping
 
 *Azure Database for PostgreSQL POC*
 
 1. Should they move to on-premises first?
 
-    It is certainly possible to run PostgreSQL locally. However, taking advantage of the high availability and performance features of a Hyperscale (Citus) cluster would be significantly more difficult done locally than on Azure's managed service.
+    It is certainly possible to run PostgreSQL locally. However, implementing the high availability and performance features of an Azure offering locally would be significantly more difficult than using Azure's managed service.
 
     Other on-premises applications might keep them on-premises until they can figure out how to move those applications to the cloud. It depends on the integration touchpoints, network latency needs, and reliable internet connectivity for all offices.
 
@@ -553,7 +556,7 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 
     If the applications are already cloud-based, or they have many external applications needing access, then this would not affect latency while removing the burden from WWI of maintaining the connectivity with all their integration partners.
 
-    In addition, they would gain the benefit of simplifying future software upgrades, so the current investment in new hardware was necessary. Some of their products would upgrade and offer new features with minimal effort on their part.
+    In addition, they would gain the benefit of simplifying future software upgrades. Some of their products would upgrade and offer new features with minimal effort on their part.
 
 3. Are there any questions we need to answer before we can begin a POC directly to Microsoft Azure?
 
@@ -578,9 +581,9 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 
 3. Do we need to rewrite all our applications for Azure Database for PostgreSQL?
 
-    The Oracle Forms application would have to be rewritten to ASP.NET Core or ASP.NET MVC. There are third-party migration tools available to help if they choose to migrate to ASP.NET MVC. Otherwise, the rewrite effort will need to be planned and implemented. For the POC, show a basic CRUD data entry form to show how the project would be structured. Use Entity Framework if appropriate to make the CRUD migration easier.
+    The Oracle Forms application would have to be rewritten to ASP.NET Core or ASP.NET MVC. There are third-party migration tools available to help if they choose to migrate to ASP.NET MVC. Otherwise, the rewrite effort will need to be planned and implemented. For the POC, show a basic CRUD data entry form to show how the project would be structured. Use Entity Framework (Core) if appropriate to make the CRUD migration easier.
 
-    If the existing ASP.NET MVC application that runs their storefront uses Entity Framework or another object-relational mapping (ORM) tool, then migration of that application is trivial. It's possible that we could repoint the connectionString, re-run the unit tests, and the application will just work. Blockers might be if Entity Framework is using Stored Procedures in Oracle. Those will need to be tested after we run ora2pg to migrate them.
+    If the existing ASP.NET MVC application that runs their storefront uses Entity Framework or another object-relational mapping (ORM) tool, then migration of that application is trivial. It's possible that we could repoint the connectionString, re-run the unit tests, and the application will just work. Blockers might be if Entity Framework is using Stored Procedures in Oracle. Those will need to be tested after we run ora2pg to migrate them. PostgreSQL 11 does support stored procedures, but if the stored procedure returns a result set through a cursor, porting the logic to a function is preferable.
 
 4. Do we need to rewrite all our reports for Azure Database for PostgreSQL?
 
@@ -594,7 +597,7 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 
 6. Do we need to invest in a JSON storage system for the JSON data we're storing from our vendor's web service?
 
-    JSON data can be stored in PostgreSQL as a `JSONB` field. While inserting data does take longer than if the `JSON` type was used instead, querying data is significantly faster. Power BI is compatible with JSON data, allowing the creation of reports to view bad data that didn't parse.     
+    JSON data can be stored in PostgreSQL as a `JSONB` field. While inserting data does take longer than if the `JSON` type was used instead, querying data is significantly faster. Power BI is compatible with JSON data.     
 
 7. What will we do if our audit logs fill up again? Will PostgreSQL crash the same way Oracle did?
 
@@ -602,13 +605,13 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 
 8. If we take advantage of new features, will our license costs keep ratcheting up and up? Will we have a dependable way of budgeting for this project?
 
-    As mentioned previously, Microsoft has a transparent budgeting system with various options to optimize costs. First, support for a wide range of extensions allows you to easily implement features to meet the organization's data needs. You also have access to reserved pricing, which reduces the amount you spend hourly for compute resources.  
+    As mentioned previously, Microsoft has a transparent budgeting system with various options to optimize costs. Support for a wide range of extensions allows you to easily implement features to meet the organization's data needs. You also have access to reserved pricing, which reduces the amount you spend hourly for compute resources.  
 
 9. Are there any Oracle features required by WWI for which PostgreSQL Server has no equivalent?
 
     Nothing in the customer requirements is exclusive to an Oracle ecosystem. Oracle Forms is unique to Oracle, but Microsoft offers several replacement technologies, including LightSwitch, SharePoint Forms, Power Apps, ASP.NET MVC, WPF Forms, and ASP.NET Core applications.
 
-    The customer might implement Oracle RAC, but managed Azure Database for PostgreSQL - Hyperscale (Citus) is simpler to provision and manage, follows a simpler pricing model, and offers excellent performance and high availability features. 
+    The customer might implement Oracle RAC, but managed Azure Database for PostgreSQL - Hyperscale (Citus) is simpler to provision and manage, follows a simpler pricing model, and offers excellent performance and high availability features. Hyperscale (Citus) is well-suited to multi-tenant applications and analytics platforms (through new features, like compressed column storage). WWI should discuss whether their future growth necessitates a database optimized for horizontal scaling and large workloads (100 GB+).
 
 10. Do we need to tell all our vendors that we're changing databases, so their integrations work?
 

@@ -1,33 +1,22 @@
+﻿using System;
+using System.Collections.Generic;
+
+#nullable disable
+
 namespace NorthwindMVC.Data
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
-
-    [Table("NW.CATEGORIES")]
-    public partial class CATEGORy
+    public partial class Category
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CATEGORy()
+        public Category()
         {
-            PRODUCTS = new HashSet<PRODUCT>();
+            Products = new HashSet<Product>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int CATEGORYID { get; set; }
+        public int Categoryid { get; set; }
+        public string Categoryname { get; set; }
+        public string Description { get; set; }
+        public byte[] Picture { get; set; }
 
-        [Required]
-        [StringLength(15)]
-        public string CATEGORYNAME { get; set; }
-
-        [StringLength(500)]
-        public string DESCRIPTION { get; set; }
-
-        public byte[] PICTURE { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PRODUCT> PRODUCTS { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

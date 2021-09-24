@@ -4,15 +4,13 @@ As we look to streamline content and improve training, we are considering retiri
 
 # Migrating Oracle to Azure SQL and PostgreSQL
 
-Wide World Importers (WWI) has experienced significant growth in the last few years. In addition to predictable growth, they’ve had a substantial amount of growth in the data they store in their data warehouse. Their data warehouse is starting to show its age, slowing down during extract, transform, and load (ETL) operations and during critical queries. The data warehouse is running on SQL Server 2008 R2 Standard Edition.
+Wide World Importers (WWI) has experienced significant growth in the last few years. As a result, the Oracle OLTP database that powers their vendor integrations and inventory and sales applications has proved inadequate. The CIO has read about the performance and security enhancements of Azure SQL Database. Before committing to an Azure migration, the CIO would like a PoC of the OLTP database migration and the necessary modifications to the ASP.NET Core inventory app.
 
-The WWI CIO has recently read about new performance enhancements of Azure SQL Database and SQL Server 2017. She is excited about the potential performance improvements related to clustered ColumnStore indexes. She is also hoping that table compression can improve performance and backup times.
+WWI has also learned of the benefits that Azure Database for PostgreSQL offers for an Oracle migration, including the similarities between PL/SQL and PL/pgSQL. Consult the [PostgreSQL Migration Lab document](Hands-on%20lab/HOL%20step-by-step%20-%20Migrating%20Oracle%20to%20PostgreSQL.md) to use the open-source `ora2pg` tool to assess an Oracle transactional database and migrate it to Azure.
 
-WWI is concerned about upgrading their database to Azure SQL Database or SQL Server 2017. The data warehouse has been successful for a long time. As it has grown, it has filled with data, stored procedures, views, and security. WWI wants assurance that if it moves its data store, it won’t run into any incompatibilities with the storage engine of Azure SQL Database or SQL Server 2017.
+In addition to predictable growth, they’ve had a substantial amount of growth in the data they store in their data warehouse. Their data warehouse is starting to show its age, slowing down during extract, transform, and load (ETL) operations and during critical queries. The data warehouse is running on SQL Server 2008 R2 Standard Edition. The CIO is excited about the potential performance improvements offered by Azure SQL Database, such as clustered ColumnStore indexes. She is also hoping that table compression can improve performance and backup times.
 
-WWI’s CIO would like a POC of a data warehouse move and proof that the new technology can help ETL and query performance.
-
-November 2020
+September 2021
 
 ## Target audience
 
@@ -24,21 +22,21 @@ November 2020
 
 ### Workshop
 
-In this workshop, you gain a better understanding of how to conduct a site analysis for a customer to compare cost, performance, and level of effort required to migrate from Oracle to SQL Server or PostgreSQL. There are two migration paths included in this workshop and the training files are named appropriately for each path. Both workshops share a common customer Oracle migration scenario. Each workshop path has tailored database platform migration steps to assist you in this learning journey.  You will evaluate the dependent applications and reports that need to be updated and come up with a migration plan. Also, you will design and build a proof of concept (POC) to help the customer take advantage of new SQL Server or PostgreSQL features to improve performance and resiliency.
+In this workshop, you gain a better understanding of how to conduct a site analysis for a customer to compare cost, performance, and level of effort required to migrate from Oracle to Azure SQL Database or Azure Database for PostgreSQL. There are two migration paths included in this workshop and the training files are named appropriately for each path. Both workshops share a common customer Oracle migration scenario. Each workshop path has tailored database platform migration steps to assist you in this learning journey.  You will evaluate the dependent applications and reports that need to be updated and come up with a migration plan. Also, you will design and build a proof of concept (POC) to help the customer take advantage of new Azure SQL Database or Azure Database for PostgreSQL features to improve performance and resiliency.
 
-For those students focusing on the SQL Server migration, you will explore ways to migrate from an old version of SQL Server to the latest version and consider the impact of migrating from on-premises to the cloud.
+For those students focusing on the optional SQL Server migration (part of the [Oracle to Azure SQL Lab document](Hands-on%20lab/HOL%20step-by-step%20-%20Migrating%20Oracle%20to%20Azure%20SQL.md)), you will explore ways to migrate from an old version of SQL Server to the latest version (Azure SQL Database) and consider the impact of migrating from on-premises to the cloud.
 
-At the end of this workshop, you will be better able to conduct a site analysis for compare cost, performance, and level of effort required to migrate from Oracle to SQL Server or PostgreSQL.  Given the time required to complete the workshop, it is recommended the student and trainer pick a single migration path.
+Given the time required to complete the workshop, it is recommended that the student and trainer pick a single migration path.
 
 ### Whiteboard design session
 
-In this whiteboard design session, you work with a group to design a proof of concept (POC) for conducting a site analysis for a customer to compare cost, performance, and level of effort required to migrate from Oracle to SQL Server or PostgreSQL. You evaluate the dependent applications and reports that need to be updated and come up with a migration plan. Also, you review ways to help the customer take advantage of the database features to improve performance and resiliency. For the SQL Server path, you explore ways to migrate from an old version of SQL Server to the latest version and consider the impact of migrating from on-premises to the cloud.
+In this whiteboard design session, you work with a group to design a proof of concept (POC) for conducting a site analysis for a customer to compare cost, performance, and level of effort required to migrate from Oracle to Azure SQL Database or Azure Database for PostgreSQL. You evaluate the dependent applications and reports that need to be updated and come up with a migration plan. Also, you review ways to help the customer take advantage of the database features to improve performance and resiliency. For the optional SQL Server path, you explore ways to migrate from an old version of SQL Server to the latest version (Azure SQL Database) and consider the impact of migrating from on-premises to the cloud.
 
 At the end of this whiteboard design session, you will be better able to design a database migration plan and execute the steps.
 
 ### Hands-on lab
 
-In this hands-on lab, you implement a proof of concept (POC) for conducting a site analysis for a customer to compare cost, performance, and migration level of effort. You will evaluate the dependent applications and reports that need to be updated and come up with a migration plan. Also, you help the customer take advantage of new features to improve performance and resiliency and perform a migration+.
+In this hands-on lab, you implement a proof of concept (POC) for conducting a site analysis for a customer to compare cost, performance, and migration level of effort. You will evaluate the dependent applications and reports that need to be updated and come up with a migration plan. Also, you help the customer take advantage of new features to improve performance and resiliency and perform a migration.
 
 At the end of this hands-on lab, you will be better able to design and build a database migration plan and implement any required application changes associated with changing database technologies.
 
@@ -48,7 +46,7 @@ At the end of this hands-on lab, you will be better able to design and build a d
 - Azure Database Migration Service (DMS)
 - Azure SQL Database
 - Azure SQL Data Warehouse
-- SQL Server on Azure Virtual Machines (SQL Server 2008 R2 and SQL Server 2017)
+- SQL Server on Azure Virtual Machines (SQL Server 2008 R2)
 - Data Migration Assistant (DMA)
 - SQL Server Management Studio (SSMS)
 - SQL Server Migration Assistant (SSMA)

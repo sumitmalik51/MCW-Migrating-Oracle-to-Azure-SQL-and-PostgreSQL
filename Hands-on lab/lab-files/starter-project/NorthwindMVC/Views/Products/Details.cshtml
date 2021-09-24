@@ -1,86 +1,72 @@
-﻿@model NorthwindMVC.Data.PRODUCT
+﻿@model NorthwindMVC.Data.Product
 
 @{
-    ViewBag.Title = "Product Detail";
+    ViewData["Title"] = "Product Details";
 }
 
+<h1>Details</h1>
+
 <div>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.CATEGORy.CATEGORYNAME)
+    <h4>Product</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Productname)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CATEGORy.CATEGORYNAME)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Productname)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.SUPPLIER.COMPANYNAME)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Quantityperunit)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SUPPLIER.COMPANYNAME)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Quantityperunit)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PRODUCTNAME)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Unitprice)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PRODUCTNAME)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Unitprice)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.QUANTITYPERUNIT)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Unitsinstock)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.QUANTITYPERUNIT)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Unitsinstock)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.UNITPRICE)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Unitsonorder)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UNITPRICE)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Unitsonorder)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.UNITSINSTOCK)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Reorderlevel)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UNITSINSTOCK)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Reorderlevel)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.UNITSONORDER)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Discontinued)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UNITSONORDER)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Discontinued)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.REORDERLEVEL)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Category)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.REORDERLEVEL)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Category.Categoryname)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DISCONTINUED)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Supplier)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DISCONTINUED)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Supplier.Companyname)
         </dd>
-
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.PRODUCTID }, new { @class = "btn btn-default" })
-    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
-</p>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Productid">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

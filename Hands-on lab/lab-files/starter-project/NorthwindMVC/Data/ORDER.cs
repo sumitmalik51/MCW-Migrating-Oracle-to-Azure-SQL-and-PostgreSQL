@@ -1,63 +1,35 @@
+﻿using System;
+using System.Collections.Generic;
+
+#nullable disable
+
 namespace NorthwindMVC.Data
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
-
-    [Table("NW.ORDERS")]
-    public partial class ORDER
+    public partial class Order
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ORDER()
+        public Order()
         {
-            ORDER_DETAILS = new HashSet<ORDER_DETAILS>();
+            OrderDetails = new HashSet<OrderDetail>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int ORDERID { get; set; }
+        public int Orderid { get; set; }
+        public string Customerid { get; set; }
+        public decimal? Employeeid { get; set; }
+        public DateTime? Orderdate { get; set; }
+        public DateTime? Requireddate { get; set; }
+        public DateTime? Shippeddate { get; set; }
+        public int? Shipvia { get; set; }
+        public decimal? Freight { get; set; }
+        public string Shipname { get; set; }
+        public string Shipaddress { get; set; }
+        public string Shipcity { get; set; }
+        public string Shipregion { get; set; }
+        public string Shippostalcode { get; set; }
+        public string Shipcountry { get; set; }
 
-        [StringLength(5)]
-        public string CUSTOMERID { get; set; }
-
-        public int? EMPLOYEEID { get; set; }
-
-        public DateTime? ORDERDATE { get; set; }
-
-        public DateTime? REQUIREDDATE { get; set; }
-
-        public DateTime? SHIPPEDDATE { get; set; }
-
-        public int? SHIPVIA { get; set; }
-
-        public decimal? FREIGHT { get; set; }
-
-        [StringLength(40)]
-        public string SHIPNAME { get; set; }
-
-        [StringLength(60)]
-        public string SHIPADDRESS { get; set; }
-
-        [StringLength(30)]
-        public string SHIPCITY { get; set; }
-
-        [StringLength(15)]
-        public string SHIPREGION { get; set; }
-
-        [StringLength(10)]
-        public string SHIPPOSTALCODE { get; set; }
-
-        [StringLength(15)]
-        public string SHIPCOUNTRY { get; set; }
-
-        public virtual CUSTOMER CUSTOMER { get; set; }
-
-        public virtual EMPLOYEE EMPLOYEE { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ORDER_DETAILS> ORDER_DETAILS { get; set; }
-
-        public virtual SHIPPER SHIPPER { get; set; }
+        public virtual Customer Customer { get; set; }
+        public virtual Employee Employee { get; set; }
+        public virtual Shipper ShipviaNavigation { get; set; }
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

@@ -290,20 +290,9 @@ PgAdmin greatly simplifies database administration and configuration tasks by pr
 
 ### Task 9 (Migrate to PostgreSQL): Install the ora2pg utility
 
-**Ora2pg** is the tool we will use to migrate database objects and data. Microsoft's Data Migration Team has greatly simplified the process of obtaining this tool by providing the **installora2pg.ps1** script. You can download using the link below:
+**Ora2pg** is the tool we will use to migrate database objects and data. Microsoft's Data Migration Team has greatly simplified the process of obtaining this tool by providing the **installora2pg.ps1** script. You can access the script at the `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL\Hands-on lab\lab-files\installora2pg.ps1` location.
 
- **Download**: <https://raw.githubusercontent.com/microsoft/DataMigrationTeam/master/IP%20and%20Scripts/PostgreSQL%20Migration%20and%20Assessment%20Tools/installora2pg.ps1>.
-
-1. Copy Microsoft's script content to the `C:\handsonlab\MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL\Hands-on lab\lab-files\starter-project\Postgre Scripts` location.
-
-    - Press Ctrl+S to save the file from the webpage.
-    - In the File Explorer dialog, quote the file name and ensure that the **Save as type** field is set to **All Files**.
-
-        ![Ensuring that the installora2pg.ps1 script does not have .txt appended to it by File Explorer.](./media/save-ps-script-properly.png "Saving the PowerShell script without a .txt extension")
-
-    >**Note**: Failing to put quotes around filename on save will cause the file to be saved as a text file. It will NOT execute as a PowerShell file.
-
-2. Navigate to the location mentioned above and right-click `installora2pg.ps1`. Then, select **Run with PowerShell**.
+1. Navigate to the location mentioned above and right-click `installora2pg.ps1`. Then, select **Run with PowerShell**.
 
     ![Screenshot to show the process to install ora2pg.](./media/running-ora2pg-install-script.png "Installing ora2pg")
 
@@ -313,7 +302,7 @@ PgAdmin greatly simplifies database administration and configuration tasks by pr
 
     ![Image shows the initial PowerShell web request executing.](media/orapg-powershell-script-executing.png "PowerShell executing")
 
-3. Install the ora2pg utility dependencies.
+2. Install the ora2pg utility dependencies.
 
    - Install Perl. It will take five minutes.
    - Install the Oracle client library and SDK. To do this, you will first need to navigate to [Oracle Downloads](https://www.oracle.com/database/technologies/instant-client/winx64-64-downloads.html). Then, scroll to **Version 12.2.X**. Select the installer for the **Basic Package**.
@@ -321,11 +310,11 @@ PgAdmin greatly simplifies database administration and configuration tasks by pr
 
     ![Screenshot to show downloading the basic package.](./media/basic-package.png "Basic package download")
 
-4. On the same Oracle link as above under the **version** section, locate the **SDK Package** installer under the **Development and Runtime - optional packages** section. Keep the zipped file in the Downloads directory.
+3. On the same Oracle link as above under the **version** section, locate the **SDK Package** installer under the **Development and Runtime - optional packages** section. Keep the zipped file in the Downloads directory.
 
     ![Screenshot to show the SDK Package download.](./media/sdk-package.png "SDK package download")
 
-5. Navigate to the directory where the zipped instant client packages reside.
+4. Navigate to the directory where the zipped instant client packages reside.
 
     - For the basic package, right-click it, and select **Extract All...**.
     - When prompted to choose the destination directory, navigate to the `C:\` location.
@@ -338,7 +327,7 @@ PgAdmin greatly simplifies database administration and configuration tasks by pr
 
     ![The image shows the folder path to the client and the SDK.](media/extract-sdk-client-validation.png "Correct path to the SDK and Instant Client")
 
-6. Install the Git client and ora2pg utility.  
+5. Install the Git client and ora2pg utility.  
     - Return to the PowerShell script.
     - Press any key to terminate the script's execution, if the PS window is still visible.
     - Open Explorer and rename the  `C:\instantclient_12_2` folder to `C:\instantclient`.
@@ -359,7 +348,7 @@ PgAdmin greatly simplifies database administration and configuration tasks by pr
 
     ![The image shows a successful Git and ora2pg installation](media/ps-successful-git-ora2pg-installation.png "Git and ora2pg installation")
 
-7. Once ora2pg installs, you will need to configure PATH variables.
+6. Once ora2pg installs, you will need to configure PATH variables.
 
     - Search for **View advanced system settings** in Windows.
     - Select the result, and the **System Properties** dialog box should open.
@@ -368,11 +357,11 @@ PgAdmin greatly simplifies database administration and configuration tasks by pr
 
     ![Screenshot showing process to enter environment labels.](./media/enter-environment-variables.png "Environment Variables selected")
 
-8. Under **System variables**, select **Path**. Select **Edit...**.
+7. Under **System variables**, select **Path**. Select **Edit...**.
 
     ![Screenshot to show editing the path variables.](./media/selecting-path.png "Selecting the PATH variables")
 
-9. The **Edit environment variable** box should be displaying.
+8. The **Edit environment variable** box should be displaying.
 
     - Select **New**.
     - Enter **C:\instantclient**.

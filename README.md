@@ -1,7 +1,3 @@
-## Microsoft Cloud Workshops - Retirement Survey  
-
-As we look to streamline content and improve training, we are considering retiring the Microsoft Cloud Workshop (MCW) program. Please take a moment to fill out the [Microsoft Cloud Workshop Survey](https://forms.office.com/r/834zwtaNtK) and give us your feedback.
-
 # Migrating Oracle to Azure SQL and PostgreSQL
 
 Wide World Importers (WWI) has experienced significant growth in the last few years. As a result, the Oracle OLTP database that powers their vendor integrations and inventory and sales applications has proved inadequate. The CIO has read about the performance and security enhancements of Azure SQL Database. Before committing to an Azure migration, the CIO would like a PoC of the OLTP database migration and the necessary modifications to the ASP.NET Core inventory app.

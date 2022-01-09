@@ -1,5 +1,5 @@
 -- 1. Run to drop schema
---drop user NW cascade;
+-- drop user NW cascade;
 
 -- Fix for user creation in a containerized database
 

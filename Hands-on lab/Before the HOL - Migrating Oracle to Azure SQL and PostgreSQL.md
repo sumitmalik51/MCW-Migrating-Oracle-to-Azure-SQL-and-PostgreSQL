@@ -188,19 +188,21 @@ The same applies to Tasks 6 and 7.
 
    ![This image demonstrates how to download Oracle 21c XE from the Oracle Database XE Downloads page.](./media/21c-oracle-downlaod.png "Oracle 21c download")
 
-3. Extract the ZIP file. Right-click `setup.exe`, and select **Run as administrator**.
+3. Accept the license agreement, if you are presented with one.
 
-4. Select **Next** to step through each screen of the installer, accepting the license agreement and default values, until you get to the **Specify Database Passwords** screen.
+4. Extract the ZIP file. Right-click `setup.exe`, and select **Run as administrator**.
 
-5.  On the **Oracle Database Information** screen, set the password to **Password.1!!**, and select **Next**.
+5. Select **Next** to step through each screen of the installer, accepting the license agreement and default values, until you get to the **Specify Database Passwords** screen.
+
+6.  On the **Oracle Database Information** screen, set the password to **Password.1!!**, and select **Next**.
 
     ![The above credentials are entered on the Oracle Database Information screen.](./media/oracle-21c-specify-passwords.png "Set the password")
 
-6.  Select **Install**. Once the installation completes, take note of the ports assigned.
+7.  Select **Install**. Once the installation completes, take note of the ports assigned.
 
     ![Several of the ports being assigned are highlighted on the Summary screen.](./media/oracle-21c-install-summary.png "Note the ports being assigned")
 
-7.  Select **Finish** on the final dialog to complete the installation.
+8.  Select **Finish** on the final dialog to complete the installation.
 
 ### Task 6: Install Oracle Data Access components
 

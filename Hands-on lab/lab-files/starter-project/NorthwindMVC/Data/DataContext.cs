@@ -119,7 +119,7 @@ namespace NorthwindMVC.Data
                     .HasColumnName("COMPANYNAME");
 
                 entity.Property(e => e.Contactname)
-                    .HasMaxLength(30)
+                    .HasMaxLength(40)
                     .IsUnicode(false)
                     .HasColumnName("CONTACTNAME");
 
@@ -440,7 +440,7 @@ namespace NorthwindMVC.Data
 
                 entity.Property(e => e.Productname)
                     .IsRequired()
-                    .HasMaxLength(40)
+                    .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("PRODUCTNAME");
 
@@ -510,7 +510,7 @@ namespace NorthwindMVC.Data
 
                 entity.Property(e => e.Companyname)
                     .IsRequired()
-                    .HasMaxLength(40)
+                    .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("COMPANYNAME");
 

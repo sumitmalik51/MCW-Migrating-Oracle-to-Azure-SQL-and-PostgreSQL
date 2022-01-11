@@ -194,7 +194,7 @@ In this exercise, you will prepare the existing Oracle database for its migratio
 1. Run the following statements in SQL Developer.
 
     ```sql
-    -- 18c script
+    -- 21c script
     EXECUTE DBMS_STATS.GATHER_SCHEMA_STATS(ownname => 'NW');
     EXECUTE DBMS_STATS.GATHER_DATABASE_STATS;
     EXECUTE DBMS_STATS.GATHER_DICTIONARY_STATS;
@@ -284,7 +284,7 @@ Our configuration in pgAdmin is now complete.
     ora2pg --init_project nw_migration
     ```
 
-    >**Note**: In some cases, ora2pg may fail to find its configuration file. In scenarios such as these, you may need to provide the -c flag with the name of the actual configuration file in your ora2pg directory. For instance, `ora2pg.conf.dist` did not exist in my directory, but the file `ora2pg_conf.dist` was available.
+    >**Note**: In some cases, ora2pg may fail to find its configuration file. In scenarios such as these, you may need to provide the -c flag with the name of the actual configuration file in your ora2pg directory.
 
     >**Note**: You may receive an error that ora2pg cannot find Perl. If this is the case, just ensure that `C:\Strawberry\perl\bin` has been added to the PATH variable.
 
@@ -299,16 +299,13 @@ Our configuration in pgAdmin is now complete.
 4. Navigate to the project directory.
 
     - Locate **config\ora2pg.conf**.
-    - Select the file to open it. If you are asked to select an application to open the file, select **Notepad**. We will need to collect multiple parameters of the local Oracle database to enter into the configuration file. These parameters are available by entering **lsnrctl status** into the command prompt.
-
-    ![Screenshot showing database parameters.](./media/database-parameter.png "Database parameters")
-
+    - Select the file to open it. If you are asked to select an application to open the file, select **Notepad**.
 
 5. In the **config\ora2pg.conf** file, replace the old values in the file with the correct information.
 
     ```text
     # Set the Oracle home directory
-    ORACLE_HOME	C:\app\demouser\product\18.0.0\dbhomeXE
+    ORACLE_HOME	C:\app\demouser\product\21c\dbhomeXE
 
     # Set Oracle database connection (datasource, user, password)
     ORACLE_DSN	dbi:Oracle:host=LabVM;sid=XE;port=1521

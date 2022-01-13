@@ -49,7 +49,7 @@ CREATE INDEX CategoriesCategoryName ON Categories(CategoryName);
 CREATE TABLE Customers (
 	CustomerID varchar2 (5) NOT NULL ,
 	CompanyName varchar2 (40) NOT NULL ,
-	ContactName varchar2 (30) NULL ,
+	ContactName varchar2 (40) NULL ,
 	ContactTitle varchar2 (30) NULL ,
 	Address varchar2 (60) NULL ,
 	City varchar2 (30) NULL ,
@@ -77,7 +77,7 @@ CREATE TABLE Shippers (
 
 CREATE TABLE Suppliers (
 	SupplierID number(10) NOT NULL ,
-	CompanyName varchar2 (40) NOT NULL ,
+	CompanyName varchar2 (50) NOT NULL ,
 	ContactName varchar2 (30) NULL ,
 	ContactTitle varchar2 (30) NULL ,
 	Address varchar2 (60) NULL ,
@@ -131,7 +131,7 @@ CREATE INDEX OrdersShipPostalCode ON Orders(ShipPostalCode);
 
 CREATE TABLE Products (
 	ProductID number(10) NOT NULL,
-	ProductName varchar2 (40) NOT NULL,
+	ProductName varchar2 (50) NOT NULL,
 	SupplierID number(10) NULL,
 	CategoryID number(10) NULL,
 	QuantityPerUnit varchar2 (20) NULL,

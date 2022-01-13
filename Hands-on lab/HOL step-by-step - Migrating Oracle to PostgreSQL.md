@@ -265,6 +265,8 @@ In this task, we will create the new application user and create the NW database
 
     ![Setting the NW role as a member of the azure_pg_admin role.](./media/set-role-membership-5.4.png "azure_pg_admin role membership")
 
+10. If you did not deploy the lab ARM template, you need to create a new database. Simply right-click the **Databases** dropdown and select **Create > Database...**. Provide `NW` as the database name and the set the owner to the admin user configured in the Azure provisioning step.
+
 Our configuration in pgAdmin is now complete.
 
 ### Task 2: Create an ora2pg project structure
@@ -392,9 +394,9 @@ Exercise 3 covered planning and assessment steps.  To start the database migrati
 4. Reopen the command prompt in the `C:\ora2pg\nw_migration` directory.
 
     - Enter the following command to run the **NW-psql.sql** file to create tables in the **NW** database.
-    - [Server Name] - Enter your Azure PostgreSQL database's DNS name as the value passed to the -h flag. You can find this Server name in the Azure PostgreSQL overview.
+      - [Server Name] - Enter your Azure PostgreSQL database's DNS name as the value passed to the -h flag. You can find this Server name in the Azure PostgreSQL overview.
 
-    ![The image shows the Azure PostgreSQL overview information. The Server name is circled.](media/azure-database-psql-overview.png "PostgreSQL Server Name")
+        ![The image shows the Azure PostgreSQL overview information. The Server name is circled.](media/azure-database-psql-overview.png "PostgreSQL Server Name")
 
     - If the connection is successful, you will be asked to enter your password.
     - Then, the command prompt should show a sequence of **CREATE TABLE** statements.
@@ -511,15 +513,15 @@ Views are not referenced by the sample application, but we are including this ta
 
     ![Screenshot showing the new view for Sales Total Amounts.](./media/sales-totals-amount-view-new.png "Sales Totals amounts new view")
 
-4. Open the **QUARTERLY_ORDERS_NW-views.sql** and replace the **to_date()** function with **DATE()** function. Remember, the DATE() function does NOT have the same parameters.
+4. Open **QUARTERLY_ORDERS_NW-views.sql** and replace **to_date(Orders.OrderDate, 'MM/DD/YYYY')** with **DATE(Orders.OrderDate)**.
 
     >**Note**: The other two applications of the `to_date()` function in that file are acceptable, as seen below.
 
     ![Testing to_date() function from pgAdmin.](./media/to-date-demo.png "to_date() sample")
 
-5. Open the **PRODUCT_SALES_FOR_1997_NW-views.sql** and replace the **to_date()** function with **DATE()** function.
+5. Open **PRODUCT_SALES_FOR_1997_NW-views.sql** and replace **to_date(Orders.ShippedDate, 'MM/DD/YYYY')** with **DATE(Orders.ShippedDate)**.
 
-6. Open the **SALES_BY_CATEGORY_NW-views.sql** and replace the **to_date()** function with **DATE()** function.
+6. Open **SALES_BY_CATEGORY_NW-views.sql** and replace **to_date(Orders.OrderDate, 'MM/DD/YYYY')** with **DATE(Orders.OrderDate)**.
 
 7. Now that all modifications are complete, run the NW-views.sql file in psql:
 
@@ -637,7 +639,7 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
 5. Enter the following command in the Package Manager console. It will install the open-source Npgsql Entity Framework Core provider.
 
     ```powershell
-    Install-Package Npgsql.EntityFrameworkCore.PostgreSQL
+    Install-Package Npgsql.EntityFrameworkCore.PostgreSQL -Version 5.0.7
     ```
 
 
@@ -654,8 +656,6 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
 7. Attempt to build the solution to identify errors.
 
     ![The image shows the Visual Studio menu. Build Solution menu item highlighted.](media/visual-studio-build-solution.png "Build Solution")
-
-    ![Errors in the solution.](./media/solution-errors.png "Solution errors")
 
 8. Expand the **Views** folder. Delete the following folders, each of which contains five views:
 
@@ -676,10 +676,6 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
     Add the following below the other property definitions.
 
     ```csharp
-    // Existing property definitions
-    public virtual DbSet<Supplier> Suppliers { get; set; }
-    public virtual DbSet<Territory> Territories { get; set; }
-
     // Add SalesByYearDbSet
     public virtual DbSet<SalesByYear> SalesByYearDbSet { get; set; }
     ```

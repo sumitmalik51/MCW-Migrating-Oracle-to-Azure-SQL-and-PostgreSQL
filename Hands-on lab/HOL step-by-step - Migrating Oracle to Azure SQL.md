@@ -327,7 +327,7 @@ In this exercise, you will migrate the Oracle database to Azure SQL DB using SSM
 
 19. You will see a success message in the output window.
 
-    ![The successful connection message is highlighted in the Output window.](./media/ssma-connect-to-sql-server-success.png "View the successful connection message")
+    ![The successful connection message is highlighted in the Output window.](./media/ssma-connect-to-azure-sql.png "View the successful connection message")
 
 20. In the Azure SQL Database Metadata Explorer, expand the server node, then Databases. You should see Northwind listed.
 
@@ -510,10 +510,6 @@ In this exercise, you will modify the `NorthwindMVC` application so it targets A
     Add the following below the other property definitions.
 
     ```csharp
-    // Existing property definitions
-    public virtual DbSet<Supplier> Suppliers { get; set; }
-    public virtual DbSet<Territory> Territories { get; set; }
-
     // Add SalesByYearDbSet
     public virtual DbSet<SalesByYear> SalesByYearDbSet { get; set; }
     ```
@@ -537,6 +533,8 @@ In this exercise, you will modify the `NorthwindMVC` application so it targets A
 
 10. Build the solution. Ensure that no errors appear. We added `SalesByYearDbSet` to **DataContext** because **HomeController.cs** references it. We deleted the controllers and their associated views because we will scaffold them again from the models.
 
+    > **Note**: If you encounter build errors, verify that the `_ViewImports.cshtml` file in the `Views` directory was not accidentally deleted. If it was, simply copy the [file from the project GitHub repository](https://raw.githubusercontent.com/microsoft/MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL/master/Hands-on%20lab/lab-files/starter-project/NorthwindMVC/Views/_ViewImports.cshtml).
+
 11. Right-click the **Controllers** folder and select **Add** (1). Select **New Scaffolded Item...** (2).
 
    ![Adding a new scaffolded item.](./media/add-scaffolded-item.png "New scaffolded item")
@@ -544,16 +542,6 @@ In this exercise, you will modify the `NorthwindMVC` application so it targets A
 12. Select **MVC Controller with views, using Entity Framework**. Then, select **Add**.
 
    ![Add MVC Controller with Views, using Entity Framework.](./media/add-mvc-with-ef.png "MVC Controller with Views, using Entity Framework")
-
-   If you receive an error that package restore fails, you need to update the NuGet packages. To do this, first select **Tools** (1), **NuGet Package Manager** (2), and **Manage NuGet Packages for Solution...** (3).
-
-   ![Open the Manage NuGet Packages for Solution window.](./media/manage-solution-nuget-packages.png "Opening the solution NuGet Package Manager interface")
-
-   Now, navigate to the **Updates** tab (1). Click the **Select all packages** button (2). Lastly, select **Update** (3).
-
-   ![Select and update all NuGet packages in the Solution.](./media/update-nuget-packages-for-solution.png "Updating Solution NuGet packages")
-
-   Once this step completes, restart Visual Studio 2019.
 
 13. In the **ADD MVC Controller with views, using Entity Framework** dialog box, provide the following details. Then, select **Add**. Visual Studio will build the project.
 

@@ -692,6 +692,8 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
 
 11. Build the solution. Ensure that no errors appear. We added `SalesByYearDbSet` to **DataContext** because **HomeController.cs** references it. We deleted the controllers and their associated views because we will scaffold them again from the models.
 
+    > **Note**: If you encounter build errors, verify that the `_ViewImports.cshtml` file in the `Views` directory was not accidentally deleted. If it was, simply copy the [file from the project GitHub repository](https://raw.githubusercontent.com/microsoft/MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL/master/Hands-on%20lab/lab-files/starter-project/NorthwindMVC/Views/_ViewImports.cshtml).
+
 12. Right-click the **Controllers** folder and select **Add** (1). Select **New Scaffolded Item...** (2).
 
     ![Adding a new scaffolded item.](./media/add-scaffolded-item.png "New scaffolded item")

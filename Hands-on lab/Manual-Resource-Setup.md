@@ -208,35 +208,25 @@ The same applies for Tasks 5 and 6.
 
 1. In a web browser on your Lab VM, navigate to <https://www.oracle.com/database/technologies/xe-downloads.html>.
 
-2. On the Oracle Database XE Downloads page, select **Oracle Database 18c Express Edition for Windows x64** download link.
+2. On the Oracle Database XE Downloads page, select **Oracle Database 21c Express Edition for Windows x64** download link. Allow the file to download.
 
-   ![Accept the license agreement and Oracle Database 18c Express Edition for Windows x64 are highlighted under Oracle Database Express Edition 18c.](./media/18c-oracle-download.png "Oracle 18c download")
+   ![This image demonstrates how to download Oracle 21c XE from the Oracle Database XE Downloads page.](./media/21c-oracle-downlaod.png "Oracle 21c download")
 
-3. Accept the license agreement, when prompted, and then select **Download OracleXE184_Win64.zip**. You might need to select the **Oracle License Agreement** link and scroll to the bottom of the agreement to enable the checkbox.
+3. Accept the license agreement, if you are presented with one.
 
-   ![The license agreement checkbox is checked on the license agreement dialog.](media/download-oracle-xe.png "Download Oracle XE")
+4. Extract the ZIP file. Right-click `setup.exe`, and select **Run as administrator**.
 
-4. Sign in with your Oracle account to complete the download. If you don't already have a free Oracle account, you will need to create one.
+5. Select **Next** to step through each screen of the installer, accepting the license agreement and default values, until you get to the **Specify Database Passwords** screen.
 
-   ![This is a screenshot of the Sign in screen.](./media/oracle-sign-in.png "Sign in to complete the download")
+6.  On the **Oracle Database Information** screen, set the password to **Password.1!!**, and select **Next**.
 
-5. After signing in, the file will download.
+    ![The above credentials are entered on the Oracle Database Information screen.](./media/oracle-21c-specify-passwords.png "Set the password")
 
-6. Extract the ZIP file. Right-click `setup.exe`, and select **Run as administrator**.
+7.  Select **Install**. Once the installation completes, take note of the ports assigned.
 
-   ![In File Explorer, setup.exe is selected, and Run as administrator is highlighted in the shortcut menu.](./media/windows-file-menu-run-as-administrator.png "Run setup.exe as an administrator")
+    ![Several of the ports being assigned are highlighted on the Summary screen.](./media/oracle-21c-install-summary.png "Note the ports being assigned")
 
-7. Select **Next** to step through each screen of the installer, accepting the license agreement and default values, until you get to the **Specify Database Passwords** screen.
-
-8.  On the **Oracle Database Information** screen, set the password to **Password.1!!**, and select **Next**.
-
-    ![The above credentials are entered on the Oracle Database Information screen.](./media/oracle-18c-specify-passwords.png "Set the password")
-
-9.  Select **Install**. Once the installation completes, take note of the ports assigned.
-
-    ![Several of the ports being assigned are highlighted on the Summary screen.](./media/oracle-18c-install-summary.png "Note the ports being assigned")
-
-10. Select **Finish** on the final dialog to complete the installation.
+8.  Select **Finish** on the final dialog to complete the installation.
 
 ### Task 5: Install Oracle Data Access components
 

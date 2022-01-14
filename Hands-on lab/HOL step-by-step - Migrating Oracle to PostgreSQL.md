@@ -194,7 +194,7 @@ In this exercise, you will prepare the existing Oracle database for its migratio
 1. Run the following statements in SQL Developer.
 
     ```sql
-    -- 18c script
+    -- 21c script
     EXECUTE DBMS_STATS.GATHER_SCHEMA_STATS(ownname => 'NW');
     EXECUTE DBMS_STATS.GATHER_DATABASE_STATS;
     EXECUTE DBMS_STATS.GATHER_DICTIONARY_STATS;
@@ -265,6 +265,8 @@ In this task, we will create the new application user and create the NW database
 
     ![Setting the NW role as a member of the azure_pg_admin role.](./media/set-role-membership-5.4.png "azure_pg_admin role membership")
 
+10. If you did not deploy the lab ARM template, you need to create a new database. Simply right-click the **Databases** dropdown and select **Create > Database...**. Provide `NW` as the database name and the set the owner to the admin user configured in the Azure provisioning step.
+
 Our configuration in pgAdmin is now complete.
 
 ### Task 2: Create an ora2pg project structure
@@ -284,7 +286,7 @@ Our configuration in pgAdmin is now complete.
     ora2pg --init_project nw_migration
     ```
 
-    >**Note**: In some cases, ora2pg may fail to find its configuration file. In scenarios such as these, you may need to provide the -c flag with the name of the actual configuration file in your ora2pg directory. For instance, `ora2pg.conf.dist` did not exist in my directory, but the file `ora2pg_conf.dist` was available.
+    >**Note**: In some cases, ora2pg may fail to find its configuration file. In scenarios such as these, you may need to provide the -c flag with the name of the actual configuration file in your ora2pg directory.
 
     >**Note**: You may receive an error that ora2pg cannot find Perl. If this is the case, just ensure that `C:\Strawberry\perl\bin` has been added to the PATH variable.
 
@@ -299,16 +301,13 @@ Our configuration in pgAdmin is now complete.
 4. Navigate to the project directory.
 
     - Locate **config\ora2pg.conf**.
-    - Select the file to open it. If you are asked to select an application to open the file, select **Notepad**. We will need to collect multiple parameters of the local Oracle database to enter into the configuration file. These parameters are available by entering **lsnrctl status** into the command prompt.
-
-    ![Screenshot showing database parameters.](./media/database-parameter.png "Database parameters")
-
+    - Select the file to open it. If you are asked to select an application to open the file, select **Notepad**.
 
 5. In the **config\ora2pg.conf** file, replace the old values in the file with the correct information.
 
     ```text
     # Set the Oracle home directory
-    ORACLE_HOME	C:\app\demouser\product\18.0.0\dbhomeXE
+    ORACLE_HOME	C:\app\demouser\product\21c\dbhomeXE
 
     # Set Oracle database connection (datasource, user, password)
     ORACLE_DSN	dbi:Oracle:host=LabVM;sid=XE;port=1521
@@ -395,9 +394,9 @@ Exercise 3 covered planning and assessment steps.  To start the database migrati
 4. Reopen the command prompt in the `C:\ora2pg\nw_migration` directory.
 
     - Enter the following command to run the **NW-psql.sql** file to create tables in the **NW** database.
-    - [Server Name] - Enter your Azure PostgreSQL database's DNS name as the value passed to the -h flag. You can find this Server name in the Azure PostgreSQL overview.
+      - [Server Name] - Enter your Azure PostgreSQL database's DNS name as the value passed to the -h flag. You can find this Server name in the Azure PostgreSQL overview.
 
-    ![The image shows the Azure PostgreSQL overview information. The Server name is circled.](media/azure-database-psql-overview.png "PostgreSQL Server Name")
+        ![The image shows the Azure PostgreSQL overview information. The Server name is circled.](media/azure-database-psql-overview.png "PostgreSQL Server Name")
 
     - If the connection is successful, you will be asked to enter your password.
     - Then, the command prompt should show a sequence of **CREATE TABLE** statements.
@@ -514,15 +513,15 @@ Views are not referenced by the sample application, but we are including this ta
 
     ![Screenshot showing the new view for Sales Total Amounts.](./media/sales-totals-amount-view-new.png "Sales Totals amounts new view")
 
-4. Open the **QUARTERLY_ORDERS_NW-views.sql** and replace the **to_date()** function with **DATE()** function. Remember, the DATE() function does NOT have the same parameters.
+4. Open **QUARTERLY_ORDERS_NW-views.sql** and replace **to_date(Orders.OrderDate, 'MM/DD/YYYY')** with **DATE(Orders.OrderDate)**.
 
     >**Note**: The other two applications of the `to_date()` function in that file are acceptable, as seen below.
 
     ![Testing to_date() function from pgAdmin.](./media/to-date-demo.png "to_date() sample")
 
-5. Open the **PRODUCT_SALES_FOR_1997_NW-views.sql** and replace the **to_date()** function with **DATE()** function.
+5. Open **PRODUCT_SALES_FOR_1997_NW-views.sql** and replace **to_date(Orders.ShippedDate, 'MM/DD/YYYY')** with **DATE(Orders.ShippedDate)**.
 
-6. Open the **SALES_BY_CATEGORY_NW-views.sql** and replace the **to_date()** function with **DATE()** function.
+6. Open **SALES_BY_CATEGORY_NW-views.sql** and replace **to_date(Orders.OrderDate, 'MM/DD/YYYY')** with **DATE(Orders.OrderDate)**.
 
 7. Now that all modifications are complete, run the NW-views.sql file in psql:
 
@@ -637,14 +636,7 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
 
     ![Opening the Package Manager console in Visual Studio.](./media/open-pmc.png "Opening the Package Manager Console")
 
-5. Enter the following command in the Package Manager console. It will install the open-source Npgsql Entity Framework Core provider.
-
-    ```powershell
-    Install-Package Npgsql.EntityFrameworkCore.PostgreSQL
-    ```
-
-
-6. Enter the following command in the Package Manager console to produce the models. The `-Force` flag eliminates the need to manually clear the `Data` directory.
+5. Enter the following command in the Package Manager console to produce the models. The `-Force` flag eliminates the need to manually clear the `Data` directory. The `Npgsql` connector is included with the sample app to simplify the modification process.
 
     ```powershell
     Scaffold-DbContext Name=ConnectionStrings:PostgreSqlConnectionString Npgsql.EntityFrameworkCore.PostgreSQL -OutputDir Data -Context DataContext -Schemas public -Force
@@ -654,13 +646,11 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
 
     ![The image shows the entity objects created by the executed command.](media/view-reverse-engineer-table-results.png "Reverse engineered table objects")
 
-7. Attempt to build the solution to identify errors.
+6. Attempt to build the solution to identify errors.
 
     ![The image shows the Visual Studio menu. Build Solution menu item highlighted.](media/visual-studio-build-solution.png "Build Solution")
 
-    ![Errors in the solution.](./media/solution-errors.png "Solution errors")
-
-8. Expand the **Views** folder. Delete the following folders, each of which contains five views:
+7. Expand the **Views** folder. Delete the following folders, each of which contains five views:
 
    - **Customers**
    - **Employees**
@@ -668,9 +658,9 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
    - **Shippers**
    - **Suppliers**
 
-9. Expand the **Controllers** folder. Delete all controllers, except **HomeController.cs**.
+8. Expand the **Controllers** folder. Delete all controllers, except **HomeController.cs**.
 
-10. Open **DataContext.cs**. Add the following line to the top of the file, below the other `using` directives.
+9.  Open **DataContext.cs**. Add the following line to the top of the file, below the other `using` directives.
 
     ```csharp
     using NorthwindMVC.Models;
@@ -679,10 +669,6 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
     Add the following below the other property definitions.
 
     ```csharp
-    // Existing property definitions
-    public virtual DbSet<Supplier> Suppliers { get; set; }
-    public virtual DbSet<Territory> Territories { get; set; }
-
     // Add SalesByYearDbSet
     public virtual DbSet<SalesByYear> SalesByYearDbSet { get; set; }
     ```
@@ -706,23 +692,15 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
 
 11. Build the solution. Ensure that no errors appear. We added `SalesByYearDbSet` to **DataContext** because **HomeController.cs** references it. We deleted the controllers and their associated views because we will scaffold them again from the models.
 
+    > **Note**: If you encounter build errors, verify that the `_ViewImports.cshtml` file in the `Views` directory was not accidentally deleted. If it was, simply copy the [file from the project GitHub repository](https://raw.githubusercontent.com/microsoft/MCW-Migrating-Oracle-to-Azure-SQL-and-PostgreSQL/master/Hands-on%20lab/lab-files/starter-project/NorthwindMVC/Views/_ViewImports.cshtml).
+
 12. Right-click the **Controllers** folder and select **Add** (1). Select **New Scaffolded Item...** (2).
 
-   ![Adding a new scaffolded item.](./media/add-scaffolded-item.png "New scaffolded item")
+    ![Adding a new scaffolded item.](./media/add-scaffolded-item.png "New scaffolded item")
 
 13. Select **MVC Controller with views, using Entity Framework**. Then, select **Add**.
 
     ![Add MVC Controller with Views, using Entity Framework.](./media/add-mvc-with-ef.png "MVC Controller with Views, using Entity Framework")
-
-    If you receive an error that package restore fails, you need to update the NuGet packages. To do this, first select **Tools** (1), **NuGet Package Manager** (2), and **Manage NuGet Packages for Solution...** (3).
-
-    ![Open the Manage NuGet Packages for Solution window.](./media/manage-solution-nuget-packages.png "Opening the solution NuGet Package Manager interface")
-
-    Now, navigate to the **Updates** tab (1). Click the **Select all packages** button (2). Lastly, select **Update** (3).
-
-    ![Select and update all NuGet packages in the Solution.](./media/update-nuget-packages-for-solution.png "Updating Solution NuGet packages")
-
-    Once this step completes, restart Visual Studio 2019.
 
 14. In the **ADD MVC Controller with views, using Entity Framework** dialog box, provide the following details. Then, select **Add**. Visual Studio will build the project.
 
@@ -731,7 +709,7 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
     - Select all three checkboxes below **Views**.
     - **Controller name**: Keep this set to `CustomersController`.
 
-   ![Scaffolding controllers and views from model classes.](./media/customer-scaffold-views.png "Scaffolding controllers and views")
+    ![Scaffolding controllers and views from model classes.](./media/customer-scaffold-views.png "Scaffolding controllers and views")
 
 15. Repeat steps 12-14, according to the following details:
 

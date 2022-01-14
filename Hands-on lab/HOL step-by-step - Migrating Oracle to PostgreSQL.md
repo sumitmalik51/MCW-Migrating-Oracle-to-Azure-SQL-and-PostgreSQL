@@ -636,14 +636,7 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
 
     ![Opening the Package Manager console in Visual Studio.](./media/open-pmc.png "Opening the Package Manager Console")
 
-5. Enter the following command in the Package Manager console. It will install the open-source Npgsql Entity Framework Core provider.
-
-    ```powershell
-    Install-Package Npgsql.EntityFrameworkCore.PostgreSQL -Version 5.0.7
-    ```
-
-
-6. Enter the following command in the Package Manager console to produce the models. The `-Force` flag eliminates the need to manually clear the `Data` directory.
+5. Enter the following command in the Package Manager console to produce the models. The `-Force` flag eliminates the need to manually clear the `Data` directory. The `Npgsql` connector is included with the sample app to simplify the modification process.
 
     ```powershell
     Scaffold-DbContext Name=ConnectionStrings:PostgreSqlConnectionString Npgsql.EntityFrameworkCore.PostgreSQL -OutputDir Data -Context DataContext -Schemas public -Force
@@ -653,11 +646,11 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
 
     ![The image shows the entity objects created by the executed command.](media/view-reverse-engineer-table-results.png "Reverse engineered table objects")
 
-7. Attempt to build the solution to identify errors.
+6. Attempt to build the solution to identify errors.
 
     ![The image shows the Visual Studio menu. Build Solution menu item highlighted.](media/visual-studio-build-solution.png "Build Solution")
 
-8. Expand the **Views** folder. Delete the following folders, each of which contains five views:
+7. Expand the **Views** folder. Delete the following folders, each of which contains five views:
 
    - **Customers**
    - **Employees**
@@ -665,9 +658,9 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
    - **Shippers**
    - **Suppliers**
 
-9. Expand the **Controllers** folder. Delete all controllers, except **HomeController.cs**.
+8. Expand the **Controllers** folder. Delete all controllers, except **HomeController.cs**.
 
-10. Open **DataContext.cs**. Add the following line to the top of the file, below the other `using` directives.
+9.  Open **DataContext.cs**. Add the following line to the top of the file, below the other `using` directives.
 
     ```csharp
     using NorthwindMVC.Models;
@@ -701,21 +694,11 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
 
 12. Right-click the **Controllers** folder and select **Add** (1). Select **New Scaffolded Item...** (2).
 
-   ![Adding a new scaffolded item.](./media/add-scaffolded-item.png "New scaffolded item")
+    ![Adding a new scaffolded item.](./media/add-scaffolded-item.png "New scaffolded item")
 
 13. Select **MVC Controller with views, using Entity Framework**. Then, select **Add**.
 
     ![Add MVC Controller with Views, using Entity Framework.](./media/add-mvc-with-ef.png "MVC Controller with Views, using Entity Framework")
-
-    If you receive an error that package restore fails, you need to update the NuGet packages. To do this, first select **Tools** (1), **NuGet Package Manager** (2), and **Manage NuGet Packages for Solution...** (3).
-
-    ![Open the Manage NuGet Packages for Solution window.](./media/manage-solution-nuget-packages.png "Opening the solution NuGet Package Manager interface")
-
-    Now, navigate to the **Updates** tab (1). Click the **Select all packages** button (2). Lastly, select **Update** (3).
-
-    ![Select and update all NuGet packages in the Solution.](./media/update-nuget-packages-for-solution.png "Updating Solution NuGet packages")
-
-    Once this step completes, restart Visual Studio 2019.
 
 14. In the **ADD MVC Controller with views, using Entity Framework** dialog box, provide the following details. Then, select **Add**. Visual Studio will build the project.
 
@@ -724,7 +707,7 @@ In this task, we will be recreating the ADO.NET data models to accurately repres
     - Select all three checkboxes below **Views**.
     - **Controller name**: Keep this set to `CustomersController`.
 
-   ![Scaffolding controllers and views from model classes.](./media/customer-scaffold-views.png "Scaffolding controllers and views")
+    ![Scaffolding controllers and views from model classes.](./media/customer-scaffold-views.png "Scaffolding controllers and views")
 
 15. Repeat steps 12-14, according to the following details:
 
